@@ -1,0 +1,34 @@
+["MENU",[
+	["motyl",[
+		["wersja-1"],
+		["wersja-2"]
+	]],
+	["grawitacja",[
+		["piksel"],
+		["linia"],
+		["kolo"],
+		["kwadrat"]
+	]],
+	["VV",[
+		["punkty"],
+		["linie"]
+	]],
+	["WIFI",[
+		["status",[
+			["network: ---"],
+			["IP: ---"]
+		]],
+		["networks",[
+			["[18,1,1]"],
+			["TP-LINK_2.4GHz_D8E9D5"]
+		]]
+	]],
+	["logo",[
+		["ACDGV"],
+		["OTHER"]
+	]],
+	["telefon",[
+		["kontakty"],
+		["klawiatura"]
+	]]
+]]
