@@ -108,12 +108,13 @@ class Surface {
 
   Surface() {}
 
-  Surface(int width, int height, int screenWidth, int screenHeight, int orientationX, int channel) {
+  Surface(int width, int height, int screenWidth, int screenHeight, int orientationX, int orientationY, int channel) {
     this->width = width;
     this->height = height;
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
     this->orientationX = orientationX;
+    this->orientationY = orientationY;
     this->channel = channel;
   }
 

@@ -13,8 +13,6 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <Adafruit_seesaw.h>
 
-KEYPAD keypad1;
-
 const int channelsCount = 2;
 int activeProgram = -1;
 
@@ -26,7 +24,7 @@ I2C i2c = I2C();
 Program* programs[6];
 
 #include "./engine/Device.h";
-Device* sensors[5];
+Device* sensors[6];
 
 
 #include "./devices/AM.h";
@@ -44,6 +42,9 @@ RE re = RE(0x55);
 #include "./devices/Gamepad.h";
 Gamepad gamepad = Gamepad(0x51);
 
+#include "./devices/Keypad.h";
+Keypad keypad = Keypad();
+
 
 #include "./engine/Channel.h";
 Channel channels[channelsCount];
@@ -54,9 +55,6 @@ Surface surfaces[3];
 #include "./engine/Interface.h";
 Interface interface;
 
-
-#include "./programs/Menu.h";
-Menu tree;
 
 #include "./programs/Batterfly.h";
 Batterfly batterfly = Batterfly();
@@ -89,8 +87,6 @@ void setup() {
   SPIFFS.begin();
   i2c.init();
 
-  keypad1.begin();
-
   for (int i = 0; i < channelsCount; i++) {
     channels[i].init(i);
   }
@@ -102,13 +98,14 @@ void setup() {
   sensors[2] = &hrs;
   sensors[3] = &re;
   sensors[4] = &gamepad;
-  for (int i = 0; i < 5; i++) {
+  sensors[5] = &keypad;
+  for (int i = 0; i < 6; i++) {
     sensors[i]->init();
   }
 
-  surfaces[0] = Surface(128, 64, 128, 32, 1, 0);
-  surfaces[1] = Surface(128, 256, 128, 32, -1, 1);
-  surfaces[2] = Surface(128, 64, 128, 64, 1, 0);
+  surfaces[0] = Surface(128, 64, 128, 32, 1, 1, 0);
+  surfaces[1] = Surface(128, 256, 128, 32, -1, 1, 1);
+  surfaces[2] = Surface(128, 64, 128, 64, 1, 1, 0);
   for (int i = 0; i < 3; i++) {
     surfaces[i].init();
   }
@@ -129,7 +126,7 @@ void setup() {
 
 
 void loop() {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 6; i++) {
     sensors[i]->tick();
   }
 
