@@ -167,6 +167,7 @@ class Interface:public Program {
                 s2x1.populateScreen(1, file[1][activeProgram][1][index]);
                 String programOption = file[1][activeProgram][1][index][0];
                 this->levels[2] = programOption;
+                programs[activeProgram]->setOption(index);
                 programs[activeProgram]->becameActive();
               }
             }

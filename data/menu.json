@@ -1,7 +1,7 @@
 ["MENU",[
 	["motyl",[
-		["wersja-1"],
-		["wersja-2"]
+		["okregi"],
+		["kwadraty"]
 	]],
 	["grawitacja",[
 		["piksel"],
@@ -15,8 +15,8 @@
 	]],
 	["WIFI",[
 		["status",[
-			["network: ---"],
-			["IP: ---"]
+			["network"],
+			["IP"]
 		]],
 		["networks",[
 			["[18,1,1]"],

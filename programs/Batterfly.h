@@ -95,9 +95,17 @@ class Batterfly:public Program {
             if (channel != -1 && port != -1) {
                 OLED & screen = channels[channel].ports[port].screen;
                 if (screen.type == "ssd1306") {
-                    for (int i=1; i<=this->wingsSpread; i++) {
-                        screen.ssd1306.drawCircle(x - i - 2, y, i, SSD1306_WHITE);
-                        screen.ssd1306.drawCircle(x + i + 2, y, i, SSD1306_WHITE);
+                    if (this->option == 0) {
+                        for (int i=1; i<=this->wingsSpread; i++) {
+                            screen.ssd1306.drawCircle(x - i - 2, y, i, SSD1306_WHITE);
+                            screen.ssd1306.drawCircle(x + i + 2, y, i, SSD1306_WHITE);
+                        }  
+                    }
+                    if (this->option == 1) {
+                        for (int i=1; i<=this->wingsSpread; i++) {
+                            screen.ssd1306.drawRect(x - i - 2, y, i, i, SSD1306_WHITE);
+                            screen.ssd1306.drawRect(x + i + 2, y, i, i, SSD1306_WHITE);
+                        }  
                     }
                     screen.ssd1306.drawCircle(x, y - 8, 2, SSD1306_WHITE);
                     screen.ssd1306.drawCircle(x, y - 5, 2, SSD1306_WHITE);
@@ -197,10 +205,6 @@ class Batterfly:public Program {
             Port & p07 = channels[0].ports[7];
             if (this->scoresChanged || p07.re.changed || p07.accelerometer.changed) {
                 p07.screen.clear();
-                
-                if (p07.re.changed) {
-                    this->setOption(p07.re.position);
-                }
 
                 if (this->scores == STARS_COUNT) {
                     this->over = true;
