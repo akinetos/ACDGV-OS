@@ -99,19 +99,23 @@ class Batterfly:public Program {
                         for (int i=1; i<=this->wingsSpread; i++) {
                             screen.ssd1306.drawCircle(x - i - 2, y, i, SSD1306_WHITE);
                             screen.ssd1306.drawCircle(x + i + 2, y, i, SSD1306_WHITE);
-                        }  
+                        }
+                        screen.ssd1306.drawCircle(x, y - 8, 2, SSD1306_WHITE);
+                        screen.ssd1306.drawCircle(x, y - 5, 2, SSD1306_WHITE);
+                        screen.ssd1306.drawCircle(x, y + 5, 2, SSD1306_WHITE);
+                        screen.ssd1306.drawCircle(x, y + 8, 2, SSD1306_WHITE);
                     }
                     if (this->option == 1) {
                         for (int i=1; i<=this->wingsSpread; i++) {
-                            screen.ssd1306.drawRect(x - i - 2, y - i, i, i * 2, SSD1306_WHITE);
-                            screen.ssd1306.drawRect(x + i + 2, y - i, i, i * 2, SSD1306_WHITE);
+                            screen.ssd1306.drawRect(x - 2 - i * 2, y - i, i * 2, i * 2, SSD1306_WHITE);
+                            screen.ssd1306.drawRect(x + 2,         y - i, i * 2, i * 2, SSD1306_WHITE);
                         }
+                        screen.ssd1306.drawRect(x - 2, y - 10, 4, 4, SSD1306_WHITE);
+                        screen.ssd1306.drawRect(x - 2, y - 6, 4, 4, SSD1306_WHITE);
+                        screen.ssd1306.drawRect(x - 2, y + 2, 4, 4, SSD1306_WHITE);
+                        screen.ssd1306.drawRect(x - 2, y + 6, 4, 4, SSD1306_WHITE);
                     }
-                    screen.ssd1306.drawCircle(x, y - 8, 2, SSD1306_WHITE);
-                    screen.ssd1306.drawCircle(x, y - 5, 2, SSD1306_WHITE);
-                    screen.ssd1306.drawCircle(x, y, 2, SSD1306_WHITE);
-                    screen.ssd1306.drawCircle(x, y + 5, 2, SSD1306_WHITE);
-                    screen.ssd1306.drawCircle(x, y + 8, 2, SSD1306_WHITE);
+                    
                     this->wingsSpread--;
                     if (this->wingsSpread < 5) {
                         this->wingsSpread = 10;
