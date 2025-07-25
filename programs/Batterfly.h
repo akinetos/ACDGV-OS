@@ -103,9 +103,9 @@ class Batterfly:public Program {
                     }
                     if (this->option == 1) {
                         for (int i=1; i<=this->wingsSpread; i++) {
-                            screen.ssd1306.drawRect(x - i - 2, y, i, i, SSD1306_WHITE);
-                            screen.ssd1306.drawRect(x + i + 2, y, i, i, SSD1306_WHITE);
-                        }  
+                            screen.ssd1306.drawRect(x - i - 2, y - i, i, i * 2, SSD1306_WHITE);
+                            screen.ssd1306.drawRect(x + i + 2, y - i, i, i * 2, SSD1306_WHITE);
+                        }
                     }
                     screen.ssd1306.drawCircle(x, y - 8, 2, SSD1306_WHITE);
                     screen.ssd1306.drawCircle(x, y - 5, 2, SSD1306_WHITE);

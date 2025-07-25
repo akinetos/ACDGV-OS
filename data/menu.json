@@ -1,7 +1,7 @@
 ["MENU",[
 	["motyl",[
-		["okregi"],
-		["kwadraty"]
+		["zaokraglony"],
+		["kanciasty"]
 	]],
 	["grawitacja",[
 		["piksel"],
@@ -16,7 +16,8 @@
 	["WIFI",[
 		["status",[
 			["network"],
-			["IP"]
+			["IP"],
+			["statistics"]
 		]],
 		["networks",[
 			["[18,1,1]"],
@@ -28,7 +29,8 @@
 		["OTHER"]
 	]],
 	["telefon",[
+		["klawiatura"],
 		["kontakty"],
-		["klawiatura"]
+		["ostatnie"]
 	]]
 ]]
