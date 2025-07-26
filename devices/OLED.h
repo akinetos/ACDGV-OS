@@ -271,8 +271,8 @@ class OLED {
     void drawBackButton() {
       if (this->type == "ssd1306") {
         int buttonWidth = 10;
-        this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_WHITE);
-        this->ssd1306.setTextColor(SSD1306_BLACK);
+        this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_BLACK);
+        this->ssd1306.setTextColor(SSD1306_WHITE);
         this->ssd1306.setCursor(2, this->height/2 - 4);
         this->ssd1306.setTextSize(1);
         this->ssd1306.print("<");
@@ -482,6 +482,27 @@ class OLED {
               this->ssd1306.setTextColor(SSD1306_WHITE);
             }
             this->ssd1306.print(this->lines[l]);
+          }
+        }
+
+        this->needsRefresh = true;
+      }
+    }
+
+    void printBoxes() {
+      if (this->hasOptions) {
+        this->textSize = 1;
+        this->setTextSize();
+        
+        if (this->type == "ssd1306") {
+          this->ssd1306.fillRect(0, 0, 12, this->height, SSD1306_BLACK);
+          for (int l=0; l<this->optionsCount; l++) {
+            int y = l*10 + this->offsetY;
+            this->ssd1306.setCursor(0, y + 2);
+            this->ssd1306.drawRect(0, y, 10, 11, SSD1306_WHITE);
+            this->ssd1306.setCursor(2, y + 2);
+            this->ssd1306.setTextColor(SSD1306_WHITE);
+            this->ssd1306.print((String)l);
           }
         }
 

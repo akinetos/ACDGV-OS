@@ -136,6 +136,7 @@ class Interface:public Program {
         int menuLevel = this->getMenuLevel();
         if (screen1.hasOptions) {
           screen1.clear();
+          screen1.printBoxes();
           screen1.printLines();
           screen1.drawScrollbar();
         }
