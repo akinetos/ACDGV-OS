@@ -9,8 +9,10 @@ class VV:public Program {
     int precision = 100;
     float xOffset = 0;
     float yOffset = 0;
+    int startedTime;
 
     void init() {
+      this->startedTime = millis();
       this->cRe = 0.22;
       this->cIm = 0.52;
       this->scale = 50;

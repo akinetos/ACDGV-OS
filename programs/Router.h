@@ -4,6 +4,7 @@ class Router:public Program {
       int networksCount = 0;
       int counter = 0;
       String mode = "";
+      int startedTime;
 
       String IpAddress2String(const IPAddress& ip) {
         char buffer[20];
@@ -12,6 +13,7 @@ class Router:public Program {
       }
 
       void init() {
+        this->startedTime = millis();
         String fullDirectory = "/wifi.json";
         File wifiFile = SPIFFS.open(fullDirectory, "r");
         if (wifiFile) {

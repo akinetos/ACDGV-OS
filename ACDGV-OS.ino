@@ -59,12 +59,6 @@ Interface interface;
 #include "./programs/Batterfly.h";
 Batterfly batterfly = Batterfly();
 
-#include "./programs/Heart.h";
-Heart heart = Heart();
-
-#include "./programs/Battery.h";
-Battery battery = Battery();
-
 #include "./programs/Router.h";
 Router router = Router();
 
@@ -117,10 +111,6 @@ void setup() {
   programs[4] = &logo;
   programs[5] = &telephone;
 
-  for (int i = 0; i < 5; i++) {
-    programs[i]->init();
-  }
-
   interface.init();
 }
 
@@ -138,6 +128,9 @@ void loop() {
     surfaces[i].tick();
   }
 
+  //TODO: configure interface to have index 0
+  //set activeProgram to 0 initially
+  //remove check in line 134 and line 138
   if (activeProgram > -1) {
     programs[activeProgram]->tick();
   }

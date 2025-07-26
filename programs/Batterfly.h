@@ -43,7 +43,6 @@ class Pestka {
 const int STARS_COUNT = 124;
 const int PESTKI_COUNT = 10;
 
-int startedAt = 0;
 int endedAt = 0;
 
 class Batterfly:public Program {
@@ -58,6 +57,7 @@ class Batterfly:public Program {
         int option = 0;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
+        int startedTime;
 
         void clearScreens() {
             Surface & surface = surfaces[this->surfaceIndex];
@@ -332,7 +332,7 @@ class Batterfly:public Program {
         }
 
         void init() {
-            startedAt = millis();
+            this->startedTime = millis();
             this->surfaceIndex = 1;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();
@@ -348,7 +348,7 @@ class Batterfly:public Program {
 
             if (s8x1.facingUp) {
                 if (this->over) {
-                    int time = (endedAt - startedAt) / 1000;
+                    int time = (endedAt - this->startedTime) / 1000;
                     this->splash("BRAWO!", "czas: " + String(time) + " sekund");
                 } else {
                     this->updatePointer();

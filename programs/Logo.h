@@ -175,8 +175,11 @@ class Logo:public Program {
 	int started = 0;
 	int pause2s = 0;
 	int direction = -1;
+	int startedTime;
 
-    void init() {}
+    void init() {
+		this->startedTime = millis();
+	}
 
     void tick() {
       Surface & s2x1 = surfaces[0];

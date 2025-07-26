@@ -2,8 +2,10 @@ class Telephone:public Program {
     public:
       String number;
       int option = 0;
+      int startedTime;
 
       void init() {
+        this->startedTime = millis();
         this->number = "";
       }
 

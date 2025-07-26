@@ -1,7 +1,8 @@
 class Program {
   public:
     Program();
-    String mode;
+    String mode; //TODO: check if needed
+    int startedTime;
     void virtual init(void);
     void virtual tick(void);
     void virtual setOption(int);

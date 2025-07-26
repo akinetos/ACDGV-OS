@@ -89,6 +89,9 @@ class Interface:public Program {
     void setProgram(int index) {
       OLED & screen1 = channels[0].ports[1].screen;
       screen1.lineSelected = index;
+      if (programs[index]->startedTime == 0) {
+        programs[index]->init();
+      }
       activeProgram = index;
       JsonArray & file = this->loadFromFile("/menu.json");
       surfaces[0].populateScreen(1, file[1][activeProgram]);
