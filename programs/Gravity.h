@@ -9,7 +9,7 @@ class Gravity:public Program {
       int startedTime;
 
       void moveLine() {
-        int tiltY = (int)(accelerometer.y * this->option);
+        int tiltY = (int)(accelerometer.y * (this->option + 1));
         this->y += tiltY;
         if (this->y < 0 || this->y > this->maxY) {
           this->bounceY = -tiltY;
@@ -40,14 +40,8 @@ class Gravity:public Program {
       }
 
       void tick() {
-        Port & p05 = channels[0].ports[5];
-        
         Surface & s2x1 = surfaces[0];
         Surface & s8x1 = surfaces[1];
-
-        if (p05.re.changed) {
-          this->setOption(p05.re.position);
-        }
         
         if (s8x1.facingUp) {
           this->maxY = 255;

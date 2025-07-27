@@ -4,10 +4,9 @@
 		["kanciasty"]
 	]],
 	["grawitacja",[
-		["piksel"],
-		["linia"],
-		["kolo"],
-		["kwadrat"]
+		["slaba"],
+		["srednia"],
+		["silna"]
 	]],
 	["VV",[
 		["punkty"],

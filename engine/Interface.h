@@ -126,7 +126,6 @@ class Interface:public Program {
       Surface & s8x1 = surfaces[1];
 
       if (s2x1.facingUp) {
-        Port & p05 = channels[s2x1.channel].ports[5];
         OLED & screen0 = channels[s2x1.channel].ports[0].screen;
         OLED & screen1 = channels[s2x1.channel].ports[1].screen;
 
