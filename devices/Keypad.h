@@ -3,7 +3,7 @@ class Keypad: public Device {
     KEYPAD device;
   
     void init() {
-      device.begin();
+      this->device.begin();
     }
   
     void tick() {

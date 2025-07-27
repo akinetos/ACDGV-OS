@@ -128,9 +128,6 @@ void loop() {
     surfaces[i].tick();
   }
 
-  //TODO: configure interface to have index 0
-  //set activeProgram to 0 initially
-  //remove check in line 134 and line 138
   if (activeProgram > -1) {
     programs[activeProgram]->tick();
   }
