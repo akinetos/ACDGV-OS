@@ -1,17 +1,16 @@
 #include <FS.h>
 #include <Wire.h>
-#include <Adafruit_SSD1306.h>
-#include <DFRobot_GR10_30.h>
 #include <ESP8266WiFi.h>
-#include <Adafruit_SH110X.h>
 #include <WebSocketsServer.h>
-#include <DFRobot_MAX17043.h>
 #include <ArduinoJson.h>
-#include <PN532_I2C.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_SH110X.h>
+#include <Adafruit_seesaw.h>
+#include <DFRobot_GR10_30.h>
+#include <DFRobot_MAX17043.h>
 #include <DFRobot_VisualRotaryEncoder.h>
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
-#include <Adafruit_seesaw.h>
 
 const int channelsCount = 2;
 int activeProgram = -1;
