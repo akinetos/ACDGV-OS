@@ -26,15 +26,24 @@ class Interface:public Program {
 
       OLED & screen0 = channels[surface.channel].ports[0].screen;
       OLED & screen1 = channels[surface.channel].ports[1].screen;
-      screen0.backButtonHovered = x < 10;
-      screen1.scrollbarHovered = x > (screen1.width-10);
-      if (screen1.scrollbarHovered) {
-        screen1.updateScrollbar(accelerometer.y);
-      } else {
-        int y = surface.getRelativeY();
-        screen1.lineHovered = (int)((y - screen1.offsetY) / 10);
-        if (screen1.lineHoveredChanged()) {
-          screen1.previousLineHovered = screen1.lineHovered;
+      if (surface.pointerPort == 0) {
+        screen0.backButtonHovered = x < 10;
+      }
+
+      if (surface.pointerPort == 1) {
+        screen1.scrollbarHovered = x > (screen1.width-10);
+        if (screen1.scrollbarHovered) {
+          screen1.updateScrollbar(gamepad.axisY);
+        } else {
+          int y = surface.getRelativeY();
+          if (surface.pointerPositionX < 118) {
+            screen1.lineHovered = (int)((y - screen1.offsetY) / 10);
+          } else {
+            screen1.lineHovered = -1;
+          }
+          if (screen1.lineHoveredChanged()) {
+            screen1.previousLineHovered = screen1.lineHovered;
+          }
         }
       }
     }
@@ -146,7 +155,6 @@ class Interface:public Program {
         if (gamepad.buttonApressed()) {
           if (s2x1.pointerPort == 0) {
             if (screen0.backButtonHovered) {
-              int menuLevel = this->getMenuLevel();
               if (menuLevel > 0) {
                 this->levels[menuLevel] = "";
                 this->populateOptions();

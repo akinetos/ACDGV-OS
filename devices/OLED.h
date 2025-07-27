@@ -8,7 +8,7 @@ class OLED {
     boolean needsRefresh = false;
     boolean needsInit = false;
     String type;
-    boolean showLines = true;
+    boolean showLines = false;
     
     String lines[21];
     int lineScrollWidth[21];
@@ -269,12 +269,17 @@ class OLED {
     }
 
     void drawBackButton() {
+      int buttonWidth = 10;
       if (this->type == "ssd1306") {
-        int buttonWidth = 10;
-        this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_BLACK);
-        this->ssd1306.setTextColor(SSD1306_WHITE);
         this->ssd1306.setCursor(2, this->height/2 - 4);
         this->ssd1306.setTextSize(1);
+        if (this->backButtonHovered) {
+          this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_WHITE);
+          this->ssd1306.setTextColor(SSD1306_BLACK);
+        } else {
+          this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_BLACK);
+          this->ssd1306.setTextColor(SSD1306_WHITE);
+        }
         this->ssd1306.print("<");
       }
       this->needsRefresh = true;
@@ -449,23 +454,6 @@ class OLED {
             }
           }
         }
-
-        if (this->type == "sh1106") {
-          for (int l=0; l<this->optionsCount; l++) {
-            int y = l*10 + this->offsetY;
-            this->sh1106.setCursor((int)(this->width*0.38) + 2 - this->lineScrollWidth[l], y + 2);
-            if (this->showLines) {
-              this->sh1106.drawRect((int)(this->width*0.38), y, (int)(this->width*0.62) - 10, 11, SH110X_WHITE);
-            }
-            if (l == this->lineSelected) {
-              this->sh1106.fillRect((int)(this->width*0.38), y, (int)(this->width*0.62) - 10, 11, SH110X_WHITE);
-              this->sh1106.setTextColor(SH110X_BLACK);
-            } else {
-              this->sh1106.setTextColor(SH110X_WHITE);
-            }
-            this->sh1106.print(this->lines[l]);
-          }
-        }
         
         if (this->type == "ssd1306") {
           this->ssd1306.fillRect(11, 0, 106, this->height, SSD1306_BLACK);
@@ -475,7 +463,7 @@ class OLED {
             if (this->showLines) {
               this->ssd1306.drawRect(11, y, 106, 11, SSD1306_WHITE);
             }
-            if (l == this->lineSelected) {
+            if (l == this->lineHovered) {
               this->ssd1306.fillRect(11, y, 106, 11, SSD1306_WHITE);
               this->ssd1306.setTextColor(SSD1306_BLACK);
             } else {
@@ -499,7 +487,9 @@ class OLED {
           for (int l=0; l<this->optionsCount; l++) {
             int y = l*10 + this->offsetY;
             this->ssd1306.setCursor(0, y + 2);
-            this->ssd1306.drawRect(0, y, 10, 11, SSD1306_WHITE);
+            if (this->showLines) {
+              this->ssd1306.drawRect(0, y, 10, 11, SSD1306_WHITE);
+            }
             this->ssd1306.setCursor(2, y + 2);
             this->ssd1306.setTextColor(SSD1306_WHITE);
             this->ssd1306.print((String)l);
@@ -616,7 +606,7 @@ class OLED {
     }
 
     void updateScrollbar (double tilt) {
-      int tiltY = (int)(tilt * 20);
+      int tiltY = (int)(-tilt * 20);
       this->offsetY -= tiltY;
       if (this->offsetY > 0) {
         this->offsetY = 0;

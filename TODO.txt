@@ -1,0 +1,3 @@
+* revert colors on hover in breadcrumbs
+* revert colors on hover in list
+* move sidebar with gamepad
