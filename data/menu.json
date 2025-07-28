@@ -29,7 +29,12 @@
 	]],
 	["telefon",[
 		["klawiatura"],
-		["kontakty"],
+		["kontakty",[
+			["Agnieszka"],
+			["Amelia"],
+			["Feliks"],
+			["Igor"]
+		]],
 		["ostatnie"]
 	]]
 ]]

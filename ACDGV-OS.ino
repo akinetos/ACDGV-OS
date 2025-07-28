@@ -13,6 +13,8 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
 const int channelsCount = 2;
+const int sensorsCount = 6;
+const int programsCount = 6;
 int activeProgram = -1;
 
 
@@ -20,10 +22,10 @@ int activeProgram = -1;
 I2C i2c = I2C();
 
 #include "./engine/Program.h";
-Program* programs[6];
+Program* programs[programsCount];
 
 #include "./engine/Device.h";
-Device* sensors[6];
+Device* sensors[sensorsCount];
 
 
 #include "./devices/AM.h";
@@ -92,7 +94,7 @@ void setup() {
   sensors[3] = &re;
   sensors[4] = &gamepad;
   sensors[5] = &keypad;
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < sensorsCount; i++) {
     sensors[i]->init();
   }
 
@@ -115,7 +117,7 @@ void setup() {
 
 
 void loop() {
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < sensorsCount; i++) {
     sensors[i]->tick();
   }
 
@@ -127,7 +129,7 @@ void loop() {
     surfaces[i].tick();
   }
 
-  if (activeProgram > -1) {
+  if (activeProgram > -1 && activeProgram < programsCount) {
     programs[activeProgram]->tick();
   }
 
