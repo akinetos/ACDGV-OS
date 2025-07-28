@@ -22,6 +22,10 @@ class Telephone:public Program {
           if (s2x1.facingUp) {
             p01.screen.clear();
             p01.screen.ssd1306.setCursor(0, 0);
+            p01.screen.ssd1306.print(wifi.connected ? "WiFi - connected" : "WiFi - not connected");
+            p01.screen.ssd1306.setCursor(0, 10);
+            p01.screen.ssd1306.print((String)wifi.attempts);
+            p01.screen.ssd1306.setCursor(0, 20);
             p01.screen.ssd1306.print(this->number);
             p01.screen.needsRefresh = true;
           }

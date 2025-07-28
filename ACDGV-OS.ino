@@ -12,11 +12,11 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
+
 const int channelsCount = 2;
 const int sensorsCount = 6;
 const int programsCount = 6;
 int activeProgram = -1;
-
 
 #include "./engine/I2C.h";
 I2C i2c = I2C();
@@ -27,6 +27,8 @@ Program* programs[programsCount];
 #include "./engine/Device.h";
 Device* sensors[sensorsCount];
 
+#include "./devices/WiFi.h";
+Wifi wifi = Wifi();
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1d);
@@ -46,7 +48,6 @@ Gamepad gamepad = Gamepad(0x51);
 #include "./devices/Keypad.h";
 Keypad keypad = Keypad();
 
-
 #include "./engine/Channel.h";
 Channel channels[channelsCount];
 
@@ -55,7 +56,6 @@ Surface surfaces[3];
 
 #include "./engine/Interface.h";
 Interface interface;
-
 
 #include "./programs/Batterfly.h";
 Batterfly batterfly = Batterfly();
@@ -74,8 +74,6 @@ Logo logo = Logo();
 
 #include "./programs/Telephone.h";
 Telephone telephone = Telephone();
-
-#include "./devices/WiFi.h";
 
 
 void setup() {
@@ -97,6 +95,7 @@ void setup() {
   for (int i = 0; i < sensorsCount; i++) {
     sensors[i]->init();
   }
+  wifi.init();
 
   surfaces[0] = Surface(128, 64, 128, 32, 1, 1, 0);
   surfaces[1] = Surface(128, 256, 128, 32, -1, 1, 1);
