@@ -1,0 +1,60 @@
+//------ WEBSOCKET ------
+WebSocketsServer webSocket = WebSocketsServer(81);
+int wsOutgoingCount = 0;
+int wsIncommingCount = 0;
+int wsIncommingHandledCount = 0;
+int wsIncommingIgnoredCount = 0;
+String wsClientIp = "";
+uint8_t wsClientNumber = 0;
+boolean wsChanged = false;
+boolean wsConnected = false;
+
+void wsCommandsAdd(String command) {
+  if (wsCommands != "") {
+    wsCommands += ",";
+  }
+  wsCommands += command;
+}
+
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
+  switch(type) {
+    case WStype_DISCONNECTED: {
+      wsConnected = false;
+      wsChanged = true;
+    } break;
+        
+    case WStype_CONNECTED: {
+      wsIncommingCount++;
+      wsChanged = true;
+      wsConnected = true;
+      wsClientNumber = num;
+      wsClientIp = IpAddress2String(webSocket.remoteIP(num));
+      String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[" + (String)millis() + "]}";
+      wsCommandsAdd(command);
+    } break;
+    
+    case WStype_TEXT: {
+      String commands = (char*)payload;
+      executeAll(commands);
+      wsIncommingCount++;
+      wsChanged = true;
+    } break;
+  }
+}
+
+void websocketInit() {
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
+}
+
+void websocketTick1() {
+  webSocket.loop();
+}
+
+void websocketTick2() {
+  if (wsConnected && wsCommands != "") {
+    webSocket.sendTXT(wsClientNumber, "[" + wsCommands + "]");
+    wsOutgoingCount++;
+    wsCommands = "";
+  }
+}
