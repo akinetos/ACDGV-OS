@@ -4,17 +4,17 @@ class Wifi: public Device {
     const char * networkPassword = "rozrusznik2g";
     boolean connected = false;
     int attempts = 0;
-    const int maxAttempts = 5;
+    const int maxAttempts = 20;
     const int delayTime = 1000;
 
     void init() {
       WiFi.mode(WIFI_STA);
       WiFi.begin(this->networkName, this->networkPassword);
-      while (WiFi.status() != WL_CONNECTED) {
+      while (!this->connected && this->attempts < this->maxAttempts) {
         delay(this->delayTime);
+        this->connected = WiFi.status() == WL_CONNECTED;
         this->attempts++;
       }
-      this->connected = (WiFi.status() == WL_CONNECTED);
     }
   
     void tick() {}
