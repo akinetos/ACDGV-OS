@@ -133,16 +133,17 @@ class Interface:public Program {
         this->updateContent();
         
         String breadcrumbs = this->getBreadcrumbs();
-        screen0.clear();
-
         int cursorX = -1;
+        int menuLevel = this->getMenuLevel();
+
         if (s2x1.pointerPort == 0) {
           cursorX = s2x1.getRelativeX();
         }
+        screen0.clear();
         screen0.drawBreadcrumbs(breadcrumbs, cursorX);
         s2x1.drawBackButton(0);
-        int menuLevel = this->getMenuLevel();
-        if (screen1.hasOptions) {
+        
+        if (menuLevel < 3 && screen1.hasOptions) {
           screen1.clear();
           screen1.printBoxes();
           screen1.printLines();
@@ -172,9 +173,11 @@ class Interface:public Program {
 
           if (s2x1.pointerPort == 1) {
             int index = screen1.lineHovered;
+
             if (menuLevel == 0) {
               this->setProgram(index);
             }
+
             if (menuLevel == 1) {
               JsonArray & file = this->loadFromFile("/menu.json");
               s2x1.populateScreen(1, file[1][activeProgram][1][index]);
@@ -182,6 +185,11 @@ class Interface:public Program {
               this->levels[2] = programOption;
               programs[activeProgram]->setOption(index);
               programs[activeProgram]->becameActive();
+            }
+
+            if (menuLevel == 2) {
+              String subOption = screen1.lines[screen1.lineHovered];
+              this->levels[3] = subOption;
             }
           }
         }

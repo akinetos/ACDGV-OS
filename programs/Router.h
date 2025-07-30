@@ -25,7 +25,15 @@ class Router:public Program {
         }
       }
 
-      void tick() {}
+      void tick() {
+        int menuLevel = interface.getMenuLevel();
+        if (menuLevel == 3) {
+          OLED & screen1 = channels[0].ports[1].screen;
+          String heading = interface.levels[3];
+          screen1.clear();
+          screen1.printText(heading);
+        }
+      }
 
       void setOption(int option) {
         this->option = option;

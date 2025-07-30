@@ -95,7 +95,6 @@ void setup() {
   for (int i = 0; i < sensorsCount; i++) {
     sensors[i]->init();
   }
-  wifi.init();
 
   surfaces[0] = Surface(128, 64, 128, 32, 1, 1, 0);
   surfaces[1] = Surface(128, 256, 128, 32, -1, 1, 1);
