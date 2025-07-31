@@ -13,8 +13,8 @@
 		["linie",[],["run", "vv", 1]]
 	]],
 	["WIFI",[
-		["status"],
-		["networks"]
+		["status",[],["run", "router", 0]],
+		["networks",[],["run", "router", 1]]
 	]],
 	["logo",[
 		["ACDGV",[],["run", "logo", 0]],

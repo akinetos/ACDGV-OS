@@ -1,8 +1,8 @@
-* revert colors on hover in breadcrumbs
+* revert colors on hover in path
 
 * interface
     if preview.facingUp
-        pokaż breadcrumbs na górze
+        pokaż ścieżkę (path) na górze
         pokaż zawartość na dole
             - listę elementów z aktualnie wybranego elementu menu
             - podgląd aktualnie uruchomionego programu

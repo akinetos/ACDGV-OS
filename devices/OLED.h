@@ -77,7 +77,7 @@ class OLED {
     int minOffsetY = 0;
 
     int textScroll = 0;
-    int breadcrumbHovered = -1;
+    int pathSegmentHovered = -1;
     
     void init(int width, int height, String type) {
       this->width = width;
@@ -302,7 +302,7 @@ class OLED {
       this->needsRefresh = true;
     }
 
-    void drawBreadcrumbs(String path, int cursorX) {
+    void drawPath(String path, int cursorX) {
       const int length = path.length();
       int buttonWidth = 10;
       int count = 0;
@@ -329,20 +329,20 @@ class OLED {
         this->ssd1306.print(path);
         
         segmentStart = 0;
-        boolean breadcrumbIsHovered = false;
+        boolean pathSegmentIsHovered = false;
         for (int i=0; i<10; i++) {
           if (segments[i] != 0) {
             const int segmentLength = segments[i] * 12;
             if (cursorX > -1 && cursorX > textScroll + segmentStart + 12 && cursorX < textScroll + segmentStart + segmentLength + 12) {
-              this->breadcrumbHovered = i;
-              breadcrumbIsHovered = true;
+              this->pathSegmentHovered = i;
+              pathSegmentIsHovered = true;
               this->ssd1306.drawRect(textScroll + segmentStart + 12, 0, segmentLength, 32, SSD1306_WHITE);
             }
             segmentStart += segmentLength + 12;
           }
         }
-        if (!breadcrumbIsHovered) {
-          this->breadcrumbHovered = -1;
+        if (!pathSegmentIsHovered) {
+          this->pathSegmentHovered = -1;
         }
       }
 

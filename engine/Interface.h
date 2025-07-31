@@ -6,7 +6,7 @@ class Interface:public Program {
     String programOption = "";
     String programSubOption = "";
 
-    String getBreadcrumbs() {
+    String getPath() {
       String output = "";
       for (int i=0; i<8; i++) {
         if (this->levels[i] != "") {
@@ -125,14 +125,14 @@ class Interface:public Program {
       }
     }
 
-    void drawBreadcrumbs() {
+    void drawPath() {
       int cursorX = -1;
       if (surfaces[0].pointerPort == 0) {
         cursorX = surfaces[0].getRelativeX();
       }
-      String breadcrumbs = this->getBreadcrumbs();
+      String path = this->getPath();
       channels[0].ports[0].screen.clear();
-      channels[0].ports[0].screen.drawBreadcrumbs(breadcrumbs, cursorX);
+      channels[0].ports[0].screen.drawPath(path, cursorX);
       surfaces[0].drawBackButton(0);
     }
 
@@ -162,7 +162,7 @@ class Interface:public Program {
         this->updatePointer();
         this->updateContent();
         
-        this->drawBreadcrumbs();
+        this->drawPath();
         this->drawContent();
         
         previewSurface.drawPointer();
@@ -175,9 +175,9 @@ class Interface:public Program {
                 this->populateOptions();
               }
             } else {
-              if (previewScreen0.breadcrumbHovered > -1) {
+              if (previewScreen0.pathSegmentHovered > -1) {
                 for (int i=0; i < 8; i++) {
-                  if (i > previewScreen0.breadcrumbHovered) {
+                  if (i > previewScreen0.pathSegmentHovered) {
                     this->levels[i] = "";
                   }
                 }
