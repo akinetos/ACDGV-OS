@@ -2,6 +2,9 @@ class Interface:public Program {
   public:
     String levels[8];
     int menuLevel = 0;
+    int activeProgram = -1;
+    String programOption = "";
+    String programSubOption = "";
 
     String getBreadcrumbs() {
       String output = "";
@@ -81,8 +84,8 @@ class Interface:public Program {
         this->levels[i] = "";
       }
       this->levels[0] = root;
-      if (activeProgram > -1) {
-        this->setProgram(activeProgram);
+      if (this->activeProgram > -1) {
+        this->setProgram(this->activeProgram);
       }
     }
 
@@ -102,11 +105,11 @@ class Interface:public Program {
       if (programs[index]->startedTime == 0) {
         programs[index]->init();
       }
-      activeProgram = index;
+      this->activeProgram = index;
       JsonArray & file = this->loadFromFile("/menu.json");
-      surfaces[0].populateScreen(1, file[1][activeProgram]);
+      surfaces[0].populateScreen(1, file[1][this->activeProgram]);
       surfaces[1].clear();
-      String programName = file[1][activeProgram][0];
+      String programName = file[1][this->activeProgram][0];
       this->levels[1] = programName;
     }
 
@@ -115,7 +118,7 @@ class Interface:public Program {
       int newMenuLevel = this->getMenuLevel();
       JsonArray & file = this->loadFromFile("/menu.json");
       if (newMenuLevel == 1) {
-        previewSurface.populateScreen(1, file[1][activeProgram]);
+        previewSurface.populateScreen(1, file[1][this->activeProgram]);
       }
       if (newMenuLevel == 0) {
         previewSurface.populateScreen(1, file);
@@ -144,6 +147,10 @@ class Interface:public Program {
     }
 
     void tick() {
+      if (this->activeProgram > -1 && this->activeProgram < programsCount) {
+        programs[this->activeProgram]->tick();
+      }
+      
       Surface & previewSurface = surfaces[0];
       Surface & mainSurface = surfaces[1];
       this->menuLevel = this->getMenuLevel();
@@ -188,23 +195,24 @@ class Interface:public Program {
 
             if (this->menuLevel == 1) {
               JsonArray & file = this->loadFromFile("/menu.json");
-              previewSurface.populateScreen(1, file[1][activeProgram][1][index]);
-              String programOption = file[1][activeProgram][1][index][0];
-              this->levels[2] = programOption;
-              programs[activeProgram]->setOption(index);
-              programs[activeProgram]->becameActive();
+              previewSurface.populateScreen(1, file[1][this->activeProgram][1][index]);
+              String programOption = file[1][this->activeProgram][1][index][0];
+              this->programOption = programOption;
+              this->levels[2] = this->programOption;
+              programs[this->activeProgram]->setOption(index);
+              programs[this->activeProgram]->becameActive();
             }
 
             if (this->menuLevel == 2) {
-              String subOption = previewScreen1.lines[previewScreen1.lineHovered];
-              this->levels[3] = subOption;
+              this->programSubOption = previewScreen1.lines[previewScreen1.lineHovered];
+              this->levels[3] = this->programSubOption;
             }
           }
         }
       }
 
       if (mainSurface.facingUp) {
-        if (activeProgram == -1) {
+        if (this->activeProgram == -1) {
           OLED & screen = channels[mainSurface.channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");

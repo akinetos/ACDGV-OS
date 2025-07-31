@@ -1,41 +1,27 @@
 ["MENU",[
 	["motyl",[
-		["zaokraglony"],
-		["kanciasty"]
+		["zaokraglony",[],["run", "batterfly", 0]],
+		["kanciasty",[],["run", "batterfly", 1]]
 	]],
 	["grawitacja",[
-		["slaba"],
-		["srednia"],
-		["silna"]
+		["slaba",[],["run", "gravity", 0]],
+		["srednia",[],["run", "gravity", 1]],
+		["silna",[],["run", "gravity", 2]]
 	]],
 	["VV",[
-		["punkty"],
-		["linie"]
+		["punkty",[],["run", "vv", 0]],
+		["linie",[],["run", "vv", 1]]
 	]],
 	["WIFI",[
-		["status",[
-			["network"],
-			["IP"],
-			["statistics"]
-		]],
-		["networks",[
-			["[[18,1,2],1]"],
-			["TP-LINK_2.4GHz_D8E9D5"],
-			["network3"]
-		]]
+		["status"],
+		["networks"]
 	]],
 	["logo",[
-		["ACDGV"],
-		["OTHER"]
+		["ACDGV",[],["run", "logo", 0]],
+		["OTHER",[],["run", "logo", 1]]
 	]],
 	["telefon",[
-		["klawiatura"],
-		["kontakty",[
-			["Agnieszka"],
-			["Amelia"],
-			["Feliks"],
-			["Igor"]
-		]],
-		["ostatnie"]
+		["klawiatura",[],["run", "telephone", 0]],
+		["kontakty",[],["run", "telephone", 1]]
 	]]
 ]]

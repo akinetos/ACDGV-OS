@@ -16,7 +16,6 @@
 const int channelsCount = 2;
 const int sensorsCount = 6;
 const int programsCount = 6;
-int activeProgram = -1;
 
 #include "./engine/I2C.h";
 I2C i2c = I2C();
@@ -125,10 +124,6 @@ void loop() {
 
   for (int i = 0; i < 3; i++) {
     surfaces[i].tick();
-  }
-
-  if (activeProgram > -1 && activeProgram < programsCount) {
-    programs[activeProgram]->tick();
   }
 
   interface.tick();
