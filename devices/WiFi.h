@@ -1,7 +1,5 @@
 class Wifi: public Device {
   public:
-    const char * networkName = "[[18,1,2],1]";
-    const char * networkPassword = "rozrusznik2g";
     boolean connected = false;
     int attempts = 0;
     const int maxAttempts = 20;

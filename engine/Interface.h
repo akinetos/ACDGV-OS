@@ -1,6 +1,7 @@
 class Interface:public Program {
   public:
     String levels[8];
+    int menuLevel = 0;
 
     String getBreadcrumbs() {
       String output = "";
@@ -24,25 +25,25 @@ class Interface:public Program {
         previousScreen.resetLineHovered();
       }
 
-      OLED & screen0 = channels[surface.channel].ports[0].screen;
-      OLED & screen1 = channels[surface.channel].ports[1].screen;
+      OLED & previewScreen0 = channels[surface.channel].ports[0].screen;
+      OLED & previewScreen1 = channels[surface.channel].ports[1].screen;
       if (surface.pointerPort == 0) {
-        screen0.backButtonHovered = x < 10;
+        previewScreen0.backButtonHovered = x < 10;
       }
 
       if (surface.pointerPort == 1) {
-        screen1.scrollbarHovered = x > (screen1.width-10);
-        if (screen1.scrollbarHovered) {
-          screen1.updateScrollbar(gamepad.axisY);
+        previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
+        if (previewScreen1.scrollbarHovered) {
+          previewScreen1.updateScrollbar(gamepad.axisY);
         } else {
           int y = surface.getRelativeY();
           if (surface.pointerPositionX < 118) {
-            screen1.lineHovered = (int)((y - screen1.offsetY) / 10);
+            previewScreen1.lineHovered = (int)((y - previewScreen1.offsetY) / 10);
           } else {
-            screen1.lineHovered = -1;
+            previewScreen1.lineHovered = -1;
           }
-          if (screen1.lineHoveredChanged()) {
-            screen1.previousLineHovered = screen1.lineHovered;
+          if (previewScreen1.lineHoveredChanged()) {
+            previewScreen1.previousLineHovered = previewScreen1.lineHovered;
           }
         }
       }
@@ -72,10 +73,10 @@ class Interface:public Program {
     }
 
     void init() {
-      Surface & s2x1 = surfaces[0];
+      Surface & previewSurface = surfaces[0];
       JsonArray & file = this->loadFromFile("/menu.json");
       String root = file[0];
-      s2x1.populateScreen(1, file);
+      previewSurface.populateScreen(1, file);
       for (int i=0; i<8; i++) {
         this->levels[i] = "";
       }
@@ -96,8 +97,8 @@ class Interface:public Program {
     }
 
     void setProgram(int index) {
-      OLED & screen1 = channels[0].ports[1].screen;
-      screen1.lineSelected = index;
+      OLED & previewScreen1 = channels[0].ports[1].screen;
+      previewScreen1.lineSelected = index;
       if (programs[index]->startedTime == 0) {
         programs[index]->init();
       }
@@ -110,59 +111,66 @@ class Interface:public Program {
     }
 
     void populateOptions() {
-      Surface & s2x1 = surfaces[0];
+      Surface & previewSurface = surfaces[0];
       int newMenuLevel = this->getMenuLevel();
       JsonArray & file = this->loadFromFile("/menu.json");
       if (newMenuLevel == 1) {
-        s2x1.populateScreen(1, file[1][activeProgram]);
+        previewSurface.populateScreen(1, file[1][activeProgram]);
       }
       if (newMenuLevel == 0) {
-        s2x1.populateScreen(1, file);
+        previewSurface.populateScreen(1, file);
+      }
+    }
+
+    void drawBreadcrumbs() {
+      int cursorX = -1;
+      if (surfaces[0].pointerPort == 0) {
+        cursorX = surfaces[0].getRelativeX();
+      }
+      String breadcrumbs = this->getBreadcrumbs();
+      channels[0].ports[0].screen.clear();
+      channels[0].ports[0].screen.drawBreadcrumbs(breadcrumbs, cursorX);
+      surfaces[0].drawBackButton(0);
+    }
+
+    void drawContent() {
+      OLED & contentScreen = channels[0].ports[1].screen;
+      if (this->menuLevel < 3 && contentScreen.hasOptions) {
+        contentScreen.clear();
+        contentScreen.printBoxes();
+        contentScreen.printLines();
+        contentScreen.drawScrollbar();
       }
     }
 
     void tick() {
-      Surface & s2x1 = surfaces[0];
-      Surface & s8x1 = surfaces[1];
+      Surface & previewSurface = surfaces[0];
+      Surface & mainSurface = surfaces[1];
+      this->menuLevel = this->getMenuLevel();
 
-      if (s2x1.facingUp) {
-        OLED & screen0 = channels[s2x1.channel].ports[0].screen;
-        OLED & screen1 = channels[s2x1.channel].ports[1].screen;
+      if (previewSurface.facingUp) {
+        OLED & previewScreen0 = channels[previewSurface.channel].ports[0].screen;
+        OLED & previewScreen1 = channels[previewSurface.channel].ports[1].screen; 
 
         this->updatePointer();
         this->updateContent();
         
-        String breadcrumbs = this->getBreadcrumbs();
-        int cursorX = -1;
-        int menuLevel = this->getMenuLevel();
-
-        if (s2x1.pointerPort == 0) {
-          cursorX = s2x1.getRelativeX();
-        }
-        screen0.clear();
-        screen0.drawBreadcrumbs(breadcrumbs, cursorX);
-        s2x1.drawBackButton(0);
+        this->drawBreadcrumbs();
+        this->drawContent();
         
-        if (menuLevel < 3 && screen1.hasOptions) {
-          screen1.clear();
-          screen1.printBoxes();
-          screen1.printLines();
-          screen1.drawScrollbar();
-        }
-        
-        s2x1.drawPointer();
+        previewSurface.drawPointer();
 
         if (gamepad.buttonApressed()) {
-          if (s2x1.pointerPort == 0) {
-            if (screen0.backButtonHovered) {
-              if (menuLevel > 0) {
-                this->levels[menuLevel] = "";
+          if (previewSurface.pointerPort == 0) {
+            if (previewScreen0.backButtonHovered) {
+              if (this->menuLevel > 0) {
+                this->levels[this->menuLevel] = "";
                 this->populateOptions();
               }
             } else {
-              if (screen0.breadcrumbHovered > -1) {
+              if (previewScreen0.breadcrumbHovered > -1) {
                 for (int i=0; i < 8; i++) {
-                  if (i > screen0.breadcrumbHovered) {
+                  if (i > previewScreen0.breadcrumbHovered) {
                     this->levels[i] = "";
                   }
                 }
@@ -171,33 +179,33 @@ class Interface:public Program {
             }
           }
 
-          if (s2x1.pointerPort == 1) {
-            int index = screen1.lineHovered;
+          if (previewSurface.pointerPort == 1) {
+            int index = previewScreen1.lineHovered;
 
-            if (menuLevel == 0) {
+            if (this->menuLevel == 0) {
               this->setProgram(index);
             }
 
-            if (menuLevel == 1) {
+            if (this->menuLevel == 1) {
               JsonArray & file = this->loadFromFile("/menu.json");
-              s2x1.populateScreen(1, file[1][activeProgram][1][index]);
+              previewSurface.populateScreen(1, file[1][activeProgram][1][index]);
               String programOption = file[1][activeProgram][1][index][0];
               this->levels[2] = programOption;
               programs[activeProgram]->setOption(index);
               programs[activeProgram]->becameActive();
             }
 
-            if (menuLevel == 2) {
-              String subOption = screen1.lines[screen1.lineHovered];
+            if (this->menuLevel == 2) {
+              String subOption = previewScreen1.lines[previewScreen1.lineHovered];
               this->levels[3] = subOption;
             }
           }
         }
       }
 
-      if (s8x1.facingUp) {
+      if (mainSurface.facingUp) {
         if (activeProgram == -1) {
-          OLED & screen = channels[s8x1.channel].ports[0].screen;
+          OLED & screen = channels[mainSurface.channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");
         }
