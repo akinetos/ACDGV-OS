@@ -28,6 +28,21 @@ class Wifi: public Device {
         this->ip = this->IpAddress2String(WiFi.localIP());
       }
     }
+
+    void connect(String name, String password) {
+      WiFi.mode(WIFI_STA);
+      WiFi.begin(name, password);
+      
+      while (!this->connected && this->attempts < this->maxAttempts) {
+        delay(this->delayTime);
+        this->connected = WiFi.status() == WL_CONNECTED;
+        this->attempts++;
+      }
+      
+      if (this->connected) {
+        this->ip = this->IpAddress2String(WiFi.localIP());
+      }
+    }
   
     void tick() {}
 

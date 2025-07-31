@@ -1,6 +1,17 @@
+class Network {
+  public:
+    String name;
+    String password;
+    Network() {}
+    Network(String name, String password) {
+      this->name = name;
+      this->password = password;
+    }
+};
+
 class Router:public Program {
     public:
-      String networks[20];
+      Network networks[20];
       int networksCount = 0;
       int counter = 0;
       int option = -1;
@@ -19,8 +30,9 @@ class Router:public Program {
           JsonArray& wifiNetworks = jsonBuffer.parseArray(charArray);
           this->networksCount = wifiNetworks.size();
           for (int n = 0; n < this->networksCount; n++) {
-            String ssid = wifiNetworks[n]["ssid"];
-            this->networks[n] = (String)(n+1) + ". " + ssid;
+            String name = wifiNetworks[n]["name"];
+            String password = wifiNetworks[n]["password"];
+            this->networks[n] = Network(name, password);
           }
         }
       }
@@ -28,10 +40,21 @@ class Router:public Program {
       void tick() {
         int menuLevel = interface.getMenuLevel();
         if (menuLevel == 3) {
+          String networkName = interface.levels[3];
+          boolean found = false;
+          for (int i=0; !found && i<this->networksCount; i++) {
+            if (this->networks[i].name == networkName) {
+              wifi.connect(this->networks[i].name, this->networks[i].password);
+              found = true;
+            }
+          }
           OLED & screen1 = channels[0].ports[1].screen;
-          String heading = interface.levels[3];
           screen1.clear();
-          screen1.printText(heading);
+          if (found) {
+            screen1.printText("found");
+          } else {
+            screen1.printText("not found");
+          }
         }
       }
 
