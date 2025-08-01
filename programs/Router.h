@@ -38,9 +38,9 @@ class Router:public Program {
       }
 
       void tick() {
-        int menuLevel = interface.getMenuLevel();
-        if (menuLevel == 3) {
-          String networkName = interface.levels[3];
+        int pathLevel = interface.getPathLevel();
+        if (pathLevel == 3) {
+          String networkName = interface.segments[3];
           boolean found = false;
           for (int i=0; !found && i<this->networksCount; i++) {
             if (this->networks[i].name == networkName) {

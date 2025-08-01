@@ -1,7 +1,7 @@
 class Interface:public Program {
   public:
-    String levels[8];
-    int menuLevel = 0;
+    String segments[8];
+    int pathLevel = 0;
     int activeProgram = -1;
     String programOption = "";
     String programSubOption = "";
@@ -9,11 +9,11 @@ class Interface:public Program {
     String getPath() {
       String output = "";
       for (int i=0; i<8; i++) {
-        if (this->levels[i] != "") {
+        if (this->segments[i] != "") {
           if (output != "") {
             output += "/";
           }
-          output += levels[i];
+          output += segments[i];
         }
       }
       return output;
@@ -81,18 +81,18 @@ class Interface:public Program {
       String root = file[0];
       previewSurface.populateScreen(1, file);
       for (int i=0; i<8; i++) {
-        this->levels[i] = "";
+        this->segments[i] = "";
       }
-      this->levels[0] = root;
+      this->segments[0] = root;
       if (this->activeProgram > -1) {
         this->setProgram(this->activeProgram);
       }
     }
 
-    int getMenuLevel() {
+    int getPathLevel() {
       int output = 0;
       for (int i=0; i<8; i++) {
-        if (this->levels[i] != "") {
+        if (this->segments[i] != "") {
           output = i;
         }
       }
@@ -110,17 +110,17 @@ class Interface:public Program {
       surfaces[0].populateScreen(1, file[1][this->activeProgram]);
       surfaces[1].clear();
       String programName = file[1][this->activeProgram][0];
-      this->levels[1] = programName;
+      this->segments[1] = programName;
     }
 
     void populateOptions() {
       Surface & previewSurface = surfaces[0];
-      int newMenuLevel = this->getMenuLevel();
+      int newpathLevel = this->getPathLevel();
       JsonArray & file = this->loadFromFile("/menu.json");
-      if (newMenuLevel == 1) {
+      if (newpathLevel == 1) {
         previewSurface.populateScreen(1, file[1][this->activeProgram]);
       }
-      if (newMenuLevel == 0) {
+      if (newpathLevel == 0) {
         previewSurface.populateScreen(1, file);
       }
     }
@@ -138,7 +138,7 @@ class Interface:public Program {
 
     void drawContent() {
       OLED & contentScreen = channels[0].ports[1].screen;
-      if (this->menuLevel < 3 && contentScreen.hasOptions) {
+      if (this->pathLevel < 3 && contentScreen.hasOptions) {
         contentScreen.clear();
         contentScreen.printBoxes();
         contentScreen.printLines();
@@ -153,7 +153,7 @@ class Interface:public Program {
       
       Surface & previewSurface = surfaces[0];
       Surface & mainSurface = surfaces[1];
-      this->menuLevel = this->getMenuLevel();
+      this->pathLevel = this->getPathLevel();
 
       if (previewSurface.facingUp) {
         OLED & previewScreen0 = channels[previewSurface.channel].ports[0].screen;
@@ -170,15 +170,15 @@ class Interface:public Program {
         if (gamepad.buttonApressed()) {
           if (previewSurface.pointerPort == 0) {
             if (previewScreen0.backButtonHovered) {
-              if (this->menuLevel > 0) {
-                this->levels[this->menuLevel] = "";
+              if (this->pathLevel > 0) {
+                this->segments[this->pathLevel] = "";
                 this->populateOptions();
               }
             } else {
               if (previewScreen0.pathSegmentHovered > -1) {
                 for (int i=0; i < 8; i++) {
                   if (i > previewScreen0.pathSegmentHovered) {
-                    this->levels[i] = "";
+                    this->segments[i] = "";
                   }
                 }
                 this->populateOptions();
@@ -189,23 +189,23 @@ class Interface:public Program {
           if (previewSurface.pointerPort == 1) {
             int index = previewScreen1.lineHovered;
 
-            if (this->menuLevel == 0) {
+            if (this->pathLevel == 0) {
               this->setProgram(index);
             }
 
-            if (this->menuLevel == 1) {
+            if (this->pathLevel == 1) {
               JsonArray & file = this->loadFromFile("/menu.json");
               previewSurface.populateScreen(1, file[1][this->activeProgram][1][index]);
               String programOption = file[1][this->activeProgram][1][index][0];
               this->programOption = programOption;
-              this->levels[2] = this->programOption;
+              this->segments[2] = this->programOption;
               programs[this->activeProgram]->setOption(index);
               programs[this->activeProgram]->becameActive();
             }
 
-            if (this->menuLevel == 2) {
+            if (this->pathLevel == 2) {
               this->programSubOption = previewScreen1.lines[previewScreen1.lineHovered];
-              this->levels[3] = this->programSubOption;
+              this->segments[3] = this->programSubOption;
             }
           }
         }
