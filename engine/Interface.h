@@ -131,7 +131,9 @@ class Interface:public Program {
         cursorX = surfaces[0].getRelativeX();
       }
       String path = this->getPath();
-      channels[0].ports[0].screen.clear();
+      if (this->pathLevel < 2) {
+        channels[0].ports[0].screen.clear();
+      }
       channels[0].ports[0].screen.drawPath(path, cursorX);
     }
 
@@ -203,10 +205,7 @@ class Interface:public Program {
         this->updatePointer();
         this->updateContent();
         
-        if (this->activeProgram == 2 && this->segments[2] != "") {}
-        else {
-          this->drawPath();
-        }
+        this->drawPath();
 
         surfaces[0].drawBackButton(0);
         

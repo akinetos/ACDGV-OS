@@ -365,10 +365,9 @@ class Batterfly:public Program {
             }
 
             if (s2x1.facingUp) {
-                OLED & screen = channels[s2x1.channel].ports[1].screen;
-                screen.clear();
                 this->updateBatterfly();
                 this->updatePestki();
+                s2x1.clear();
                 this->drawBatterfly();
                 this->drawPestki();
             }

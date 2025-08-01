@@ -128,8 +128,8 @@ class Surface {
   }
 
   void drawRectangle2(int x, int y) {
+    this->clear();
     OLED & screen = channels[this->channel].ports[1].screen;
-    screen.clear();
     screen.drawRectangle(x, y);
   }
 

@@ -20,7 +20,7 @@ class Telephone:public Program {
             this->number += button;
           }
           if (s2x1.facingUp) {
-            p01.screen.clear();
+            s2x1.clear();
             p01.screen.ssd1306.setCursor(0, 0);
             p01.screen.ssd1306.print(wifi.connected ? "WiFi - connected" : "WiFi - not connected");
             p01.screen.ssd1306.setCursor(0, 10);
