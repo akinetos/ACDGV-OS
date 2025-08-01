@@ -12,7 +12,6 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-
 const int channelsCount = 2;
 const int sensorsCount = 6;
 const int programsCount = 6;
@@ -28,24 +27,19 @@ Program * programs[programsCount];
 Device* sensors[sensorsCount];
 
 #include "./devices/WiFi.h";
-Wifi wifi = Wifi();
-
 #include "./devices/AM.h";
-AM accelerometer = AM(0x1d);
-
 #include "./devices/GV.h";
-GV gv = GV();
-
 #include "./devices/HRS.h";
-HRS hrs = HRS(0x57);
-
 #include "./devices/RE.h";
-RE re = RE(0x55);
-
 #include "./devices/Gamepad.h";
-Gamepad gamepad = Gamepad(0x51);
-
 #include "./devices/Keypad.h";
+
+Wifi wifi = Wifi();
+AM accelerometer = AM(0x1d);
+GV gv = GV();
+HRS hrs = HRS(0x57);
+RE re = RE(0x55);
+Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
 
 #include "./engine/Channel.h";
@@ -63,7 +57,6 @@ Interface interface;
 #include "./programs/VV.h";
 #include "./programs/Logo.h";
 #include "./programs/Telephone.h";
-
 
 void setup() {
   SPIFFS.begin();
@@ -101,7 +94,6 @@ void setup() {
 
   interface.init();
 }
-
 
 void loop() {
   for (int i = 0; i < sensorsCount; i++) {
