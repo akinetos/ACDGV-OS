@@ -22,7 +22,7 @@ const int surfacesCount = 3;
 I2C i2c = I2C();
 
 #include "./engine/Program.h";
-Program* programs[programsCount];
+Program * programs[programsCount];
 
 #include "./engine/Device.h";
 Device* sensors[sensorsCount];
@@ -58,22 +58,11 @@ Surface surfaces[3];
 Interface interface;
 
 #include "./programs/Batterfly.h";
-Batterfly batterfly = Batterfly();
-
 #include "./programs/Router.h";
-Router router = Router();
-
 #include "./programs/Gravity.h";
-Gravity gravity = Gravity();
-
 #include "./programs/VV.h";
-VV vv = VV();
-
 #include "./programs/Logo.h";
-Logo logo = Logo();
-
 #include "./programs/Telephone.h";
-Telephone telephone = Telephone();
 
 
 void setup() {
@@ -103,12 +92,12 @@ void setup() {
     surfaces[i].init();
   }
 
-  programs[0] = &batterfly;
-  programs[1] = &gravity;
-  programs[2] = &vv;
-  programs[3] = &router;
-  programs[4] = &logo;
-  programs[5] = &telephone;
+  programs[0] = new Batterfly();
+  programs[1] = new Gravity();
+  programs[2] = new VV();
+  programs[3] = new Router();
+  programs[4] = new Logo();
+  programs[5] = new Telephone();
 
   interface.init();
 }
