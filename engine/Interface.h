@@ -205,7 +205,9 @@ class Interface:public Program {
         this->updatePointer();
         this->updateContent();
         
-        this->drawPath();
+        if (this->pathLevel < 2) {
+          this->drawPath();
+        }
 
         surfaces[0].drawBackButton(0);
         
