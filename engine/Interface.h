@@ -5,6 +5,8 @@ class Interface:public Program {
     int activeProgram = -1;
     String programOption = "";
     String programSubOption = "";
+    int frameNumber = 0;
+    int becameActiveTime = 0;
 
     String getPath() {
       String output = "";
@@ -182,6 +184,7 @@ class Interface:public Program {
         this->segments[2] = this->programOption;
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
+        this->becameActiveTime = millis();
       }
 
       if (this->pathLevel == 2) {
@@ -195,6 +198,8 @@ class Interface:public Program {
     }
 
     void tick() {
+      this->frameNumber++;
+
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
       }
@@ -207,6 +212,16 @@ class Interface:public Program {
         
         if (this->pathLevel < 2) {
           this->drawPath();
+        } else {
+          if (millis() - this->becameActiveTime < 3000) {
+            this->drawPath();
+          } else {
+            if (millis() - this->becameActiveTime < 4500) {
+              if (this->frameNumber % 2 == 0) {
+                this->drawPath();
+              }
+            }
+          }
         }
 
         surfaces[0].drawBackButton(0);

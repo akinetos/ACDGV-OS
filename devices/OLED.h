@@ -308,7 +308,7 @@ class OLED {
       int count = 0;
       int segments[10] = {0,0,0,0,0,0,0,0,0,0};
       int segmentStart = 0;
-      int textScrollLimit = this->width - length * 12;
+      int textScrollLimit = this->width - (length + 1) * 12;
       for (int i=0; i<length; i++) {
         if (path[i] == '/') {
           segments[count] = i - segmentStart;
