@@ -34,7 +34,7 @@ class VV:public Program {
       }
 
       if (s2x1.facingUp) {
-        p01.screen.clear();
+        s2x1.clear();
       }
 
       for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {

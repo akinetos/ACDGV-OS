@@ -133,7 +133,6 @@ class Interface:public Program {
       String path = this->getPath();
       channels[0].ports[0].screen.clear();
       channels[0].ports[0].screen.drawPath(path, cursorX);
-      surfaces[0].drawBackButton(0);
     }
 
     void drawContent() {
@@ -146,74 +145,89 @@ class Interface:public Program {
       }
     }
 
+    void reactToPathPressed() {
+      OLED & screen = channels[0].ports[0].screen;
+      if (screen.backButtonHovered) {
+        if (this->pathLevel > 0) {
+          this->segments[this->pathLevel] = "";
+          this->populateOptions();
+        }
+      } else {
+        if (screen.pathSegmentHovered > -1) {
+          for (int i=0; i < 8; i++) {
+            if (i > screen.pathSegmentHovered) {
+              this->segments[i] = "";
+            }
+          }
+          this->populateOptions();
+        }
+      }
+    }
+
+    void reactToContentPressed() {
+      OLED & screen = channels[0].ports[1].screen;
+      int index = screen.lineHovered;
+
+      if (this->pathLevel == 0) {
+        this->setProgram(index);
+      }
+
+      if (this->pathLevel == 1) {
+        JsonArray & file = this->loadFromFile("/menu.json");
+        surfaces[0].populateScreen(1, file[1][this->activeProgram][1][index]);
+        String programOption = file[1][this->activeProgram][1][index][0];
+        this->programOption = programOption;
+        this->segments[2] = this->programOption;
+        programs[this->activeProgram]->setOption(index);
+        programs[this->activeProgram]->becameActive();
+      }
+
+      if (this->pathLevel == 2) {
+        this->programSubOption = screen.lines[screen.lineHovered];
+        this->segments[3] = this->programSubOption;
+      }
+    }
+
+    void updatePath() {
+      this->pathLevel = this->getPathLevel();
+    }
+
     void tick() {
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
       }
       
-      Surface & previewSurface = surfaces[0];
-      Surface & mainSurface = surfaces[1];
-      this->pathLevel = this->getPathLevel();
+      this->updatePath();
 
-      if (previewSurface.facingUp) {
-        OLED & previewScreen0 = channels[previewSurface.channel].ports[0].screen;
-        OLED & previewScreen1 = channels[previewSurface.channel].ports[1].screen; 
-
+      if (surfaces[0].facingUp) {
         this->updatePointer();
         this->updateContent();
         
-        this->drawPath();
+        if (this->activeProgram == 2 && this->segments[2] != "") {}
+        else {
+          this->drawPath();
+        }
+
+        surfaces[0].drawBackButton(0);
+        
         this->drawContent();
         
-        previewSurface.drawPointer();
+        surfaces[0].drawPointer();
 
         if (gamepad.buttonApressed()) {
-          if (previewSurface.pointerPort == 0) {
-            if (previewScreen0.backButtonHovered) {
-              if (this->pathLevel > 0) {
-                this->segments[this->pathLevel] = "";
-                this->populateOptions();
-              }
-            } else {
-              if (previewScreen0.pathSegmentHovered > -1) {
-                for (int i=0; i < 8; i++) {
-                  if (i > previewScreen0.pathSegmentHovered) {
-                    this->segments[i] = "";
-                  }
-                }
-                this->populateOptions();
-              }
-            }
+          if (surfaces[0].pointerPort == 0) {
+            this->reactToPathPressed();
           }
 
-          if (previewSurface.pointerPort == 1) {
-            int index = previewScreen1.lineHovered;
-
-            if (this->pathLevel == 0) {
-              this->setProgram(index);
-            }
-
-            if (this->pathLevel == 1) {
-              JsonArray & file = this->loadFromFile("/menu.json");
-              previewSurface.populateScreen(1, file[1][this->activeProgram][1][index]);
-              String programOption = file[1][this->activeProgram][1][index][0];
-              this->programOption = programOption;
-              this->segments[2] = this->programOption;
-              programs[this->activeProgram]->setOption(index);
-              programs[this->activeProgram]->becameActive();
-            }
-
-            if (this->pathLevel == 2) {
-              this->programSubOption = previewScreen1.lines[previewScreen1.lineHovered];
-              this->segments[3] = this->programSubOption;
-            }
+          if (surfaces[0].pointerPort == 1) {
+            this->reactToContentPressed();
           }
         }
       }
 
-      if (mainSurface.facingUp) {
+      if (surfaces[1].facingUp) {
         if (this->activeProgram == -1) {
-          OLED & screen = channels[mainSurface.channel].ports[0].screen;
+          OLED & screen = channels[surfaces[1].channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");
         }
