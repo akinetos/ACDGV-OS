@@ -172,38 +172,36 @@ class Interface:public Program {
         if (programs[index]->startedTime == 0) {
           programs[index]->init();
         }
-
         JsonArray & file = this->loadFromFile("/menu.json");
-        String programName = file[1][index][0];
-
-        surfaces[0].populateScreen(1, file[1][index]);
+        JsonArray & element = file[1][index];
+        String optionName = element[0];
+        surfaces[0].populateScreen(1, element);
         surfaces[1].clear();
-
-        this->segments[1] = programName;
-        this->address[1] = index;
-        this->address[2] = NULL;
-        this->address[3] = NULL;
+        this->segments[this->pathLevel + 1] = optionName;
+        this->address[this->pathLevel + 1] = index;
+        this->address[this->pathLevel + 2] = NULL;
+        this->address[this->pathLevel + 3] = NULL;
       }
 
       if (this->pathLevel == 1) {
         JsonArray & file = this->loadFromFile("/menu.json");
-        String programOptionName = file[1][this->address[1]][1][index][0];
-        
-        surfaces[0].populateScreen(1, file[1][this->address[1]][1][index]);
+        JsonArray & element = file[1][this->address[1]][1][index];
+        String optionName = element[0];
+        surfaces[0].populateScreen(1, element);
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
-
         this->becameActiveTime = millis();
-        this->segments[2] = programOptionName;
-        this->address[2] = index;
-        this->address[3] = NULL;
+        this->segments[this->pathLevel + 1] = optionName;
+        this->address[this->pathLevel + 2] = index;
+        this->address[this->pathLevel + 3] = NULL;
       }
 
       if (this->pathLevel == 2) {
         JsonArray & file = this->loadFromFile("/menu.json");
-        String programSubOption = file[1][this->address[1]][1][this->address[2]][1][index][0];
-        this->segments[3] = programSubOption;
-        this->address[3] = index;
+        JsonArray & element = file[1][this->address[1]][1][this->address[2]][1][index];
+        String optionName = element[0];
+        this->segments[this->pathLevel + 1] = optionName;
+        this->address[this->pathLevel + 1] = index;
       }
     }
 
