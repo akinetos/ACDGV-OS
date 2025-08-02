@@ -5,6 +5,7 @@ class Interface:public Program {
     int activeProgram = -1;
     int frameNumber = 0;
     int becameActiveTime = 0;
+    int address[5] = {0,NULL,NULL,NULL,NULL};
 
     String getPath() {
       String output = "";
@@ -100,17 +101,13 @@ class Interface:public Program {
     }
 
     void setProgram(int index) {
-      OLED & previewScreen1 = channels[0].ports[1].screen;
-      previewScreen1.lineSelected = index;
+      this->activeProgram = index;
       if (programs[index]->startedTime == 0) {
         programs[index]->init();
       }
-      this->activeProgram = index;
       JsonArray & file = this->loadFromFile("/menu.json");
-      surfaces[0].populateScreen(1, file[1][this->activeProgram]);
+      surfaces[0].populateScreen(1, file[1][index]);
       surfaces[1].clear();
-      String programName = file[1][this->activeProgram][0];
-      this->segments[1] = programName;
     }
 
     void populateOptions() {
@@ -171,22 +168,42 @@ class Interface:public Program {
       int index = screen.lineHovered;
 
       if (this->pathLevel == 0) {
-        this->setProgram(index);
+        this->activeProgram = index;
+        if (programs[index]->startedTime == 0) {
+          programs[index]->init();
+        }
+
+        JsonArray & file = this->loadFromFile("/menu.json");
+        String programName = file[1][index][0];
+
+        surfaces[0].populateScreen(1, file[1][index]);
+        surfaces[1].clear();
+
+        this->segments[1] = programName;
+        this->address[1] = index;
+        this->address[2] = NULL;
+        this->address[3] = NULL;
       }
 
       if (this->pathLevel == 1) {
         JsonArray & file = this->loadFromFile("/menu.json");
-        surfaces[0].populateScreen(1, file[1][this->activeProgram][1][index]);
-        String programOption = file[1][this->activeProgram][1][index][0];
-        this->segments[2] = programOption;
+        String programOptionName = file[1][this->address[1]][1][index][0];
+        
+        surfaces[0].populateScreen(1, file[1][this->address[1]][1][index]);
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
+
         this->becameActiveTime = millis();
+        this->segments[2] = programOptionName;
+        this->address[2] = index;
+        this->address[3] = NULL;
       }
 
       if (this->pathLevel == 2) {
-        String programSubOption = screen.lines[screen.lineHovered];
+        JsonArray & file = this->loadFromFile("/menu.json");
+        String programSubOption = file[1][this->address[1]][1][this->address[2]][1][index][0];
         this->segments[3] = programSubOption;
+        this->address[3] = index;
       }
     }
 
