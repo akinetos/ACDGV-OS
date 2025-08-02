@@ -18,13 +18,12 @@ const int programsCount = 6;
 const int surfacesCount = 3;
 
 #include "./engine/I2C.h";
-I2C i2c = I2C();
-
 #include "./engine/Program.h";
-Program * programs[programsCount];
-
 #include "./engine/Device.h";
-Device* sensors[sensorsCount];
+
+I2C i2c = I2C();
+Program * programs[programsCount];
+Device * sensors[sensorsCount];
 
 #include "./devices/WiFi.h";
 #include "./devices/AM.h";
@@ -46,7 +45,7 @@ Keypad keypad = Keypad();
 Channel channels[channelsCount];
 
 #include "./engine/Surface.h";
-Surface surfaces[3];
+Surface surfaces[surfacesCount];
 
 #include "./engine/Interface.h";
 Interface interface;

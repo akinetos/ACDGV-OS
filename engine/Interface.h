@@ -3,8 +3,6 @@ class Interface:public Program {
     String segments[8];
     int pathLevel = 0;
     int activeProgram = -1;
-    String programOption = "";
-    String programSubOption = "";
     int frameNumber = 0;
     int becameActiveTime = 0;
 
@@ -180,16 +178,15 @@ class Interface:public Program {
         JsonArray & file = this->loadFromFile("/menu.json");
         surfaces[0].populateScreen(1, file[1][this->activeProgram][1][index]);
         String programOption = file[1][this->activeProgram][1][index][0];
-        this->programOption = programOption;
-        this->segments[2] = this->programOption;
+        this->segments[2] = programOption;
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
         this->becameActiveTime = millis();
       }
 
       if (this->pathLevel == 2) {
-        this->programSubOption = screen.lines[screen.lineHovered];
-        this->segments[3] = this->programSubOption;
+        String programSubOption = screen.lines[screen.lineHovered];
+        this->segments[3] = programSubOption;
       }
     }
 

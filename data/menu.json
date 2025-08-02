@@ -1,27 +1,27 @@
 ["MENU",[
 	["motyl",[
-		["zaokraglony",[],["run", "batterfly", 0]],
-		["kanciasty",[],["run", "batterfly", 1]]
+		["zaokraglony",[],["run","batterfly",0]],
+		["kanciasty",[],["run","batterfly",1]]
 	]],
 	["grawitacja",[
-		["slaba",[],["run", "gravity", 0]],
-		["srednia",[],["run", "gravity", 1]],
-		["silna",[],["run", "gravity", 2]]
+		["slaba",[],["run","gravity",0]],
+		["srednia",[],["run","gravity",1]],
+		["silna",[],["run","gravity",2]]
 	]],
 	["VV",[
-		["punkty",[],["run", "vv", 0]],
-		["linie",[],["run", "vv", 1]]
+		["punkty",[],["run","vv",0]],
+		["linie",[],["run","vv",1]]
 	]],
 	["WIFI",[
-		["status",[],["run", "router", 0]],
-		["networks",[],["run", "router", 1]]
+		["status",[],["run","router",0]],
+		["networks",[],["run","router",1]]
 	]],
 	["logo",[
-		["ACDGV",[],["run", "logo", 0]],
-		["OTHER",[],["run", "logo", 1]]
+		["ACDGV",[],["run","logo",0]],
+		["OTHER",[],["run","logo",1]]
 	]],
 	["telefon",[
-		["klawiatura",[],["run", "telephone", 0]],
-		["kontakty",[],["run", "telephone", 1]]
+		["klawiatura",[],["run","telephone",0]],
+		["kontakty",[],["run","telephone",1]]
 	]]
 ]]
