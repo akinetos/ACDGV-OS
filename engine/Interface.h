@@ -193,35 +193,22 @@ class Interface:public Program {
     void reactToContentPressed() {
       OLED & screen = channels[0].ports[1].screen;
       int index = screen.lineHovered;
+      this->updateAddress(index);
+      JsonArray & element = this->getElement();
+      String optionName = element[0];
+      surfaces[0].populateScreen(1, element);
+      this->segments[this->pathLevel + 1] = optionName;
 
       if (this->pathLevel == 0) {
-        this->updateAddress(index);
         this->activeProgram = index;
-        if (programs[index]->becameActiveTime == 0) {
-          programs[index]->init();
+        if (programs[this->activeProgram]->becameActiveTime == 0) {
+          programs[this->activeProgram]->init();
         }
-        JsonArray & element = this->getElement();
-        String optionName = element[0];
-        surfaces[0].populateScreen(1, element);
-        this->segments[this->pathLevel + 1] = optionName;
       }
 
       if (this->pathLevel == 1) {
-        this->updateAddress(index);
-        JsonArray & element = this->getElement();
-        String optionName = element[0];
-        surfaces[0].populateScreen(1, element);
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
-        this->segments[this->pathLevel + 1] = optionName;
-      }
-
-      if (this->pathLevel == 2) {
-        this->updateAddress(index);
-        JsonArray & element = this->getElement();
-        String optionName = element[0];
-        surfaces[0].populateScreen(1, element);
-        this->segments[this->pathLevel + 1] = optionName;
       }
     }
 
