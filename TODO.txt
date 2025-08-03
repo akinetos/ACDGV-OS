@@ -9,3 +9,18 @@
     if main.facingUp
         im mniej interface bedzie robił na głównych ekranach tym lepiej
         dzięki temu aktualnie uruchomiony program będzie mógł tą przestrzeń kontrolować
+
+znikanie path gdy otworzy się jakiś program
+if (!element[2]) {
+    this->drawPath();
+} else {
+    if (millis() - programs[this->activeProgram]->becameActiveTime < 3000) {
+    this->drawPath();
+    } else {
+    if (millis() - programs[this->activeProgram]->becameActiveTime < 4500) {
+        if (this->frameNumber % 2 == 0) {
+        this->drawPath();
+        }
+    }
+    }
+}

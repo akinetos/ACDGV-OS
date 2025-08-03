@@ -231,48 +231,24 @@ class Interface:public Program {
     }
 
     void tick() {
+      this->updatePath();
       this->frameNumber++;
-
+      
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
       }
-      
-      this->updatePath();
-
-      JsonArray & element = this->getElement();
 
       if (surfaces[0].facingUp) {
         this->updatePointer();
         this->updateContent();
         this->drawPath();
-
-        /*
-        if (!element[2]) {
-          this->drawPath();
-        } else {
-          if (millis() - programs[this->activeProgram]->becameActiveTime < 3000) {
-            this->drawPath();
-          } else {
-            if (millis() - programs[this->activeProgram]->becameActiveTime < 4500) {
-              if (this->frameNumber % 2 == 0) {
-                this->drawPath();
-              }
-            }
-          }
-        }
-        */
-
-        surfaces[0].drawBackButton(0);
-        
         this->drawContent();
-        
+        surfaces[0].drawBackButton(0);
         surfaces[0].drawPointer();
-
         if (gamepad.buttonApressed()) {
           if (surfaces[0].pointerPort == 0) {
             this->reactToPathPressed();
           }
-
           if (surfaces[0].pointerPort == 1) {
             this->reactToContentPressed();
           }
