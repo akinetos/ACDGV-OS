@@ -76,7 +76,6 @@ class Interface:public Program {
     }
 
     void init() {
-      Surface & previewSurface = surfaces[0];
       JsonArray & file = this->loadFromFile("/menu.json");
       String root = file[0];
       channels[0].ports[1].screen.populate(file);
@@ -103,8 +102,6 @@ class Interface:public Program {
 
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
-      Surface & previewSurface = surfaces[0];
-      this->updatePath();
       JsonArray & file = this->loadFromFile("/menu.json");
       if (this->pathLevel == 3) {
         screen.populate(file[1][address[1]][1][address[2]][1][address[3]]);
@@ -163,6 +160,7 @@ class Interface:public Program {
         }
       }
       if (pathChanged) {
+        this->updatePath();
         this->populateOptions();
       }
     }
