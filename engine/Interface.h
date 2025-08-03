@@ -79,13 +79,15 @@ class Interface:public Program {
       Surface & previewSurface = surfaces[0];
       JsonArray & file = this->loadFromFile("/menu.json");
       String root = file[0];
-      previewSurface.populateScreen(1, file);
+      channels[0].ports[1].screen.populate(file);
       for (int i=0; i<8; i++) {
         this->segments[i] = "";
       }
       this->segments[0] = root;
       if (this->activeProgram > -1) {
-        this->setProgram(this->activeProgram);
+        if (programs[this->activeProgram]->becameActiveTime == 0) {
+          programs[this->activeProgram]->init();
+        }
       }
     }
 
@@ -99,25 +101,16 @@ class Interface:public Program {
       return output;
     }
 
-    void setProgram(int index) {
-      this->activeProgram = index;
-      if (programs[index]->becameActiveTime == 0) {
-        programs[index]->init();
-      }
-      JsonArray & file = this->loadFromFile("/menu.json");
-      surfaces[0].populateScreen(1, file[1][index]);
-      surfaces[1].clear();
-    }
-
     void populateOptions() {
+      OLED & screen = channels[0].ports[1].screen;
       Surface & previewSurface = surfaces[0];
       int newpathLevel = this->getPathLevel();
       JsonArray & file = this->loadFromFile("/menu.json");
       if (newpathLevel == 1) {
-        previewSurface.populateScreen(1, file[1][this->activeProgram]);
+        screen.populate(file[1][this->activeProgram]);
       }
       if (newpathLevel == 0) {
-        previewSurface.populateScreen(1, file);
+        screen.populate(file);
       }
     }
 
@@ -175,40 +168,38 @@ class Interface:public Program {
       }
     }
 
-    void updateAddress(int index) {
+    void reactToContentPressed() {
+      OLED & screen = channels[0].ports[1].screen;
+      int index = screen.lineHovered;
+      this->address[this->pathLevel + 1] = index;
       if (this->pathLevel == 0) {
-        this->address[this->pathLevel + 1] = index;
         this->address[this->pathLevel + 2] = NULL;
         this->address[this->pathLevel + 3] = NULL;
       }
       if (this->pathLevel == 1) {
-        this->address[this->pathLevel + 1] = index;
         this->address[this->pathLevel + 2] = NULL;
       }
-      if (this->pathLevel == 2) {
-        this->address[this->pathLevel + 1] = index;
-      }
-    }
-
-    void reactToContentPressed() {
-      OLED & screen = channels[0].ports[1].screen;
-      int index = screen.lineHovered;
-      this->updateAddress(index);
       JsonArray & element = this->getElement();
       String optionName = element[0];
-      surfaces[0].populateScreen(1, element);
+      screen.populate(element);
       this->segments[this->pathLevel + 1] = optionName;
 
-      if (this->pathLevel == 0) {
-        this->activeProgram = index;
-        if (programs[this->activeProgram]->becameActiveTime == 0) {
-          programs[this->activeProgram]->init();
+      if (element[2]) {
+        if (element[2][0] == "run") {
+          String programName = element[2][1];
+          int programOption = element[2][2];
+          if (programName == "batterfly") this->activeProgram = 0;
+          if (programName == "gravity") this->activeProgram = 1;
+          if (programName == "vv") this->activeProgram = 2;
+          if (programName == "router") this->activeProgram = 3;
+          if (programName == "logo") this->activeProgram = 4;
+          if (programName == "telephone") this->activeProgram = 5;
+          if (programs[this->activeProgram]->becameActiveTime == 0) {
+            programs[this->activeProgram]->init();
+          }
+          programs[this->activeProgram]->setOption(programOption);
+          programs[this->activeProgram]->becameActive();
         }
-      }
-
-      if (this->pathLevel == 1) {
-        programs[this->activeProgram]->setOption(index);
-        programs[this->activeProgram]->becameActive();
       }
     }
 

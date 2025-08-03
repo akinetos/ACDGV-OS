@@ -34,7 +34,7 @@ class Telephone:public Program {
           if (!this->contactsLoaded) {
             JsonArray & file = interface.loadFromFile("/menu.json");
             if (s2x1.facingUp) {
-              s2x1.populateScreen(1, file[1][5][1][1]);
+              p01.screen.populate(file[1][5][1][1]);
             }
             this->contactsLoaded = true;
           }

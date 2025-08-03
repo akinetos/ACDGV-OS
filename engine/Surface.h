@@ -168,9 +168,4 @@ class Surface {
     OLED & screen = channels[this->channel].ports[this->pointerPort].screen;
     screen.drawPointer(this->getRelativeX(), this->getRelativeY(), "circle");
   }
-
-  void populateScreen(int port, JsonArray & json) {
-    OLED & screen = channels[this->channel].ports[port].screen;
-    screen.populate(json);
-  }
 };
