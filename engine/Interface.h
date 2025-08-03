@@ -4,7 +4,7 @@ class Interface:public Program {
     int pathLevel = 0;
     int activeProgram = -1;
     int frameNumber = 0;
-    int address[5] = {0,NULL,NULL,NULL,NULL};
+    int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 
     String getPath() {
       String output = "";
@@ -104,12 +104,15 @@ class Interface:public Program {
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
       Surface & previewSurface = surfaces[0];
-      int newpathLevel = this->getPathLevel();
+      this->updatePath();
       JsonArray & file = this->loadFromFile("/menu.json");
-      if (newpathLevel == 1) {
-        screen.populate(file[1][this->activeProgram]);
+      if (this->pathLevel == 2) {
+        screen.populate(file[1][this->address[1]][1][this->address[2]]);
       }
-      if (newpathLevel == 0) {
+      if (this->pathLevel == 1) {
+        screen.populate(file[1][this->address[1]]);
+      }
+      if (this->pathLevel == 0) {
         screen.populate(file);
       }
     }
@@ -120,7 +123,7 @@ class Interface:public Program {
         cursorX = surfaces[0].getRelativeX();
       }
       String path = this->getPath();
-      if (this->pathLevel < 2) {
+      if (this->pathLevel < 3) {
         channels[0].ports[0].screen.clear();
       }
       channels[0].ports[0].screen.drawPath(path, cursorX);
@@ -128,7 +131,7 @@ class Interface:public Program {
 
     void drawContent() {
       OLED & contentScreen = channels[0].ports[1].screen;
-      if (this->pathLevel < 3 && contentScreen.hasOptions) {
+      if (this->pathLevel < 4 && contentScreen.hasOptions) {
         contentScreen.clear();
         contentScreen.printBoxes();
         contentScreen.printLines();
@@ -138,20 +141,26 @@ class Interface:public Program {
 
     void reactToPathPressed() {
       OLED & screen = channels[0].ports[0].screen;
+      boolean pathChanged = false;
       if (screen.backButtonHovered) {
         if (this->pathLevel > 0) {
           this->segments[this->pathLevel] = "";
-          this->populateOptions();
+          this->address[this->pathLevel] = NULL;
+          pathChanged = true;
         }
       } else {
         if (screen.pathSegmentHovered > -1) {
           for (int i=0; i < 8; i++) {
             if (i > screen.pathSegmentHovered) {
               this->segments[i] = "";
+              this->address[i] = NULL;
+              pathChanged = true;
             }
           }
-          this->populateOptions();
         }
+      }
+      if (pathChanged) {
+        this->populateOptions();
       }
     }
 
@@ -175,8 +184,13 @@ class Interface:public Program {
       if (this->pathLevel == 0) {
         this->address[this->pathLevel + 2] = NULL;
         this->address[this->pathLevel + 3] = NULL;
+        this->address[this->pathLevel + 4] = NULL;
       }
       if (this->pathLevel == 1) {
+        this->address[this->pathLevel + 2] = NULL;
+        this->address[this->pathLevel + 3] = NULL;
+      }
+      if (this->pathLevel == 2) {
         this->address[this->pathLevel + 2] = NULL;
       }
       JsonArray & element = this->getElement();
@@ -223,7 +237,7 @@ class Interface:public Program {
         this->updatePointer();
         this->updateContent();
         
-        if (this->pathLevel < 2) {
+        if (this->pathLevel < 3) {
           this->drawPath();
         } else {
           if (millis() - programs[this->activeProgram]->becameActiveTime < 3000) {
