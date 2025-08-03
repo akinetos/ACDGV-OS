@@ -41,8 +41,6 @@ class Battery:public Program {
                 }
             }
         }
-
-        void becameActive() {}
     
     Battery() {}
 };

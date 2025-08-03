@@ -57,7 +57,6 @@ class Batterfly:public Program {
         int option = 0;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
-        int startedTime;
 
         void clearScreens() {
             Surface & surface = surfaces[this->surfaceIndex];
@@ -332,7 +331,7 @@ class Batterfly:public Program {
         }
 
         void init() {
-            this->startedTime = millis();
+            this->becameActiveTime = millis();
             this->surfaceIndex = 1;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();
@@ -348,7 +347,7 @@ class Batterfly:public Program {
 
             if (s8x1.facingUp) {
                 if (this->over) {
-                    int time = (endedAt - this->startedTime) / 1000;
+                    int time = (endedAt - this->becameActiveTime) / 1000;
                     this->splash("BRAWO!", "czas: " + String(time) + " sekund");
                 } else {
                     this->updatePointer();
@@ -376,8 +375,6 @@ class Batterfly:public Program {
         void setOption(int option) {
             this->option = option;
         }
-
-        void becameActive() {}
     
     Batterfly() {}
 };

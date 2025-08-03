@@ -15,10 +15,9 @@ class Router:public Program {
       int networksCount = 0;
       int counter = 0;
       int option = -1;
-      int startedTime;
 
       void init() {
-        this->startedTime = millis();
+        this->becameActiveTime = millis();
         String fullDirectory = "/wifi.json";
         File wifiFile = SPIFFS.open(fullDirectory, "r");
         if (wifiFile) {
@@ -61,8 +60,6 @@ class Router:public Program {
       void setOption(int option) {
         this->option = option;
       }
-
-      void becameActive() {}
 
     Router() {}
 };

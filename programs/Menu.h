@@ -142,7 +142,5 @@ class Menu:public Program {
       }
     }
 
-    void becameActive() {}
-
     Menu() {}
 };

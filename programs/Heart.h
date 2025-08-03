@@ -20,8 +20,6 @@ class Heart:public Program {
                 channels[surface.channel].ports[1].screen.needsRefresh = true;
             }
         }
-
-        void becameActive() {}
     
     Heart() {}
 };

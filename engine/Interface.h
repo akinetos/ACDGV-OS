@@ -4,7 +4,6 @@ class Interface:public Program {
     int pathLevel = 0;
     int activeProgram = -1;
     int frameNumber = 0;
-    int becameActiveTime = 0;
     int address[5] = {0,NULL,NULL,NULL,NULL};
 
     String getPath() {
@@ -102,7 +101,7 @@ class Interface:public Program {
 
     void setProgram(int index) {
       this->activeProgram = index;
-      if (programs[index]->startedTime == 0) {
+      if (programs[index]->becameActiveTime == 0) {
         programs[index]->init();
       }
       JsonArray & file = this->loadFromFile("/menu.json");
@@ -163,45 +162,66 @@ class Interface:public Program {
       }
     }
 
+    JsonArray & getElement() {
+      JsonArray & file = this->loadFromFile("/menu.json");
+      if (this->pathLevel == 0) {
+        return file[1][address[1]];
+      }
+      if (this->pathLevel == 1) {
+        return file[1][this->address[1]][1][address[2]];
+      }
+      if (this->pathLevel == 2) {
+        return file[1][this->address[1]][1][this->address[2]][1][address[3]];
+      }
+    }
+
+    void updateAddress(int index) {
+      if (this->pathLevel == 0) {
+        this->address[this->pathLevel + 1] = index;
+        this->address[this->pathLevel + 2] = NULL;
+        this->address[this->pathLevel + 3] = NULL;
+      }
+      if (this->pathLevel == 1) {
+        this->address[this->pathLevel + 1] = index;
+        this->address[this->pathLevel + 2] = NULL;
+      }
+      if (this->pathLevel == 2) {
+        this->address[this->pathLevel + 1] = index;
+      }
+    }
+
     void reactToContentPressed() {
       OLED & screen = channels[0].ports[1].screen;
       int index = screen.lineHovered;
 
       if (this->pathLevel == 0) {
+        this->updateAddress(index);
         this->activeProgram = index;
-        if (programs[index]->startedTime == 0) {
+        if (programs[index]->becameActiveTime == 0) {
           programs[index]->init();
         }
-        JsonArray & file = this->loadFromFile("/menu.json");
-        JsonArray & element = file[1][index];
+        JsonArray & element = this->getElement();
         String optionName = element[0];
         surfaces[0].populateScreen(1, element);
-        surfaces[1].clear();
         this->segments[this->pathLevel + 1] = optionName;
-        this->address[this->pathLevel + 1] = index;
-        this->address[this->pathLevel + 2] = NULL;
-        this->address[this->pathLevel + 3] = NULL;
       }
 
       if (this->pathLevel == 1) {
-        JsonArray & file = this->loadFromFile("/menu.json");
-        JsonArray & element = file[1][this->address[1]][1][index];
+        this->updateAddress(index);
+        JsonArray & element = this->getElement();
         String optionName = element[0];
         surfaces[0].populateScreen(1, element);
         programs[this->activeProgram]->setOption(index);
         programs[this->activeProgram]->becameActive();
-        this->becameActiveTime = millis();
         this->segments[this->pathLevel + 1] = optionName;
-        this->address[this->pathLevel + 2] = index;
-        this->address[this->pathLevel + 3] = NULL;
       }
 
       if (this->pathLevel == 2) {
-        JsonArray & file = this->loadFromFile("/menu.json");
-        JsonArray & element = file[1][this->address[1]][1][this->address[2]][1][index];
+        this->updateAddress(index);
+        JsonArray & element = this->getElement();
         String optionName = element[0];
+        surfaces[0].populateScreen(1, element);
         this->segments[this->pathLevel + 1] = optionName;
-        this->address[this->pathLevel + 1] = index;
       }
     }
 
@@ -225,10 +245,10 @@ class Interface:public Program {
         if (this->pathLevel < 2) {
           this->drawPath();
         } else {
-          if (millis() - this->becameActiveTime < 3000) {
+          if (millis() - programs[this->activeProgram]->becameActiveTime < 3000) {
             this->drawPath();
           } else {
-            if (millis() - this->becameActiveTime < 4500) {
+            if (millis() - programs[this->activeProgram]->becameActiveTime < 4500) {
               if (this->frameNumber % 2 == 0) {
                 this->drawPath();
               }

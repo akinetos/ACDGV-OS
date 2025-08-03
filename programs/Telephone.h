@@ -2,11 +2,10 @@ class Telephone:public Program {
     public:
       String number;
       int option = 0;
-      int startedTime;
       boolean contactsLoaded = false;
 
       void init() {
-        this->startedTime = millis();
+        this->becameActiveTime = millis();
         this->number = "tel: ";
       }
 
@@ -53,8 +52,6 @@ class Telephone:public Program {
       void setOption(int option) {
         this->option = option;
       }
-
-      void becameActive() {}
 
     Telephone() {}
 };

@@ -172,14 +172,10 @@ class Logo:public Program {
     String text = "ACDGV";
 	int offsetY = 0;
 	int space = 4;
-	int started = 0;
 	int pause2s = 0;
 	int direction = -1;
-	int startedTime;
 
-    void init() {
-		this->startedTime = millis();
-	}
+    void init() {}
 
     void tick() {
       Surface & s2x1 = surfaces[0];
@@ -193,7 +189,7 @@ class Logo:public Program {
 		}
 		screen.needsRefresh = true;
 		if (
-			(millis() - this->started) > 2000 && 
+			(millis() - this->becameActiveTime) > 2000 && 
 			(millis() - this->pause2s) > 2000
 		) {
 			this->offsetY += this->direction;
@@ -235,7 +231,7 @@ class Logo:public Program {
 
 	void becameActive() {
 		this->offsetY = 0;
-		this->started = millis();
+		this->becameActiveTime = millis();
 	}
 
   Logo() {}
