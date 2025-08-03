@@ -106,11 +106,14 @@ class Interface:public Program {
       Surface & previewSurface = surfaces[0];
       this->updatePath();
       JsonArray & file = this->loadFromFile("/menu.json");
+      if (this->pathLevel == 3) {
+        screen.populate(file[1][address[1]][1][address[2]][1][address[3]]);
+      }
       if (this->pathLevel == 2) {
-        screen.populate(file[1][this->address[1]][1][this->address[2]]);
+        screen.populate(file[1][address[1]][1][address[2]]);
       }
       if (this->pathLevel == 1) {
-        screen.populate(file[1][this->address[1]]);
+        screen.populate(file[1][address[1]]);
       }
       if (this->pathLevel == 0) {
         screen.populate(file);
@@ -170,10 +173,13 @@ class Interface:public Program {
         return file[1][address[1]];
       }
       if (this->pathLevel == 1) {
-        return file[1][this->address[1]][1][address[2]];
+        return file[1][address[1]][1][address[2]];
       }
       if (this->pathLevel == 2) {
-        return file[1][this->address[1]][1][this->address[2]][1][address[3]];
+        return file[1][address[1]][1][address[2]][1][address[3]];
+      }
+      if (this->pathLevel == 3) {
+        return file[1][address[1]][1][address[2]][1][address[3]][1][address[4]];
       }
     }
 
@@ -233,11 +239,15 @@ class Interface:public Program {
       
       this->updatePath();
 
+      JsonArray & element = this->getElement();
+
       if (surfaces[0].facingUp) {
         this->updatePointer();
         this->updateContent();
-        
-        if (this->pathLevel < 3) {
+        this->drawPath();
+
+        /*
+        if (!element[2]) {
           this->drawPath();
         } else {
           if (millis() - programs[this->activeProgram]->becameActiveTime < 3000) {
@@ -250,6 +260,7 @@ class Interface:public Program {
             }
           }
         }
+        */
 
         surfaces[0].drawBackButton(0);
         
