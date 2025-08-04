@@ -1,7 +1,5 @@
 #include <FS.h>
 #include <Wire.h>
-#include <ESP8266WiFi.h>
-#include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
@@ -14,7 +12,7 @@
 
 const int channelsCount = 2;
 const int sensorsCount = 6;
-const int programsCount = 6;
+const int programsCount = 5;
 const int surfacesCount = 3;
 
 #include "./engine/I2C.h";
@@ -25,7 +23,6 @@ I2C i2c = I2C();
 Program * programs[programsCount];
 Device * sensors[sensorsCount];
 
-#include "./devices/WiFi.h";
 #include "./devices/AM.h";
 #include "./devices/GV.h";
 #include "./devices/HRS.h";
@@ -33,7 +30,6 @@ Device * sensors[sensorsCount];
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
 
-Wifi wifi = Wifi();
 AM accelerometer = AM(0x1d);
 GV gv = GV();
 HRS hrs = HRS(0x57);
@@ -51,7 +47,6 @@ Surface surfaces[surfacesCount];
 Interface interface;
 
 #include "./programs/Batterfly.h";
-#include "./programs/Router.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
 #include "./programs/Logo.h";
@@ -87,9 +82,8 @@ void setup() {
   programs[0] = new Batterfly();
   programs[1] = new Gravity();
   programs[2] = new VV();
-  programs[3] = new Router();
-  programs[4] = new Logo();
-  programs[5] = new Telephone();
+  programs[3] = new Logo();
+  programs[4] = new Telephone();
 
   interface.init();
 }

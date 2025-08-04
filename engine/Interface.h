@@ -208,9 +208,8 @@ class Interface:public Program {
           if (programName == "batterfly") this->activeProgram = 0;
           if (programName == "gravity") this->activeProgram = 1;
           if (programName == "vv") this->activeProgram = 2;
-          if (programName == "router") this->activeProgram = 3;
-          if (programName == "logo") this->activeProgram = 4;
-          if (programName == "telephone") this->activeProgram = 5;
+          if (programName == "logo") this->activeProgram = 3;
+          if (programName == "telephone") this->activeProgram = 4;
           
           if (this->activeProgram > -1 && this->activeProgram < programsCount) {
             int programOption = element[2][2];
