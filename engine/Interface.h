@@ -186,17 +186,8 @@ class Interface:public Program {
     void reactToContentPressed(int index) {
       OLED & screen = channels[0].ports[1].screen;
       this->address[this->pathLevel + 1] = index;
-      if (this->pathLevel == 0) {
-        this->address[this->pathLevel + 2] = NULL;
-        this->address[this->pathLevel + 3] = NULL;
-        this->address[this->pathLevel + 4] = NULL;
-      }
-      if (this->pathLevel == 1) {
-        this->address[this->pathLevel + 2] = NULL;
-        this->address[this->pathLevel + 3] = NULL;
-      }
-      if (this->pathLevel == 2) {
-        this->address[this->pathLevel + 2] = NULL;
+      for (int i=this->pathLevel+2; i<8; i++) {
+        this->address[i] = NULL;
       }
       JsonArray & element = this->getElement();
       String optionName = element[0];
@@ -228,6 +219,10 @@ class Interface:public Program {
 
     void updatePath() {
       this->pathLevel = this->getPathLevel();
+    }
+
+    void switchToProgram(int index) {
+      this->activeProgram = index;
     }
 
     void tick() {
@@ -263,7 +258,11 @@ class Interface:public Program {
         if (button != NULL) {
           if (button != '*' && button != '#') {
             int index = button - 48;
-            this->reactToContentPressed(index);
+            if (this->activeProgram == -1) {
+              this->reactToContentPressed(index);
+            } else {
+              this->switchToProgram(index);
+            }
           }
           if (button == '#') {
             if (this->activeProgram != -1) {
