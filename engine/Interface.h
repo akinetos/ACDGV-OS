@@ -5,6 +5,7 @@ class Interface:public Program {
     int activeProgram = -1;
     int frameNumber = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+    boolean showPath = true;
 
     String getPath() {
       String output = "";
@@ -127,6 +128,7 @@ class Interface:public Program {
         channels[0].ports[0].screen.clear();
       }
       channels[0].ports[0].screen.drawPath(path, cursorX);
+      surfaces[0].drawBackButton(0);
     }
 
     void drawContent() {
@@ -240,9 +242,11 @@ class Interface:public Program {
       if (surfaces[0].facingUp) {
         this->updatePointer();
         this->updateContent();
-        this->drawPath();
+        if (this->showPath) {
+          this->drawPath();
+        }
         this->drawContent();
-        surfaces[0].drawBackButton(0);
+        
         surfaces[0].drawPointer();
 
         if (gamepad.buttonApressed()) {
@@ -260,6 +264,19 @@ class Interface:public Program {
           if (button != '*' && button != '#') {
             int index = button - 48;
             this->reactToContentPressed(index);
+          }
+          if (button == '#') {
+            if (this->activeProgram != -1) {
+              this->showPath = !this->showPath;
+            }
+          }
+          if (button == '*') {
+            if (this->pathLevel > 0) {
+              this->segments[this->pathLevel] = "";
+              this->address[this->pathLevel] = NULL;
+              this->updatePath();
+              this->populateOptions();
+            }
           }
         }
       }
