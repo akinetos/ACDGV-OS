@@ -53,6 +53,7 @@ Interface interface;
 #include "./programs/Telephone.h";
 
 void setup() {
+  Serial.begin(115200);
   SPIFFS.begin();
   i2c.init();
 

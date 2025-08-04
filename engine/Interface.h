@@ -181,9 +181,8 @@ class Interface:public Program {
       }
     }
 
-    void reactToContentPressed() {
+    void reactToContentPressed(int index) {
       OLED & screen = channels[0].ports[1].screen;
-      int index = screen.lineHovered;
       this->address[this->pathLevel + 1] = index;
       if (this->pathLevel == 0) {
         this->address[this->pathLevel + 2] = NULL;
@@ -220,6 +219,8 @@ class Interface:public Program {
             programs[this->activeProgram]->becameActive();
           }
         }
+      } else {
+        this->activeProgram = -1;
       }
     }
 
@@ -230,6 +231,7 @@ class Interface:public Program {
     void tick() {
       this->updatePath();
       this->frameNumber++;
+      char button = keypad.device.getButton();
       
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
@@ -242,12 +244,22 @@ class Interface:public Program {
         this->drawContent();
         surfaces[0].drawBackButton(0);
         surfaces[0].drawPointer();
+
         if (gamepad.buttonApressed()) {
           if (surfaces[0].pointerPort == 0) {
             this->reactToPathPressed();
           }
           if (surfaces[0].pointerPort == 1) {
-            this->reactToContentPressed();
+            OLED & screen = channels[0].ports[1].screen;
+            int index = screen.lineHovered;
+            this->reactToContentPressed(index);
+          }
+        }
+
+        if (button != NULL) {
+          if (button != '*' && button != '#') {
+            int index = button - 48;
+            this->reactToContentPressed(index);
           }
         }
       }
