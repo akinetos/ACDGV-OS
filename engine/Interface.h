@@ -2,11 +2,11 @@ class Interface:public Program {
   public:
     String segments[8];
     int pathLevel = 0;
-    int activeProgram = -1;
-    int activeProgram2 = -1;
     int frameNumber = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean showPath = true;
+    int activePrograms[3] = {-1,-1,-1};
+    int programIndex = 0;
 
     String getPath() {
       String output = "";
@@ -85,9 +85,9 @@ class Interface:public Program {
         this->segments[i] = "";
       }
       this->segments[0] = root;
-      if (this->activeProgram > -1) {
-        if (programs[this->activeProgram]->becameActiveTime == 0) {
-          programs[this->activeProgram]->init();
+      if (this->activePrograms[0] != -1) {
+        if (programs[this->activePrograms[0]]->becameActiveTime == 0) {
+          programs[this->activePrograms[0]]->init();
         }
       }
     }
@@ -198,23 +198,23 @@ class Interface:public Program {
       if (element[2]) {
         if (element[2][0] == "run") {
           String programName = element[2][1];
-          if (programName == "batterfly") this->activeProgram = 0;
-          if (programName == "gravity") this->activeProgram = 1;
-          if (programName == "vv") this->activeProgram = 2;
-          if (programName == "logo") this->activeProgram = 3;
-          if (programName == "telephone") this->activeProgram = 4;
+          if (programName == "batterfly") this->activePrograms[0] = 0;
+          if (programName == "gravity") this->activePrograms[0] = 1;
+          if (programName == "vv") this->activePrograms[0] = 2;
+          if (programName == "logo") this->activePrograms[0] = 3;
+          if (programName == "telephone") this->activePrograms[0] = 4;
           
-          if (this->activeProgram > -1 && this->activeProgram < programsCount) {
+          if (this->activePrograms[0] != -1) {
             int programOption = element[2][2];
-            if (programs[this->activeProgram]->becameActiveTime == 0) {
-              programs[this->activeProgram]->init();
+            if (programs[this->activePrograms[0]]->becameActiveTime == 0) {
+              programs[this->activePrograms[0]]->init();
             }
-            programs[this->activeProgram]->setOption(programOption);
-            programs[this->activeProgram]->becameActive();
+            programs[this->activePrograms[0]]->setOption(programOption);
+            programs[this->activePrograms[0]]->becameActive();
           }
         }
       } else {
-        this->activeProgram = -1;
+        this->activePrograms[0] = -1;
       }
     }
 
@@ -222,27 +222,24 @@ class Interface:public Program {
       this->pathLevel = this->getPathLevel();
     }
 
-    void switchToProgram(int index) {
-      this->activeProgram = index;
-    }
-
     void tick() {
       if (surfaces[0].facingUp) {
         surfaces[0].clear();
       }
-      
-      if (this->activeProgram > -1 && this->activeProgram < programsCount) {
-        programs[this->activeProgram]->tick();
-      }
-      if (this->activeProgram2 > -1 && this->activeProgram2 < programsCount) {
-        programs[this->activeProgram2]->tick();
+
+      this->updatePath();
+
+      for (int i=0; i<3; i++) {
+        int index = this->activePrograms[i];
+        if (index > -1) {
+          programs[index]->tick();
+        }
       }
 
       if (surfaces[0].facingUp) {
         this->updatePointer();
         this->updateContent();
         if (this->showPath) {
-          this->updatePath();
           this->drawPath();
         }
         this->drawContent();
@@ -263,15 +260,16 @@ class Interface:public Program {
           char button = keypad.device.getButton();
           if (button != '*' && button != '#') {
             int index = button - 48;
-            if (this->activeProgram == -1) {
+            if (this->activePrograms[0] == -1) {
               this->reactToContentPressed(index);
             } else {
-              //this->switchToProgram(index);
-              this->activeProgram2 = index;
+              this->programIndex++;
+              this->programIndex %= 3;
+              this->activePrograms[this->programIndex] = index;
             }
           }
           if (button == '#') {
-            if (this->activeProgram != -1) {
+            if (this->activePrograms[0] != -1) {
               this->showPath = !this->showPath;
             }
           }
@@ -287,7 +285,7 @@ class Interface:public Program {
       }
 
       if (surfaces[1].facingUp) {
-        if (this->activeProgram == -1) {
+        if (this->activePrograms[0] == -1) {
           OLED & screen = channels[surfaces[1].channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");

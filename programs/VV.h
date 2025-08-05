@@ -32,10 +32,6 @@ class VV:public Program {
         s8x1.clear();
       }
 
-      if (s2x1.facingUp) {
-        //s2x1.clear();
-      }
-
       for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {
         if (i < 200) {
           this->scale = 200;
