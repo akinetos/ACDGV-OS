@@ -10,5 +10,10 @@ class Keypad: public Device {
       this->device.updateFIFO();
     }
 
+    boolean anyKeyPressed() {
+      char button = this->device.getButton();
+      return button != NULL;
+    }
+
   Keypad() {}
 };

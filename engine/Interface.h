@@ -226,10 +226,6 @@ class Interface:public Program {
     }
 
     void tick() {
-      this->updatePath();
-      this->frameNumber++;
-      char button = keypad.device.getButton();
-      
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
       }
@@ -238,10 +234,10 @@ class Interface:public Program {
         this->updatePointer();
         this->updateContent();
         if (this->showPath) {
+          this->updatePath();
           this->drawPath();
         }
         this->drawContent();
-        
         surfaces[0].drawPointer();
 
         if (gamepad.buttonApressed()) {
@@ -255,7 +251,8 @@ class Interface:public Program {
           }
         }
 
-        if (button != NULL) {
+        if (keypad.anyKeyPressed()) {
+          char button = keypad.device.getButton();
           if (button != '*' && button != '#') {
             int index = button - 48;
             if (this->activeProgram == -1) {
@@ -287,6 +284,8 @@ class Interface:public Program {
           screen.printText("no program selected");
         }
       }
+
+      this->frameNumber++;
     }
 
     Interface() {}

@@ -10,7 +10,7 @@ class Port {
     RE re = RE(0x54);
     
     void init(String mode) {
-      if (mode == "sensors") {
+      if (mode == "devices") {
         i2c.activate(this->channel, this->number);
         this->accelerometer.init();
         this->re.init();
@@ -27,7 +27,7 @@ class Port {
     }
     
     void tick(String mode) {
-      if (mode == "sensors") {
+      if (mode == "devices") {
         if (this->accelerometer.connected) {
           i2c.activate(this->channel, this->number);
           this->accelerometer.tick();

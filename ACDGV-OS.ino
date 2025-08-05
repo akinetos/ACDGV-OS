@@ -11,7 +11,7 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
 const int channelsCount = 2;
-const int sensorsCount = 6;
+const int devicesCount = 6;
 const int programsCount = 5;
 const int surfacesCount = 3;
 
@@ -21,7 +21,7 @@ const int surfacesCount = 3;
 
 I2C i2c = I2C();
 Program * programs[programsCount];
-Device * sensors[sensorsCount];
+Device * devices[devicesCount];
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -60,17 +60,17 @@ void setup() {
   for (int i = 0; i < channelsCount; i++) {
     channels[i].init(i);
   }
-  channels[0].ports[5].init("sensors");
-  channels[0].ports[7].init("sensors");
+  channels[0].ports[5].init("devices");
+  channels[0].ports[7].init("devices");
 
-  sensors[0] = &accelerometer;
-  sensors[1] = &gv;
-  sensors[2] = &hrs;
-  sensors[3] = &re;
-  sensors[4] = &gamepad;
-  sensors[5] = &keypad;
-  for (int i = 0; i < sensorsCount; i++) {
-    sensors[i]->init();
+  devices[0] = &accelerometer;
+  devices[1] = &gv;
+  devices[2] = &hrs;
+  devices[3] = &re;
+  devices[4] = &gamepad;
+  devices[5] = &keypad;
+  for (int i = 0; i < devicesCount; i++) {
+    devices[i]->init();
   }
 
   surfaces[0] = Surface(128, 64, 128, 32, 1, 1, 0);
@@ -90,12 +90,12 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i < sensorsCount; i++) {
-    sensors[i]->tick();
+  for (int i = 0; i < devicesCount; i++) {
+    devices[i]->tick();
   }
 
   for (int i = 0; i < channelsCount; i++) {
-    channels[i].tick("sensors");
+    channels[i].tick("devices");
   }
 
   for (int i = 0; i < surfacesCount; i++) {
