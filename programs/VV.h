@@ -33,7 +33,7 @@ class VV:public Program {
       }
 
       if (s2x1.facingUp) {
-        s2x1.clear();
+        //s2x1.clear();
       }
 
       for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {

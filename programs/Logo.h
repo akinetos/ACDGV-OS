@@ -182,7 +182,7 @@ class Logo:public Program {
       Surface & s8x1 = surfaces[1];
 
 	  if (s2x1.facingUp) {
-		s2x1.clear();
+		//s2x1.clear();
 		OLED & screen = channels[s2x1.channel].ports[1].screen;
 		for (int i=0; i<5; i++) {
 			screen.ssd1306.drawBitmap(this->offsetY + (32 + this->space) * i, 0, logo_ACDGV_32x32[i], 32, 32, SSD1306_WHITE);

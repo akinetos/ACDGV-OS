@@ -3,6 +3,7 @@ class Interface:public Program {
     String segments[8];
     int pathLevel = 0;
     int activeProgram = -1;
+    int activeProgram2 = -1;
     int frameNumber = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean showPath = true;
@@ -226,8 +227,15 @@ class Interface:public Program {
     }
 
     void tick() {
+      if (surfaces[0].facingUp) {
+        surfaces[0].clear();
+      }
+      
       if (this->activeProgram > -1 && this->activeProgram < programsCount) {
         programs[this->activeProgram]->tick();
+      }
+      if (this->activeProgram2 > -1 && this->activeProgram2 < programsCount) {
+        programs[this->activeProgram2]->tick();
       }
 
       if (surfaces[0].facingUp) {
@@ -258,7 +266,8 @@ class Interface:public Program {
             if (this->activeProgram == -1) {
               this->reactToContentPressed(index);
             } else {
-              this->switchToProgram(index);
+              //this->switchToProgram(index);
+              this->activeProgram2 = index;
             }
           }
           if (button == '#') {

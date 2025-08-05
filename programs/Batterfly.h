@@ -366,7 +366,7 @@ class Batterfly:public Program {
             if (s2x1.facingUp) {
                 this->updateBatterfly();
                 this->updatePestki();
-                s2x1.clear();
+                //s2x1.clear();
                 this->drawBatterfly();
                 this->drawPestki();
             }
