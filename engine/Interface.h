@@ -277,6 +277,17 @@ class Interface:public Program {
             }
           }
           if (button == '*') {
+            boolean anyProgramActive = false;
+            for (int i=0; i<programsCount; i++) {
+              if (programs[i]->active) {
+                anyProgramActive = true;
+              }
+            }
+            if (anyProgramActive) {
+              for (int i=0; i<programsCount; i++) {
+                programs[i]->active = false;
+              }
+            }
             if (this->pathLevel > 0) {
               this->segments[this->pathLevel] = "";
               this->address[this->pathLevel] = NULL;

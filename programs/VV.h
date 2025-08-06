@@ -62,7 +62,12 @@ class VV:public Program {
             x = s2x1.width / 2 + (int)(newZre * this->scale) + xOffset;
             y = s2x1.height / 2 + (int)(newZim * this->scale) + yOffset;
             if (x >=0 && x < s2x1.width && y >= 0 && y < s2x1.height) {
-              s2x1.drawPoint(x, y);
+              if (this->option == 0) {
+                s2x1.drawPoint(x, y);
+              }
+              if (this->option == 1) {
+                s2x1.drawLine(lastX, lastY, x, y);
+              }
             }
           }
 

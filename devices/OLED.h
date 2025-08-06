@@ -389,6 +389,11 @@ class OLED {
       this->needsRefresh = true;
     }
 
+    void drawLine(int x1, int y1, int x2, int y2) {
+      this->ssd1306.drawLine(x1, y1, x2, y2, SSD1306_WHITE);
+      this->needsRefresh = true;
+    }
+
     void setTextSize() {
       if (this->type == "sh1106") {
         this->sh1106.setTextSize(this->textSize);
