@@ -1,6 +1,7 @@
 class Program {
   public:
     Program();
+    boolean active;
     int becameActiveTime;
     void virtual init(void);
     void virtual tick(void);
