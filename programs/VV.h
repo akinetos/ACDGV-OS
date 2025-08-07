@@ -5,7 +5,6 @@ class VV:public Program {
     float scale;
     int lastX = 64;
     int lastY = 32;
-    int option = 0;
     int precision = 100;
     float xOffset = 0;
     float yOffset = 0;
@@ -99,10 +98,6 @@ class VV:public Program {
         p01.screen.ssd1306.print("im: " + (String)(this->cIm + offsetY));
         p01.screen.needsRefresh = true;
       }
-    }
-
-    void setOption(int option) {
-      this->option = option;
     }
 
   VV() {}

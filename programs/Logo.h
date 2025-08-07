@@ -168,7 +168,6 @@ const unsigned char* logo_ACDGV_32x32[5] = {
 
 class Logo:public Program {
   public:
-    int option = -1;
     String text = "ACDGV";
 	int offsetY = 0;
 	int space = 4;
@@ -222,10 +221,6 @@ class Logo:public Program {
         	channels[1].ports[i+1].screen.needsRefresh = true;
 		}
       }
-    }
-
-    void setOption(int option) {
-      this->option = option;
     }
 
 	void becameActive() {

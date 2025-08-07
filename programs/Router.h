@@ -14,7 +14,6 @@ class Router:public Program {
       Network networks[20];
       int networksCount = 0;
       int counter = 0;
-      int option = -1;
 
       void init() {
         this->becameActiveTime = millis();
@@ -55,10 +54,6 @@ class Router:public Program {
             screen1.printText("not found");
           }
         }
-      }
-
-      void setOption(int option) {
-        this->option = option;
       }
 
     Router() {}

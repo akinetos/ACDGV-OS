@@ -1,19 +1,15 @@
 class Program {
   public:
-    Program();
-    boolean active;
-    int becameActiveTime;
-    void virtual init(void);
-    void virtual tick(void);
-    void virtual setOption(int);
-    void virtual becameActive();
+    Program() {}
+    boolean active = false;
+    int becameActiveTime = 0;
+    int option = 0;
+    void virtual init(void) {}
+    void virtual tick(void) {}
+    void setOption(int option) {
+      this->option = option;
+    }
+    void virtual becameActive() {
+      this->becameActiveTime = millis();
+    }
 };
-
-Program::Program() {}
-
-void Program::init() {}
-void Program::tick() {}
-void Program::setOption(int) {}
-void Program::becameActive() {
-  this->becameActiveTime = millis();
-}

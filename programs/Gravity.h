@@ -5,7 +5,6 @@ class Gravity:public Program {
       int bounceY = 0;
       int port = -1;
       int previousPort = -1;
-      int option = 5;
 
       void moveLine() {
         int tiltY = (int)(accelerometer.y * (this->option + 1));
@@ -54,10 +53,6 @@ class Gravity:public Program {
         }
         
         this->moveLine();
-      }
-
-      void setOption(int option) {
-        this->option = option;
       }
 
     Gravity() {}

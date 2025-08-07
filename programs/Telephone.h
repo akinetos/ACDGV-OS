@@ -1,7 +1,6 @@
 class Telephone:public Program {
     public:
       String number;
-      int option = 0;
       boolean contactsLoaded = false;
 
       void init() {
@@ -45,10 +44,6 @@ class Telephone:public Program {
             }
           }
         }
-      }
-
-      void setOption(int option) {
-        this->option = option;
       }
 
     Telephone() {}

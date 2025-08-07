@@ -24,3 +24,8 @@ if (!element[2]) {
     }
     }
 }
+
+07.08
+* usunąłem powtarzające się setOption w programach
+* usunąłem powtarzające się wyznaczanie wartości anyProgramActive
+

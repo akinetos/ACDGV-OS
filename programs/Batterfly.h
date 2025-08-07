@@ -54,7 +54,6 @@ class Batterfly:public Program {
         int scores = 0;
         boolean scoresChanged = false;
         boolean over = false;
-        int option = 0;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
 
@@ -369,10 +368,6 @@ class Batterfly:public Program {
                 this->drawBatterfly();
                 this->drawPestki();
             }
-        }
-
-        void setOption(int option) {
-            this->option = option;
         }
     
     Batterfly() {}
