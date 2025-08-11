@@ -10,14 +10,20 @@ class Channel {
       for (int p=0; p<8; p++) {
         this->ports[p].number = p;
         this->ports[p].channel = this->number;
-        this->ports[p].init("screens");
+        this->ports[p].init();
       }
       i2c.deactivate(this->number);
     }
 
-    void tick(String mode) {
-      for (int p=0; p<8; p++) {
-        this->ports[p].tick(mode);
+    void tick() {
+      for (int p = 0; p < 8; p++) {
+        this->ports[p].tick();
+      }
+    }
+
+    void display() {
+      for (int p = 0; p < 8; p++) {
+        this->ports[p].display();
       }
     }
     

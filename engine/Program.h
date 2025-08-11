@@ -1,15 +1,16 @@
 class Program {
   public:
     Program() {}
+    boolean initialised = false;
     boolean active = false;
-    int becameActiveTime = 0;
+    int activatedTimestamp = 0;
     int option = 0;
     void virtual init(void) {}
     void virtual tick(void) {}
-    void setOption(int option) {
+    void virtual setOption(int option) {
       this->option = option;
     }
-    void virtual becameActive() {
-      this->becameActiveTime = millis();
+    void virtual justActivated() {
+      this->activatedTimestamp = millis();
     }
 };

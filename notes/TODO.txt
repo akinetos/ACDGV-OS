@@ -29,3 +29,6 @@ if (!element[2]) {
 * usunąłem powtarzające się setOption w programach
 * usunąłem powtarzające się wyznaczanie wartości anyProgramActive
 
+08.08
+* becameActive -> justActivated
+* each port has an array of devices

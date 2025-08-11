@@ -93,10 +93,6 @@ class Surface {
       }
     }
 
-    void tick(String mode) {
-      channels[this->channel].tick(mode);
-    }
-
     void turnScreens(String state) {
       for (int p=0; p<8; p++) {
         OLED & screen = channels[this->channel].ports[p].screen;
@@ -179,6 +175,27 @@ class Surface {
     } else {
       screen1.drawPoint(x1, y1 - port1 * height);
       screen2.drawPoint(x2, y2 - port2 * height);
+    }
+  }
+
+  void drawPath(int port, String path, int pathLevel) {
+    int cursorX = -1;
+    if (this->pointerPort == 0) {
+      cursorX = this->getRelativeX();
+    }
+    if (pathLevel < 3) {
+      channels[this->channel].ports[port].screen.clear();
+    }
+    channels[this->channel].ports[port].screen.drawPath(path, cursorX);
+  }
+
+  void drawOptions(int port, int pathLevel) {
+    OLED & screen = channels[this->channel].ports[port].screen;
+    if (pathLevel < 4 && screen.hasOptions) {
+      screen.clear();
+      screen.printBoxes();
+      screen.printLines();
+      screen.drawScrollbar();
     }
   }
 };

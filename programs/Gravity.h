@@ -33,8 +33,8 @@ class Gravity:public Program {
       }
 
       void init() {
-        this->becameActiveTime = millis();
         this->y = 0;
+        this->initialised = true;
       }
 
       void tick() {

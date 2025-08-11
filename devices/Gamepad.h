@@ -11,6 +11,7 @@ class Gamepad: public Device {
       while (!this->device.begin(this->address)) {
         delay(100);
       }
+      this->connected = true;
     }
   
     void tick() {

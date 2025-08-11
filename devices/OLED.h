@@ -1,10 +1,9 @@
-class OLED {
+class OLED: public Device {
   public:
     Adafruit_SH1106G sh1106 = Adafruit_SH1106G(128, 64, &Wire, -1);
     Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 64, &Wire, -1);
     int width = 128;
     int height = 32;
-    boolean connected = false;
     boolean needsRefresh = false;
     boolean needsInit = false;
     String type;

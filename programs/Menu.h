@@ -123,6 +123,7 @@ class Menu:public Program {
       String filePath = "/menu/" + (String)(this->surfaceIndex) + "/.json";
       JsonArray& menu = loadFromFile(filePath);
       this->display(menu);
+      this->initialised = true;
     }
 
     void tick() {

@@ -174,7 +174,9 @@ class Logo:public Program {
 	int pause2s = 0;
 	int direction = -1;
 
-    void init() {}
+    void init() {
+		this->initialised = true;
+	}
 
     void tick() {
       Surface & s2x1 = surfaces[0];
@@ -187,7 +189,7 @@ class Logo:public Program {
 		}
 		screen.needsRefresh = true;
 		if (
-			(millis() - this->becameActiveTime) > 2000 && 
+			(millis() - this->activatedTimestamp) > 2000 && 
 			(millis() - this->pause2s) > 2000
 		) {
 			this->offsetY += this->direction;
@@ -204,7 +206,7 @@ class Logo:public Program {
 	  
       if (s8x1.facingUp) {
         s8x1.clear();
-		this->option = channels[0].ports[5].re.position;
+		this->option = channels[0].ports[5].devices[1]->position;
 		int xStep = this->option > 1 ? this->option : 8;
 		int yStep = this->option > 1 ? this->option : 8;
 		for (int p=0; p<8; p++) {
@@ -223,9 +225,9 @@ class Logo:public Program {
       }
     }
 
-	void becameActive() {
+	void justActivated() {
 		this->offsetY = 0;
-		this->becameActiveTime = millis();
+		this->activatedTimestamp = millis();
 	}
 
   Logo() {}

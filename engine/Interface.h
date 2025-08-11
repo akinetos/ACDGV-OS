@@ -5,6 +5,7 @@ class Interface:public Program {
     int frameNumber = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean showPath = true;
+    boolean anyProgramActive = false;
 
     String getPath() {
       String output = "";
@@ -19,7 +20,7 @@ class Interface:public Program {
       return output;
     }
 
-    void updateContent() {
+    void updateOptions() {
       Surface & surface = surfaces[0];
       int x = surface.getRelativeX();
 
@@ -117,30 +118,7 @@ class Interface:public Program {
       }
     }
 
-    void drawPath() {
-      int cursorX = -1;
-      if (surfaces[0].pointerPort == 0) {
-        cursorX = surfaces[0].getRelativeX();
-      }
-      String path = this->getPath();
-      if (this->pathLevel < 3) {
-        channels[0].ports[0].screen.clear();
-      }
-      channels[0].ports[0].screen.drawPath(path, cursorX);
-      surfaces[0].drawBackButton(0);
-    }
-
-    void drawContent() {
-      OLED & contentScreen = channels[0].ports[1].screen;
-      if (this->pathLevel < 4 && contentScreen.hasOptions) {
-        contentScreen.clear();
-        contentScreen.printBoxes();
-        contentScreen.printLines();
-        contentScreen.drawScrollbar();
-      }
-    }
-
-    void reactToPathPressed() {
+    void selectPathSegment() {
       OLED & screen = channels[0].ports[0].screen;
       boolean pathChanged = false;
       if (screen.backButtonHovered) {
@@ -161,7 +139,7 @@ class Interface:public Program {
         }
       }
       if (pathChanged) {
-        this->updatePath();
+        this->pathLevel = this->getPathLevel();
         this->populateOptions();
       }
     }
@@ -182,7 +160,7 @@ class Interface:public Program {
       }
     }
 
-    void reactToContentPressed(int index) {
+    void selectOption(int index) {
       OLED & screen = channels[0].ports[1].screen;
       this->address[this->pathLevel + 1] = index;
       for (int i=this->pathLevel+2; i<8; i++) {
@@ -204,11 +182,13 @@ class Interface:public Program {
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
           programs[programIndex]->active = !programs[programIndex]->active;
-          if (programs[programIndex]->becameActiveTime == 0) {
-            programs[programIndex]->init();
+          if (programs[programIndex]->active) {
+            if (!programs[programIndex]->initialised) {
+              programs[programIndex]->init();
+            }
+            programs[programIndex]->setOption(programOption);
+            programs[programIndex]->justActivated();
           }
-          programs[programIndex]->setOption(programOption);
-          programs[programIndex]->becameActive();
         }
       } else {
         for (int i=0; i<programsCount; i++) {
@@ -217,47 +197,48 @@ class Interface:public Program {
       }
     }
 
-    void updatePath() {
-      this->pathLevel = this->getPathLevel();
+    void updatePrograms() {
+      this->anyProgramActive = false;
+      for (int i=0; i<programsCount; i++) {
+        if (programs[i]->active) {
+          this->anyProgramActive = true;
+        }
+      }
     }
 
     void tick() {
-      boolean anyProgramActive = false;
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->active) {
-          anyProgramActive = true;
-        }
-      }
+      this->frameNumber++;
+      this->pathLevel = this->getPathLevel();
 
       if (surfaces[0].facingUp) {
-        surfaces[0].clear();
-      }
-
-      this->updatePath();
-
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->active) {
-          programs[i]->tick();
-        }
-      }
-
-      if (surfaces[0].facingUp) {
+        this->updatePrograms();
         this->updatePointer();
-        this->updateContent();
-        if (this->showPath) {
-          this->drawPath();
+        this->updateOptions();
+
+        Surface * surface = &surfaces[0];
+        surface->clear();
+        if (this->anyProgramActive) {
+          for (int i=0; i<programsCount; i++) {
+            if (programs[i]->active) {
+              programs[i]->tick();
+            }
+          }
         }
-        this->drawContent();
-        surfaces[0].drawPointer();
+        if (this->showPath) {
+          surface->drawPath(0, this->getPath(), this->pathLevel);
+          surface->drawBackButton(0);
+        }
+        surface->drawOptions(1, this->pathLevel);
+        surface->drawPointer();
         
         if (gamepad.buttonApressed()) {
-          if (surfaces[0].pointerPort == 0) {
-            this->reactToPathPressed();
+          if (surface->pointerPort == 0) {
+            this->selectPathSegment();
           }
-          if (surfaces[0].pointerPort == 1) {
+          if (surface->pointerPort == 1) {
             OLED & screen = channels[0].ports[1].screen;
             int index = screen.lineHovered;
-            this->reactToContentPressed(index);
+            this->selectOption(index);
           }
         }
 
@@ -268,7 +249,7 @@ class Interface:public Program {
             if (anyProgramActive) {
               programs[index]->active = !programs[index]->active;
             } else {
-              this->reactToContentPressed(index);
+              this->selectOption(index);
             }
           }
           if (button == '#') {
@@ -285,7 +266,7 @@ class Interface:public Program {
             if (this->pathLevel > 0) {
               this->segments[this->pathLevel] = "";
               this->address[this->pathLevel] = NULL;
-              this->updatePath();
+              this->pathLevel = this->getPathLevel();
               this->populateOptions();
             }
           }
@@ -293,14 +274,24 @@ class Interface:public Program {
       }
 
       if (surfaces[1].facingUp) {
-        if (!anyProgramActive) {
-          OLED & screen = channels[surfaces[1].channel].ports[0].screen;
+        this->updatePrograms();
+        if (this->anyProgramActive) {
+          for (int i=0; i<programsCount; i++) {
+            if (programs[i]->active) {
+              programs[i]->tick();
+            }
+          }
+        } else {
+          Surface * surface = &surfaces[1];
+          OLED & screen = channels[surface->channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");
         }
       }
 
-      this->frameNumber++;
+      for (int c = 0; c < channelsCount; c++) {
+        channels[c].display();
+      }
     }
 
     Interface() {}

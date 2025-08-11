@@ -4,6 +4,7 @@ class Heart:public Program {
 
         void init(int surfaceIndex) {
             this->surfaceIndex = surfaceIndex;
+            this->initialised = true;
         }
 
         void tick() {

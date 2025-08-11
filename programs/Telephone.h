@@ -4,8 +4,8 @@ class Telephone:public Program {
       boolean contactsLoaded = false;
 
       void init() {
-        this->becameActiveTime = millis();
         this->number = "tel: ";
+        this->initialised = true;
       }
 
       void tick() {

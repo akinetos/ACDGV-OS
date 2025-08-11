@@ -7,7 +7,6 @@ class HRS: public Device {
     double temperature;
     int address;
     boolean changed = false;
-    boolean connected = false;
     int lastTick = 0;
 
     void init() {

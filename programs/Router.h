@@ -16,7 +16,6 @@ class Router:public Program {
       int counter = 0;
 
       void init() {
-        this->becameActiveTime = millis();
         String fullDirectory = "/wifi.json";
         File wifiFile = SPIFFS.open(fullDirectory, "r");
         if (wifiFile) {
@@ -33,6 +32,7 @@ class Router:public Program {
             this->networks[n] = Network(name, password);
           }
         }
+        this->initialised = true;
       }
 
       void tick() {

@@ -10,10 +10,10 @@ class VV:public Program {
     float yOffset = 0;
 
     void init() {
-      this->becameActiveTime = millis();
       this->cRe = 0.22;
       this->cIm = 0.52;
       this->scale = 50;
+      this->initialised = true;
     }
 
     void tick() {

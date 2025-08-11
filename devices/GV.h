@@ -4,7 +4,6 @@ class GV: public Device {
     double percentage = 0;
     double voltage = 0;
     String status = "";
-    boolean connected = false;
     boolean changed = false;
     double previousPercentage = 0;
     int interval = 1000;

@@ -205,7 +205,7 @@ class Batterfly:public Program {
 
         void drawProgress() {
             Port & p07 = channels[0].ports[7];
-            if (this->scoresChanged || p07.re.changed || p07.accelerometer.changed) {
+            if (this->scoresChanged || p07.devices[0]->changed || p07.devices[1]->changed) {
                 p07.screen.clear();
 
                 if (this->scores == STARS_COUNT) {
@@ -229,10 +229,10 @@ class Batterfly:public Program {
                 int radius = 2;
                 if (gamepad.buttonApressed()) {
                     p07.screen.sh1106.fillCircle(20, 50, 12, SH110X_WHITE);
-                    p07.screen.sh1106.fillCircle(20 - (int)(p07.accelerometer.x * 20), 50 - (int)(p07.accelerometer.y * 20), radius, SH110X_BLACK);
+                    p07.screen.sh1106.fillCircle(20 - (int)(p07.devices[0]->x * 20), 50 - (int)(p07.devices[0]->y * 20), radius, SH110X_BLACK);
                 } else {
                     p07.screen.sh1106.drawCircle(20, 50, 12, SH110X_WHITE);
-                    p07.screen.sh1106.fillCircle(20 - (int)(p07.accelerometer.x * 20), 50 - (int)(p07.accelerometer.y * 20), radius, SH110X_WHITE);
+                    p07.screen.sh1106.fillCircle(20 - (int)(p07.devices[0]->x * 20), 50 - (int)(p07.devices[0]->y * 20), radius, SH110X_WHITE);
                 }
 
                 p07.screen.sh1106.drawRect(
@@ -240,7 +240,7 @@ class Batterfly:public Program {
                     44, 31,
                     SH110X_WHITE
                 );
-                for (int i=0; i<p07.re.position; i++) {
+                for (int i=0; i<p07.devices[1]->position; i++) {
                     p07.screen.sh1106.drawLine(
                         64 + i * 2 + 2, 32 + 3, 
                         64 + i * 2 + 2, 64 - 3,
@@ -330,7 +330,6 @@ class Batterfly:public Program {
         }
 
         void init() {
-            this->becameActiveTime = millis();
             this->surfaceIndex = 1;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();
@@ -338,6 +337,7 @@ class Batterfly:public Program {
             for (int i=0; i<PESTKI_COUNT; i++) {
                 this->pestki[i] = Pestka();
             }
+            this->initialised = true;
         }
 
         void tick() {
@@ -346,7 +346,7 @@ class Batterfly:public Program {
 
             if (s8x1.facingUp) {
                 if (this->over) {
-                    int time = (endedAt - this->becameActiveTime) / 1000;
+                    int time = (endedAt - this->activatedTimestamp) / 1000;
                     this->splash("BRAWO!", "czas: " + String(time) + " sekund");
                 } else {
                     this->updatePointer();

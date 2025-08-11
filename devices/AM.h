@@ -10,7 +10,6 @@ class AM: public Device {
 
     int address;
     boolean changed = false;
-    boolean connected = false;
 
     String orientation = "";
     String previousOrientation = "";

@@ -60,8 +60,6 @@ void setup() {
   for (int i = 0; i < channelsCount; i++) {
     channels[i].init(i);
   }
-  channels[0].ports[5].init("devices");
-  channels[0].ports[7].init("devices");
 
   devices[0] = &accelerometer;
   devices[1] = &gv;
@@ -94,8 +92,8 @@ void loop() {
     devices[i]->tick();
   }
 
-  for (int i = 0; i < channelsCount; i++) {
-    channels[i].tick("devices");
+  for (int c = 0; c < channelsCount; c++) {
+    channels[c].tick();
   }
 
   for (int i = 0; i < surfacesCount; i++) {
@@ -103,8 +101,4 @@ void loop() {
   }
 
   interface.tick();
-
-  for (int i = 0; i < channelsCount; i++) {
-    channels[i].tick("screens");
-  }
 }

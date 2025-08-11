@@ -4,46 +4,37 @@ class Port {
   public:
     int channel;
     int number;
-    
+    boolean hasDevices;
+    Device * devices[2];
     OLED screen = OLED("ssd1306");
-    AM accelerometer = AM(0x53);
-    RE re = RE(0x54);
     
-    void init(String mode) {
-      if (mode == "devices") {
-        i2c.activate(this->channel, this->number);
-        this->accelerometer.init();
-        this->re.init();
+    void init() {
+      if (this->hasDevices) {
+        this->devices[0] = new AM(0x53);
+        this->devices[1] = new RE(0x54);
+        for (int d = 0; d < 2; d++) {
+          i2c.activate(this->channel, this->number);
+          this->devices[d]->init();
+        }
       }
-
-      if (mode == "screens") {
-        i2c.activate(this->channel, this->number);
-        if (this->channel == 0 && this->number == 7) {
-          this->screen.init(128, 64, "sh1106");
-        } else {
-          this->screen.init(128, 32, "ssd1306");
+      i2c.activate(this->channel, this->number);
+      this->screen.init(128, 32, "ssd1306");
+    }
+    
+    void tick() {
+      if (this->hasDevices) {
+        for (int d = 0; d < 2; d++) {
+          i2c.activate(this->channel, this->number);
+          this->devices[d]->tick();
         }
       }
     }
-    
-    void tick(String mode) {
-      if (mode == "devices") {
-        if (this->accelerometer.connected) {
-          i2c.activate(this->channel, this->number);
-          this->accelerometer.tick();
-        }
-        if (this->re.connected) {
-          i2c.activate(this->channel, this->number);
-          this->re.tick();
-        }
-      }
 
-      if (mode == "screens") {
-        if (this->screen.connected) {
-          if (this->screen.needsRefresh) {
-            i2c.activate(this->channel, this->number);
-            this->screen.tick();
-          }
+    void display() {
+      if (this->screen.connected) {
+        if (this->screen.needsRefresh) {
+          i2c.activate(this->channel, this->number);
+          this->screen.tick();
         }
       }
     }

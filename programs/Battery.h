@@ -11,6 +11,7 @@ class Battery:public Program {
                 channels[surface.channel].ports[i].screen.printHeading();
                 channels[surface.channel].ports[i].screen.needsRefresh = true;
             }
+            this->initialised = true;
         }
 
         void tick() {
