@@ -214,7 +214,6 @@ class Interface:public Program {
         this->updatePrograms();
         this->updatePointer();
         this->updateOptions();
-
         Surface * surface = &surfaces[0];
         surface->clear();
         if (this->anyProgramActive) {
@@ -275,6 +274,7 @@ class Interface:public Program {
 
       if (surfaces[1].facingUp) {
         this->updatePrograms();
+        Surface * surface = &surfaces[1];
         if (this->anyProgramActive) {
           for (int i=0; i<programsCount; i++) {
             if (programs[i]->active) {
@@ -282,7 +282,6 @@ class Interface:public Program {
             }
           }
         } else {
-          Surface * surface = &surfaces[1];
           OLED & screen = channels[surface->channel].ports[0].screen;
           screen.clear();
           screen.printText("no program selected");

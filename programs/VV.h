@@ -25,10 +25,6 @@ class VV:public Program {
       float offsetX = accelerometer.x / this->precision;
       float offsetY = accelerometer.y / this->precision;
 
-      if (s8x1.facingUp) {
-        s8x1.clear();
-      }
-
       for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {
         if (i < 200) {
           this->scale = 200;
