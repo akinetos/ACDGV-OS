@@ -206,9 +206,8 @@ class Logo:public Program {
 	  
       if (s8x1.facingUp) {
         s8x1.clear();
-		this->option = channels[0].ports[5].devices[1]->position;
-		int xStep = this->option > 1 ? this->option : 8;
-		int yStep = this->option > 1 ? this->option : 8;
+		int xStep = 8;
+		int yStep = 8;
 		for (int p=0; p<8; p++) {
 			for (int x=0; x<128; x+=xStep) {
 				for (int y=0; y<32; y+=yStep) {

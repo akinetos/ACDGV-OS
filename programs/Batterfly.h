@@ -271,7 +271,6 @@ class Batterfly:public Program {
         }
 
         void updatePestki() {
-            Port & p07 = channels[0].ports[7];
             Surface & surface = surfaces[this->surfaceIndex];
             int index = -1;
             if (gamepad.buttonApressed()) {
@@ -358,7 +357,7 @@ class Batterfly:public Program {
                     this->drawBatterfly();
                     this->drawPestki();
                     this->detectColisions();
-                    this->drawProgress();
+                    //this->drawProgress();
                 }
             }
 

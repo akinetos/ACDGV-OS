@@ -19,8 +19,6 @@ class VV:public Program {
     void tick() {
       Surface & s2x1 = surfaces[0];
       Surface & s8x1 = surfaces[1];
-      Port & p01 = channels[0].ports[1];
-      Port & p05 = channels[0].ports[5];
 
       float newZre = 0;
       float newZim = 0;
@@ -47,7 +45,12 @@ class VV:public Program {
             x = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
             y = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
             if (x >=0 && x < s8x1.width && y >= 0 && y < s8x1.height) {
-              s8x1.drawPoint(x, y);
+              if (this->option == 0) {
+                s8x1.drawPoint(x, y);
+              }
+              if (this->option == 1) {
+                s8x1.drawLine(lastX, lastY, x, y);
+              }
             }
           }
 
@@ -91,6 +94,7 @@ class VV:public Program {
       }
 
       if (s2x1.facingUp) {
+        Port & p01 = channels[0].ports[1];
         p01.screen.ssd1306.setTextColor(SSD1306_WHITE);
         p01.screen.ssd1306.setCursor(0, 0);
         p01.screen.ssd1306.print("re: " + (String)(this->cRe + offsetX));
