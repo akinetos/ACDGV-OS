@@ -23,6 +23,7 @@ class Wifi: public Device {
         delay(this->delayTime);
         this->connected = WiFi.status() == WL_CONNECTED;
         this->attempts++;
+        Serial.println("attempt " + (String)this->attempts);
       }
       
       if (this->connected) {

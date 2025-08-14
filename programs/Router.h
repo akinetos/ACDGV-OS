@@ -26,6 +26,7 @@ class Router:public Program {
           StaticJsonBuffer<2000> jsonBuffer;
           JsonArray& wifiNetworks = jsonBuffer.parseArray(charArray);
           this->networksCount = wifiNetworks.size();
+          Serial.println("networksCount = " + (String)this->networksCount);
           for (int n = 0; n < this->networksCount; n++) {
             String name = wifiNetworks[n]["name"];
             String password = wifiNetworks[n]["password"];
@@ -36,22 +37,31 @@ class Router:public Program {
       }
 
       void tick() {
-        int pathLevel = interface.getPathLevel();
-        if (pathLevel == 3) {
-          String networkName = interface.segments[3];
+        if (!wifi.connected) {
+          Serial.println("not connected");
+          String networkName = "[[18,1,2],1]";
           boolean found = false;
+          int index = -1;
+
           for (int i=0; !found && i<this->networksCount; i++) {
             if (this->networks[i].name == networkName) {
-              wifi.connect(this->networks[i].name, this->networks[i].password);
+              index = i;
               found = true;
             }
           }
-          OLED & screen1 = channels[0].ports[1].screen;
-          screen1.clear();
+
           if (found) {
-            screen1.printText("found");
+            Serial.println(networkName + " found");
+            Network * network = &this->networks[index];
+            wifi.connect(network->name, network->password);
+            if (wifi.connected) {
+              Serial.println("connected to " + networkName);
+              Serial.println(wifi.ip);
+            } else {
+              Serial.println("still not connected");
+            }
           } else {
-            screen1.printText("not found");
+            Serial.println(networkName + " not found");
           }
         }
       }
