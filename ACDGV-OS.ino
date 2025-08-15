@@ -6,15 +6,17 @@
 const int programsCount = 1;
 
 #include "./engine/I2C.h";
+I2C i2c = I2C();
+
 #include "./engine/Program.h";
+Program * programs[programsCount];
+
 #include "./engine/Device.h";
 #include "./devices/WiFi.h";
-
-
-I2C i2c = I2C();
-Program * programs[programsCount];
 Wifi wifi = Wifi();
+
 #include "./programs/Router.h";
+
 void setup() {
   Serial.begin(115200);
   SPIFFS.begin();

@@ -14,6 +14,7 @@ class Router:public Program {
       Network networks[20];
       int networksCount = 0;
       int counter = 0;
+      boolean notificationSent = false;
 
       void init() {
         String fullDirectory = "/wifi.json";
@@ -37,7 +38,15 @@ class Router:public Program {
       }
 
       void tick() {
-        if (!wifi.connected) {
+        if (wifi.connected) {
+          if (!this->notificationSent) {
+            byte data = 1;
+            Wire.beginTransmission(0x10);
+            Wire.write(data);
+            Wire.endTransmission();
+            this->notificationSent = true;
+          }
+        } else {
           Serial.println("not connected");
           String networkName = "[[18,1,2],1]";
           boolean found = false;
