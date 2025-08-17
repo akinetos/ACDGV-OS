@@ -1,0 +1,46 @@
+:root {
+  --divider-size: 3px;
+}
+
+body {
+  background-color: white;
+}
+
+body, textarea, input {
+  color: black;
+}
+
+divider {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+cell {
+  background: transparent;
+}
+cell:hover {
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+component[type=menu2d] view > ul li {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+component[type=list] li p {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+grid cell block {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+component[type=image][perspectives] view ol.buttons.perspectives {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+component[type=command] view form select, component[type=command] view form input, component[type=command] view form input[type=submit] {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/*# sourceMappingURL=bright.css.map */

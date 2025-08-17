@@ -1,0 +1,147 @@
+
+		<head>
+			<title> backwoods </title>
+			<link rel="stylesheet" href="http://192.168.18.103/BE/style.css">
+		</head>
+
+		<script>
+			const validate = (backwoodsLink, i) => {
+				fetch('http://' + backwoodsLink + '/api/status').then(res => res.json()).then(response => {
+					document.querySelectorAll('.checksum' + i)[0].innerHTML = response.checksum;
+				});
+			}
+		</script>
+
+		<body style="flex-direction: column">
+			<div style="width: 100%; display: flex; flex-direction: row;">
+				<table style="width: 50%">
+					<tr class="highlighted">
+						<td> </td>
+						<td class="ta-l"> file </td>
+						<td class="ta-l"> checksum </td>
+						<td class="ta-r"> size </td>
+					</tr>
+	
+					<tr>
+						<td class="ta-r"> 1. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/BE/backwoods/module.js" target="content"> BE/backwoods/module.js </a>
+						</td>
+						<td class="ta-l"> 6f8841b7deefa79c92d6d14000240c8e </td>
+						<td class="ta-r"> 
+							606 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 2. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/BE/portal/module.js" target="content"> BE/portal/module.js </a>
+						</td>
+						<td class="ta-l"> 21d9783ea61653ba4238483186ed4b13 </td>
+						<td class="ta-r"> 
+							744 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 3. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/BE/style.css" target="content"> BE/style.css </a>
+						</td>
+						<td class="ta-l"> bf7b394b85001fb8eeac6c65005ea148 </td>
+						<td class="ta-r"> 
+							1 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 4. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/content.json" target="content"> content.json </a>
+						</td>
+						<td class="ta-l"> 9b99a53116cb150e86b6f913fb4ba47e </td>
+						<td class="ta-r"> 
+							110 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 5. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/devices/desktop.css" target="content"> FE/devices/desktop.css </a>
+						</td>
+						<td class="ta-l"> 51b9866fa9c2408e8a5fddc4a75a049d </td>
+						<td class="ta-r"> 
+							1 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 6. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/devices/phone.css" target="content"> FE/devices/phone.css </a>
+						</td>
+						<td class="ta-l"> 1cd5640bdea8343095282ccb4dcf1ba4 </td>
+						<td class="ta-r"> 
+							1 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 7. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/engine.js" target="content"> FE/engine.js </a>
+						</td>
+						<td class="ta-l"> 990a566c14984b3d371b64f3f688bbec </td>
+						<td class="ta-r"> 
+							1112 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 8. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/layout.css" target="content"> FE/layout.css </a>
+						</td>
+						<td class="ta-l"> 575e990381a29d06b6973a5ee1521977 </td>
+						<td class="ta-r"> 
+							21 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 9. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/themes/bright.css" target="content"> FE/themes/bright.css </a>
+						</td>
+						<td class="ta-l"> 87692f38a9c2f82b67186423a5c6cc53 </td>
+						<td class="ta-r"> 
+							1 KB 
+						</td>
+					</tr>
+					<tr>
+						<td class="ta-r"> 10. </td>
+						<td class="ta-l"> 
+							<a href="http://192.168.18.103/FE/themes/dark.css" target="content"> FE/themes/dark.css </a>
+						</td>
+						<td class="ta-l"> 6a1ac9f1df4df67acb113ed019e5b2ca </td>
+						<td class="ta-r"> 
+							1 KB 
+						</td>
+					</tr>
+					<tr class="highlighted">
+						<td> </td>
+						<td> </td>
+						<td class="ta-l bold"> f58e42f0f5c881fe30691b735daacc3a </td>
+						<td class="ta-r bold"> 2593 KB </td>
+					</tr>
+		
+				</table>
+
+				<iframe name="content" style="width: 50%"> </iframe>
+			</div>
+
+			<p class="ta-c"> http://192.168.18.103 </p>
+			<p class="ta-c"> C:/devroot/mindifier/build </p>
+	<ul><li>
+						192.168.0.102:1982 <input type="button" value="get" onClick="validate('192.168.0.102:1982', 0)"/>
+						<span class="checksum0"></span>
+					</li><li>
+						192.168.18.103 <input type="button" value="get" onClick="validate('192.168.18.103', 1)"/>
+						<span class="checksum1"></span>
+					</li></ul>
+		</body>
+	

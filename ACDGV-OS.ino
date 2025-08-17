@@ -40,19 +40,7 @@ AsyncWebServer server(80);
 
 void serverInit() {
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
-
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.html", String(), false);
-  });
-
-  server.on("/api/test/file", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/menu.json", String(), false);
-  });
-
-  server.on("/api/test/text", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/html", "test ok");
-  });
-
+  server.serveStatic("/", SPIFFS, "/");
   server.begin();
 }
 

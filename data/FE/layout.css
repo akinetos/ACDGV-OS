@@ -1,0 +1,1044 @@
+@charset "UTF-8";
+:root {
+  --divider-size: 3px;
+}
+
+.faint {
+  opacity: 0.3;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.padding {
+  padding: 9px;
+}
+
+.scrollable {
+  overflow: auto;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: background-color 100ms linear;
+}
+
+.handle {
+  cursor: move;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.dragged {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 100px;
+  height: 162px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.highlighted {
+  font-weight: bold;
+}
+
+.full-size {
+  width: 100%;
+  height: 100%;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.success {
+  background-color: #A3EB9F;
+}
+
+.error {
+  background-color: #DB7D6F;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  user-select: none;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  width: 100%;
+  flex-direction: row;
+}
+
+title, script {
+  display: none;
+}
+
+body {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+pre {
+  width: 100%;
+  tab-size: 3;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  flex-direction: column;
+}
+
+table {
+  flex-direction: column;
+}
+table tbody {
+  flex-direction: column;
+}
+table tbody tr {
+  flex-direction: row;
+}
+table tbody tr td {
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+textarea, input {
+  border: none;
+}
+
+.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.loading .requests {
+  width: 100%;
+  height: 100%;
+  flex-direction: column-reverse;
+  justify-content: stretch;
+  align-items: flex-start;
+  border-radius: 3px;
+}
+.loading .requests .block {
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 3px;
+  margin-bottom: 3px;
+}
+.loading .requests .block.loaded {
+  background-color: rgba(0, 255, 0, 0.3);
+}
+.loading .requests .block span {
+  padding: 3px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+.loading .requests .block .backwoods {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+.loading .requests .block .home {
+  background-color: rgba(0, 0, 255, 0.1);
+}
+
+grid {
+  width: 100%;
+  height: 100%;
+}
+grid cell {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+}
+grid cell heading {
+  font-size: 1.5rem;
+  transition: height 0.1s ease-out;
+}
+grid cell content {
+  width: 100%;
+  height: 100%;
+  transition: height 0.1s ease-out;
+}
+grid cell content view,
+grid cell content edit {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+grid cell content row {
+  width: 100%;
+  flex-direction: row;
+}
+grid cell > heading {
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+grid cell > content {
+  width: 100%;
+  height: 100%;
+}
+grid cell > menu {
+  width: 100%;
+  height: 30px;
+}
+grid cell[show=heading] > heading {
+  height: 100%;
+  font-size: 3rem;
+}
+grid cell[show=heading] > content, grid cell[show=heading] > menu {
+  display: none;
+}
+grid cell[show=content] > heading, grid cell[show=content] > menu {
+  display: none;
+}
+grid cell[show=heading-content] > heading, grid cell[show=heading-content] > menu {
+  display: none;
+}
+grid cell[show=content-menu] > heading {
+  display: none;
+}
+grid cell[show=content-menu] > content {
+  height: calc(100% - 30px);
+}
+grid cell[show=content-menu] > menu {
+  height: 30px;
+}
+grid cell row:last-child {
+  margin-bottom: 0;
+}
+grid cell component {
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.1s ease-out;
+}
+grid cell component > menu {
+  z-index: 999;
+  cursor: default;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  width: 100%;
+  height: 30px;
+  align-items: center;
+}
+grid cell component > menu span {
+  margin-right: 12px;
+  padding: 5px;
+}
+grid cell component > menu span:last-child {
+  margin-right: 0;
+}
+grid cell component > menu .option {
+  margin: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3px 6px;
+}
+grid cell component heading {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+grid cell component content {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+grid cell component[show=content] > heading, grid cell component[show=content] > menu {
+  display: none;
+}
+grid cell component[show=content-menu] > heading {
+  display: none;
+}
+grid cell component[show=content-menu] > menu {
+  position: absolute;
+  height: auto;
+  left: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.33);
+  color: black;
+}
+grid cell component[show=content-menu] > menu row {
+  justify-content: center;
+}
+grid cell component[mode=view] edit {
+  display: none;
+}
+grid cell component[mode=edit] view {
+  display: none;
+}
+grid cell component[mode=edit] edit {
+  padding: 6px;
+  height: calc(100% - 40px);
+  overflow: auto;
+}
+grid cell component[mode=edit] edit textarea {
+  min-height: 50px;
+}
+grid cell edit textarea, grid cell edit input {
+  width: 100%;
+}
+grid cell edit textarea {
+  height: 90px;
+}
+grid cell edit input {
+  height: 30px;
+  line-height: 30px;
+}
+grid cell edit field {
+  flex-direction: column;
+}
+grid cell edit textarea, grid cell edit input {
+  margin-bottom: 9px;
+}
+grid cell block {
+  flex-direction: column;
+}
+grid cell block .heading {
+  background: rgba(0, 0, 0, 0.02);
+}
+grid cell block .heading,
+grid cell block .content {
+  width: 100%;
+}
+grid cell block .content {
+  overflow-y: auto;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  padding: 10px;
+}
+grid cell block.small {
+  width: 300px;
+  height: 170px;
+}
+grid cell block.medium {
+  width: 33%;
+}
+grid cell block.large {
+  width: 50%;
+}
+grid cell block[show=heading] .content {
+  height: 0;
+  padding: 0;
+}
+grid divider {
+  transition: all 0.1s;
+}
+grid divider.horizontal {
+  height: var(--divider-size);
+}
+grid divider.vertical {
+  width: var(--divider-size);
+}
+grid divider.horizontal {
+  width: 100%;
+  cursor: row-resize;
+}
+grid divider.vertical {
+  height: 100%;
+  cursor: col-resize;
+}
+
+component[type=breadcrumbs] {
+  width: 100%;
+  height: 100%;
+}
+component[type=breadcrumbs] view {
+  align-items: flex-start;
+  justify-content: center;
+  overflow-x: auto;
+}
+component[type=breadcrumbs] view ul {
+  margin: 0;
+}
+component[type=breadcrumbs] view ul li {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  margin-right: 30px;
+  line-height: 1.2rem;
+  font-size: 1.2rem;
+  padding: 10px 0;
+}
+component[type=breadcrumbs] view ul li:after {
+  content: "★";
+  font-size: 1.2rem;
+  position: relative;
+  left: 15px;
+  opacity: 0.333;
+}
+component[type=breadcrumbs] view ul li.selected {
+  font-weight: 400;
+  opacity: 1;
+}
+component[type=breadcrumbs] view ul li.disabled {
+  opacity: 0.333;
+}
+component[type=breadcrumbs] view ul li:first-child {
+  margin-left: 20px;
+}
+component[type=breadcrumbs] view ul li:last-child:after {
+  display: none;
+}
+
+component[type=CLI] {
+  width: 100%;
+  height: 100%;
+}
+component[type=CLI] textarea {
+  background-color: transparent;
+  font-family: monospace;
+}
+
+component[type=command] {
+  width: 100%;
+  height: 100%;
+}
+component[type=command] view {
+  overflow-y: auto;
+}
+component[type=command] view block {
+  margin-bottom: 9px;
+}
+component[type=command] view block .heading span {
+  margin-right: 9px;
+}
+component[type=command] view block img {
+  border: 1px solid black;
+}
+component[type=command] view form {
+  flex-direction: row;
+  flex-wrap: wrap;
+  line-height: 30px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+component[type=command] view form input {
+  margin: 0 6px;
+  height: 30px;
+  line-height: 30px;
+  width: 100px;
+  text-align: center;
+}
+component[type=command] view form input[type=submit] {
+  width: 100px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+component[type=command] view form select {
+  height: 30px;
+}
+component[type=command] view form input, component[type=command] view form select {
+  margin: 0 10px;
+}
+component[type=command] view pre ol {
+  width: 100%;
+  margin-bottom: 20px;
+}
+component[type=command] view pre ol li {
+  padding: 2px 0;
+}
+component[type=command] view pre ol li:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+component[type=command] view pre ol li:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.1);
+}
+component[type=command] view pre ol li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+component[type=command] view pre ol li .mind {
+  font-weight: bold;
+  color: blue;
+}
+component[type=command] view pre ol li .values {
+  font-weight: bold;
+  color: green;
+}
+component[type=command] view pre ol li .context {
+  font-weight: bold;
+  color: red;
+}
+component[type=command] view pre ol:last-child {
+  margin-bottom: 0;
+}
+component[type=command] view pre:last-child {
+  margin-bottom: 0;
+}
+
+component[type=hyperlink] {
+  width: 100%;
+  height: 100%;
+}
+component[type=hyperlink] content view {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+component[type=controller] view {
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+component[type=image] {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+component[type=image] content {
+  overflow: hidden;
+}
+component[type=image] content view {
+  position: relative;
+}
+component[type=image] ol {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: relative;
+}
+component[type=image] img {
+  object-fit: contain;
+}
+component[type=image] img.cover {
+  object-fit: cover;
+}
+component[type=image] img.contain {
+  object-fit: contain;
+}
+component[type=image]:not([perspectives]) view {
+  padding: 0 !important;
+  overflow: auto;
+}
+component[type=image]:not([perspectives]) li {
+  margin-bottom: 9px;
+}
+component[type=image]:not([perspectives]) img {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  min-height: 50px;
+  max-height: 200px;
+}
+component[type=image][perspectives] view {
+  overflow: hidden;
+}
+component[type=image][perspectives] view ol:last-child {
+  margin-bottom: 0;
+}
+component[type=image][perspectives] view ol.images {
+  height: 100%;
+}
+component[type=image][perspectives] view ol.images li {
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+component[type=image][perspectives] view ol.images li.active {
+  opacity: 1;
+}
+component[type=image][perspectives] view ol.images li:first-child {
+  position: relative;
+}
+component[type=image][perspectives] view ol.images li {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+component[type=image][perspectives] view ol.images li img {
+  width: 100%;
+}
+component[type=image][perspectives] view ol.buttons {
+  background: rgba(0, 0, 0, 0.02);
+  justify-content: center;
+}
+component[type=image][perspectives] view ol.buttons.progress {
+  justify-content: start;
+  position: absolute;
+  top: 100px;
+  z-index: 10;
+  width: 100%;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+component[type=image][perspectives] view ol.buttons.progress li {
+  line-height: 30px;
+  padding: 0 10px;
+}
+component[type=image][perspectives] view ol.buttons.playback {
+  height: 30px;
+}
+component[type=image][perspectives] view ol.buttons.playback li {
+  line-height: 30px;
+  padding: 0 10px;
+}
+component[type=image][perspectives] view ol.buttons.perspectives {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100px;
+}
+component[type=image][perspectives] view ol.buttons.perspectives li {
+  line-height: 100px;
+  border-top: 5px dashed black;
+  border-bottom: 5px dashed black;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+component[type=image][perspectives] view ol.buttons.perspectives li.active {
+  opacity: 1;
+}
+component[type=image][perspectives] view ol.buttons li {
+  background: rgba(0, 0, 0, 0.02);
+  height: 100%;
+  margin: 0 5px;
+}
+
+component[type=list] {
+  width: 100%;
+  height: 100%;
+}
+component[type=list] view ol {
+  flex-direction: column;
+}
+component[type=list] view ol li {
+  border-bottom: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  flex-direction: column;
+}
+component[type=list] view ol li p {
+  padding: 5px;
+  margin: 5px;
+}
+component[type=list] view ol li .parameter {
+  color: green;
+  margin-left: 10px;
+}
+component[type=list] view ol li.success {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+component[type=list] view ol li.error {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+component[type=menu2d] {
+  width: 100%;
+  height: 100%;
+}
+component[type=menu2d] view {
+  overflow: auto;
+}
+component[type=menu2d] view > ul li {
+  white-space: nowrap;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px 0 5px 10px;
+  margin-top: 5px;
+}
+component[type=menu2d] view > ul li.no-padding {
+  padding: 0;
+}
+component[type=menu2d] view > ul li .toggle {
+  margin-right: 10px;
+}
+component[type=menu2d] view > ul ul {
+  padding-left: 20px;
+  flex-direction: column;
+  width: 100%;
+}
+
+component[type=menu3d] {
+  width: 100%;
+  height: 100%;
+}
+
+component[type=network] {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+component[type=network] .calls {
+  height: 100%;
+  flex-direction: column;
+  overflow: auto;
+}
+component[type=network] .calls .list {
+  flex-direction: column;
+}
+
+component[type=pointer] {
+  margin-bottom: 3px;
+}
+component[type=pointer] .icon {
+  align-self: flex-end;
+}
+component[type=pointer].side2 {
+  align-self: flex-start;
+}
+component[type=pointer].side2 content view {
+  padding-right: 18px;
+}
+component[type=pointer].side2 .icon {
+  margin-right: 9px;
+}
+component[type=pointer].side1 {
+  align-self: flex-end;
+}
+component[type=pointer].side1 content view {
+  text-align: right;
+  padding-left: 18px;
+}
+component[type=pointer].side1 .icon {
+  margin-left: 9px;
+}
+component[type=pointer] view {
+  flex-direction: row;
+}
+component[type=pointer] view .text {
+  width: calc(100% - 39px);
+  align-items: center;
+}
+component[type=pointer] view .icon {
+  width: 30px;
+  height: 30px;
+}
+
+component[type=browser] {
+  width: 100%;
+  height: 100%;
+}
+
+component[type=template] {
+  width: 100%;
+  height: 100%;
+}
+
+component[type=uploader] {
+  height: 100%;
+  overflow: auto;
+}
+component[type=uploader] view {
+  padding: 9px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+}
+component[type=uploader] block {
+  margin-bottom: 6px;
+  margin-right: 6px;
+  box-shadow: 0 0 3px black;
+}
+component[type=uploader] block .content {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+component[type=uploader] block .content .details {
+  position: absolute;
+}
+component[type=uploader] block .content img {
+  position: absolute;
+}
+component[type=uploader] block .content .tmp {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+component[type=uploader] block row {
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.6);
+  display: none;
+  z-index: 2;
+}
+component[type=uploader] block row .label, component[type=uploader] block row .value {
+  padding: 4px 8px;
+}
+component[type=uploader] block row .label {
+  background-color: rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+component[type=uploader] block row:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+component[type=uploader] block:hover row {
+  display: flex;
+}
+
+component[type=video] {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+component[type=video] content {
+  overflow: hidden;
+}
+component[type=video] content view {
+  position: relative;
+}
+component[type=video] ol {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: relative;
+}
+component[type=video] video {
+  object-fit: contain;
+}
+component[type=video] video.cover {
+  object-fit: cover;
+}
+component[type=video] video.contain {
+  object-fit: contain;
+}
+component[type=video]:not([perspectives]) view {
+  padding: 0 !important;
+  overflow: auto;
+}
+component[type=video]:not([perspectives]) li {
+  margin-bottom: 9px;
+}
+component[type=video]:not([perspectives]) video {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  min-height: 50px;
+  max-height: 200px;
+}
+component[type=video][perspectives] view {
+  overflow: hidden;
+}
+component[type=video][perspectives] view ol:last-child {
+  margin-bottom: 0;
+}
+component[type=video][perspectives] view ol.videos {
+  height: 100%;
+}
+component[type=video][perspectives] view ol.videos li {
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+component[type=video][perspectives] view ol.videos li.active {
+  opacity: 1;
+}
+component[type=video][perspectives] view ol.videos li:first-child {
+  position: relative;
+}
+component[type=video][perspectives] view ol.videos li {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+component[type=video][perspectives] view ol.videos li video {
+  width: 100%;
+}
+component[type=video][perspectives] view ol.buttons {
+  background: rgba(0, 0, 0, 0.02);
+  justify-content: center;
+}
+component[type=video][perspectives] view ol.buttons.progress {
+  justify-content: start;
+  position: absolute;
+  top: 100px;
+  z-index: 10;
+  width: 100%;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+component[type=video][perspectives] view ol.buttons.progress li {
+  line-height: 30px;
+  padding: 0 10px;
+}
+component[type=video][perspectives] view ol.buttons.playback {
+  height: 30px;
+}
+component[type=video][perspectives] view ol.buttons.playback li {
+  line-height: 30px;
+  padding: 0 10px;
+}
+component[type=video][perspectives] view ol.buttons.perspectives {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.5);
+}
+component[type=video][perspectives] view ol.buttons.perspectives li {
+  line-height: 100px;
+  border-top: 5px dashed black;
+  border-bottom: 5px dashed black;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+component[type=video][perspectives] view ol.buttons.perspectives li.active {
+  opacity: 1;
+}
+component[type=video][perspectives] view ol.buttons li {
+  background: rgba(0, 0, 0, 0.02);
+  height: 100%;
+  margin: 0 5px;
+}
+
+component[type=webcam] {
+  width: 100%;
+}
+component[type=webcam] video {
+  object-fit: cover;
+  outline: none;
+}
+
+component[type=websocket] {
+  width: 100%;
+  height: 100%;
+}
+component[type=websocket] content view {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+}
+component[type=websocket] content view .frame {
+  position: relative;
+  background-color: black;
+  width: 64px;
+  height: 64px;
+  border: 1px solid white;
+}
+component[type=websocket] content view .circle {
+  position: absolute;
+  background-color: white;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+}
+
+component[type=mandelbrot] {
+  width: 100%;
+  height: 100%;
+}
+component[type=mandelbrot] view {
+  align-items: center;
+  justify-content: center;
+}
+component[type=mandelbrot] view canvas {
+  width: 100%;
+  height: 100%;
+}
+
+component[type=PCB] {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+component[type=PCB] .wrapper {
+  position: relative;
+  height: 100%;
+  overflow-x: auto;
+}
+component[type=PCB] .wrapper img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+component[type=PCB] .wrapper .surface {
+  position: absolute;
+  flex-direction: column;
+  top: 32%;
+}
+component[type=PCB] .wrapper .surface .screen {
+  width: 100%;
+  background-color: black;
+  margin: 1%;
+}
+component[type=PCB] .wrapper .surface .screen .pins {
+  width: 10%;
+}
+component[type=PCB] .wrapper .surface .screen .OLED {
+  width: 90%;
+  background-color: gray;
+  margin: 2%;
+}
+component[type=PCB] .wrapper.front .surface {
+  height: 15%;
+}
+component[type=PCB] .wrapper.front .surface .screen {
+  height: 50%;
+}
+component[type=PCB] .wrapper.back .surface {
+  height: 62%;
+}
+component[type=PCB] .wrapper.back .surface .screen {
+  height: 12.5%;
+}
+component[type=PCB] content {
+  overflow: hidden;
+}
+component[type=PCB] content view {
+  position: relative;
+}
+
+/*# sourceMappingURL=layout.css.map */
