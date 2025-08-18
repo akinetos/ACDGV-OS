@@ -95,15 +95,16 @@ void websocketInit() {
   webSocket.onEvent(webSocketEvent);
 }
 
-void websocketTick1() {
-  webSocket.loop();
-}
-
-void websocketTick2() {
-  if (wsConnected && wsCommands != "") {
-    webSocket.sendTXT(wsClientNumber, "[" + wsCommands + "]");
-    wsOutgoingCount++;
-    wsCommands = "";
+void websocketTick(String mode) {
+  if (mode == "incomming") {
+    webSocket.loop();
+  }
+  if (mode == "outgoing") {
+    if (wsConnected && wsCommands != "") {
+      webSocket.sendTXT(wsClientNumber, "[" + wsCommands + "]");
+      wsOutgoingCount++;
+      wsCommands = "";
+    }
   }
 }
 
@@ -121,7 +122,7 @@ void setup() {
 
 
 void loop() {
-  websocketTick1();
+  websocketTick("incomming");
   
   for (int i=0; i<programsCount; i++) {
     if (programs[i]->active) {
@@ -129,5 +130,5 @@ void loop() {
     }
   }
 
-  websocketTick2();
+  websocketTick("outgoing");
 }
