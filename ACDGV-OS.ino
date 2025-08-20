@@ -10,10 +10,10 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-const int channelsCount = 2;
+const int channelsCount = 1;
 const int devicesCount = 6;
 const int programsCount = 5;
-const int surfacesCount = 3;
+const int surfacesCount = 1;
 
 #include "./engine/I2C.h";
 #include "./engine/Program.h";
@@ -71,9 +71,7 @@ void setup() {
     devices[i]->init();
   }
 
-  surfaces[0] = Surface(128, 64, 128, 32, 1, 1, 0);
-  surfaces[1] = Surface(128, 256, 128, 32, -1, 1, 1);
-  surfaces[2] = Surface(128, 64, 128, 64, 1, 1, 0);
+  surfaces[0] = Surface(128, 96, 128, 32, 1, 1, 0);
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].init();
   }

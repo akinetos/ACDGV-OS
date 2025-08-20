@@ -31,21 +31,23 @@ class VV:public Program {
           int x = 0;
           int y = 0;
 
-          if (s8x1.facingUp) {
-            if (gamepad.axisX < -0.1 || gamepad.axisX > 0.1) {
-              xOffset -= gamepad.axisX / 10;
-            }
-            if (gamepad.axisY < -0.1 || gamepad.axisY > 0.1) {
-              yOffset -= gamepad.axisY / 10;
-            }
-            x = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
-            y = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
-            if (x >=0 && x < s8x1.width && y >= 0 && y < s8x1.height) {
-              if (this->option == 0) {
-                s8x1.drawPoint(x, y);
+          if (surfacesCount > 1) {
+            if (surfaces[1].facingUp) {
+              if (gamepad.axisX < -0.1 || gamepad.axisX > 0.1) {
+                xOffset -= gamepad.axisX / 10;
               }
-              if (this->option == 1) {
-                s8x1.drawLine(lastX, lastY, x, y);
+              if (gamepad.axisY < -0.1 || gamepad.axisY > 0.1) {
+                yOffset -= gamepad.axisY / 10;
+              }
+              x = surfaces[1].width / 2 + (int)(newZre * this->scale) + xOffset;
+              y = surfaces[1].height / 2 + (int)(newZim * this->scale) + yOffset;
+              if (x >=0 && x < surfaces[1].width && y >= 0 && y < surfaces[1].height) {
+                if (this->option == 0) {
+                  surfaces[1].drawPoint(x, y);
+                }
+                if (this->option == 1) {
+                  surfaces[1].drawLine(lastX, lastY, x, y);
+                }
               }
             }
           }

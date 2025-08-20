@@ -69,18 +69,20 @@ class Batterfly:public Program {
 
         void drawBatterfly() {
             Surface & s2x1 = surfaces[0];
-            Surface & s8x1 = surfaces[1];
 
             int channel = -1;
             int port = -1;
             int x = 0;
             int y = 0;
 
-            if (s8x1.facingUp) {
-                channel = s8x1.channel;
-                port = s8x1.pointerPort;
-                x = s8x1.getRelativeX();
-                y = s8x1.getRelativeY();
+            if (surfacesCount > 1) {
+                Surface & s8x1 = surfaces[1];
+                if (s8x1.facingUp) {
+                    channel = s8x1.channel;
+                    port = s8x1.pointerPort;
+                    x = s8x1.getRelativeX();
+                    y = s8x1.getRelativeY();
+                }
             }
             
             if (s2x1.facingUp && s2x1.pointerPort == 1) {
@@ -303,16 +305,18 @@ class Batterfly:public Program {
 
         void drawPestki() {
             Surface & s2x1 = surfaces[0];
-            Surface & s8x1 = surfaces[1];
 
-            if (s8x1.facingUp) {
-                for (int i=0; i<PESTKI_COUNT; i++) {
-                    if (this->pestki[i].timestamp > 0) {
-                        int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
-                        if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
-                            this->pestki[i].port = s8x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
-                        }
-                    }    
+            if (surfacesCount > 1) {
+                Surface & s8x1 = surfaces[1];
+                if (s8x1.facingUp) {
+                    for (int i=0; i<PESTKI_COUNT; i++) {
+                        if (this->pestki[i].timestamp > 0) {
+                            int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
+                            if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
+                                this->pestki[i].port = s8x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                            }
+                        }    
+                    }
                 }
             }
 
@@ -341,23 +345,25 @@ class Batterfly:public Program {
 
         void tick() {
             Surface & s2x1 = surfaces[0];
-            Surface & s8x1 = surfaces[1];
 
-            if (s8x1.facingUp) {
-                if (this->over) {
-                    int time = (endedAt - this->activatedTimestamp) / 1000;
-                    this->splash("BRAWO!", "czas: " + String(time) + " sekund");
-                } else {
-                    this->updatePointer();
-                    //this->updateStars();
-                    this->updateBatterfly();
-                    this->updatePestki();
-                    this->clearScreens();
-                    this->drawStars();
-                    this->drawBatterfly();
-                    this->drawPestki();
-                    this->detectColisions();
-                    //this->drawProgress();
+            if (surfacesCount > 1) {
+                Surface & s8x1 = surfaces[1];
+                if (s8x1.facingUp) {
+                    if (this->over) {
+                        int time = (endedAt - this->activatedTimestamp) / 1000;
+                        this->splash("BRAWO!", "czas: " + String(time) + " sekund");
+                    } else {
+                        this->updatePointer();
+                        //this->updateStars();
+                        this->updateBatterfly();
+                        this->updatePestki();
+                        this->clearScreens();
+                        this->drawStars();
+                        this->drawBatterfly();
+                        this->drawPestki();
+                        this->detectColisions();
+                        //this->drawProgress();
+                    }
                 }
             }
 

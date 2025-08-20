@@ -23,13 +23,15 @@ class Gravity:public Program {
       }
 
       void clearPreviousPort() {
-        Surface & surface = surfaces[1];
-        if (this->port != this->previousPort && this->previousPort != -1) {
-          OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
-          screen.clear();
-          screen.needsRefresh = true;
+        if (surfacesCount > 1) {
+          Surface & surface = surfaces[1];
+          if (this->port != this->previousPort && this->previousPort != -1) {
+            OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
+            screen.clear();
+            screen.needsRefresh = true;
+          }
+          this->previousPort = this->port;
         }
-        this->previousPort = this->port;
       }
 
       void init() {
@@ -39,12 +41,14 @@ class Gravity:public Program {
 
       void tick() {
         Surface & s2x1 = surfaces[0];
-        Surface & s8x1 = surfaces[1];
         
-        if (s8x1.facingUp) {
-          this->maxY = 255;
-          this->port = s8x1.drawRectangle(0, this->y);
-          this->clearPreviousPort();
+        if (surfacesCount > 1) {
+          Surface & s8x1 = surfaces[1];
+          if (s8x1.facingUp) {
+            this->maxY = 255;
+            this->port = s8x1.drawRectangle(0, this->y);
+            this->clearPreviousPort();
+          }
         }
 
         if (s2x1.facingUp) {
