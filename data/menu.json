@@ -28,5 +28,10 @@
 		["Feliks"],
 		["Erazm"],
 		["Matylda"]
+	]],
+	["programy",[
+		["i2c"],
+		["battery"],
+		["wifi"]
 	]]
 ]]

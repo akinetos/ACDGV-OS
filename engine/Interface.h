@@ -70,7 +70,7 @@ class Interface:public Program {
         int sourceLength = source.length() + 1; 
         char charArray[sourceLength];
         source.toCharArray(charArray, sourceLength);
-        StaticJsonBuffer<2000> jsonBuffer;
+        StaticJsonBuffer<2250> jsonBuffer;
         JsonArray& menu = jsonBuffer.parseArray(charArray);
         return menu;
       }
