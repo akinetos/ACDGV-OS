@@ -30,7 +30,7 @@
 		["Matylda"]
 	]],
 	["programy",[
-		["i2c"],
+		["i2c",[],["run","i2c",0]],
 		["battery"],
 		["wifi"]
 	]]

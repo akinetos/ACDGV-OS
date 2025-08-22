@@ -38,7 +38,9 @@ class Interface:public Program {
       if (surface.pointerPort == 1) {
         previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
         if (previewScreen1.scrollbarHovered) {
-          previewScreen1.updateScrollbar(gamepad.axisY);
+          if (gamepad.connected) {
+            previewScreen1.updateScrollbar(gamepad.axisY);
+          }
         } else {
           int y = surface.getRelativeY();
           if (surface.pointerPositionX < 118) {
@@ -181,6 +183,7 @@ class Interface:public Program {
           if (programName == "vv") programIndex = 2;
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
+          if (programName == "i2c") programIndex = 5;
           programs[programIndex]->active = !programs[programIndex]->active;
           if (programs[programIndex]->active) {
             if (!programs[programIndex]->initialised) {

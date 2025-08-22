@@ -6,12 +6,15 @@ class Gamepad: public Device {
     float axisY;
     int buttonApressedTime = 0;
     int time = 0;
+    int connectionAttempts = 0;
   
     void init() {
-      while (!this->device.begin(this->address)) {
+      this->connected = this->device.begin(this->address);
+      while (!this->connected && this->connectionAttempts < 10) {
         delay(100);
+        this->connected = this->device.begin(this->address);
+        this->connectionAttempts++;
       }
-      this->connected = true;
     }
   
     void tick() {

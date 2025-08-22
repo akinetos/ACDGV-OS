@@ -8,10 +8,12 @@ class HRS: public Device {
     int address;
     boolean changed = false;
     int lastTick = 0;
+    int connectionAttempts = 0;
 
     void init() {
       this->device = DFRobot_BloodOxygen_S_I2C(&Wire, this->address);
       this->connected = this->device.begin();
+      this->connectionAttempts++;
       if (this->connected) {
         this->device.sensorStartCollect();
       }
@@ -27,7 +29,9 @@ class HRS: public Device {
           this->lastTick = millis();
         }
       } else {
-        this->init();
+        if (this->connectionAttempts < 10) {
+          this->init();
+        }
       }
     }
 

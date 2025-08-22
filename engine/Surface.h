@@ -89,7 +89,9 @@ class Surface {
         this->handleOrientationChange(accelerometer.orientation);
       }
       if (this->facingUp) {
-        this->updatePointer(gamepad.axisX * this->orientationX, gamepad.axisY);
+        if (gamepad.connected) {
+          this->updatePointer(gamepad.axisX * this->orientationX, gamepad.axisY);
+        }
       }
     }
 

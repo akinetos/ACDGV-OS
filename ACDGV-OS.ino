@@ -12,7 +12,7 @@
 
 const int channelsCount = 1;
 const int devicesCount = 6;
-const int programsCount = 5;
+const int programsCount = 6;
 const int surfacesCount = 1;
 
 #include "./engine/I2C.h";
@@ -51,6 +51,7 @@ Interface interface;
 #include "./programs/VV.h";
 #include "./programs/Logo.h";
 #include "./programs/Telephone.h";
+#include "./programs/I2c.h";
 
 void setup() {
   Serial.begin(115200);
@@ -81,6 +82,7 @@ void setup() {
   programs[2] = new VV();
   programs[3] = new Logo();
   programs[4] = new Telephone();
+  programs[5] = new I2c();
 
   interface.init();
 }
