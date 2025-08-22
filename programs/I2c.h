@@ -11,14 +11,26 @@ class I2c:public Program {
     }
 
     void scan() {
-      for (byte i = 8; i < 120; i++) {
+      for (int i = 8; i < 120; i++) {
         Wire.beginTransmission(i);
         if (Wire.endTransmission() == 0) {
-          String bitsString = "";
-          for (int b=0; b<8; b++) {
-            bitsString += bitRead(i, b);
+          String deviceType = "unknown";
+          if (i == 81) {
+            deviceType = "gamepad";
           }
-          devices[count] = bitsString + " " + (String)i;
+          if (i == 75) {
+            deviceType = "keypad";
+          }
+          if (i == 29 || i == 83) {
+            deviceType = "accelerometer";
+          }
+          if (i == 112) {
+            deviceType = "multiplexer";
+          }
+          if (i == 115) {
+            deviceType = "gesture sensor";
+          }
+          devices[count] = (String)i + " - " + deviceType;
           count++;
           delay(1);
         }
@@ -37,8 +49,13 @@ class I2c:public Program {
       }
       screen.hasOptions = true;
       screen.optionsCount = this->count;
+      screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
+      screen.lineSelected = -1;
+      screen.offsetY = 0;
+      if (gamepad.connected) {
+        screen.updateScrollbar(gamepad.axisY);
+      }
       screen.clear();
-      screen.printBoxes();
       screen.printLines();
       screen.drawScrollbar();
     }

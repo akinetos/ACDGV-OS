@@ -10,7 +10,7 @@ class Port {
     
     void init() {
       if (this->hasDevices) {
-        this->devices[0] = new AM(0x53);
+        this->devices[0] = new AM(83);
         this->devices[1] = new RE(0x54);
         for (int d = 0; d < 2; d++) {
           i2c.activate(this->channel, this->number);
