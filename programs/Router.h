@@ -16,7 +16,7 @@ class Router:public Program {
       int counter = 0;
 
       void init() {
-        String fullDirectory = "/wifi.json";
+        String fullDirectory = "/config/wifi.json";
         File wifiFile = SPIFFS.open(fullDirectory, "r");
         if (wifiFile) {
           String source = wifiFile.readString();

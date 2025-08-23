@@ -72,6 +72,9 @@ void setup() {
     devices[i]->init();
   }
 
+  //TODO
+  //load /config/surfaces.json
+  //create array of surfaces based on this config file
   surfaces[0] = Surface(128, 96, 128, 32, 1, 1, 0);
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].init();

@@ -29,7 +29,7 @@ class Telephone:public Program {
         
         if (this->option == 1) {
           if (!this->contactsLoaded) {
-            JsonArray & file = interface.loadFromFile("/menu.json");
+            JsonArray & file = interface.loadFromFile("/config/menu.json");
             if (s2x1.facingUp) {
               p01.screen.populate(file[1][5][1][1]);
             }

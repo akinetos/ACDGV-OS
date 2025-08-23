@@ -1,0 +1,11 @@
+[
+    {
+        "width": 128,
+        "height": 96, 
+        "screenWidth": 128,
+        "screenHeight": 32,
+        "orientationX": 1,
+        "orientationY": 1,
+        "channel": 0
+    }
+]
