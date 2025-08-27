@@ -12,7 +12,7 @@
 		"address": [29, 83]
 	},
 	{
-		"name": "i2c multiplexer",
+		"name": "multiplexer",
 		"address": [112, 113]
 	},
 	{

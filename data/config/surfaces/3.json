@@ -1,0 +1,29 @@
+[
+    {
+        "width": 128,
+        "height": 64, 
+        "screenWidth": 128,
+        "screenHeight": 32,
+        "orientationX": 1,
+        "orientationY": 1,
+        "channel": 0
+    },
+    {
+        "width": 128,
+        "height": 256, 
+        "screenWidth": 128,
+        "screenHeight": 32,
+        "orientationX": -1,
+        "orientationY": 1,
+        "channel": 1
+    },
+    {
+        "width": 128,
+        "height": 64, 
+        "screenWidth": 128,
+        "screenHeight": 64,
+        "orientationX": 1,
+        "orientationY": 1,
+        "channel": 0
+    }
+]

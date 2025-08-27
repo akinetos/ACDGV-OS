@@ -13,7 +13,7 @@
 const int channelsCount = 1;
 const int devicesCount = 6;
 const int programsCount = 6;
-const int surfacesCount = 1;
+int surfacesCount;
 
 #include "./engine/I2C.h";
 #include "./engine/Program.h";
@@ -41,7 +41,7 @@ Keypad keypad = Keypad();
 Channel channels[channelsCount];
 
 #include "./engine/Surface.h";
-Surface surfaces[surfacesCount];
+Surface * surfaces;
 
 #include "./engine/Interface.h";
 Interface interface;
@@ -53,8 +53,21 @@ Interface interface;
 #include "./programs/Telephone.h";
 #include "./programs/I2c.h";
 
+JsonArray & loadFromFile (String filePath) {
+  File file = SPIFFS.open(filePath, "r");
+  if (file) {
+    String source = file.readString();
+    int sourceLength = source.length() + 1; 
+    char charArray[sourceLength];
+    source.toCharArray(charArray, sourceLength);
+    StaticJsonBuffer<2250> jsonBuffer;
+    JsonArray& data = jsonBuffer.parseArray(charArray);
+    return data;
+  }
+}
+
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   SPIFFS.begin();
   i2c.init();
 
@@ -72,10 +85,22 @@ void setup() {
     devices[i]->init();
   }
 
-  //TODO
-  //load /config/surfaces.json
-  //create array of surfaces based on this config file
-  surfaces[0] = Surface(128, 96, 128, 32, 1, 1, 0);
+  JsonArray & configSurfaces = loadFromFile("/config/surfaces/1.json");
+  surfacesCount = configSurfaces.size();
+  Serial.println("surfacesCount: " + (String)surfacesCount);
+  surfaces = new Surface[surfacesCount];
+  for (int i=0; i<surfacesCount; i++) {
+    int width = configSurfaces[i]["width"];
+    int height = configSurfaces[i]["height"];
+    int screenWidth = configSurfaces[i]["screenWidth"];
+    int screenHeight = configSurfaces[i]["screenHeight"];
+    int orientationX = configSurfaces[i]["orientationX"];
+    int orientationY = configSurfaces[i]["orientationY"];
+    int channel = configSurfaces[i]["channel"];
+    Surface * surface = new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
+    surfaces[i] = *surface;
+  }
+  
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].init();
   }
