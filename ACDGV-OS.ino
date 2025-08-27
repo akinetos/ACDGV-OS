@@ -10,9 +10,11 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-const int channelsCount = 2;
+const String version = "2-8";
 const int devicesCount = 6;
 const int programsCount = 6;
+
+int channelsCount;
 int surfacesCount;
 
 #include "./engine/I2C.h";
@@ -39,7 +41,7 @@ Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
 
 #include "./engine/Channel.h";
-Channel channels[channelsCount];
+Channel * channels;
 
 #include "./engine/Surface.h";
 Surface * surfaces;
@@ -59,6 +61,10 @@ void setup() {
   SPIFFS.begin();
   i2c.init();
 
+  JsonArray & configSurfaces = loadFromFile("/config/surfaces/" + version + ".json");
+
+  channelsCount = 2;
+  channels = new Channel[channelsCount];
   for (int i = 0; i < channelsCount; i++) {
     channels[i].init(i);
   }
@@ -73,7 +79,6 @@ void setup() {
     devices[i]->init();
   }
 
-  JsonArray & configSurfaces = loadFromFile("/config/surfaces/2-8.json");
   surfacesCount = configSurfaces.size();
   surfaces = new Surface[surfacesCount];
   for (int i=0; i<surfacesCount; i++) {
