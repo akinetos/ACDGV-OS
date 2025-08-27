@@ -18,6 +18,7 @@ int surfacesCount;
 #include "./engine/I2C.h";
 #include "./engine/Program.h";
 #include "./engine/Device.h";
+#include "./engine/Storage.h";
 
 I2C i2c = I2C();
 Program * programs[programsCount];
@@ -53,19 +54,6 @@ Interface interface;
 #include "./programs/Telephone.h";
 #include "./programs/I2c.h";
 
-JsonArray & loadFromFile (String filePath) {
-  File file = SPIFFS.open(filePath, "r");
-  if (file) {
-    String source = file.readString();
-    int sourceLength = source.length() + 1; 
-    char charArray[sourceLength];
-    source.toCharArray(charArray, sourceLength);
-    StaticJsonBuffer<2250> jsonBuffer;
-    JsonArray& data = jsonBuffer.parseArray(charArray);
-    return data;
-  }
-}
-
 void setup() {
   Serial.begin(9600);
   SPIFFS.begin();
@@ -85,20 +73,11 @@ void setup() {
     devices[i]->init();
   }
 
-  JsonArray & configSurfaces = loadFromFile("/config/surfaces/2-8-1.json");
+  JsonArray & configSurfaces = loadFromFile("/config/surfaces/2-8.json");
   surfacesCount = configSurfaces.size();
-  Serial.println("surfacesCount: " + (String)surfacesCount);
   surfaces = new Surface[surfacesCount];
   for (int i=0; i<surfacesCount; i++) {
-    int width = configSurfaces[i]["width"];
-    int height = configSurfaces[i]["height"];
-    int screenWidth = configSurfaces[i]["screenWidth"];
-    int screenHeight = configSurfaces[i]["screenHeight"];
-    int orientationX = configSurfaces[i]["orientationX"];
-    int orientationY = configSurfaces[i]["orientationY"];
-    int channel = configSurfaces[i]["channel"];
-    Surface * surface = new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
-    surfaces[i] = *surface;
+    surfaces[i] = Surface::createFromConfigFile(configSurfaces[i]);
   }
   
   for (int i = 0; i < surfacesCount; i++) {

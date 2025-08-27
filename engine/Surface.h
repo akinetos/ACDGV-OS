@@ -200,4 +200,16 @@ class Surface {
       screen.drawScrollbar();
     }
   }
+
+  static Surface createFromConfigFile(JsonObject & configSurface) {
+    int width = configSurface["width"];
+    int height = configSurface["height"];
+    int screenWidth = configSurface["screenWidth"];
+    int screenHeight = configSurface["screenHeight"];
+    int orientationX = configSurface["orientationX"];
+    int orientationY = configSurface["orientationY"];
+    int channel = configSurface["channel"];
+    Surface * surface = new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
+    return *surface;
+  }
 };
