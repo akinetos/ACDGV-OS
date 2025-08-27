@@ -85,7 +85,7 @@ void setup() {
     devices[i]->init();
   }
 
-  JsonArray & configSurfaces = loadFromFile("/config/surfaces/3.json");
+  JsonArray & configSurfaces = loadFromFile("/config/surfaces/2-8-1.json");
   surfacesCount = configSurfaces.size();
   Serial.println("surfacesCount: " + (String)surfacesCount);
   surfaces = new Surface[surfacesCount];
