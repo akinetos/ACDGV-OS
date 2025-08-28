@@ -10,7 +10,7 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-const String version = "3";
+const String version = "8";
 const int devicesCount = 6;
 const int programsCount = 6;
 
@@ -63,38 +63,7 @@ void setup() {
 
   JsonArray & configSurfaces = loadFromFile("/config/surfaces/" + version + ".json");
   surfacesCount = configSurfaces.size();
-  int channelsUsed[8];
-  for (int i=0; i<8; i++) {
-    channelsUsed[i] = -1;
-  }
-  for (int i=0; i<surfacesCount; i++) {
-    int channel = configSurfaces[i]["channel"];
-    boolean found = false;
-    for (int j=0; j<8; j++) {
-      if (channelsUsed[j] == channel) {
-        found = true;
-      }
-    }
-    if (!found) {
-      int index = 0;
-      for (int j=0; j<8; j++) {
-        if (channelsUsed[j] >= 0) {
-          index++;
-        }
-      }
-      channelsUsed[index] = channel;
-    }
-  }
-  int countChannels = 0;
-  for (int i=0; i<8; i++) {
-    if (channelsUsed[i] >= 0) {
-      countChannels++;
-    }
-  }
-
-  Serial.println("countChannels: " + (String)countChannels);
-
-  channelsCount = countChannels;
+  channelsCount = Surface::countChannels(configSurfaces);
 
   channels = new Channel[channelsCount];
   for (int i = 0; i < channelsCount; i++) {
