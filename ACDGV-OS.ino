@@ -70,6 +70,8 @@ void setup() {
     channels[i].init(i);
   }
 
+  Surface::countScreens(configSurfaces);
+
   devices[0] = &accelerometer;
   devices[1] = &gv;
   devices[2] = &hrs;

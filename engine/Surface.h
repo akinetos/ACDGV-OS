@@ -244,4 +244,43 @@ class Surface {
     }
     return countChannels;
   }
+
+  static int countScreens(JsonArray & configSurfaces) {
+    int channelsUsed[8];
+    for (int i=0; i<8; i++) {
+      channelsUsed[i] = -1;
+    }
+    for (int i=0; i<surfacesCount; i++) {
+      int channel = configSurfaces[i]["channel"];
+      boolean found = false;
+      for (int j=0; j<8; j++) {
+        if (channelsUsed[j] == channel) {
+          found = true;
+        }
+      }
+      if (!found) {
+        int index = 0;
+        for (int j=0; j<8; j++) {
+          if (channelsUsed[j] >= 0) {
+            index++;
+          }
+        }
+        channelsUsed[index] = channel;
+      }
+    }
+    
+    for (int i=0; i<8; i++) {
+      int channel = channelsUsed[i];
+      if (channel >= 0) {
+        int screens = 0;
+        for (int p=0; p<8; p++) {
+          if (channels[channel].ports[p].screen.connected) {
+            screens++;
+          }
+        }
+        Serial.println((String)screens + " found on channel " + (String)channel);
+      }
+    }
+    return 1;
+  }
 };

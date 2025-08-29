@@ -5,7 +5,6 @@ class OLED: public Device {
     int width = 128;
     int height = 32;
     boolean needsRefresh = false;
-    boolean needsInit = false;
     String type;
     boolean showLines = false;
     
@@ -82,6 +81,8 @@ class OLED: public Device {
       this->width = width;
       this->height = height;
       this->type = type;
+      this->connected = false;
+
       if (this->type == "sh1106") {
         this->sh1106 = Adafruit_SH1106G(this->width, this->height, &Wire, -1);
         if (this->sh1106.begin()) {
@@ -91,6 +92,7 @@ class OLED: public Device {
           this->connected = true;
         }
       }
+
       if (this->type == "ssd1306") {
         this->ssd1306 = Adafruit_SSD1306(this->width, this->height, &Wire, -1);
         if (this->ssd1306.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
@@ -98,13 +100,16 @@ class OLED: public Device {
           this->ssd1306.setTextColor(SSD1306_WHITE);
           this->ssd1306.setTextSize(1);
           this->background = 1;
-          this->connected = true;
+          Wire.beginTransmission(0x3C);
+          if (Wire.endTransmission() == 0) {
+            this->connected = true;
+          }
         }
       }
+
       if (this->connected) {
         this->needsRefresh = true;
       }
-      this->needsInit = false;
     }
 
     boolean textSizeChanged() {
