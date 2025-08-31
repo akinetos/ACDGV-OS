@@ -10,7 +10,10 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-const String version = "8";
+int sc0 = 0;
+int sc1 = 0;
+
+const String version = "2-8";
 const int devicesCount = 6;
 const int programsCount = 6;
 
@@ -70,8 +73,6 @@ void setup() {
     channels[i].init(i);
   }
 
-  Surface::countScreens(configSurfaces);
-
   devices[0] = &accelerometer;
   devices[1] = &gv;
   devices[2] = &hrs;
@@ -90,6 +91,9 @@ void setup() {
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].init();
   }
+
+  sc0 = surfaces[0].countScreens();
+  sc1 = surfaces[1].countScreens();
 
   programs[0] = new Batterfly();
   programs[1] = new Gravity();
