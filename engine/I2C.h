@@ -4,7 +4,7 @@ class I2C {
     int channel = -1;
 
     void init() {
-      Wire.begin();
+      Wire.begin(16);
     }
 
     void deactivate(int channel) {
