@@ -13,7 +13,7 @@
 int sc0 = 0;
 int sc1 = 0;
 
-const String version = "2-8";
+const String version = "8";
 const int devicesCount = 6;
 const int programsCount = 6;
 
@@ -36,7 +36,7 @@ Device * devices[devicesCount];
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
 
-AM accelerometer = AM(0x1d);
+AM accelerometer = AM(0x53);
 GV gv = GV();
 HRS hrs = HRS(0x57);
 RE re = RE(0x55);
