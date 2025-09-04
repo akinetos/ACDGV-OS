@@ -31,6 +31,14 @@ class Gravity:public Program {
             screen.needsRefresh = true;
           }
           this->previousPort = this->port;
+        } else {
+          Surface & surface = surfaces[0];
+          if (this->port != this->previousPort && this->previousPort != -1) {
+            OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
+            screen.clear();
+            screen.needsRefresh = true;
+          }
+          this->previousPort = this->port;
         }
       }
 
@@ -55,7 +63,8 @@ class Gravity:public Program {
         } else {
           Surface & s8x1 = surfaces[0];
           this->maxY = 255;
-          s8x1.drawRectangle(0, this->y);
+          this->port = s8x1.drawRectangle(0, this->y);
+          this->clearPreviousPort();
         }
         
         this->moveLine();

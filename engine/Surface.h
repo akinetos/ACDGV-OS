@@ -91,6 +91,7 @@ class Surface {
       if (this->facingUp) {
         if (gamepad.connected) {
           this->updatePointer(gamepad.axisX * this->orientationX, gamepad.axisY);
+          channels[channel].ports[pointerPort].screen.needsRefresh = true;
         }
       }
     }
@@ -150,9 +151,11 @@ class Surface {
   }
 
   void clear() {
-    for (int i=0; i<=7; i++) {
+    for (int i=0; i<8; i++) {
       OLED & oled = channels[this->channel].ports[i].screen;
-      oled.clear();
+      if (oled.needsRefresh) {
+        oled.clear();
+      }
     }
   }
 
