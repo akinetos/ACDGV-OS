@@ -17,8 +17,12 @@ class VV:public Program {
     }
 
     void tick() {
-      Surface & s2x1 = surfaces[0];
-      Surface & s8x1 = surfaces[1];
+      //Surface & s2x1 = surfaces[0];
+      Surface & s8x1 = surfaces[0];
+      for (int i=0; i<8; i++) {
+        channels[0].ports[i].screen.needsRefresh = true;
+      }
+      s8x1.clear();
 
       float newZre = 0;
       float newZim = 0;
@@ -31,27 +35,26 @@ class VV:public Program {
           int x = 0;
           int y = 0;
 
-          if (surfacesCount > 1) {
-            if (surfaces[1].facingUp) {
-              if (gamepad.axisX < -0.1 || gamepad.axisX > 0.1) {
-                xOffset -= gamepad.axisX / 10;
+          if (s8x1.facingUp) {
+            if (gamepad.axisX < -0.1 || gamepad.axisX > 0.1) {
+              xOffset += gamepad.axisX / 10;
+            }
+            if (gamepad.axisY < -0.1 || gamepad.axisY > 0.1) {
+              yOffset -= gamepad.axisY / 10;
+            }
+            x = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
+            y = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
+            if (x >=0 && x < s8x1.width && y >= 0 && y < s8x1.height) {
+              if (this->option == 0) {
+                s8x1.drawPoint(x, y);
               }
-              if (gamepad.axisY < -0.1 || gamepad.axisY > 0.1) {
-                yOffset -= gamepad.axisY / 10;
-              }
-              x = surfaces[1].width / 2 + (int)(newZre * this->scale) + xOffset;
-              y = surfaces[1].height / 2 + (int)(newZim * this->scale) + yOffset;
-              if (x >=0 && x < surfaces[1].width && y >= 0 && y < surfaces[1].height) {
-                if (this->option == 0) {
-                  surfaces[1].drawPoint(x, y);
-                }
-                if (this->option == 1) {
-                  surfaces[1].drawLine(lastX, lastY, x, y);
-                }
+              if (this->option == 1) {
+                s8x1.drawLine(lastX, lastY, x, y);
               }
             }
           }
 
+          /*
           if (s2x1.facingUp) {
             if (gamepad.axisX < -0.1 || gamepad.axisX > 0.1) {
               xOffset += gamepad.axisX / 20;
@@ -70,6 +73,7 @@ class VV:public Program {
               }
             }
           }
+          */
 
           float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetX;
           float newerZim = newZre * newZim * 2 + this->cIm + offsetY;
@@ -91,6 +95,7 @@ class VV:public Program {
         screen.needsRefresh = true;
       }
 
+      /*
       if (s2x1.facingUp) {
         Port & p01 = channels[0].ports[1];
         p01.screen.ssd1306.setTextColor(SSD1306_WHITE);
@@ -100,6 +105,7 @@ class VV:public Program {
         p01.screen.ssd1306.print("im: " + (String)(this->cIm + offsetY));
         p01.screen.needsRefresh = true;
       }
+      */
     }
 
   VV() {}

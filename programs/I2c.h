@@ -46,25 +46,27 @@ class I2c:public Program {
     }
 
     void tick() {
-      OLED & screen = channels[0].ports[1].screen;
+      //OLED & screen = channels[0].ports[1].screen;
       if (this->scanned) {
         for (int i=0; i<this->count; i++) {
-          screen.lines[i] = this->foundDevices[i];
+          //screen.lines[i] = this->foundDevices[i];
+          channels[0].ports[i+1].screen.clear();
+          channels[0].ports[i+1].screen.printText(this->foundDevices[i]);
         }
       } else {
-        screen.lines[0] = "not scanned";
+        //screen.lines[0] = "not scanned";
       }
-      screen.hasOptions = true;
-      screen.optionsCount = this->count;
-      screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
-      screen.lineSelected = -1;
-      screen.offsetY = 0;
-      if (gamepad.connected) {
-        screen.updateScrollbar(gamepad.axisY);
-      }
-      screen.clear();
-      screen.printLines();
-      screen.drawScrollbar();
+      //screen.hasOptions = true;
+      //screen.optionsCount = this->count;
+      //screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
+      //screen.lineSelected = -1;
+      //screen.offsetY = 0;
+      //if (gamepad.connected) {
+      //  screen.updateScrollbar(gamepad.axisY);
+      //}
+      //screen.clear();
+      //screen.printLines();
+      //screen.drawScrollbar();
     }
 
   I2c() {}

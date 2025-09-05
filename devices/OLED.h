@@ -296,13 +296,15 @@ class OLED: public Device {
       if (this->type == "ssd1306") {
         this->ssd1306.setCursor(this->textScroll, 0);
         this->ssd1306.setTextColor(SSD1306_WHITE);
-        this->ssd1306.setTextWrap(false);
+        this->ssd1306.setTextWrap(true);
         this->ssd1306.print(message);
       }
+      /*
       this->textScroll--;
       if (this->textScroll < -100) {
         this->textScroll = 0;
       }
+      */
       this->needsRefresh = true;
     }
 
