@@ -152,9 +152,9 @@ class Surface {
 
   void clear() {
     for (int i=0; i<8; i++) {
-      OLED & oled = channels[this->channel].ports[i].screen;
-      if (oled.needsRefresh) {
-        oled.clear();
+      OLED & screen = channels[this->channel].ports[i].screen;
+      if (screen.needsRefresh) {
+        screen.clear();
       }
     }
   }

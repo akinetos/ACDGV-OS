@@ -56,40 +56,37 @@ class Batterfly:public Program {
         boolean over = false;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
-
-        void clearScreens() {
-            Surface & surface = surfaces[this->surfaceIndex];
-            for (int p=0; p<8; p++) {
-                OLED & screen = channels[surface.channel].ports[p].screen;
-                if (screen.needsRefresh) {
-                    screen.clear();
-                }
-            }
-        }
+        int counter = 0;
 
         void drawBatterfly() {
-            Surface & s2x1 = surfaces[0];
-
             int channel = -1;
             int port = -1;
             int x = 0;
             int y = 0;
 
             if (surfacesCount > 1) {
+                Surface & s2x1 = surfaces[0];
                 Surface & s8x1 = surfaces[1];
+
+                if (s2x1.facingUp && s2x1.pointerPort == 1) {
+                    channel = s2x1.channel;
+                    port = s2x1.pointerPort;
+                    x = s2x1.getRelativeX();
+                    y = s2x1.getRelativeY();
+                }
+
                 if (s8x1.facingUp) {
                     channel = s8x1.channel;
                     port = s8x1.pointerPort;
                     x = s8x1.getRelativeX();
                     y = s8x1.getRelativeY();
                 }
-            }
-            
-            if (s2x1.facingUp && s2x1.pointerPort == 1) {
-                channel = s2x1.channel;
-                port = s2x1.pointerPort;
-                x = s2x1.getRelativeX();
-                y = s2x1.getRelativeY();
+            } else {
+                Surface & s8x1 = surfaces[0];
+                channel = s8x1.channel;
+                port = s8x1.pointerPort;
+                x = s8x1.getRelativeX();
+                y = s8x1.getRelativeY();
             }
 
             if (channel != -1 && port != -1) {
@@ -256,8 +253,8 @@ class Batterfly:public Program {
 
         void updateBatterfly() {
             Surface & surface = surfaces[this->surfaceIndex];
-            this->vectorX = -accelerometer.x * 10;
-            this->vectorY = -accelerometer.y * 10;
+            this->vectorX = accelerometer.x * 10;
+            this->vectorY = accelerometer.y * 10;
             channels[surface.channel].ports[surface.pointerPort].screen.needsRefresh = true;
         }
 
@@ -304,10 +301,21 @@ class Batterfly:public Program {
         }
 
         void drawPestki() {
-            Surface & s2x1 = surfaces[0];
-
             if (surfacesCount > 1) {
+                Surface & s2x1 = surfaces[0];
                 Surface & s8x1 = surfaces[1];
+
+                if (s2x1.facingUp) {
+                    for (int i=0; i<PESTKI_COUNT; i++) {
+                        if (this->pestki[i].timestamp > 0) {
+                            int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
+                            if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 64 && t <= 4) {
+                                this->pestki[i].port = s2x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                            }
+                        }    
+                    }
+                }
+                
                 if (s8x1.facingUp) {
                     for (int i=0; i<PESTKI_COUNT; i++) {
                         if (this->pestki[i].timestamp > 0) {
@@ -318,14 +326,13 @@ class Batterfly:public Program {
                         }    
                     }
                 }
-            }
-
-            if (s2x1.facingUp) {
+            } else {
+                Surface & s8x1 = surfaces[0];
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp > 0) {
                         int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
-                        if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 64 && t <= 4) {
-                            this->pestki[i].port = s2x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                        if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
+                            this->pestki[i].port = s8x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                         }
                     }    
                 }
@@ -333,7 +340,7 @@ class Batterfly:public Program {
         }
 
         void init() {
-            this->surfaceIndex = 1;
+            this->surfaceIndex = 0;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();
             }
@@ -344,10 +351,19 @@ class Batterfly:public Program {
         }
 
         void tick() {
-            Surface & s2x1 = surfaces[0];
+            this->counter++;
 
             if (surfacesCount > 1) {
+                Surface & s2x1 = surfaces[0];
                 Surface & s8x1 = surfaces[1];
+
+                if (s2x1.facingUp) {
+                    this->updateBatterfly();
+                    this->updatePestki();
+                    this->drawBatterfly();
+                    this->drawPestki();
+                }
+                
                 if (s8x1.facingUp) {
                     if (this->over) {
                         int time = (endedAt - this->activatedTimestamp) / 1000;
@@ -357,7 +373,7 @@ class Batterfly:public Program {
                         //this->updateStars();
                         this->updateBatterfly();
                         this->updatePestki();
-                        this->clearScreens();
+                        s8x1.clear();
                         this->drawStars();
                         this->drawBatterfly();
                         this->drawPestki();
@@ -365,13 +381,23 @@ class Batterfly:public Program {
                         //this->drawProgress();
                     }
                 }
-            }
-
-            if (s2x1.facingUp) {
+            } else {
+                Surface & s8x1 = surfaces[0];
+                
+                if (this->counter == 1) {
+                    for (int i=0; i<8; i++) {
+                        channels[0].ports[i].screen.needsRefresh = true;
+                    }
+                }
+                
+                this->updatePointer();
                 this->updateBatterfly();
                 this->updatePestki();
+                s8x1.clear();
+                this->drawStars();
                 this->drawBatterfly();
                 this->drawPestki();
+                this->detectColisions();
             }
         }
     
