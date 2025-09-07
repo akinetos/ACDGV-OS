@@ -56,7 +56,6 @@ class Batterfly:public Program {
         boolean over = false;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
-        int counter = 0;
 
         void drawBatterfly() {
             int channel = -1;

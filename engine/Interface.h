@@ -120,6 +120,12 @@ class Interface:public Program {
       }
     }
 
+    void deactivatePrograms() {
+      for (int i=0; i<programsCount; i++) {
+        programs[i]->active = false;
+      }
+    }
+
     void selectPathSegment() {
       OLED & screen = channels[0].ports[0].screen;
       boolean pathChanged = false;
@@ -143,6 +149,10 @@ class Interface:public Program {
       if (pathChanged) {
         this->pathLevel = this->getPathLevel();
         this->populateOptions();
+        this->deactivatePrograms();
+        for (int i=0; i<8; i++) {
+          channels[0].ports[i].screen.needsRefresh = true;
+        }
       }
     }
 
@@ -184,6 +194,7 @@ class Interface:public Program {
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
+          programs[programIndex]->counter = 0;
           programs[programIndex]->active = !programs[programIndex]->active;
           if (programs[programIndex]->active) {
             if (!programs[programIndex]->initialised) {
@@ -194,9 +205,7 @@ class Interface:public Program {
           }
         }
       } else {
-        for (int i=0; i<programsCount; i++) {
-          programs[i]->active = false;
-        }
+        this->deactivatePrograms();
       }
     }
 
@@ -234,10 +243,10 @@ class Interface:public Program {
         surface->drawPointer();
         
         if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0) {
+          if (surface->pointerPort == 0 && this->showPath) {
             this->selectPathSegment();
           }
-          if (surface->pointerPort == 1) {
+          if (surface->pointerPort == 1 && !this->anyProgramActive) {
             OLED & screen = channels[0].ports[1].screen;
             int index = screen.lineHovered;
             this->selectOption(index);
@@ -248,22 +257,20 @@ class Interface:public Program {
           char button = keypad.device.getButton();
           if (button != '*' && button != '#') {
             int index = button - 48;
-            if (anyProgramActive) {
+            if (this->anyProgramActive) {
               programs[index]->active = !programs[index]->active;
             } else {
               this->selectOption(index);
             }
           }
           if (button == '#') {
-            if (anyProgramActive) {
+            if (this->anyProgramActive) {
               this->showPath = !this->showPath;
             }
           }
           if (button == '*') {
-            if (anyProgramActive) {
-              for (int i=0; i<programsCount; i++) {
-                programs[i]->active = false;
-              }
+            if (this->anyProgramActive) {
+              this->deactivatePrograms();
             }
             if (this->pathLevel > 0) {
               this->segments[this->pathLevel] = "";
