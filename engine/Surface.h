@@ -22,6 +22,7 @@ class Surface {
     int pointerPreviousPort = 0;
     int pointerPort = 0;
     int pointerSpeed = 10;
+    int screensCount = 0;
 
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
@@ -248,14 +249,13 @@ class Surface {
     return countChannels;
   }
 
-  int countScreens() {
-    int screens = 0;
+  void countScreens() {
+    this->screensCount = 0;
     for (int p=0; p<8; p++) {
       if (channels[channel].ports[p].screen.connected) {
-        screens++;
+        this->screensCount++;
       }
     }
-    return screens;
   }
 
   void drawText(int port, String text) {
