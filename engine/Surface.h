@@ -59,7 +59,7 @@ class Surface {
 
     void updatePointer(double x, double y) {
       this->pointerPreviousPositionX = this->pointerPositionX;
-      x *= this->orientationX * (-1);
+      x *= this->orientationX;
       this->pointerPositionX -= (int)(x * this->pointerSpeed * this->orientationX);
       if (this->pointerPositionX < 0) {
         this->pointerPositionX = 0;
@@ -76,6 +76,7 @@ class Surface {
         this->pointerPositionY = (this->height-1);
       }
       this->pointerPort = (int)(this->pointerPositionX / this->screenWidth) + (int)(this->pointerPositionY / this->screenHeight) * this->screensPerRow;
+      channels[channel].ports[pointerPort].screen.needsRefresh = true;
     }
 
     boolean pointerPortChanged() {
@@ -86,13 +87,12 @@ class Surface {
       if (this->pointerPortChanged()) {
         this->pointerPreviousPort = this->pointerPort;
       }
-      //if (accelerometer.orientationChanged) {
-      //  this->handleOrientationChange(accelerometer.orientation);
-      //}
+      if (accelerometer.orientationChanged) {
+        this->handleOrientationChange(accelerometer.orientation);
+      }
       if (this->facingUp) {
         if (gamepad.connected) {
           this->updatePointer(gamepad.axisX * this->orientationX, gamepad.axisY);
-          channels[channel].ports[pointerPort].screen.needsRefresh = true;
         }
       }
     }
