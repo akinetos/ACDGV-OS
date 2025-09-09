@@ -6,6 +6,7 @@ class Interface:public Program {
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean showPath = true;
     boolean anyProgramActive = false;
+    boolean pathChanged = false;
 
     String getPath() {
       String output = "";
@@ -18,6 +19,12 @@ class Interface:public Program {
         }
       }
       return output;
+    }
+
+    void refreshScreens() {
+      for (int i=0; i<8; i++) {
+        channels[0].ports[i].screen.needsRefresh = true;
+      }
     }
 
     void updateOptions() {
@@ -126,14 +133,14 @@ class Interface:public Program {
       }
     }
 
-    void selectPathSegment() {
+    void updatePathSegment() {
       OLED & screen = channels[0].ports[0].screen;
-      boolean pathChanged = false;
+      this->pathChanged = false;
       if (screen.backButtonHovered) {
         if (this->pathLevel > 0) {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
-          pathChanged = true;
+          this->pathChanged = true;
         }
       } else {
         if (screen.pathSegmentHovered > -1) {
@@ -141,18 +148,16 @@ class Interface:public Program {
             if (i > screen.pathSegmentHovered) {
               this->segments[i] = "";
               this->address[i] = NULL;
-              pathChanged = true;
+              this->pathChanged = true;
             }
           }
         }
       }
-      if (pathChanged) {
+      if (this->pathChanged) {
         this->pathLevel = this->getPathLevel();
-        this->populateOptions();
         this->deactivatePrograms();
-        for (int i=0; i<8; i++) {
-          channels[0].ports[i].screen.needsRefresh = true;
-        }
+        this->refreshScreens();
+        this->showPath = true;
       }
     }
 
@@ -203,6 +208,7 @@ class Interface:public Program {
             programs[programIndex]->setOption(programOption);
             programs[programIndex]->justActivated();
           }
+          this->showPath = false;
         }
       } else {
         this->deactivatePrograms();
@@ -223,11 +229,33 @@ class Interface:public Program {
       this->pathLevel = this->getPathLevel();
 
       if (surfaces[0].facingUp) {
+        Surface * surface = &surfaces[0];
+
         this->updatePrograms();
         this->updatePointer();
         this->updateOptions();
-        Surface * surface = &surfaces[0];
+        
+        if (gamepad.buttonApressed()) {
+          if (surface->pointerPort == 0 && (this->showPath || channels[0].ports[0].screen.backButtonHovered)) {
+            this->updatePathSegment();
+          }
+        }
+
         surface->clear();
+
+        if (gamepad.buttonApressed()) {
+          if (surface->pointerPort == 0 && this->showPath) {
+            if (this->pathChanged) {
+              this->populateOptions();
+            }
+          }
+          if (surface->pointerPort == 1 && !this->anyProgramActive) {
+            OLED & screen = channels[0].ports[1].screen;
+            int index = screen.lineHovered;
+            this->selectOption(index);
+          }
+        }
+
         if (this->anyProgramActive) {
           for (int i=0; i<programsCount; i++) {
             if (programs[i]->active) {
@@ -237,21 +265,12 @@ class Interface:public Program {
         }
         if (this->showPath) {
           surface->drawPath(0, this->getPath(), this->pathLevel);
+        }
+        if (this->pathLevel > 0) {
           surface->drawBackButton(0);
         }
         surface->drawOptions(1, this->pathLevel);
         surface->drawPointer();
-        
-        if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && this->showPath) {
-            this->selectPathSegment();
-          }
-          if (surface->pointerPort == 1 && !this->anyProgramActive) {
-            OLED & screen = channels[0].ports[1].screen;
-            int index = screen.lineHovered;
-            this->selectOption(index);
-          }
-        }
 
         if (keypad.anyKeyPressed()) {
           char button = keypad.device.getButton();
