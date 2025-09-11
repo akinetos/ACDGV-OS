@@ -16,10 +16,6 @@
 		["logo",[
 			["ACDGV",[],["run","logo",0]],
 			["OTHER",[],["run","logo",1]]
-		]],
-		["telefon",[
-			["klawiatura",[],["run","telephone",0]],
-			["kontakty",[],["run","telephone",1]]
 		]]
 	]],
 	["dzieci",[
@@ -30,8 +26,7 @@
 		["Matylda"]
 	]],
 	["programy",[
-		["i2c",[],["run","i2c",0]],
-		["battery"],
-		["wifi"]
+		["i2c",[],["run","i2c"]],
+		["telefon",[],["run","telephone"]]
 	]]
 ]]

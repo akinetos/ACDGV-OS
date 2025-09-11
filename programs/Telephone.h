@@ -1,48 +1,27 @@
 class Telephone:public Program {
     public:
-      String number;
       boolean contactsLoaded = false;
+      String contacts[8];
 
       void init() {
-        this->number = "tel: ";
         this->initialised = true;
       }
 
       void tick() {
-        Surface & s2x1 = surfaces[0];
-        Port & p01 = channels[s2x1.channel].ports[1];
-
-        if (this->option == 0) {
-          char button = keypad.device.getButton();
-          if (button != 0) {
-            this->number += button;
-          }
-          if (s2x1.facingUp) {
-            s2x1.clear();
-            p01.screen.ssd1306.setCursor(0, 0);
-            p01.screen.textSize = 2;
-            p01.screen.setTextSize();
-            p01.screen.ssd1306.print(this->number);
-            p01.screen.needsRefresh = true;
-          }
-        }
-        
-        if (this->option == 1) {
-          if (!this->contactsLoaded) {
-            JsonArray & file = interface.loadFromFile("/config/menu.json");
-            if (s2x1.facingUp) {
-              p01.screen.populate(file[1][5][1][1]);
-            }
-            this->contactsLoaded = true;
-          }
-          if (s2x1.facingUp) {
-            if (p01.screen.hasOptions) {
-              p01.screen.clear();
-              p01.screen.printBoxes();
-              p01.screen.printLines();
-              p01.screen.drawScrollbar();
+        if (this->contactsLoaded) {
+          Surface & s8x1 = surfaces[0];
+          if (s8x1.facingUp) {
+            for (int i=0; i<8; i++) {
+              channels[0].ports[i].screen.printText(contacts[i]);
             }
           }
+        } else {
+          JsonArray & menu = interface.loadFromFile("/config/menu.json");
+          for (int i=0; i<menu[1][1][1].size(); i++) {
+            String name = menu[1][1][1][i][0];
+            this->contacts[i] = name;
+          }
+          this->contactsLoaded = true;
         }
       }
 

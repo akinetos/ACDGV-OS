@@ -191,7 +191,6 @@ class Interface:public Program {
       if (element[2]) {
         if (element[2][0] == "run") {
           String programName = element[2][1];
-          int programOption = element[2][2];
           int programIndex = -1;
           if (programName == "batterfly") programIndex = 0;
           if (programName == "gravity") programIndex = 1;
@@ -200,14 +199,15 @@ class Interface:public Program {
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
           programs[programIndex]->counter = 0;
-          programs[programIndex]->active = !programs[programIndex]->active;
-          if (programs[programIndex]->active) {
-            if (!programs[programIndex]->initialised) {
-              programs[programIndex]->init();
-            }
-            programs[programIndex]->setOption(programOption);
-            programs[programIndex]->justActivated();
+          programs[programIndex]->active = true;
+          if (!programs[programIndex]->initialised) {
+            programs[programIndex]->init();
           }
+          if (element[2].size() == 3) {
+            int programOption = element[2][2];
+            programs[programIndex]->setOption(programOption);
+          }
+          programs[programIndex]->justActivated();
           this->showPath = false;
         }
       } else {
