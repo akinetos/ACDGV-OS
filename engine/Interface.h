@@ -226,19 +226,6 @@ class Interface:public Program {
 
         surface->clear();
 
-        if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && this->showPath) {
-            if (this->pathChanged) {
-              this->populateOptions();
-            }
-          }
-          if (surface->pointerPort == 1 && !this->anyProgramActive) {
-            OLED & screen = channels[0].ports[1].screen;
-            int index = screen.lineHovered;
-            this->selectOption(index);
-          }
-        }
-
         if (this->anyProgramActive) {
           for (int i=0; i<programsCount; i++) {
             if (programs[i]->active) {
@@ -257,6 +244,19 @@ class Interface:public Program {
 
         surface->drawOptions(1, this->pathLevel);
         surface->drawPointer();
+
+        if (gamepad.buttonApressed()) {
+          if (surface->pointerPort == 0 && this->showPath) {
+            if (this->pathChanged) {
+              this->populateOptions();
+            }
+          }
+          if (surface->pointerPort == 1 && !this->anyProgramActive) {
+            OLED & screen = channels[0].ports[1].screen;
+            int index = screen.lineHovered;
+            this->selectOption(index);
+          }
+        }
 
         if (keypad.anyKeyPressed()) {
           char button = keypad.device.getButton();
@@ -285,10 +285,6 @@ class Interface:public Program {
             }
           }
         }
-      }
-
-      for (int c = 0; c < channelsCount; c++) {
-        channels[c].display();
       }
     }
 
