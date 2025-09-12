@@ -4,19 +4,6 @@ class I2c:public Program {
     int count = 0;
     boolean scanned = false;
 
-    JsonArray & loadFromFile (String filePath) {
-      File file = SPIFFS.open(filePath, "r");
-      if (file) {
-        String source = file.readString();
-        int sourceLength = source.length() + 1; 
-        char charArray[sourceLength];
-        source.toCharArray(charArray, sourceLength);
-        StaticJsonBuffer<2250> jsonBuffer;
-        JsonArray& data = jsonBuffer.parseArray(charArray);
-        return data;
-      }
-    }
-
     void init() {
       if (!this->scanned) {
         this->scan();
@@ -24,7 +11,7 @@ class I2c:public Program {
     }
 
     void scan() {
-      JsonArray & configDevices = this->loadFromFile("/config/devices.json");
+      JsonArray & configDevices = loadFromFile("/config/devices.json");
       for (int address = 8; address < 120; address++) {
         Wire.beginTransmission(address);
         if (Wire.endTransmission() == 0) {

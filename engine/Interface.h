@@ -2,7 +2,6 @@ class Interface:public Program {
   public:
     String segments[8];
     int pathLevel = 0;
-    int frameNumber = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean showPath = true;
     boolean anyProgramActive = false;
@@ -72,21 +71,8 @@ class Interface:public Program {
       }
     }
 
-    JsonArray & loadFromFile (String filePath) {
-      File menuFile = SPIFFS.open(filePath, "r");
-      if (menuFile) {
-        String source = menuFile.readString();
-        int sourceLength = source.length() + 1; 
-        char charArray[sourceLength];
-        source.toCharArray(charArray, sourceLength);
-        StaticJsonBuffer<2250> jsonBuffer;
-        JsonArray& menu = jsonBuffer.parseArray(charArray);
-        return menu;
-      }
-    }
-
     void init() {
-      JsonArray & file = this->loadFromFile("/config/menu.json");
+      JsonArray & file = loadFromFile("/config/menu.json");
       String root = file[0];
       channels[0].ports[1].screen.populate(file);
       for (int i=0; i<8; i++) {
@@ -100,19 +86,18 @@ class Interface:public Program {
       }
     }
 
-    int getPathLevel() {
-      int output = 0;
+    void updatePathLevel() {
+      this->pathLevel = 0;
       for (int i=0; i<8; i++) {
         if (this->segments[i] != "") {
-          output = i;
+          this->pathLevel = i;
         }
       }
-      return output;
     }
 
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
-      JsonArray & file = this->loadFromFile("/config/menu.json");
+      JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 3) {
         screen.populate(file[1][address[1]][1][address[2]][1][address[3]]);
       }
@@ -154,7 +139,7 @@ class Interface:public Program {
         }
       }
       if (this->pathChanged) {
-        this->pathLevel = this->getPathLevel();
+        this->updatePathLevel();
         this->deactivatePrograms();
         this->refreshScreens();
         this->showPath = true;
@@ -162,7 +147,7 @@ class Interface:public Program {
     }
 
     JsonArray & getElement() {
-      JsonArray & file = this->loadFromFile("/config/menu.json");
+      JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 0) {
         return file[1][address[1]];
       }
@@ -225,12 +210,10 @@ class Interface:public Program {
     }
 
     void tick() {
-      this->frameNumber++;
-      this->pathLevel = this->getPathLevel();
+      Surface * surface = & surfaces[0];
 
-      if (surfaces[0].facingUp) {
-        Surface * surface = &surfaces[0];
-
+      if (surface->facingUp) {
+        this->updatePathLevel();
         this->updatePrograms();
         this->updatePointer();
         this->updateOptions();
@@ -263,12 +246,15 @@ class Interface:public Program {
             }
           }
         }
+
         if (this->showPath) {
           surface->drawPath(0, this->getPath(), this->pathLevel);
         }
+
         if (this->pathLevel > 0) {
           surface->drawBackButton(0);
         }
+
         surface->drawOptions(1, this->pathLevel);
         surface->drawPointer();
 
@@ -294,27 +280,9 @@ class Interface:public Program {
             if (this->pathLevel > 0) {
               this->segments[this->pathLevel] = "";
               this->address[this->pathLevel] = NULL;
-              this->pathLevel = this->getPathLevel();
+              this->updatePathLevel();
               this->populateOptions();
             }
-          }
-        }
-      }
-
-      if (surfacesCount > 1) {
-        if (surfaces[1].facingUp) {
-          this->updatePrograms();
-          Surface * surface = &surfaces[1];
-          if (this->anyProgramActive) {
-            for (int i=0; i<programsCount; i++) {
-              if (programs[i]->active) {
-                programs[i]->tick();
-              }
-            }
-          } else {
-            OLED & screen = channels[surface->channel].ports[0].screen;
-            screen.clear();
-            screen.printText("no program selected");
           }
         }
       }
