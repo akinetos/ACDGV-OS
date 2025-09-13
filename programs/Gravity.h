@@ -88,7 +88,7 @@ class Gravity:public Program {
           Surface & s8x1 = surfaces[0];
           this->port = (int)(this->y / 32);
           channels[0].ports[port].screen.clear();
-          s8x1.fillCircle(this->x, this->y, 5);
+          s8x1.fillCircle(this->x, this->y, 10);
           if (this->port != this->previousPort) {
             this->clearPreviousPort();
           }
