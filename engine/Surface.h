@@ -160,11 +160,6 @@ class Surface {
     }
   }
 
-  void drawBackButton(int port) {
-    OLED & screen = channels[this->channel].ports[port].screen;
-    screen.drawBackButton();
-  }
-
   void drawPointer() {
     OLED & screen = channels[this->channel].ports[this->pointerPort].screen;
     screen.drawPointer(this->getRelativeX(), this->getRelativeY(), "circle");
@@ -184,20 +179,9 @@ class Surface {
     }
   }
 
-  void drawPath(int port, String path, int pathLevel) {
-    int cursorX = -1;
-    if (this->pointerPort == 0) {
-      cursorX = this->getRelativeX();
-    }
-    if (pathLevel < 3) {
-      channels[this->channel].ports[port].screen.clear();
-    }
-    channels[this->channel].ports[port].screen.drawPath(path, cursorX);
-  }
-
-  void drawOptions(int port, int pathLevel) {
+  void drawOptions(int port) {
     OLED & screen = channels[this->channel].ports[port].screen;
-    if (pathLevel < 4 && screen.hasOptions) {
+    if (screen.hasOptions) {
       screen.clear();
       screen.printBoxes();
       screen.printLines();

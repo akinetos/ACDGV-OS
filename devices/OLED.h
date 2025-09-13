@@ -308,7 +308,7 @@ class OLED: public Device {
       this->needsRefresh = true;
     }
 
-    void drawPath(String path, int cursorX) {
+    void drawMenu(String path, int cursorX) {
       const int length = path.length();
       int buttonWidth = 10;
       int count = 0;

@@ -1,13 +1,13 @@
 class Interface:public Program {
   public:
     String segments[8];
-    int pathLevel = 0;
+    int menuLevel = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    boolean showPath = true;
+    boolean showMenu = true;
     boolean anyProgramActive = false;
     boolean pathChanged = false;
 
-    String getPath() {
+    String getMenuPath() {
       String output = "";
       for (int i=0; i<8; i++) {
         if (this->segments[i] != "") {
@@ -86,11 +86,11 @@ class Interface:public Program {
       }
     }
 
-    void updatePathLevel() {
-      this->pathLevel = 0;
+    void updatemenuLevel() {
+      this->menuLevel = 0;
       for (int i=0; i<8; i++) {
         if (this->segments[i] != "") {
-          this->pathLevel = i;
+          this->menuLevel = i;
         }
       }
     }
@@ -98,16 +98,16 @@ class Interface:public Program {
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
       JsonArray & file = loadFromFile("/config/menu.json");
-      if (this->pathLevel == 3) {
+      if (this->menuLevel == 3) {
         screen.populate(file[1][address[1]][1][address[2]][1][address[3]]);
       }
-      if (this->pathLevel == 2) {
+      if (this->menuLevel == 2) {
         screen.populate(file[1][address[1]][1][address[2]]);
       }
-      if (this->pathLevel == 1) {
+      if (this->menuLevel == 1) {
         screen.populate(file[1][address[1]]);
       }
-      if (this->pathLevel == 0) {
+      if (this->menuLevel == 0) {
         screen.populate(file);
       }
     }
@@ -118,13 +118,13 @@ class Interface:public Program {
       }
     }
 
-    void updatePathSegment() {
+    void updateMainMenu() {
       OLED & screen = channels[0].ports[0].screen;
       this->pathChanged = false;
       if (screen.backButtonHovered) {
-        if (this->pathLevel > 0) {
-          this->segments[this->pathLevel] = "";
-          this->address[this->pathLevel] = NULL;
+        if (this->menuLevel > 0) {
+          this->segments[this->menuLevel] = "";
+          this->address[this->menuLevel] = NULL;
           this->pathChanged = true;
         }
       } else {
@@ -139,39 +139,39 @@ class Interface:public Program {
         }
       }
       if (this->pathChanged) {
-        this->updatePathLevel();
+        this->updatemenuLevel();
         this->deactivatePrograms();
         this->refreshScreens();
-        this->showPath = true;
+        this->showMenu = true;
       }
     }
 
     JsonArray & getElement() {
       JsonArray & file = loadFromFile("/config/menu.json");
-      if (this->pathLevel == 0) {
+      if (this->menuLevel == 0) {
         return file[1][address[1]];
       }
-      if (this->pathLevel == 1) {
+      if (this->menuLevel == 1) {
         return file[1][address[1]][1][address[2]];
       }
-      if (this->pathLevel == 2) {
+      if (this->menuLevel == 2) {
         return file[1][address[1]][1][address[2]][1][address[3]];
       }
-      if (this->pathLevel == 3) {
+      if (this->menuLevel == 3) {
         return file[1][address[1]][1][address[2]][1][address[3]][1][address[4]];
       }
     }
 
     void selectOption(int index) {
       OLED & screen = channels[0].ports[1].screen;
-      this->address[this->pathLevel + 1] = index;
-      for (int i=this->pathLevel+2; i<8; i++) {
+      this->address[this->menuLevel + 1] = index;
+      for (int i=this->menuLevel+2; i<8; i++) {
         this->address[i] = NULL;
       }
       JsonArray & element = this->getElement();
       String optionName = element[0];
       screen.populate(element);
-      this->segments[this->pathLevel + 1] = optionName;
+      this->segments[this->menuLevel + 1] = optionName;
 
       if (element[2]) {
         if (element[2][0] == "run") {
@@ -193,7 +193,7 @@ class Interface:public Program {
             programs[programIndex]->setOption(programOption);
           }
           programs[programIndex]->justActivated();
-          this->showPath = false;
+          this->showMenu = false;
         }
       } else {
         this->deactivatePrograms();
@@ -209,19 +209,37 @@ class Interface:public Program {
       }
     }
 
+    boolean mainMenuHovered() {
+      return surfaces[0].pointerPort == 0 
+        && (this->showMenu || channels[0].ports[0].screen.backButtonHovered);
+    }
+
+    void drawMenu() {
+      String menuPath = this->getMenuPath();
+      int cursorX = -1;
+      if (surfaces[0].pointerPort == 0) {
+        cursorX = surfaces[0].getRelativeX();
+      }
+      if (this->menuLevel < 3) {
+        channels[0].ports[0].screen.clear();
+      }
+      channels[0].ports[0].screen.drawMenu(menuPath, cursorX);
+      if (this->menuLevel > 0) {
+        channels[0].ports[0].screen.drawBackButton();
+      }
+    }
+
     void tick() {
       Surface * surface = & surfaces[0];
 
       if (surface->facingUp) {
-        this->updatePathLevel();
+        this->updatemenuLevel();
         this->updatePrograms();
         this->updatePointer();
         this->updateOptions();
         
-        if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && (this->showPath || channels[0].ports[0].screen.backButtonHovered)) {
-            this->updatePathSegment();
-          }
+        if (gamepad.buttonApressed() && this->mainMenuHovered()) {
+          this->updateMainMenu();
         }
 
         surface->clear();
@@ -234,19 +252,17 @@ class Interface:public Program {
           }
         }
 
-        if (this->showPath) {
-          surface->drawPath(0, this->getPath(), this->pathLevel);
+        if (this->showMenu) {
+          this->drawMenu();
+          if (this->menuLevel < 4) {
+            surface->drawOptions(1);
+          }
         }
-
-        if (this->pathLevel > 0) {
-          surface->drawBackButton(0);
-        }
-
-        surface->drawOptions(1, this->pathLevel);
+        
         surface->drawPointer();
 
         if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && this->showPath) {
+          if (surface->pointerPort == 0 && this->showMenu) {
             if (this->pathChanged) {
               this->populateOptions();
             }
@@ -270,17 +286,17 @@ class Interface:public Program {
           }
           if (button == '#') {
             if (this->anyProgramActive) {
-              this->showPath = !this->showPath;
+              this->showMenu = !this->showMenu;
             }
           }
           if (button == '*') {
             if (this->anyProgramActive) {
               this->deactivatePrograms();
             }
-            if (this->pathLevel > 0) {
-              this->segments[this->pathLevel] = "";
-              this->address[this->pathLevel] = NULL;
-              this->updatePathLevel();
+            if (this->menuLevel > 0) {
+              this->segments[this->menuLevel] = "";
+              this->address[this->menuLevel] = NULL;
+              this->updatemenuLevel();
               this->populateOptions();
             }
           }
