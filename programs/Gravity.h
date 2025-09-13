@@ -1,17 +1,42 @@
 class Gravity:public Program {
     public:
-      int y = 0;
-      int maxY = 0;
+      int x = 64;
+      int y = 128;
+
+      int maxX = 127;
+      int maxY = 255;
+
+      int bounceX = 0;
       int bounceY = 0;
+
       int port = -1;
       int previousPort = -1;
 
       void moveLine() {
-        int tiltY = (int)(-accelerometer.y * (this->option + 1));
+        int speed = (this->option + 1) * 2;
+        int tiltX = (int)(-accelerometer.x * speed);
+        int tiltY = (int)(-accelerometer.y * speed);
+
+        this->x += tiltX;
         this->y += tiltY;
+
+        if (this->x < 0 || this->x > this->maxX) {
+          this->bounceX = -tiltX;
+        }
+
         if (this->y < 0 || this->y > this->maxY) {
           this->bounceY = -tiltY;
         }
+
+        if (this->bounceX != 0) {
+          this->x += this->bounceX * 2;
+          if (this->bounceX > 0) {
+            this->bounceX--;
+          } else {
+            this->bounceX++;
+          }
+        }
+
         if (this->bounceY != 0) {
           this->y += this->bounceY * 2;
           if (this->bounceY > 0) {
@@ -43,7 +68,6 @@ class Gravity:public Program {
       }
 
       void init() {
-        this->y = 0;
         this->initialised = true;
       }
 
@@ -62,9 +86,12 @@ class Gravity:public Program {
           }
         } else {
           Surface & s8x1 = surfaces[0];
-          this->maxY = 255;
-          this->port = s8x1.drawRectangle(0, this->y);
-          this->clearPreviousPort();
+          this->port = (int)(this->y / 32);
+          channels[0].ports[port].screen.clear();
+          s8x1.fillCircle(this->x, this->y, 5);
+          if (this->port != this->previousPort) {
+            this->clearPreviousPort();
+          }
         }
         
         this->moveLine();
