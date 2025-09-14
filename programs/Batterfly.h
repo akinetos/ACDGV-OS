@@ -202,14 +202,19 @@ class Batterfly:public Program {
         }
 
         void drawProgress() {
+            if (this->scores == STARS_COUNT) {
+                this->over = true;
+                endedAt = millis();
+            }
+
+            OLED & screen = channels[0].ports[0].screen;
+            screen.textScroll = 30;
+            screen.printText((String)this->scores + "/" + (String)STARS_COUNT);
+
+            /*
             Port & p07 = channels[0].ports[7];
             if (this->scoresChanged || p07.devices[0]->changed || p07.devices[1]->changed) {
                 p07.screen.clear();
-
-                if (this->scores == STARS_COUNT) {
-                    this->over = true;
-                    endedAt = millis();
-                }
                 p07.screen.sh1106.drawRect(
                     0, 0, 
                     128, 32,
@@ -248,6 +253,7 @@ class Batterfly:public Program {
 
                 p07.screen.needsRefresh = true;
             }
+            */
         }
 
         void updateBatterfly() {
@@ -351,52 +357,26 @@ class Batterfly:public Program {
 
         void tick() {
             this->counter++;
-
-            if (surfacesCount > 1) {
-                Surface & s2x1 = surfaces[0];
-                Surface & s8x1 = surfaces[1];
-
-                if (s2x1.facingUp) {
-                    this->updateBatterfly();
-                    this->updatePestki();
-                    this->drawBatterfly();
-                    this->drawPestki();
+            if (this->counter == 1) {
+                for (int port=0; port<8; port++) {
+                    channels[0].ports[port].screen.needsRefresh = true;
                 }
-                
-                if (s8x1.facingUp) {
-                    if (this->over) {
-                        int time = (endedAt - this->activatedTimestamp) / 1000;
-                        this->splash("BRAWO!", "czas: " + String(time) + " sekund");
-                    } else {
-                        this->updatePointer();
-                        //this->updateStars();
-                        this->updateBatterfly();
-                        this->updatePestki();
-                        s8x1.clear();
-                        this->drawStars();
-                        this->drawBatterfly();
-                        this->drawPestki();
-                        this->detectColisions();
-                        //this->drawProgress();
-                    }
-                }
+            }
+            
+            if (this->over) {
+                int time = (endedAt - this->activatedTimestamp) / 1000;
+                this->splash(" BRAWO!", "czas: " + String(time) + " s");
             } else {
-                Surface & s8x1 = surfaces[0];
-                
-                if (this->counter == 1) {
-                    for (int i=0; i<8; i++) {
-                        channels[0].ports[i].screen.needsRefresh = true;
-                    }
-                }
-                
+                channels[0].ports[0].screen.needsRefresh = true;
                 this->updatePointer();
                 this->updateBatterfly();
                 this->updatePestki();
-                s8x1.clear();
+                surfaces[surfaceIndex].clear();
                 this->drawStars();
                 this->drawBatterfly();
                 this->drawPestki();
                 this->detectColisions();
+                this->drawProgress();
             }
         }
     
