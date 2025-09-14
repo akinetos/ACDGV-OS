@@ -184,15 +184,13 @@ class Surface {
     }
   }
 
-  void drawPath(int port, String path, int pathLevel) {
+  void drawMenu(String path) {
     int cursorX = -1;
     if (this->pointerPort == 0) {
       cursorX = this->getRelativeX();
     }
-    if (pathLevel < 3) {
-      channels[this->channel].ports[port].screen.clear();
-    }
-    channels[this->channel].ports[port].screen.drawPath(path, cursorX);
+    channels[this->channel].ports[0].screen.clear();
+    channels[this->channel].ports[0].screen.drawPath(path, cursorX);
   }
 
   void drawOptions(int port, int pathLevel) {

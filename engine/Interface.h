@@ -3,7 +3,7 @@ class Interface:public Program {
     String segments[8];
     int pathLevel = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    boolean showPath = true;
+    boolean showMenu = true;
     boolean anyProgramActive = false;
     boolean pathChanged = false;
 
@@ -118,7 +118,7 @@ class Interface:public Program {
       }
     }
 
-    void updatePathSegment() {
+    void updateMenu() {
       OLED & screen = channels[0].ports[0].screen;
       this->pathChanged = false;
       if (screen.backButtonHovered) {
@@ -142,7 +142,7 @@ class Interface:public Program {
         this->updatePathLevel();
         this->deactivatePrograms();
         this->refreshScreens();
-        this->showPath = true;
+        this->showMenu = true;
       }
     }
 
@@ -193,7 +193,7 @@ class Interface:public Program {
             programs[programIndex]->setOption(programOption);
           }
           programs[programIndex]->justActivated();
-          this->showPath = false;
+          this->showMenu = false;
         }
       } else {
         this->deactivatePrograms();
@@ -219,8 +219,11 @@ class Interface:public Program {
         this->updateOptions();
         
         if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && (this->showPath || channels[0].ports[0].screen.backButtonHovered)) {
-            this->updatePathSegment();
+          if (
+            surface->pointerPort == 0 
+            && (this->showMenu || channels[0].ports[0].screen.backButtonHovered)
+          ) {
+            this->updateMenu();
           }
         }
 
@@ -234,8 +237,9 @@ class Interface:public Program {
           }
         }
 
-        if (this->showPath) {
-          surface->drawPath(0, this->getPath(), this->pathLevel);
+        if (this->showMenu) {
+          String path = this->getPath();
+          surface->drawMenu(path);
         }
 
         if (this->pathLevel > 0) {
@@ -246,7 +250,7 @@ class Interface:public Program {
         surface->drawPointer();
 
         if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && this->showPath) {
+          if (surface->pointerPort == 0 && this->showMenu) {
             if (this->pathChanged) {
               this->populateOptions();
             }
@@ -270,7 +274,7 @@ class Interface:public Program {
           }
           if (button == '#') {
             if (this->anyProgramActive) {
-              this->showPath = !this->showPath;
+              this->showMenu = !this->showMenu;
             }
           }
           if (button == '*') {
