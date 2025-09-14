@@ -62,11 +62,13 @@ class Interface:public Program {
     }
 
     void updatePointer() {
-      Surface & surface = surfaces[0];
-      if (surface.pointerPositionX > 120) {
-        surface.pointerPositionY = surface.pointerPreviousPositionY;
-        if (surface.pointerPortChanged()) {
-          surface.pointerPort = surface.pointerPreviousPort;
+      if (!this->anyProgramActive) {
+        Surface & surface = surfaces[0];
+        if (surface.pointerPositionX > 120) {
+          surface.pointerPositionY = surface.pointerPreviousPositionY;
+          if (surface.pointerPortChanged()) {
+            surface.pointerPort = surface.pointerPreviousPort;
+          }
         }
       }
     }
