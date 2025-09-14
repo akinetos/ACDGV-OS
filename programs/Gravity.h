@@ -17,8 +17,19 @@ class Gravity:public Program {
         int tiltX = (int)(-accelerometer.x * speed);
         int tiltY = (int)(-accelerometer.y * speed);
 
-        this->x += tiltX;
-        this->y += tiltY;
+        if (this->bounceX < -0.01 || this->bounceX > 0.01) {
+          this->x += this->bounceX;
+          this->bounceX *= 0.99;
+        } else {
+          this->x += tiltX;
+        }
+
+        if (this->bounceY < -0.01 || this->bounceY > 0.01) {
+          this->y += this->bounceY;
+          this->bounceY *= 0.99;
+        } else {
+          this->y += tiltY;
+        }
 
         if (this->x < 0 || this->x > this->maxX) {
           this->bounceX = -tiltX;
@@ -27,44 +38,15 @@ class Gravity:public Program {
         if (this->y < 0 || this->y > this->maxY) {
           this->bounceY = -tiltY;
         }
-
-        if (this->bounceX != 0) {
-          this->x += this->bounceX * 2;
-          if (this->bounceX > 0) {
-            this->bounceX--;
-          } else {
-            this->bounceX++;
-          }
-        }
-
-        if (this->bounceY != 0) {
-          this->y += this->bounceY * 2;
-          if (this->bounceY > 0) {
-            this->bounceY--;
-          } else {
-            this->bounceY++;
-          }
-        }
       }
 
       void clearPreviousPort() {
-        if (surfacesCount > 1) {
-          Surface & surface = surfaces[1];
-          if (this->port != this->previousPort && this->previousPort != -1) {
-            OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
-            screen.clear();
-            screen.needsRefresh = true;
-          }
-          this->previousPort = this->port;
-        } else {
-          Surface & surface = surfaces[0];
-          if (this->port != this->previousPort && this->previousPort != -1) {
-            OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
-            screen.clear();
-            screen.needsRefresh = true;
-          }
-          this->previousPort = this->port;
+        Surface & surface = surfaces[0];
+        if (this->port != this->previousPort && this->previousPort != -1) {
+          OLED & screen = channels[surface.channel].ports[this->previousPort].screen;
+          screen.clear();
         }
+        this->previousPort = this->port;
       }
 
       void init() {
@@ -72,28 +54,15 @@ class Gravity:public Program {
       }
 
       void tick() {
-        if (surfacesCount > 1) {
-          Surface & s2x1 = surfaces[0];
-          Surface & s8x1 = surfaces[1];
-          if (s8x1.facingUp) {
-            this->maxY = 255;
-            this->port = s8x1.drawRectangle(0, this->y);
-            this->clearPreviousPort();
-          }
-          if (s2x1.facingUp) {
-            this->maxY = 32;
-            s2x1.drawRectangle2(0, this->y);
-          }
-        } else {
-          Surface & s8x1 = surfaces[0];
-          this->port = (int)(this->y / 32);
-          channels[0].ports[port].screen.clear();
+        Surface & s8x1 = surfaces[0];
+        this->port = (int)(this->y / 32);
+        if (this->port < 8) {
+          channels[s8x1.channel].ports[port].screen.clear();
           s8x1.fillCircle(this->x, this->y, 10);
           if (this->port != this->previousPort) {
             this->clearPreviousPort();
           }
         }
-        
         this->moveLine();
       }
 
