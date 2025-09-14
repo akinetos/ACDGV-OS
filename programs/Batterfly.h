@@ -190,15 +190,16 @@ class Batterfly:public Program {
         }
 
         void splash(String message1, String message2) {
-            for (int p=0; p<6; p++) {
-                OLED & screen = channels[this->surfaceIndex].ports[p].screen;
-                screen.heading = message1.charAt(p);
-                screen.printHeading();
-                screen.needsRefresh = true;
+            for (int port=1; port<7; port++) {
+                int charIndex = port - 1;
+                String text = "";
+                char character = message1.charAt(charIndex);
+                for (int i=0; i<20; i++) {
+                    text += character;
+                }
+                channels[0].ports[port].screen.printText(text);
             }
-            OLED & screen = channels[this->surfaceIndex].ports[7].screen;
-            screen.printText(message2);
-            screen.needsRefresh = true;
+            channels[0].ports[7].screen.printText(message2);
         }
 
         void drawProgress() {
@@ -365,7 +366,9 @@ class Batterfly:public Program {
             
             if (this->over) {
                 int time = (endedAt - this->activatedTimestamp) / 1000;
-                this->splash(" BRAWO!", "czas: " + String(time) + " s");
+                String message1 = "BRAWO!";
+                String message2 = "czas: " + String(time) + " s";
+                this->splash(message1, message2);
             } else {
                 channels[0].ports[0].screen.needsRefresh = true;
                 this->updatePointer();
