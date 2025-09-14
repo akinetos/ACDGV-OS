@@ -240,13 +240,13 @@ class Interface:public Program {
         if (this->showMenu) {
           String path = this->getPath();
           surface->drawMenu(path);
+          surface->drawOptions(1);
         }
 
         if (this->pathLevel > 0) {
           surface->drawBackButton(0);
         }
-
-        surface->drawOptions(1, this->pathLevel);
+        
         surface->drawPointer();
 
         if (gamepad.buttonApressed()) {

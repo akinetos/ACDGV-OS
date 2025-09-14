@@ -193,9 +193,9 @@ class Surface {
     channels[this->channel].ports[0].screen.drawPath(path, cursorX);
   }
 
-  void drawOptions(int port, int pathLevel) {
+  void drawOptions(int port) {
     OLED & screen = channels[this->channel].ports[port].screen;
-    if (pathLevel < 4 && screen.hasOptions) {
+    if (screen.hasOptions) {
       screen.clear();
       screen.printBoxes();
       screen.printLines();
