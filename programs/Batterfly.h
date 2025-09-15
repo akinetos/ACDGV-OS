@@ -370,7 +370,6 @@ class Batterfly:public Program {
                 String message2 = "czas: " + String(time) + " s";
                 this->splash(message1, message2);
             } else {
-                channels[0].ports[0].screen.needsRefresh = true;
                 this->updatePointer();
                 this->updateBatterfly();
                 this->updatePestki();
@@ -381,6 +380,10 @@ class Batterfly:public Program {
                 this->detectColisions();
                 this->drawProgress();
             }
+        }
+
+        void update() {
+            channels[0].ports[0].screen.needsRefresh = true;
         }
     
     Batterfly() {}

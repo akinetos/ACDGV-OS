@@ -218,6 +218,7 @@ class Interface:public Program {
       for (int i=0; i<programsCount; i++) {
         if (programs[i]->active) {
           this->anyProgramActive = true;
+          programs[i]->update();
         }
       }
     }
