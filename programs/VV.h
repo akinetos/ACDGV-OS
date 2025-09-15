@@ -8,6 +8,8 @@ class VV:public Program {
 
     float scale = 200;
     int precision = 100;
+    
+    float points[400];
 
     void init() {
       this->cRe = 0.22;
@@ -19,59 +21,50 @@ class VV:public Program {
       Surface & s8x1 = surfaces[0];
 
       if (s8x1.facingUp) {
-        for (int i=0; i<8; i++) {
-          channels[0].ports[i].screen.needsRefresh = true;
-        }
-
-        s8x1.clear();
-
-        float newZre = 0;
-        float newZim = 0;
-
-        float offsetRe = accelerometer.x / this->precision;
-        float offsetIm = accelerometer.y / this->precision;
-
-        int x = 0;
-        int y = 0;
-
-        int previousX = 0;
-        int previousY = 0;
-
-        for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {
-          if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
-            xOffset += gamepad.axisX / 10;
-          }
-
-          if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
-            yOffset -= gamepad.axisY / 10;
-          }
-
-          x = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
-          y = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
-
-          if (x >=0 && x < s8x1.width && y >= 0 && y < s8x1.height) {
+        for (int i=1; i<200; i++) {
+          if (points[i*2] >=0 && points[i*2] < s8x1.width && points[i*2+1] >= 0 && points[i*2+1] < s8x1.height) {
             if (this->option == 0) {
-              s8x1.drawPoint(x, y);
+              s8x1.drawPoint(points[i*2], points[i*2+1]);
             }
             if (this->option == 1) {
-              s8x1.drawLine(previousX, previousY, x, y);
+              s8x1.drawLine(points[(i-1)*2], points[(i-1)*2+1], points[i*2], points[i*2+1]);
             }
           }
+        }
+      }
+    }
 
-          float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetRe;
-          float newerZim = newZre * newZim * 2 + this->cIm + offsetIm;
-          newZre = newerZre;
-          newZim = newerZim;
-          previousX = x;
-          previousY = y;
+    void update() {
+      Surface & s8x1 = surfaces[0];
+
+      float newZre = 0;
+      float newZim = 0;
+
+      float offsetRe = accelerometer.x / this->precision;
+      float offsetIm = accelerometer.y / this->precision;
+
+      this->points[0] = 0;
+      this->points[1] = 0;
+
+      for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {
+        if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
+          xOffset += gamepad.axisX / 10;
         }
 
-        OLED & screen = channels[0].ports[7].screen;
-        screen.ssd1306.setCursor(0, 0);
-        screen.ssd1306.print("re: " + (String)(this->cRe + offsetRe));
-        screen.ssd1306.setCursor(0, 10);
-        screen.ssd1306.print("im: " + (String)(this->cIm + offsetIm));
-        screen.needsRefresh = true;
+        if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
+          yOffset -= gamepad.axisY / 10;
+        }
+
+        this->points[i*2] = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
+        this->points[i*2+1] = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
+
+        int port = (int)(this->points[i*2+1] / 32);
+        channels[0].ports[port].screen.needsRefresh = true;
+
+        float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetRe;
+        float newerZim = newZre * newZim * 2 + this->cIm + offsetIm;
+        newZre = newerZre;
+        newZim = newerZim;
       }
     }
 
