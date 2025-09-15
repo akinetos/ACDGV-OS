@@ -74,18 +74,24 @@ class Interface:public Program {
     }
 
     void init() {
+      Surface * surface = & surfaces[0];
       JsonArray & file = loadFromFile("/config/menu.json");
       String root = file[0];
+
       channels[0].ports[1].screen.populate(file);
+
       for (int i=0; i<8; i++) {
         this->segments[i] = "";
       }
       this->segments[0] = root;
+      
       for (int i=0; i<programsCount; i++) {
         if (programs[i]->active) {
           programs[i]->init();
         }
       }
+
+      surface->menuPath = this->getPath();
     }
 
     void updatePathLevel() {
@@ -121,8 +127,11 @@ class Interface:public Program {
     }
 
     void updateMenu() {
+      Surface * surface = & surfaces[0];
       OLED & screen = channels[0].ports[0].screen;
+      
       this->pathChanged = false;
+
       if (screen.backButtonHovered) {
         if (this->pathLevel > 0) {
           this->segments[this->pathLevel] = "";
@@ -140,11 +149,13 @@ class Interface:public Program {
           }
         }
       }
+
       if (this->pathChanged) {
         this->updatePathLevel();
         this->deactivatePrograms();
         this->refreshScreens();
         this->showMenu = true;
+        surface->menuPath = this->getPath();
       }
     }
 
@@ -211,37 +222,86 @@ class Interface:public Program {
       }
     }
 
+    void reactToGamepadAction() {
+      Surface * surface = & surfaces[0];
+
+      if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
+        this->populateOptions();
+      }
+
+      if (surface->pointerPort == 1 && !this->anyProgramActive) {
+        OLED & screen = channels[0].ports[1].screen;
+        int index = screen.lineHovered;
+        this->selectOption(index);
+      }
+
+      surface->menuPath = this->getPath();
+    }
+
+    void reactToKeypadAction() {
+      char button = keypad.device.getButton();
+      if (button != '*' && button != '#') {
+        int index = button - 48;
+        if (this->anyProgramActive) {
+          programs[index]->active = !programs[index]->active;
+        } else {
+          this->selectOption(index);
+        }
+      }
+      if (button == '#') {
+        if (this->anyProgramActive) {
+          this->showMenu = !this->showMenu;
+        }
+      }
+      if (button == '*') {
+        if (this->anyProgramActive) {
+          this->deactivatePrograms();
+        }
+        if (this->pathLevel > 0) {
+          this->segments[this->pathLevel] = "";
+          this->address[this->pathLevel] = NULL;
+          this->updatePathLevel();
+          this->populateOptions();
+        }
+      }
+    }
+
+    boolean mainMenuHovered() {
+      Surface * surface = & surfaces[0];
+      boolean hovered = surface->pointerPort == 0 
+        && (this->showMenu || channels[0].ports[0].screen.backButtonHovered);
+      return hovered;
+    }
+
+    void drawActivePrograms() {
+      for (int i=0; i<programsCount; i++) {
+        if (programs[i]->active) {
+          programs[i]->tick();
+        }
+      }
+    }
+
     void tick() {
       Surface * surface = & surfaces[0];
 
       if (surface->facingUp) {
-        this->updatePathLevel();
-        this->updatePrograms();
         this->updatePointer();
+        this->updatePathLevel();
         this->updateOptions();
+        this->updatePrograms();
         
-        if (gamepad.buttonApressed()) {
-          if (
-            surface->pointerPort == 0 
-            && (this->showMenu || channels[0].ports[0].screen.backButtonHovered)
-          ) {
-            this->updateMenu();
-          }
+        if (gamepad.buttonApressed() && this->mainMenuHovered()) {
+          this->updateMenu();
         }
 
         surface->clear();
 
         if (this->anyProgramActive) {
-          for (int i=0; i<programsCount; i++) {
-            if (programs[i]->active) {
-              programs[i]->tick();
-            }
-          }
+          this->drawActivePrograms();
         }
 
         if (this->showMenu) {
-          String path = this->getPath();
-          surface->drawMenu(path);
+          surface->drawMenu(0);
           surface->drawOptions(1);
         }
 
@@ -250,47 +310,6 @@ class Interface:public Program {
         }
         
         surface->drawPointer();
-
-        if (gamepad.buttonApressed()) {
-          if (surface->pointerPort == 0 && this->showMenu) {
-            if (this->pathChanged) {
-              this->populateOptions();
-            }
-          }
-          if (surface->pointerPort == 1 && !this->anyProgramActive) {
-            OLED & screen = channels[0].ports[1].screen;
-            int index = screen.lineHovered;
-            this->selectOption(index);
-          }
-        }
-
-        if (keypad.anyKeyPressed()) {
-          char button = keypad.device.getButton();
-          if (button != '*' && button != '#') {
-            int index = button - 48;
-            if (this->anyProgramActive) {
-              programs[index]->active = !programs[index]->active;
-            } else {
-              this->selectOption(index);
-            }
-          }
-          if (button == '#') {
-            if (this->anyProgramActive) {
-              this->showMenu = !this->showMenu;
-            }
-          }
-          if (button == '*') {
-            if (this->anyProgramActive) {
-              this->deactivatePrograms();
-            }
-            if (this->pathLevel > 0) {
-              this->segments[this->pathLevel] = "";
-              this->address[this->pathLevel] = NULL;
-              this->updatePathLevel();
-              this->populateOptions();
-            }
-          }
-        }
       }
     }
 

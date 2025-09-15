@@ -24,6 +24,8 @@ class Surface {
     int pointerSpeed = 10;
     int screensCount = 0;
 
+    String menuPath = "";
+
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
     }
@@ -184,13 +186,14 @@ class Surface {
     }
   }
 
-  void drawMenu(String path) {
+  void drawMenu(int port) {
     int cursorX = -1;
     if (this->pointerPort == 0) {
       cursorX = this->getRelativeX();
     }
-    channels[this->channel].ports[0].screen.clear();
-    channels[this->channel].ports[0].screen.drawPath(path, cursorX);
+    OLED & screen = channels[this->channel].ports[port].screen;
+    screen.clear();
+    screen.drawPath(this->menuPath, cursorX);
   }
 
   void drawOptions(int port) {

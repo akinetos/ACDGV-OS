@@ -115,6 +115,14 @@ void loop() {
 
   interface.tick();
 
+  if (gamepad.buttonApressed()) {
+    interface.reactToGamepadAction();
+  }
+
+  if (keypad.anyKeyPressed()) {
+    interface.reactToKeypadAction();
+  }
+
   for (int c = 0; c < channelsCount; c++) {
     channels[c].display();
   }
