@@ -50,6 +50,14 @@ class Gravity:public Program {
       }
 
       void init() {
+        if (version == "3") {
+          maxY = 95;
+        }
+        
+        if (version == "8") {
+          maxY = 255;
+        }
+        
         this->initialised = true;
       }
 
