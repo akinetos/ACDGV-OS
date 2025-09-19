@@ -27,7 +27,7 @@ class VV:public Program {
       }
 
       if (this->move) {
-        Surface & s8x1 = surfaces[0];
+        Surface & surface = surfaces[0];
 
         float newZre = 0;
         float newZim = 0;
@@ -47,12 +47,14 @@ class VV:public Program {
         }
         
         for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
-          this->points[i*2] = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
-          this->points[i*2+1] = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
+          this->points[i*2] = surface.width / 2 + (int)(newZre * this->scale) + xOffset;
+          this->points[i*2+1] = surface.height / 2 + (int)(newZim * this->scale) + yOffset;
 
           int port = (int)(this->points[i*2+1] / 32);
-          if (port >=0 && port < 3) {
-            channels[0].ports[port].screen.needsRefresh = true;
+          if (port >=0) {
+            if ((version == "3" && port < 3) || (version == "8" && port < 8)) {
+              channels[0].ports[port].screen.needsRefresh = true;
+            }
           }
 
           float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetRe;
