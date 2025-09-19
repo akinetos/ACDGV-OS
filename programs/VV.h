@@ -1,3 +1,5 @@
+const int pointsCount = 1000;
+
 class VV:public Program {
   public:
     float cRe;
@@ -9,7 +11,7 @@ class VV:public Program {
     float scale = 200;
     int precision = 100;
     
-    float points[400];
+    int points[pointsCount * 2];
 
     boolean move = true;
 
@@ -36,20 +38,22 @@ class VV:public Program {
         this->points[0] = 0;
         this->points[1] = 0;
 
-        for (int i=1; i<200 && ((newZre*newZre + newZim*newZim) < 4); i++) {
-          if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
-            xOffset += gamepad.axisX / 10;
-          }
+        if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
+          xOffset += gamepad.axisX * 10;
+        }
 
-          if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
-            yOffset -= gamepad.axisY / 10;
-          }
-
+        if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
+          yOffset -= gamepad.axisY * 10;
+        }
+        
+        for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
           this->points[i*2] = s8x1.width / 2 + (int)(newZre * this->scale) + xOffset;
           this->points[i*2+1] = s8x1.height / 2 + (int)(newZim * this->scale) + yOffset;
 
           int port = (int)(this->points[i*2+1] / 32);
-          channels[0].ports[port].screen.needsRefresh = true;
+          if (port >=0 && port < 3) {
+            channels[0].ports[port].screen.needsRefresh = true;
+          }
 
           float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetRe;
           float newerZim = newZre * newZim * 2 + this->cIm + offsetIm;
@@ -59,17 +63,27 @@ class VV:public Program {
       }
     }
 
-    void tick() {
-      Surface & s8x1 = surfaces[0];
+    boolean isWithinRange(int i) {
+      Surface & surface = surfaces[0];
+      return points[i*2] >=0 && points[i*2] < surface.width && points[i*2+1] >= 0 && points[i*2+1] < surface.height;
+    }
 
-      if (s8x1.facingUp) {
-        for (int i=1; i<200; i++) {
-          if (points[i*2] >=0 && points[i*2] < s8x1.width && points[i*2+1] >= 0 && points[i*2+1] < s8x1.height) {
-            if (this->option == 0) {
-              s8x1.drawPoint(points[i*2], points[i*2+1]);
+    void tick() {
+      Surface & surface = surfaces[0];
+
+      if (surface.facingUp) {
+        if (this->option == 0) {
+          for (int i=0; i<pointsCount; i++) {
+            if (this->isWithinRange(i)) {
+              surface.drawPoint(points[i*2], points[i*2+1]);
             }
-            if (this->option == 1) {
-              s8x1.drawLine(points[(i-1)*2], points[(i-1)*2+1], points[i*2], points[i*2+1]);
+          }
+        }
+
+        if (this->option == 1) {
+          for (int i=0; i<(pointsCount-1); i++) {
+            if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
+              surface.drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
             }
           }
         }
