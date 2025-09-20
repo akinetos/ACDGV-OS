@@ -277,8 +277,9 @@ class Batterfly:public Program {
 
         void updatePestki() {
             Surface & surface = surfaces[this->surfaceIndex];
+            
             int index = -1;
-            if (gamepad.buttonApressed()) {
+            if (gamepad.buttonApressed() && !interface.showMenu) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp == 0) {
                         index = i;
@@ -293,6 +294,7 @@ class Batterfly:public Program {
                     channels[surface.channel].ports[this->pestki[index].port].screen.needsRefresh = true;
                 }
             }
+
             for (int i=0; i<PESTKI_COUNT; i++) {
                 if (this->pestki[i].timestamp > 0) {
                     this->pestki[i].x -= this->pestki[i].vectorX;

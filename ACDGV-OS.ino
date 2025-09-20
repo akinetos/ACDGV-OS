@@ -10,7 +10,7 @@
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-const String version = "3";
+const String version = "8";
 const int devicesCount = 6;
 const int programsCount = 6;
 

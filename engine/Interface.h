@@ -152,7 +152,7 @@ class Interface:public Program {
 
       if (this->pathChanged) {
         this->updatePathLevel();
-        this->deactivatePrograms();
+        //this->deactivatePrograms();
         this->refreshScreens();
         this->showMenu = true;
         surface->menuPath = this->getPath();
@@ -197,7 +197,7 @@ class Interface:public Program {
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
           programs[programIndex]->counter = 0;
-          programs[programIndex]->active = true;
+          programs[programIndex]->active = !programs[programIndex]->active;
           if (!programs[programIndex]->initialised) {
             programs[programIndex]->init();
           }
@@ -206,10 +206,10 @@ class Interface:public Program {
             programs[programIndex]->setOption(programOption);
           }
           programs[programIndex]->justActivated();
-          this->showMenu = false;
+          //this->showMenu = false;
         }
       } else {
-        this->deactivatePrograms();
+        //this->deactivatePrograms();
       }
     }
 
@@ -230,7 +230,7 @@ class Interface:public Program {
         this->populateOptions();
       }
 
-      if (surface->pointerPort == 1 && !this->anyProgramActive) {
+      if (surface->pointerPort == 1) { // && !this->anyProgramActive
         OLED & screen = channels[0].ports[1].screen;
         int index = screen.lineHovered;
         this->selectOption(index);
