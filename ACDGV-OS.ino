@@ -61,7 +61,8 @@ void setup() {
   SPIFFS.begin();
   i2c.init();
 
-  JsonArray & configSurfaces = loadFromFile("/config/surfaces/" + version + ".json");
+  String filePath = "/config/surfaces/" + version + ".json";
+  JsonArray & configSurfaces = loadFromFile(filePath);
   surfacesCount = configSurfaces.size();
   channelsCount = Surface::countChannels(configSurfaces);
 
@@ -82,7 +83,7 @@ void setup() {
 
   surfaces = new Surface[surfacesCount];
   for (int i=0; i<surfacesCount; i++) {
-    surfaces[i] = Surface::createFromConfigFile(configSurfaces[i]);
+    surfaces[i] = *Surface::createFromConfigFile(configSurfaces[i]);
   }
   
   for (int i = 0; i < surfacesCount; i++) {

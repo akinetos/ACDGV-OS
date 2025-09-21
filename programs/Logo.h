@@ -207,7 +207,6 @@ class Logo:public Program {
 	  
 		Surface & s8x1 = surfaces[0];
 		if (s8x1.facingUp) {
-			s8x1.clear();
 			int xStep = 8;
 			int yStep = 8;
 			for (int p=0; p<8; p++) {
