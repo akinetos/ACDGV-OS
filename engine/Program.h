@@ -17,6 +17,7 @@ class Program {
 
     void virtual justActivated() {
       this->activatedTimestamp = millis();
+      this->counter = 0;
     }
 
     void virtual update() {}

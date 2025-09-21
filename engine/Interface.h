@@ -177,14 +177,16 @@ class Interface:public Program {
 
     void selectOption(int index) {
       OLED & screen = channels[0].ports[1].screen;
+      JsonArray & element = this->getElement();
+      String optionName = element[0];
+
+      this->segments[this->pathLevel + 1] = optionName;
       this->address[this->pathLevel + 1] = index;
       for (int i=this->pathLevel+2; i<8; i++) {
         this->address[i] = NULL;
       }
-      JsonArray & element = this->getElement();
-      String optionName = element[0];
+      
       screen.populate(element);
-      this->segments[this->pathLevel + 1] = optionName;
 
       if (element[2]) {
         if (element[2][0] == "run") {
@@ -196,20 +198,19 @@ class Interface:public Program {
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
-          programs[programIndex]->counter = 0;
+          
           programs[programIndex]->active = !programs[programIndex]->active;
-          if (!programs[programIndex]->initialised) {
-            programs[programIndex]->init();
+          if (programs[programIndex]->active) {
+            if (!programs[programIndex]->initialised) {
+              programs[programIndex]->init();
+            }
+            if (element[2].size() == 3) {
+              int programOption = element[2][2];
+              programs[programIndex]->setOption(programOption);
+            }
+            programs[programIndex]->justActivated();
           }
-          if (element[2].size() == 3) {
-            int programOption = element[2][2];
-            programs[programIndex]->setOption(programOption);
-          }
-          programs[programIndex]->justActivated();
-          //this->showMenu = false;
         }
-      } else {
-        //this->deactivatePrograms();
       }
     }
 
