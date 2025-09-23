@@ -176,16 +176,15 @@ class Interface:public Program {
     }
 
     void selectOption(int index) {
-      OLED & screen = channels[0].ports[1].screen;
-      JsonArray & element = this->getElement();
-      String optionName = element[0];
-
-      this->segments[this->pathLevel + 1] = optionName;
       this->address[this->pathLevel + 1] = index;
       for (int i=this->pathLevel+2; i<8; i++) {
         this->address[i] = NULL;
       }
-      
+
+      OLED & screen = channels[0].ports[1].screen;
+      JsonArray & element = this->getElement();
+      String optionName = element[0];
+      this->segments[this->pathLevel + 1] = optionName;
       screen.populate(element);
 
       if (element[2]) {
@@ -294,6 +293,10 @@ class Interface:public Program {
         
         if (gamepad.buttonApressed() && this->mainMenuHovered()) {
           this->updateMenu();
+        }
+
+        if (channels[0].ports[0].screen.textScroll != 0) {
+          channels[0].ports[0].screen.needsRefresh = true;
         }
 
         surface->clear();

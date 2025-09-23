@@ -208,7 +208,7 @@ class Batterfly:public Program {
                 endedAt = millis();
             }
 
-            OLED & screen = channels[0].ports[0].screen;
+            OLED & screen = channels[0].ports[1].screen;
             screen.textScroll = 30;
             screen.printText((String)this->scores + "/" + (String)STARS_COUNT);
 
@@ -385,7 +385,9 @@ class Batterfly:public Program {
         }
 
         void update() {
-            channels[0].ports[0].screen.needsRefresh = true;
+            if (this->scoresChanged) {
+                channels[0].ports[1].screen.needsRefresh = true;
+            }
         }
     
     Batterfly() {}

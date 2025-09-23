@@ -192,14 +192,12 @@ class Surface {
       cursorX = this->getRelativeX();
     }
     OLED & screen = channels[this->channel].ports[port].screen;
-    screen.clear();
     screen.drawPath(this->menuPath, cursorX);
   }
 
   void drawOptions(int port) {
     OLED & screen = channels[this->channel].ports[port].screen;
     if (screen.hasOptions) {
-      screen.clear();
       screen.printBoxes();
       screen.printLines();
       screen.drawScrollbar();

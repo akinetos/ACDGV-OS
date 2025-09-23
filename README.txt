@@ -8,5 +8,3 @@ if (interface.anyProgramActive) {
         }
     }
 }
-
-dlaczego sub-menu znika po otworzeniu programu?
