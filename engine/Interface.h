@@ -158,6 +158,7 @@ class Interface:public Program {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
           this->pathChanged = true;
+          this->deactivatePrograms();
         }
       } else {
         if (screen.pathSegmentHovered > -1) {
@@ -173,9 +174,7 @@ class Interface:public Program {
 
       if (this->pathChanged) {
         this->updatePathLevel();
-        //this->deactivatePrograms();
         this->refreshScreens();
-        this->showMenu = true;
         surface->menuPath = this->getPath();
       }
     }
@@ -258,7 +257,8 @@ class Interface:public Program {
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
           
-          programs[programIndex]->active = !programs[programIndex]->active;
+          this->deactivatePrograms();
+          programs[programIndex]->active = true;
           if (programs[programIndex]->active) {
             if (!programs[programIndex]->initialised) {
               programs[programIndex]->init();

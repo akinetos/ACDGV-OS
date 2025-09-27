@@ -208,13 +208,27 @@ class Surface {
     }
   }
 
+  String convertIntToString(int number) {
+    String output = "";
+    if (number == 0) output = "0";
+    if (number == 1) output = "1";
+    if (number == 2) output = "2";
+    if (number == 3) output = "3";
+    if (number == 4) output = "4";
+    if (number == 5) output = "5";
+    if (number == 6) output = "6";
+    if (number == 7) output = "7";
+    return output;
+  }
+
   void populateInit(JsonArray & json) {
     String branchName = json[0];
     if (json[1]) {
       this->optionsCount = json[1].size();
       for (int i = 0; i < this->optionsCount; i++) {
         String optionName = json[1][i][0];
-        this->options[i] = optionName;
+        String strNumber = this->convertIntToString(i);
+        this->options[i] = strNumber + " " + optionName;
       }
     } else {
       this->optionsCount = 0;
