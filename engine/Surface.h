@@ -25,6 +25,10 @@ class Surface {
     int screensCount = 0;
 
     String menuPath = "";
+    String options[8];
+    
+    int optionsCount = 0;
+    boolean hasOptions = false;
 
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
@@ -201,6 +205,28 @@ class Surface {
       screen.printBoxes();
       screen.printLines();
       screen.drawScrollbar();
+    }
+  }
+
+  void populateInit(JsonArray & json) {
+    String branchName = json[0];
+    if (json[1]) {
+      this->optionsCount = json[1].size();
+      for (int i = 0; i < this->optionsCount; i++) {
+        String optionName = json[1][i][0];
+        this->options[i] = optionName;
+      }
+    } else {
+      this->optionsCount = 0;
+    }
+    this->hasOptions = this->optionsCount > 0;
+  }
+
+  void populateTick() {
+    for (int i = 0; i < this->optionsCount; i++) {
+      OLED & screen = channels[0].ports[i+1].screen;
+      screen.printText(this->options[i]);
+      screen.needsRefresh = true;
     }
   }
 

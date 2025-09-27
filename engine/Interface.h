@@ -78,7 +78,11 @@ class Interface:public Program {
       JsonArray & file = loadFromFile("/config/menu.json");
       String root = file[0];
 
-      channels[0].ports[1].screen.populate(file);
+      if (version == "8") {
+        surface->populateInit(file);
+      } else {
+        channels[0].ports[1].screen.populate(file);
+      }
 
       for (int i=0; i<8; i++) {
         this->segments[i] = "";
@@ -117,6 +121,23 @@ class Interface:public Program {
       }
       if (this->pathLevel == 0) {
         screen.populate(file);
+      }
+    }
+
+    void populateOptions2() {
+      Surface * surface = & surfaces[0];
+      JsonArray & file = loadFromFile("/config/menu.json");
+      if (this->pathLevel == 3) {
+        surface->populateInit(file[1][address[1]][1][address[2]][1][address[3]]);
+      }
+      if (this->pathLevel == 2) {
+        surface->populateInit(file[1][address[1]][1][address[2]]);
+      }
+      if (this->pathLevel == 1) {
+        surface->populateInit(file[1][address[1]]);
+      }
+      if (this->pathLevel == 0) {
+        surface->populateInit(file);
       }
     }
 
@@ -213,6 +234,45 @@ class Interface:public Program {
       }
     }
 
+    void selectOption2(int index) {
+      Surface * surface = & surfaces[0];
+
+      this->address[this->pathLevel + 1] = index;
+      for (int i=this->pathLevel+2; i<8; i++) {
+        this->address[i] = NULL;
+      }
+
+      JsonArray & element = this->getElement();
+      String optionName = element[0];
+      this->segments[this->pathLevel + 1] = optionName;
+      surface->populateInit(element);
+
+      if (element[2]) {
+        if (element[2][0] == "run") {
+          String programName = element[2][1];
+          int programIndex = -1;
+          if (programName == "batterfly") programIndex = 0;
+          if (programName == "gravity") programIndex = 1;
+          if (programName == "vv") programIndex = 2;
+          if (programName == "logo") programIndex = 3;
+          if (programName == "telephone") programIndex = 4;
+          if (programName == "i2c") programIndex = 5;
+          
+          programs[programIndex]->active = !programs[programIndex]->active;
+          if (programs[programIndex]->active) {
+            if (!programs[programIndex]->initialised) {
+              programs[programIndex]->init();
+            }
+            if (element[2].size() == 3) {
+              int programOption = element[2][2];
+              programs[programIndex]->setOption(programOption);
+            }
+            programs[programIndex]->justActivated();
+          }
+        }
+      }
+    }
+
     void updatePrograms() {
       this->anyProgramActive = false;
       for (int i=0; i<programsCount; i++) {
@@ -227,13 +287,22 @@ class Interface:public Program {
       Surface * surface = & surfaces[0];
 
       if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
-        this->populateOptions();
+        if (version == "8") {
+          this->populateOptions2();
+        } else {
+          this->populateOptions();
+        }
       }
 
-      if (surface->pointerPort == 1) { // && !this->anyProgramActive
-        OLED & screen = channels[0].ports[1].screen;
-        int index = screen.lineHovered;
-        this->selectOption(index);
+      if (surface->pointerPort > 0) {
+        if (version == "8") {
+          int index = surface->pointerPort - 1;
+          this->selectOption2(index);
+        } else {
+          OLED & screen = channels[0].ports[1].screen;
+          int index = screen.lineHovered;
+          this->selectOption(index);
+        }
       }
 
       surface->menuPath = this->getPath();
@@ -246,7 +315,7 @@ class Interface:public Program {
         if (this->anyProgramActive) {
           programs[index]->active = !programs[index]->active;
         } else {
-          this->selectOption(index);
+          this->selectOption2(index);
         }
       }
       if (button == '#') {
@@ -262,7 +331,7 @@ class Interface:public Program {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
           this->updatePathLevel();
-          this->populateOptions();
+          this->populateOptions2();
         }
       }
     }
@@ -307,7 +376,11 @@ class Interface:public Program {
 
         if (this->showMenu) {
           surface->drawMenu(0);
-          surface->drawOptions(1);
+          if (version == "8") {
+            surface->populateTick();
+          } else {
+            surface->drawOptions(1);
+          }
         }
 
         if (this->pathLevel > 0) {
