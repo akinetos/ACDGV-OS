@@ -592,16 +592,14 @@ class OLED: public Device {
       this->needsRefresh = true;
     }
 
-    void populate (JsonArray & json) {
-      String branchName = json[0];
-      if (json[1]) {
-        const int amount = json[1].size();
-        this->heading = branchName;
+    void populate (JsonArray & list) {
+      if (list.size() > 0) {
+        const int amount = list.size();
         this->hasOptions = amount > 0;
         this->optionsCount = amount;
         this->minOffsetY = -(this->optionsCount * 10) + this->height - 1;
         for (int i = 0; i < amount; i++) {
-          String optionName = json[1][i][0];
+          String optionName = list[i][0];
           this->lines[i] = optionName;
         }
         this->lineSelected = -1;

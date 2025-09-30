@@ -76,18 +76,18 @@ class Interface:public Program {
     void init() {
       Surface * surface = & surfaces[0];
       JsonArray & file = loadFromFile("/config/menu.json");
-      String root = file[0];
+      String optionName = file[0];
 
       if (version == "8") {
-        surface->populateInit(file);
+        surface->populateInit(file[1]);
       } else {
-        channels[0].ports[1].screen.populate(file);
+        channels[0].ports[1].screen.populate(file[1]);
       }
 
-      for (int i=0; i<8; i++) {
+      for (int i=this->pathLevel+1; i<8; i++) {
         this->segments[i] = "";
       }
-      this->segments[0] = root;
+      this->segments[0] = optionName;
       
       for (int i=0; i<programsCount; i++) {
         if (programs[i]->active) {
@@ -98,29 +98,20 @@ class Interface:public Program {
       surface->menuPath = this->getPath();
     }
 
-    void updatePathLevel() {
-      this->pathLevel = 0;
-      for (int i=0; i<8; i++) {
-        if (this->segments[i] != "") {
-          this->pathLevel = i;
-        }
-      }
-    }
-
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
       JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 3) {
-        screen.populate(file[1][address[1]][1][address[2]][1][address[3]]);
+        screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1]);
       }
       if (this->pathLevel == 2) {
-        screen.populate(file[1][address[1]][1][address[2]]);
+        screen.populate(file[1][address[0]][1][address[1]][1]);
       }
       if (this->pathLevel == 1) {
-        screen.populate(file[1][address[1]]);
+        screen.populate(file[1][address[0]][1]);
       }
       if (this->pathLevel == 0) {
-        screen.populate(file);
+        screen.populate(file[1]);
       }
     }
 
@@ -128,16 +119,16 @@ class Interface:public Program {
       Surface * surface = & surfaces[0];
       JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 3) {
-        surface->populateInit(file[1][address[1]][1][address[2]][1][address[3]]);
+        surface->populateInit(file[1][address[0]][1][address[1]][1][address[2]][1]);
       }
       if (this->pathLevel == 2) {
-        surface->populateInit(file[1][address[1]][1][address[2]]);
+        surface->populateInit(file[1][address[0]][1][address[1]][1]);
       }
       if (this->pathLevel == 1) {
-        surface->populateInit(file[1][address[1]]);
+        surface->populateInit(file[1][address[0]][1]);
       }
       if (this->pathLevel == 0) {
-        surface->populateInit(file);
+        surface->populateInit(file[1]);
       }
     }
 
@@ -147,65 +138,71 @@ class Interface:public Program {
       }
     }
 
+    //updates this->segments and this->address when back or segment selected
     void updateMenu() {
-      Surface * surface = & surfaces[0];
       OLED & screen = channels[0].ports[0].screen;
-      
-      this->pathChanged = false;
 
-      if (screen.backButtonHovered) {
-        if (this->pathLevel > 0) {
-          this->segments[this->pathLevel] = "";
-          this->address[this->pathLevel] = NULL;
-          this->pathChanged = true;
-          this->deactivatePrograms();
-        }
-      } else {
-        if (screen.pathSegmentHovered > -1) {
-          for (int i=0; i < 8; i++) {
-            if (i > screen.pathSegmentHovered) {
+      if (screen.textScroll != 0) {
+        screen.needsRefresh = true;
+      }
+
+      if (gamepad.buttonApressed() && this->mainMenuHovered()) {
+        Surface * surface = & surfaces[0];
+        this->pathChanged = false;
+
+        if (screen.backButtonHovered) {
+          if (this->pathLevel > 0) {
+            this->segments[this->pathLevel] = "";
+            this->address[this->pathLevel-1] = NULL;
+            this->pathLevel--;
+            this->pathChanged = true;
+            this->deactivatePrograms(); //TODO should not be here
+          }
+        } else {
+          if (screen.pathSegmentHovered > -1) {
+            this->pathLevel = screen.pathSegmentHovered;
+            for (int i=this->pathLevel+1; i < 8; i++) {
               this->segments[i] = "";
-              this->address[i] = NULL;
+              this->address[i-1] = NULL;
               this->pathChanged = true;
             }
           }
         }
-      }
 
-      if (this->pathChanged) {
-        this->updatePathLevel();
-        this->refreshScreens();
-        surface->menuPath = this->getPath();
+        if (this->pathChanged) {
+          this->refreshScreens();
+          surface->menuPath = this->getPath(); //TODO investigate this
+        }
       }
     }
 
     JsonArray & getElement() {
       JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 0) {
-        return file[1][address[1]];
+        return file;
       }
       if (this->pathLevel == 1) {
-        return file[1][address[1]][1][address[2]];
+        return file[1][address[0]];
       }
       if (this->pathLevel == 2) {
-        return file[1][address[1]][1][address[2]][1][address[3]];
+        return file[1][address[0]][1][address[1]];
       }
       if (this->pathLevel == 3) {
-        return file[1][address[1]][1][address[2]][1][address[3]][1][address[4]];
+        return file[1][address[0]][1][address[1]][1][address[2]];
       }
     }
 
     void selectOption(int index) {
-      this->address[this->pathLevel + 1] = index;
-      for (int i=this->pathLevel+2; i<8; i++) {
-        this->address[i] = NULL;
-      }
+      this->pathLevel++;
+      this->address[this->pathLevel-1] = index;
 
       OLED & screen = channels[0].ports[1].screen;
       JsonArray & element = this->getElement();
+
       String optionName = element[0];
-      this->segments[this->pathLevel + 1] = optionName;
-      screen.populate(element);
+      this->segments[this->pathLevel] = optionName;
+
+      screen.populate(element[1]);
 
       if (element[2]) {
         if (element[2][0] == "run") {
@@ -233,18 +230,17 @@ class Interface:public Program {
       }
     }
 
-    void selectOption2(int index) {
+    void selectOption2(int optionIndex) {
+      this->pathLevel++;
+      this->address[this->pathLevel-1] = optionIndex;
+
       Surface * surface = & surfaces[0];
-
-      this->address[this->pathLevel + 1] = index;
-      for (int i=this->pathLevel+2; i<8; i++) {
-        this->address[i] = NULL;
-      }
-
       JsonArray & element = this->getElement();
+      
       String optionName = element[0];
-      this->segments[this->pathLevel + 1] = optionName;
-      surface->populateInit(element);
+      this->segments[this->pathLevel] = optionName;
+      
+      surface->populateInit(element[1]);
 
       if (element[2]) {
         if (element[2][0] == "run") {
@@ -330,7 +326,7 @@ class Interface:public Program {
         if (this->pathLevel > 0) {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
-          this->updatePathLevel();
+          this->pathLevel--;
           this->populateOptions2();
         }
       }
@@ -356,17 +352,9 @@ class Interface:public Program {
 
       if (surface->facingUp) {
         this->updatePointer();
-        this->updatePathLevel();
         this->updateOptions();
         this->updatePrograms();
-        
-        if (gamepad.buttonApressed() && this->mainMenuHovered()) {
-          this->updateMenu();
-        }
-
-        if (channels[0].ports[0].screen.textScroll != 0) {
-          channels[0].ports[0].screen.needsRefresh = true;
-        }
+        this->updateMenu();
 
         surface->clear();
 

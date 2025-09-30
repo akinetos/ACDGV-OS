@@ -221,12 +221,11 @@ class Surface {
     return output;
   }
 
-  void populateInit(JsonArray & json) {
-    String branchName = json[0];
-    if (json[1]) {
-      this->optionsCount = json[1].size();
+  void populateInit(JsonArray & list) {
+    if (list.size() > 0) {
+      this->optionsCount = list.size();
       for (int i = 0; i < this->optionsCount; i++) {
-        String optionName = json[1][i][0];
+        String optionName = list[i][0];
         String strNumber = this->convertIntToString(i);
         this->options[i] = strNumber + " " + optionName;
       }
