@@ -244,9 +244,11 @@ class Surface {
   }
 
   void populateTick() {
-    for (int i = 0; i < this->optionsCount; i++) {
-      OLED & screen = channels[0].ports[i+1].screen;
-      screen.printText(this->options[i]);
+    if (version == "8") {
+      for (int port = 1; port < this->optionsCount; port++) {
+        OLED & screen = channels[channel].ports[port].screen;
+        screen.printText(this->options[port]);
+      }
     }
   }
 

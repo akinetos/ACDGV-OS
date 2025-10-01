@@ -286,7 +286,7 @@ class Interface:public Program {
 
       if (surface->pointerPort > 0) {
         if (version == "8") {
-          int index = surface->pointerPort - 1;
+          int index = surface->pointerPort;
           this->selectOption2(index);
         } else {
           OLED & screen = channels[0].ports[1].screen;

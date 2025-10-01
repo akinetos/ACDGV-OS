@@ -1,24 +1,31 @@
 ["menu",[
+	["menu"],
 	["gry",[
+		["gry"],
 		["motyl",[
+			["motyl"],
 			["zaokraglony",[],["run","batterfly",0]],
 			["kanciasty",[],["run","batterfly",1]]
 		]],
 		["grawitacja",[
+			["grawitacja"],
 			["slaba",[],["run","gravity",0]],
 			["srednia",[],["run","gravity",1]],
 			["silna",[],["run","gravity",2]]
 		]],
 		["VV",[
+			["VV"],
 			["punkty",[],["run","vv",0]],
 			["linie",[],["run","vv",1]]
 		]],
 		["logo",[
+			["logo"],
 			["ACDGV",[],["run","logo",0]],
 			["OTHER",[],["run","logo",1]]
 		]]
 	]],
 	["dzieci",[
+		["dzieci"],
 		["Amelia"],
 		["Igor"],
 		["Feliks"],
@@ -26,6 +33,7 @@
 		["Matylda"]
 	]],
 	["programy",[
+		["programy"],
 		["i2c",[],["run","i2c"]],
 		["telefon",[],["run","telephone"]]
 	]]
