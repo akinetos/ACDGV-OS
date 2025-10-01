@@ -208,6 +208,7 @@ class Interface:public Program {
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
+          if (programName == "dzieci") programIndex = 6;
           
           programs[programIndex]->active = !programs[programIndex]->active;
           if (programs[programIndex]->active) {
@@ -246,6 +247,7 @@ class Interface:public Program {
           if (programName == "logo") programIndex = 3;
           if (programName == "telephone") programIndex = 4;
           if (programName == "i2c") programIndex = 5;
+          if (programName == "dzieci") programIndex = 6;
           
           this->deactivatePrograms();
           programs[programIndex]->active = true;

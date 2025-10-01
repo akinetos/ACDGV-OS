@@ -91,7 +91,7 @@ class Batterfly:public Program {
             if (channel != -1 && port != -1) {
                 OLED & screen = channels[channel].ports[port].screen;
                 if (screen.type == "ssd1306") {
-                    if (this->option == 0) {
+                    if (this->option == 1) {
                         for (int i=1; i<=this->wingsSpread; i++) {
                             screen.ssd1306.drawCircle(x - i - 2, y, i, SSD1306_WHITE);
                             screen.ssd1306.drawCircle(x + i + 2, y, i, SSD1306_WHITE);
@@ -101,7 +101,7 @@ class Batterfly:public Program {
                         screen.ssd1306.drawCircle(x, y + 5, 2, SSD1306_WHITE);
                         screen.ssd1306.drawCircle(x, y + 8, 2, SSD1306_WHITE);
                     }
-                    if (this->option == 1) {
+                    if (this->option == 2) {
                         for (int i=1; i<=this->wingsSpread; i++) {
                             screen.ssd1306.drawRect(x - 2 - i * 2, y - i, i * 2, i * 2, SSD1306_WHITE);
                             screen.ssd1306.drawRect(x + 2,         y - i, i * 2, i * 2, SSD1306_WHITE);

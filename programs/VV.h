@@ -74,7 +74,7 @@ class VV:public Program {
       Surface & surface = surfaces[0];
 
       if (surface.facingUp) {
-        if (this->option == 0) {
+        if (this->option == 1) {
           for (int i=0; i<pointsCount; i++) {
             if (this->isWithinRange(i)) {
               surface.drawPoint(points[i*2], points[i*2+1]);
@@ -82,7 +82,7 @@ class VV:public Program {
           }
         }
 
-        if (this->option == 1) {
+        if (this->option == 2) {
           for (int i=0; i<(pointsCount-1); i++) {
             if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
               surface.drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
