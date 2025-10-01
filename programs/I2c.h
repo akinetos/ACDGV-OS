@@ -1,6 +1,7 @@
 class I2c:public Program {
   public:
     String foundDevices[10];
+    int foundAddresses[10];
     int count = 0;
     boolean scanned = false;
 
@@ -24,7 +25,8 @@ class I2c:public Program {
               }
             }
           }
-          foundDevices[count] = (String)address + " - " + deviceType;
+          foundAddresses[count] = address;
+          foundDevices[count] = deviceType;
           count++;
           delay(1);
         }
@@ -33,27 +35,24 @@ class I2c:public Program {
     }
 
     void tick() {
-      //OLED & screen = channels[0].ports[1].screen;
       if (this->scanned) {
         for (int i=0; i<this->count; i++) {
-          //screen.lines[i] = this->foundDevices[i];
-          channels[0].ports[i+1].screen.clear();
-          channels[0].ports[i+1].screen.printText(this->foundDevices[i]);
+          OLED & screen = channels[0].ports[i+1].screen;
+          const int amount = 2;
+
+          screen.hasOptions = amount > 0;
+          screen.optionsCount = amount;
+          screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
+          screen.lines[0] = this->foundAddresses[i];
+          screen.lines[1] = this->foundDevices[i];
+          screen.lineSelected = -1;
+          for (int i=0; i<=20; i++) {
+            screen.lineScrollWidth[i] = 0;
+          }
+          screen.offsetY = 0;
+          screen.printLines();
         }
-      } else {
-        //screen.lines[0] = "not scanned";
       }
-      //screen.hasOptions = true;
-      //screen.optionsCount = this->count;
-      //screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
-      //screen.lineSelected = -1;
-      //screen.offsetY = 0;
-      //if (gamepad.connected) {
-      //  screen.updateScrollbar(gamepad.axisY);
-      //}
-      //screen.clear();
-      //screen.printLines();
-      //screen.drawScrollbar();
     }
 
   I2c() {}

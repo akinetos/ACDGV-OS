@@ -145,7 +145,7 @@ class Surface {
     screen.drawPoint(x, y - port * height);
   }
 
-  int fillCircle(int x, int y, int r) {
+  int drawCircle(int x, int y, int r) {
     int height = 32;
     int port = (int)(y / height);
     OLED & screen = channels[this->channel].ports[port].screen;
@@ -190,13 +190,21 @@ class Surface {
     }
   }
 
-  void drawMenu(int port) {
+  void drawMenuPath(int port) {
     int cursorX = -1;
     if (this->pointerPort == 0) {
       cursorX = this->getRelativeX();
     }
     OLED & screen = channels[this->channel].ports[port].screen;
     screen.drawPath(this->menuPath, cursorX);
+  }
+
+  void drawMenuOptions() {
+    if (version == "8") {
+      this->populateTick();
+    } else {
+      this->drawOptions(1);
+    }
   }
 
   void drawOptions(int port) {
@@ -239,7 +247,6 @@ class Surface {
     for (int i = 0; i < this->optionsCount; i++) {
       OLED & screen = channels[0].ports[i+1].screen;
       screen.printText(this->options[i]);
-      screen.needsRefresh = true;
     }
   }
 
@@ -297,5 +304,11 @@ class Surface {
 
   void drawText(int port, String text) {
     channels[channel].ports[port].screen.printText(text);
+  }
+
+  void refreshScreens() {
+    for (int i=0; i<8; i++) {
+      channels[channel].ports[i].screen.needsRefresh = true;
+    }
   }
 };

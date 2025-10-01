@@ -20,12 +20,6 @@ class Interface:public Program {
       return output;
     }
 
-    void refreshScreens() {
-      for (int i=0; i<8; i++) {
-        channels[0].ports[i].screen.needsRefresh = true;
-      }
-    }
-
     void updateOptions() {
       Surface & surface = surfaces[0];
       int x = surface.getRelativeX();
@@ -147,7 +141,6 @@ class Interface:public Program {
       }
 
       if (gamepad.buttonApressed() && this->mainMenuHovered()) {
-        Surface * surface = & surfaces[0];
         this->pathChanged = false;
 
         if (screen.backButtonHovered) {
@@ -170,7 +163,8 @@ class Interface:public Program {
         }
 
         if (this->pathChanged) {
-          this->refreshScreens();
+          Surface * surface = & surfaces[0];
+          surface->refreshScreens();
           surface->menuPath = this->getPath(); //TODO investigate this
         }
       }
@@ -363,12 +357,8 @@ class Interface:public Program {
         }
 
         if (this->showMenu) {
-          surface->drawMenu(0);
-          if (version == "8") {
-            surface->populateTick();
-          } else {
-            surface->drawOptions(1);
-          }
+          surface->drawMenuPath(0);
+          surface->drawMenuOptions();
         }
 
         if (this->pathLevel > 0) {

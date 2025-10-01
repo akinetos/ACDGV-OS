@@ -62,11 +62,11 @@ class Gravity:public Program {
       }
 
       void tick() {
-        Surface & s8x1 = surfaces[0];
+        Surface & surface = surfaces[0];
         this->port = (int)(this->y / 32);
         if (this->port < 8) {
-          channels[s8x1.channel].ports[port].screen.clear();
-          s8x1.fillCircle(this->x, this->y, 10);
+          channels[surface.channel].ports[port].screen.clear();
+          surface.drawCircle(this->x, this->y, 10);
           if (this->port != this->previousPort) {
             this->clearPreviousPort();
           }

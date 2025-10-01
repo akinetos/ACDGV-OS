@@ -318,7 +318,7 @@ class Batterfly:public Program {
                         if (this->pestki[i].timestamp > 0) {
                             int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                             if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 64 && t <= 4) {
-                                this->pestki[i].port = s2x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                                this->pestki[i].port = s2x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                             }
                         }    
                     }
@@ -329,7 +329,7 @@ class Batterfly:public Program {
                         if (this->pestki[i].timestamp > 0) {
                             int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                             if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
-                                this->pestki[i].port = s8x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                                this->pestki[i].port = s8x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                             }
                         }    
                     }
@@ -340,7 +340,7 @@ class Batterfly:public Program {
                     if (this->pestki[i].timestamp > 0) {
                         int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                         if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
-                            this->pestki[i].port = s8x1.fillCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                            this->pestki[i].port = s8x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                         }
                     }    
                 }
