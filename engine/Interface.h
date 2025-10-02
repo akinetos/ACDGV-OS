@@ -235,6 +235,7 @@ class Interface:public Program {
       this->segments[this->pathLevel] = optionName;
       
       surface->populateInit(element[1]);
+      surface->refreshScreens();
 
       if (element[2]) {
         if (element[2][0] == "run") {
@@ -278,6 +279,14 @@ class Interface:public Program {
 
       if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
         if (version == "8") {
+          
+          //TODO temporal solution
+          for (int i=1; i<8; i++) {
+            OLED & screen = channels[surface->channel].ports[i].screen;
+            screen.clear();
+          }
+          //-----------
+
           this->populateOptions2();
         } else {
           this->populateOptions();
@@ -287,6 +296,14 @@ class Interface:public Program {
       if (surface->pointerPort > 0) {
         if (version == "8") {
           int index = surface->pointerPort;
+
+          //TODO temporal solution
+          for (int i=1; i<8; i++) {
+            OLED & screen = channels[surface->channel].ports[i].screen;
+            screen.clear();
+          }
+          //-----------
+
           this->selectOption2(index);
         } else {
           OLED & screen = channels[0].ports[1].screen;
