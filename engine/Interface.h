@@ -130,6 +130,7 @@ class Interface:public Program {
       for (int i=0; i<programsCount; i++) {
         programs[i]->active = false;
       }
+      channels[0].ports[1].screen.textScroll = 0;
     }
 
     //updates this->segments and this->address when back or segment selected
@@ -149,7 +150,7 @@ class Interface:public Program {
             this->address[this->pathLevel-1] = NULL;
             this->pathLevel--;
             this->pathChanged = true;
-            this->deactivatePrograms(); //TODO should not be here
+            this->deactivatePrograms();
           }
         } else {
           if (screen.pathSegmentHovered > -1) {
@@ -159,6 +160,7 @@ class Interface:public Program {
               this->address[i-1] = NULL;
               this->pathChanged = true;
             }
+            this->deactivatePrograms();
           }
         }
 

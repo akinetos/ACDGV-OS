@@ -19,6 +19,7 @@ class VV:public Program {
       this->cRe = 0.22;
       this->cIm = 0.52;
       this->initialised = true;
+      this->move = true;
     }
 
     void update() {
@@ -90,6 +91,12 @@ class VV:public Program {
           }
         }
       }
+    }
+
+    void justActivated() {
+      this->activatedTimestamp = millis();
+      this->counter = 0;
+      this->move = true;
     }
 
   VV() {}
