@@ -191,12 +191,14 @@ class Surface {
   }
 
   void drawMenuPath(int port) {
+    OLED & screen = channels[this->channel].ports[port].screen;
     int cursorX = -1;
+    int cursorY = -1;
     if (this->pointerPort == 0) {
       cursorX = this->getRelativeX();
+      cursorY = this->getRelativeY() - int(this->getRelativeY() / screen.height);
     }
-    OLED & screen = channels[this->channel].ports[port].screen;
-    screen.drawPath(this->menuPath, cursorX);
+    screen.drawPath(this->menuPath, cursorX, cursorY);
   }
 
   void drawMenuOptions() {
