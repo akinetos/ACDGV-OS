@@ -25,6 +25,7 @@ class Surface {
     int screensCount = 0;
 
     String menuPath = "";
+    String menuAddress = "";
     String options[8];
     
     int optionsCount = 0;
@@ -198,7 +199,8 @@ class Surface {
       cursorX = this->getRelativeX();
       cursorY = this->getRelativeY() - int(this->getRelativeY() / screen.height);
     }
-    screen.drawPath(this->menuPath, cursorX, cursorY);
+    screen.drawMenuAddress(this->menuAddress);
+    screen.drawMenuPath(this->menuPath, cursorX, cursorY);
   }
 
   void drawMenuOptions() {

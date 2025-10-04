@@ -7,7 +7,7 @@ class Interface:public Program {
     boolean anyProgramActive = false;
     boolean pathChanged = false;
 
-    String getPath() {
+    String getMenuPath() {
       String output = "";
       for (int i=0; i<8; i++) {
         if (this->segments[i] != "") {
@@ -15,6 +15,19 @@ class Interface:public Program {
             output += "/";
           }
           output += segments[i];
+        }
+      }
+      return output;
+    }
+
+    String getMenuAddress() {
+      String output = "";
+      for (int i=0; i<8; i++) {
+        if (this->address[i] != NULL) {
+          if (output != "") {
+            output += "/";
+          }
+          output += this->address[i];
         }
       }
       return output;
@@ -89,7 +102,8 @@ class Interface:public Program {
         }
       }
 
-      surface->menuPath = this->getPath();
+      surface->menuAddress = this->getMenuAddress();
+      surface->menuPath = this->getMenuPath();
     }
 
     void populateOptions() {
@@ -167,7 +181,8 @@ class Interface:public Program {
         if (this->pathChanged) {
           Surface * surface = & surfaces[0];
           surface->refreshScreens();
-          surface->menuPath = this->getPath(); //TODO investigate this
+          surface->menuAddress = this->getMenuAddress();
+          surface->menuPath = this->getMenuPath();
         }
       }
     }
@@ -314,7 +329,8 @@ class Interface:public Program {
         }
       }
 
-      surface->menuPath = this->getPath();
+      surface->menuAddress = this->getMenuAddress();
+      surface->menuPath = this->getMenuPath();
     }
 
     void reactToKeypadAction() {

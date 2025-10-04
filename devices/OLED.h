@@ -308,7 +308,7 @@ class OLED: public Device {
       this->needsRefresh = true;
     }
 
-    void drawPath(String path, int cursorX, int cursorY) {
+    void drawMenuPath(String path, int cursorX, int cursorY) {
       const int length = path.length();
       int buttonWidth = 10;
       int count = 0;
@@ -367,6 +367,19 @@ class OLED: public Device {
       }
       
       this->needsRefresh = true;
+    }
+
+    void drawMenuAddress(String address) {
+      int buttonWidth = 10;
+      this->textSize = 1;
+      this->setTextSize();
+      
+      if (this->type == "ssd1306") {
+        this->ssd1306.setCursor(buttonWidth + 2, 4);
+        this->ssd1306.setTextColor(SSD1306_WHITE);
+        this->ssd1306.setTextWrap(false);
+        this->ssd1306.print(address);
+      }
     }
 
     void drawScrollbar() {
