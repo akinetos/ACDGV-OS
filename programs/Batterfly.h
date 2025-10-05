@@ -12,7 +12,7 @@ class Star {
         this->x = random(8,120);
         this->y = random(2,30);
         this->r = random(6,12);
-        this->port = random(0,8);
+        this->port = random(1,8);
         this->originalX = this->x;
         this->originalY = this->y;
         this->active = true;
@@ -88,7 +88,7 @@ class Batterfly:public Program {
                 y = s8x1.getRelativeY();
             }
 
-            if (channel != -1 && port != -1) {
+            if (channel != -1 && port > 0) {
                 OLED & screen = channels[channel].ports[port].screen;
                 if (screen.type == "ssd1306") {
                     if (this->option == 0) {
@@ -138,6 +138,10 @@ class Batterfly:public Program {
             if (found) {
                 this->scores++;
                 this->scoresChanged = true;
+                if (this->scores == STARS_COUNT) {
+                    this->over = true;
+                    endedAt = millis();
+                }
             } 
         }
 
@@ -203,14 +207,11 @@ class Batterfly:public Program {
         }
 
         void drawProgress() {
-            if (this->scores == STARS_COUNT) {
-                this->over = true;
-                endedAt = millis();
-            }
-
-            OLED & screen = channels[0].ports[1].screen;
-            screen.textScroll = 30;
-            screen.printText((String)this->scores + "/" + (String)STARS_COUNT);
+            OLED & screen = channels[0].ports[0].screen;
+            screen.ssd1306.setCursor(64, 4);
+            screen.ssd1306.setTextColor(SSD1306_WHITE);
+            screen.ssd1306.setTextWrap(false);
+            screen.ssd1306.print((String)this->scores + "/" + (String)STARS_COUNT);
 
             /*
             Port & p07 = channels[0].ports[7];
@@ -367,6 +368,7 @@ class Batterfly:public Program {
             }
             
             if (this->over) {
+                this->drawProgress();
                 int time = (endedAt - this->activatedTimestamp) / 1000;
                 String message1 = "BRAWO!";
                 String message2 = "czas: " + String(time) + " s";
