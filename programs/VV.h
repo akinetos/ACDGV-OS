@@ -8,6 +8,9 @@ class VV:public Program {
     float xOffset = 0;
     float yOffset = 0;
 
+    float offsetRe = 0;
+    float offsetIm = 0;
+
     float scale = 200;
     int precision = 100;
     
@@ -33,11 +36,11 @@ class VV:public Program {
         float newZre = 0;
         float newZim = 0;
 
-        float offsetRe = accelerometer.x / this->precision;
-        float offsetIm = accelerometer.y / this->precision;
-
         this->points[0] = 0;
         this->points[1] = 0;
+
+        this->offsetRe = accelerometer.x / this->precision;
+        this->offsetIm = accelerometer.y / this->precision;
 
         if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
           xOffset += gamepad.axisX * 10;
@@ -58,8 +61,8 @@ class VV:public Program {
             }
           }
 
-          float newerZre = newZre * newZre - newZim * newZim + this->cRe + offsetRe;
-          float newerZim = newZre * newZim * 2 + this->cIm + offsetIm;
+          float newerZre = newZre * newZre - newZim * newZim + this->cRe + this->offsetRe;
+          float newerZim = newZre * newZim * 2 + this->cIm + this->offsetIm;
           newZre = newerZre;
           newZim = newerZim;
         }
@@ -90,6 +93,8 @@ class VV:public Program {
             }
           }
         }
+
+        this->drawProgress();
       }
     }
 
@@ -97,6 +102,14 @@ class VV:public Program {
       this->activatedTimestamp = millis();
       this->counter = 0;
       this->move = true;
+    }
+
+    void drawProgress() {
+      OLED & screen = channels[0].ports[0].screen;
+      screen.ssd1306.setCursor(64, 4);
+      screen.ssd1306.setTextColor(SSD1306_WHITE);
+      screen.ssd1306.setTextWrap(false);
+      screen.ssd1306.print(String(this->cRe + this->offsetRe) + "/" + String(this->cIm + this->offsetIm));
     }
 
   VV() {}
