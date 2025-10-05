@@ -11,7 +11,7 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
 const String version = "8";
-const int devicesCount = 6;
+const int devicesCount = 7;
 const int programsCount = 6;
 
 int channelsCount;
@@ -32,6 +32,7 @@ Device * devices[devicesCount];
 #include "./devices/RE.h";
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
+#include "./devices/GD.h";
 
 AM accelerometer = AM(0x53);
 GV gv = GV();
@@ -39,6 +40,7 @@ HRS hrs = HRS(0x57);
 RE re = RE(0x55);
 Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
+GD gd = GD();
 
 #include "./engine/Channel.h";
 Channel * channels;
@@ -77,6 +79,7 @@ void setup() {
   devices[3] = &re;
   devices[4] = &gamepad;
   devices[5] = &keypad;
+  devices[6] = &gd;
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->init();
   }
@@ -101,6 +104,8 @@ void setup() {
   interface.init();
 }
 
+String gesture = "";
+
 void loop() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->tick();
@@ -123,6 +128,15 @@ void loop() {
   if (keypad.anyKeyPressed()) {
     interface.reactToKeypadAction();
   }
+
+  /*
+  if (gd.changed) {
+    gesture = gd.gesture;
+    OLED & screen = channels[0].ports[7].screen;
+    screen.clear();
+    screen.printText(gesture);
+  }
+  */
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].display();
