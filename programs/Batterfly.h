@@ -360,11 +360,12 @@ class Batterfly:public Program {
         }
 
         void tick() {
+            Surface & surface = surfaces[this->surfaceIndex];
+            
             this->counter++;
+
             if (this->counter == 1) {
-                for (int port=0; port<8; port++) {
-                    channels[0].ports[port].screen.needsRefresh = true;
-                }
+                surface.refreshScreens();
             }
             
             if (this->over) {
@@ -377,7 +378,7 @@ class Batterfly:public Program {
                 this->updatePointer();
                 this->updateBatterfly();
                 this->updatePestki();
-                surfaces[surfaceIndex].clear();
+                surface.clear();
                 this->drawStars();
                 this->drawBatterfly();
                 this->drawPestki();
