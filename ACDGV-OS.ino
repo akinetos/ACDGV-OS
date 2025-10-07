@@ -121,10 +121,6 @@ void loop() {
 
   interface.tick();
 
-  if (gamepad.buttonApressed()) {
-    interface.reactToGamepadAction();
-  }
-
   if (keypad.anyKeyPressed()) {
     interface.reactToKeypadAction();
   }

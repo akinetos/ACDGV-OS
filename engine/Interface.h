@@ -123,7 +123,7 @@ class Interface:public Program {
       }
     }
 
-    void populateOptions2() {
+    void populateOptionsInit() {
       Surface * surface = & surfaces[0];
       JsonArray & file = loadFromFile("/config/menu.json");
       if (this->pathLevel == 3) {
@@ -291,20 +291,16 @@ class Interface:public Program {
       }
     }
 
-    void reactToGamepadAction() {
+    void reactToGamepadActionInit() {
       Surface * surface = & surfaces[0];
 
       if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
         if (version == "8") {
-          
-          //TODO temporal solution
+          this->populateOptionsInit();
           for (int i=1; i<8; i++) {
             OLED & screen = channels[surface->channel].ports[i].screen;
-            screen.clear();
+            screen.needsRefresh = true;
           }
-          //-----------
-
-          this->populateOptions2();
         } else {
           this->populateOptions();
         }
@@ -313,15 +309,11 @@ class Interface:public Program {
       if (surface->pointerPort > 0) {
         if (version == "8") {
           int index = surface->pointerPort;
-
-          //TODO temporal solution
+          this->selectOption2(index);
           for (int i=1; i<8; i++) {
             OLED & screen = channels[surface->channel].ports[i].screen;
-            screen.clear();
+            screen.needsRefresh = true;
           }
-          //-----------
-
-          this->selectOption2(index);
         } else {
           OLED & screen = channels[0].ports[1].screen;
           int index = screen.lineHovered;
@@ -356,7 +348,7 @@ class Interface:public Program {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
           this->pathLevel--;
-          this->populateOptions2();
+          this->populateOptionsInit();
         }
       }
     }
@@ -384,6 +376,10 @@ class Interface:public Program {
         this->updateOptions();
         this->updatePrograms();
         this->updateMenu();
+
+        if (gamepad.buttonApressed()) {
+          this->reactToGamepadActionInit();
+        }
 
         surface->clear();
 
