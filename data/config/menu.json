@@ -19,7 +19,7 @@
 		]]
 	]],
 	["dzieci",[[],
-		["Amelia"],
+		["Amelia",[],["run","dzieci",1]],
 		["Igor"],
 		["Feliks"],
 		["Erazm"],

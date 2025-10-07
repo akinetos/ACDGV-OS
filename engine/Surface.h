@@ -66,14 +66,16 @@ class Surface {
 
     void updatePointer(double x, double y) {
       this->pointerPreviousPositionX = this->pointerPositionX;
+      
       x *= this->orientationX;
-      this->pointerPositionX -= (int)(x * this->pointerSpeed * this->orientationX);
+      this->pointerPositionX += (int)(x * this->pointerSpeed * this->orientationX);
       if (this->pointerPositionX < 0) {
         this->pointerPositionX = 0;
       }
       if (this->pointerPositionX > (this->width-1)) {
         this->pointerPositionX = (this->width-1);
       }
+
       this->pointerPreviousPositionY = this->pointerPositionY;
       this->pointerPositionY -= (int)(y * this->pointerSpeed * this->orientationY);
       if (this->pointerPositionY < 0) {

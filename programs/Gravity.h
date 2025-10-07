@@ -15,7 +15,7 @@ class Gravity:public Program {
       void moveLine() {
         int speed = (this->option + 1) * 2;
         int tiltX = (int)(-accelerometer.x * speed);
-        int tiltY = (int)(-accelerometer.y * speed);
+        int tiltY = (int)(accelerometer.y * speed);
 
         if (this->bounceX < -0.01 || this->bounceX > 0.01) {
           this->x += this->bounceX;
