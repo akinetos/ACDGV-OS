@@ -61,7 +61,7 @@ class AM: public Device {
   AM() {}
 
   AM(int address) {
-    //possible addresses: 29, 83
+    //0x1D (29), 0x53 (83)
     this->address = address;
   }
 };

@@ -36,6 +36,7 @@ class Interface:public Program {
     void updateOptions() {
       Surface & surface = surfaces[0];
       int x = surface.getRelativeX();
+      int y = surface.getRelativeY();
 
       if (surface.pointerPortChanged()) {
         OLED & previousScreen = channels[surface.channel].ports[surface.pointerPreviousPort].screen;
@@ -45,7 +46,7 @@ class Interface:public Program {
       OLED & previewScreen0 = channels[surface.channel].ports[0].screen;
       OLED & previewScreen1 = channels[surface.channel].ports[1].screen;
       if (surface.pointerPort == 0) {
-        previewScreen0.backButtonHovered = x < 10;
+        previewScreen0.backButtonHovered = x < 10 && y < 16;
       }
 
       if (surface.pointerPort == 1) {

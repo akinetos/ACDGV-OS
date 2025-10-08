@@ -34,7 +34,7 @@ Device * devices[devicesCount];
 #include "./devices/Keypad.h";
 #include "./devices/GD.h";
 
-AM accelerometer = AM(0x53);
+AM accelerometer = AM(0x1D);
 GV gv = GV();
 HRS hrs = HRS(0x57);
 RE re = RE(0x55);

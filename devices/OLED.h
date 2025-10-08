@@ -273,15 +273,15 @@ class OLED: public Device {
     }
 
     void drawBackButton() {
-      int buttonWidth = 10;
+      int backButtonWidth = 10;
       if (this->type == "ssd1306") {
-        this->ssd1306.setCursor(2, this->height/2 - 4);
+        this->ssd1306.setCursor(2, 4);
         this->ssd1306.setTextSize(1);
         if (this->backButtonHovered) {
-          this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_WHITE);
+          this->ssd1306.fillRect(0, 0, backButtonWidth, this->height/2, SSD1306_WHITE);
           this->ssd1306.setTextColor(SSD1306_BLACK);
         } else {
-          this->ssd1306.fillRect(0, 0, buttonWidth, this->height, SSD1306_BLACK);
+          this->ssd1306.fillRect(0, 0, backButtonWidth, this->height/2, SSD1306_BLACK);
           this->ssd1306.setTextColor(SSD1306_WHITE);
         }
         this->ssd1306.print("<");
@@ -310,12 +310,12 @@ class OLED: public Device {
 
     void drawMenuPath(String path, int cursorX, int cursorY) {
       const int length = path.length();
-      int buttonWidth = 10;
+      int backButtonWidth = 10;
       int count = 0;
       int segments[10] = {0,0,0,0,0,0,0,0,0,0};
       int segmentStart = 0;
       int letterWidth = 6;
-      int textScrollLimit = this->width - (length + 1) * letterWidth - buttonWidth;
+      int textScrollLimit = this->width - length * letterWidth;
       boolean pathSegmentIsHovered = false;
 
       for (int i=0; i<length; i++) {
@@ -332,20 +332,21 @@ class OLED: public Device {
       this->setTextSize();
       
       if (this->type == "ssd1306") {
-        this->ssd1306.setCursor(buttonWidth + 2 + this->textScroll, 20);
+        this->ssd1306.setCursor(this->textScroll, 20);
         this->ssd1306.setTextColor(SSD1306_WHITE);
         this->ssd1306.setTextWrap(false);
         this->ssd1306.print(path);
         
         if (cursorY > 16) {
-          segmentStart = 5; //TODO: need to investigate where the 5 came from...
+          segmentStart = 0;
           for (int i=0; i<10; i++) {
             if (segments[i] != 0) {
               const int segmentLength = segments[i] * letterWidth;
-              if (cursorX > -1 && cursorX > textScroll + segmentStart + letterWidth && cursorX < textScroll + segmentStart + segmentLength + letterWidth) {
+              const int segmentEnd = segmentStart + segmentLength;
+              if (cursorX > textScroll + segmentStart && cursorX < textScroll + segmentEnd) {
                 this->pathSegmentHovered = i;
                 pathSegmentIsHovered = true;
-                this->ssd1306.drawRect(textScroll + segmentStart + letterWidth, 16, segmentLength, 16, SSD1306_WHITE);
+                this->ssd1306.drawRect(textScroll + segmentStart, 16, segmentLength, 16, SSD1306_WHITE);
               }
               segmentStart += segmentLength + letterWidth;
             }
