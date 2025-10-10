@@ -12,7 +12,7 @@
 
 const String version = "8";
 const int devicesCount = 7;
-const int programsCount = 6;
+const int programsCount = 7;
 
 int channelsCount;
 int surfacesCount;
@@ -57,6 +57,7 @@ Interface interface;
 #include "./programs/Logo.h";
 #include "./programs/Telephone.h";
 #include "./programs/I2c.h";
+#include "./programs/Dzieci.h";
 
 void setup() {
   Serial.begin(9600);
@@ -100,6 +101,7 @@ void setup() {
   programs[3] = new Logo();
   programs[4] = new Telephone();
   programs[5] = new I2c();
+  programs[6] = new Dzieci();
 
   interface.init();
 }
