@@ -124,23 +124,6 @@ class Interface:public Program {
       }
     }
 
-    void populateOptionsInit() {
-      Surface * surface = & surfaces[0];
-      JsonArray & file = loadFromFile("/config/menu.json");
-      if (this->pathLevel == 3) {
-        surface->populateInit(file[1][address[0]][1][address[1]][1][address[2]][1]);
-      }
-      if (this->pathLevel == 2) {
-        surface->populateInit(file[1][address[0]][1][address[1]][1]);
-      }
-      if (this->pathLevel == 1) {
-        surface->populateInit(file[1][address[0]][1]);
-      }
-      if (this->pathLevel == 0) {
-        surface->populateInit(file[1]);
-      }
-    }
-
     void deactivatePrograms() {
       for (int i=0; i<programsCount; i++) {
         programs[i]->active = false;
@@ -204,80 +187,47 @@ class Interface:public Program {
       }
     }
 
+    void run(JsonArray & program) {
+      String programName = program[2][1];
+      int programIndex = -1;
+      if (programName == "batterfly") programIndex = 0;
+      if (programName == "gravity") programIndex = 1;
+      if (programName == "vv") programIndex = 2;
+      if (programName == "logo") programIndex = 3;
+      if (programName == "telephone") programIndex = 4;
+      if (programName == "i2c") programIndex = 5;
+      
+      this->deactivatePrograms();
+      programs[programIndex]->active = true;
+      if (!programs[programIndex]->initialised) {
+        programs[programIndex]->init();
+      }
+      if (program[2].size() == 3) {
+        int programOption = program[2][2];
+        programs[programIndex]->setOption(programOption);
+      }
+      programs[programIndex]->justActivated();
+    }
+
     void selectOption(int index) {
       this->pathLevel++;
       this->address[this->pathLevel-1] = index;
-
-      OLED & screen = channels[0].ports[1].screen;
       JsonArray & element = this->getElement();
-
       String optionName = element[0];
       this->segments[this->pathLevel] = optionName;
 
-      screen.populate(element[1]);
-
-      if (element[2]) {
-        if (element[2][0] == "run") {
-          String programName = element[2][1];
-          int programIndex = -1;
-          if (programName == "batterfly") programIndex = 0;
-          if (programName == "gravity") programIndex = 1;
-          if (programName == "vv") programIndex = 2;
-          if (programName == "logo") programIndex = 3;
-          if (programName == "telephone") programIndex = 4;
-          if (programName == "i2c") programIndex = 5;
-          
-          programs[programIndex]->active = !programs[programIndex]->active;
-          if (programs[programIndex]->active) {
-            if (!programs[programIndex]->initialised) {
-              programs[programIndex]->init();
-            }
-            if (element[2].size() == 3) {
-              int programOption = element[2][2];
-              programs[programIndex]->setOption(programOption);
-            }
-            programs[programIndex]->justActivated();
-          }
-        }
+      if (version == "8") {
+        Surface * surface = & surfaces[0];
+        surface->populateInit(element[1]);
+        surface->refreshScreens();
+      } else {
+        OLED & screen = channels[0].ports[1].screen;
+        screen.populate(element[1]);
       }
-    }
-
-    void selectOption2(int optionIndex) {
-      this->pathLevel++;
-      this->address[this->pathLevel-1] = optionIndex;
-
-      Surface * surface = & surfaces[0];
-      JsonArray & element = this->getElement();
-      
-      String optionName = element[0];
-      this->segments[this->pathLevel] = optionName;
-      
-      surface->populateInit(element[1]);
-      surface->refreshScreens();
 
       if (element[2]) {
         if (element[2][0] == "run") {
-          String programName = element[2][1];
-          int programIndex = -1;
-          if (programName == "batterfly") programIndex = 0;
-          if (programName == "gravity") programIndex = 1;
-          if (programName == "vv") programIndex = 2;
-          if (programName == "logo") programIndex = 3;
-          if (programName == "telephone") programIndex = 4;
-          if (programName == "i2c") programIndex = 5;
-          
-          this->deactivatePrograms();
-          programs[programIndex]->active = true;
-          if (programs[programIndex]->active) {
-            if (!programs[programIndex]->initialised) {
-              programs[programIndex]->init();
-            }
-            if (element[2].size() == 3) {
-              int programOption = element[2][2];
-              programs[programIndex]->setOption(programOption);
-            }
-            programs[programIndex]->justActivated();
-          }
+          this->run(element);
         }
       }
     }
@@ -292,34 +242,28 @@ class Interface:public Program {
       }
     }
 
-    void reactToGamepadActionInit() {
+    void reactToGamepadAction() {
       Surface * surface = & surfaces[0];
 
       if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
         if (version == "8") {
-          this->populateOptionsInit();
-          for (int i=1; i<8; i++) {
-            OLED & screen = channels[surface->channel].ports[i].screen;
-            screen.needsRefresh = true;
-          }
+          JsonArray & element = this->getElement();
+          surface->populateInit(element[1]);
+          surface->refreshScreens();
         } else {
           this->populateOptions();
         }
       }
 
       if (surface->pointerPort > 0) {
+        int index;
         if (version == "8") {
-          int index = surface->pointerPort;
-          this->selectOption2(index);
-          for (int i=1; i<8; i++) {
-            OLED & screen = channels[surface->channel].ports[i].screen;
-            screen.needsRefresh = true;
-          }
+          index = surface->pointerPort;
         } else {
           OLED & screen = channels[0].ports[1].screen;
-          int index = screen.lineHovered;
-          this->selectOption(index);
+          index = screen.lineHovered;
         }
+        this->selectOption(index);
       }
 
       surface->menuAddress = this->getMenuAddress();
@@ -327,13 +271,15 @@ class Interface:public Program {
     }
 
     void reactToKeypadAction() {
+      Surface * surface = & surfaces[0];
+
       char button = keypad.device.getButton();
       if (button != '*' && button != '#') {
         int index = button - 48;
         if (this->anyProgramActive) {
           programs[index]->active = !programs[index]->active;
         } else {
-          this->selectOption2(index);
+          this->selectOption(index);
         }
       }
       if (button == '#') {
@@ -349,7 +295,8 @@ class Interface:public Program {
           this->segments[this->pathLevel] = "";
           this->address[this->pathLevel] = NULL;
           this->pathLevel--;
-          this->populateOptionsInit();
+          JsonArray & element = this->getElement();
+          surface->populateInit(element[1]);
         }
       }
     }
@@ -379,7 +326,7 @@ class Interface:public Program {
         this->updateMenu();
 
         if (gamepad.buttonApressed()) {
-          this->reactToGamepadActionInit();
+          this->reactToGamepadAction();
         }
 
         surface->clear();
