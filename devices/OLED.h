@@ -281,7 +281,6 @@ class OLED: public Device {
           this->ssd1306.fillRect(0, 0, backButtonWidth, this->height/2, SSD1306_WHITE);
           this->ssd1306.setTextColor(SSD1306_BLACK);
         } else {
-          this->ssd1306.fillRect(0, 0, backButtonWidth, this->height/2, SSD1306_BLACK);
           this->ssd1306.setTextColor(SSD1306_WHITE);
         }
         this->ssd1306.print("<");

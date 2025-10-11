@@ -12,7 +12,7 @@ class Gravity:public Program {
       int port = -1;
       int previousPort = -1;
 
-      void moveLine() {
+      void move() {
         int speed = (this->option + 1) * 2;
         int tiltX = (int)(-accelerometer.x * speed);
         int tiltY = (int)(accelerometer.y * speed);
@@ -32,10 +32,14 @@ class Gravity:public Program {
         }
 
         if (this->x < 0 || this->x > this->maxX) {
+          if (this->x < 0) this->x = 0;
+          if (this->x > this->maxX) this->x = this->maxX;
           this->bounceX = -tiltX;
         }
 
         if (this->y < 0 || this->y > this->maxY) {
+          if (this->y < 0) this->y = 0;
+          if (this->y > this->maxY) this->y = this->maxY;
           this->bounceY = -tiltY;
         }
       }
@@ -61,17 +65,19 @@ class Gravity:public Program {
         this->initialised = true;
       }
 
-      void tick() {
+      void draw() {
         Surface & surface = surfaces[0];
         this->port = (int)(this->y / 32);
-        if (this->port < 8) {
-          channels[surface.channel].ports[port].screen.clear();
-          surface.drawCircle(this->x, this->y, 10);
-          if (this->port != this->previousPort) {
-            this->clearPreviousPort();
-          }
+        channels[surface.channel].ports[port].screen.clear();
+        surface.drawCircle(this->x, this->y, 10);
+      }
+
+      void tick() {
+        this->move();
+        this->draw();
+        if (this->port != this->previousPort) {
+          this->clearPreviousPort();
         }
-        this->moveLine();
       }
 
     Gravity() {}
