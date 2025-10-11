@@ -123,10 +123,6 @@ void loop() {
 
   interface.tick();
 
-  if (keypad.anyKeyPressed()) {
-    interface.reactToKeypadAction();
-  }
-
   /*
   if (gd.changed) {
     gesture = gd.gesture;

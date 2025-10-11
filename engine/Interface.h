@@ -273,32 +273,10 @@ class Interface:public Program {
 
     void reactToKeypadAction() {
       Surface * surface = & surfaces[0];
-
       char button = keypad.device.getButton();
-      if (button != '*' && button != '#') {
+      if (button != '*' && button != '#' && !this->anyProgramActive) {
         int index = button - 48;
-        if (this->anyProgramActive) {
-          programs[index]->active = !programs[index]->active;
-        } else {
-          this->selectOption(index);
-        }
-      }
-      if (button == '#') {
-        if (this->anyProgramActive) {
-          this->showMenu = !this->showMenu;
-        }
-      }
-      if (button == '*') {
-        if (this->anyProgramActive) {
-          this->deactivatePrograms();
-        }
-        if (this->pathLevel > 0) {
-          this->segments[this->pathLevel] = "";
-          this->address[this->pathLevel] = NULL;
-          this->pathLevel--;
-          JsonArray & element = this->getElement();
-          surface->populateInit(element[1]);
-        }
+        this->selectOption(index);
       }
     }
 
@@ -328,6 +306,10 @@ class Interface:public Program {
 
         if (gamepad.buttonApressed()) {
           this->reactToGamepadAction();
+        }
+
+        if (keypad.anyKeyPressed()) {
+          this->reactToKeypadAction();
         }
 
         surface->clear();
