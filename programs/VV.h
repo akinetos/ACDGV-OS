@@ -18,11 +18,16 @@ class VV:public Program {
 
     boolean move = true;
 
+    boolean screensUpdated[8];
+
     void init() {
       this->cRe = 0.22;
       this->cIm = 0.52;
       this->initialised = true;
       this->move = true;
+      for (int port=0; port<8; port++) {
+        this->screensUpdated[port] = false;
+      }
     }
 
     void update() {
@@ -49,6 +54,16 @@ class VV:public Program {
         if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
           yOffset -= gamepad.axisY * 10;
         }
+
+        for (int port=0; port<8; port++) {
+          if (this->screensUpdated[port]) {
+            channels[0].ports[port].screen.needsRefresh = true;
+          }
+        }
+
+        for (int port=0; port<8; port++) {
+          this->screensUpdated[port] = false;
+        }
         
         for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
           this->points[i*2] = surface.width / 2 + (int)(newZre * this->scale) + xOffset;
@@ -58,6 +73,7 @@ class VV:public Program {
           if (port >=0) {
             if ((version == "3" && port < 3) || (version == "8" && port < 8)) {
               channels[0].ports[port].screen.needsRefresh = true;
+              this->screensUpdated[port] = true;
             }
           }
 
