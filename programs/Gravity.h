@@ -27,19 +27,12 @@ class Gravity:public Program {
           if (gd.changed) {
             this->gestureTimestamp = millis();
             this->gestureDirection = gd.gesture;
-            channels[0].ports[7].screen.printText(gestureDirection);
-            if (this->gestureDirection == "gora") tiltY -= 1;
-            if (this->gestureDirection == "dol") tiltY += 1;
-            if (this->gestureDirection == "lewo") tiltX -= 1;
-            if (this->gestureDirection == "prawo") tiltX += 1;
           }
-
-          if ((this->gestureTimestamp + 1000) < millis()) {
-            if (this->gestureDirection == "gora") tiltY -= 1;
-            if (this->gestureDirection == "dol") tiltY += 1;
-            if (this->gestureDirection == "lewo") tiltX -= 1;
-            if (this->gestureDirection == "prawo") tiltX += 1;
-          }
+          
+          if (this->gestureDirection == "gora") tiltY -= 1;
+          if (this->gestureDirection == "dol") tiltY += 1;
+          if (this->gestureDirection == "lewo") tiltX -= 1;
+          if (this->gestureDirection == "prawo") tiltX += 1;
         }
 
         if (this->bounceX < -0.01 || this->bounceX > 0.01) {
