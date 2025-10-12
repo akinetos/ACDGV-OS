@@ -23,7 +23,7 @@ class Gravity:public Program {
         tiltX += (int)(-accelerometer.x * speed);
         tiltY += (int)(accelerometer.y * speed);
 
-        if (gd.changed || ((this->gestureTimestamp + 1000) < millis())) {
+        if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
           if (gd.changed) {
             this->gestureTimestamp = millis();
             this->gestureDirection = gd.gesture;
