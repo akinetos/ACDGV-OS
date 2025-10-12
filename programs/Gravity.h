@@ -12,10 +12,35 @@ class Gravity:public Program {
       int port = -1;
       int previousPort = -1;
 
+      int gestureTimestamp = 0;
+      String gestureDirection = "";
+
       void move() {
         int speed = (this->option + 1) * 2;
-        int tiltX = (int)(-accelerometer.x * speed);
-        int tiltY = (int)(accelerometer.y * speed);
+        int tiltX = 0;
+        int tiltY = 0;
+
+        tiltX += (int)(-accelerometer.x * speed);
+        tiltY += (int)(accelerometer.y * speed);
+
+        if (gd.changed || ((this->gestureTimestamp + 1000) < millis())) {
+          if (gd.changed) {
+            this->gestureTimestamp = millis();
+            this->gestureDirection = gd.gesture;
+            channels[0].ports[7].screen.printText(gestureDirection);
+            if (this->gestureDirection == "gora") tiltY -= 1;
+            if (this->gestureDirection == "dol") tiltY += 1;
+            if (this->gestureDirection == "lewo") tiltX -= 1;
+            if (this->gestureDirection == "prawo") tiltX += 1;
+          }
+
+          if ((this->gestureTimestamp + 1000) < millis()) {
+            if (this->gestureDirection == "gora") tiltY -= 1;
+            if (this->gestureDirection == "dol") tiltY += 1;
+            if (this->gestureDirection == "lewo") tiltX -= 1;
+            if (this->gestureDirection == "prawo") tiltX += 1;
+          }
+        }
 
         if (this->bounceX < -0.01 || this->bounceX > 0.01) {
           this->x += this->bounceX;

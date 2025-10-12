@@ -106,8 +106,6 @@ void setup() {
   interface.init();
 }
 
-String gesture = "";
-
 void loop() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->tick();
@@ -122,15 +120,6 @@ void loop() {
   }
 
   interface.tick();
-
-  /*
-  if (gd.changed) {
-    gesture = gd.gesture;
-    OLED & screen = channels[0].ports[7].screen;
-    screen.clear();
-    screen.printText(gesture);
-  }
-  */
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].display();
