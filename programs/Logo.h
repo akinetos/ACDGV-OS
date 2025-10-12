@@ -207,6 +207,7 @@ class Logo:public Program {
 	  
 		Surface & s8x1 = surfaces[0];
 		if (s8x1.facingUp) {
+			/*
 			int xStep = 8;
 			int yStep = 8;
 			for (int p=0; p<8; p++) {
@@ -218,9 +219,11 @@ class Logo:public Program {
 					}
 				}
 			}
+			*/
+
 			for (int i=0; i<5; i++) {
-				channels[s8x1.channel].ports[i+1].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
-				channels[s8x1.channel].ports[i+1].screen.needsRefresh = true;
+				channels[s8x1.channel].ports[i+2].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
+				channels[s8x1.channel].ports[i+2].screen.needsRefresh = true;
 			}
 		}
     }
