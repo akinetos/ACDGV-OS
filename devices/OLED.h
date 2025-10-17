@@ -49,7 +49,7 @@ class OLED: public Device {
     String currentState = "on";
 
     boolean scrollbarHovered = false;
-    boolean backButtonHovered = false;
+    boolean closeButtonHovered = false;
 
     boolean showRambugGuns = false;
     boolean showRambugFire = false;
@@ -272,18 +272,18 @@ class OLED: public Device {
       this->needsRefresh = true;
     }
 
-    void drawBackButton() {
-      int backButtonWidth = 10;
+    void drawCloseButton() {
+      int buttonWidth = 10;
       if (this->type == "ssd1306") {
-        this->ssd1306.setCursor(2, 4);
+        this->ssd1306.setCursor(120, 4);
         this->ssd1306.setTextSize(1);
-        if (this->backButtonHovered) {
-          this->ssd1306.fillRect(0, 0, backButtonWidth, this->height/2, SSD1306_WHITE);
+        if (this->closeButtonHovered) {
+          this->ssd1306.fillRect(118, 0, buttonWidth, this->height/2, SSD1306_WHITE);
           this->ssd1306.setTextColor(SSD1306_BLACK);
         } else {
           this->ssd1306.setTextColor(SSD1306_WHITE);
         }
-        this->ssd1306.print("<");
+        this->ssd1306.print("x");
       }
       this->needsRefresh = true;
     }
@@ -309,7 +309,7 @@ class OLED: public Device {
 
     void drawMenuPath(String path, int cursorX, int cursorY) {
       const int length = path.length();
-      int backButtonWidth = 10;
+      int closeButtonWidth = 10;
       int count = 0;
       int segments[10] = {0,0,0,0,0,0,0,0,0,0};
       int segmentStart = 0;
@@ -375,7 +375,7 @@ class OLED: public Device {
       this->setTextSize();
       
       if (this->type == "ssd1306") {
-        this->ssd1306.setCursor(buttonWidth + 2, 4);
+        this->ssd1306.setCursor(0, 4);
         this->ssd1306.setTextColor(SSD1306_WHITE);
         this->ssd1306.setTextWrap(false);
         this->ssd1306.print(address);

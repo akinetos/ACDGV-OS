@@ -46,7 +46,7 @@ class Interface:public Program {
       OLED & previewScreen0 = channels[surface.channel].ports[0].screen;
       OLED & previewScreen1 = channels[surface.channel].ports[1].screen;
       if (surface.pointerPort == 0) {
-        previewScreen0.backButtonHovered = x < 10 && y < 16;
+        previewScreen0.closeButtonHovered = x > 118 && y < 16;
       }
 
       if (surface.pointerPort == 1) {
@@ -142,7 +142,7 @@ class Interface:public Program {
       if (gamepad.buttonApressed() && this->mainMenuHovered()) {
         this->pathChanged = false;
 
-        if (screen.backButtonHovered) {
+        if (screen.closeButtonHovered) {
           if (this->pathLevel > 0) {
             this->segments[this->pathLevel] = "";
             this->address[this->pathLevel-1] = NULL;
@@ -284,7 +284,7 @@ class Interface:public Program {
     boolean mainMenuHovered() {
       Surface * surface = & surfaces[0];
       boolean hovered = surface->pointerPort == 0 
-        && (this->showMenu || channels[0].ports[0].screen.backButtonHovered);
+        && (this->showMenu || channels[0].ports[0].screen.closeButtonHovered);
       return hovered;
     }
 
@@ -325,7 +325,7 @@ class Interface:public Program {
         }
 
         if (this->pathLevel > 0) {
-          surface->drawBackButton(0);
+          surface->drawCloseButton(0);
         }
         
         surface->drawPointer();

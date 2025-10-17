@@ -169,9 +169,9 @@ class Surface {
     }
   }
 
-  void drawBackButton(int port) {
+  void drawCloseButton(int port) {
     OLED & screen = channels[this->channel].ports[port].screen;
-    screen.drawBackButton();
+    screen.drawCloseButton();
   }
 
   void drawPointer() {

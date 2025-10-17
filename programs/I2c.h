@@ -38,13 +38,14 @@ class I2c:public Program {
       if (this->scanned) {
         for (int i=0; i<this->count; i++) {
           OLED & screen = channels[0].ports[i+1].screen;
-          const int amount = 2;
+          const int amount = 3;
 
           screen.hasOptions = amount > 0;
           screen.optionsCount = amount;
           screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
-          screen.lines[0] = this->foundAddresses[i];
-          screen.lines[1] = this->foundDevices[i];
+          screen.lines[0] = String(i+1);
+          screen.lines[1] = this->foundAddresses[i];
+          screen.lines[2] = this->foundDevices[i];
           screen.lineSelected = -1;
           for (int i=0; i<=20; i++) {
             screen.lineScrollWidth[i] = 0;
