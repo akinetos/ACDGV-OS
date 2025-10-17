@@ -9,10 +9,14 @@
 #include <DFRobot_VisualRotaryEncoder.h>
 #include <DFRobot_BloodOxygen_S.h>
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
+#include <PN532_I2C.h>
+#include <NfcAdapter.h>
 
 const String version = "8";
 const int devicesCount = 7;
-const int programsCount = 7;
+const int programsCount = 8;
+
+String action = "";
 
 int channelsCount;
 int surfacesCount;
@@ -58,6 +62,68 @@ Interface interface;
 #include "./programs/Telephone.h";
 #include "./programs/I2c.h";
 #include "./programs/Dzieci.h";
+#include "./programs/NFC.h";
+
+//------- NFC ------
+String nfcContent = "www.acdgv.dev";
+String nfcMessage = "";
+bool nfcReading = false;
+bool nfcWritting = false;
+PN532_I2C pn532_i2c(Wire);
+NfcAdapter nfc = NfcAdapter(pn532_i2c);
+
+void nfcRead() {
+  nfcReading = true;
+  if (nfc.tagPresent()) {
+    NfcTag tag = nfc.read();
+    NdefMessage message = tag.getNdefMessage();
+    NdefRecord record = message.getRecord(0);
+    int payloadLength = record.getPayloadLength();
+    byte payload[payloadLength];
+    record.getPayload(payload);
+    String text = "";
+    for (int c = 1; c < payloadLength; c++) {
+      text += (char)payload[c];
+    }
+    nfcMessage = text;
+  } else {
+    nfcMessage = "no tag";
+  }
+  nfcReading = false;
+}
+
+void nfcWrite() {
+  nfcWritting = true;
+  if (nfc.tagPresent()) {
+    NdefMessage message = NdefMessage();
+    message.addUriRecord(nfcContent);
+    bool success = nfc.write(message);
+    if (success) {
+      nfcMessage = "zapisano";
+    }
+  } else {
+    nfcMessage = "no tag";
+  }
+  nfcWritting = false;
+}
+
+void NFCinit() {
+  nfc.begin();
+}
+
+void NFCtick() {
+  if (action == "nfc read" && !nfcReading) {
+    action = "";
+    delay(1000);
+    nfcRead();
+  }
+
+  if (action == "nfc write" && !nfcReading) {
+    action = "";
+    delay(1000);
+    nfcWrite();
+  }
+}
 
 void setup() {
   Serial.begin(9600);
@@ -102,8 +168,11 @@ void setup() {
   programs[4] = new Telephone();
   programs[5] = new I2c();
   programs[6] = new Dzieci();
+  programs[7] = new NFCProgram();
 
   interface.init();
+
+  NFCinit();
 }
 
 void loop() {
@@ -120,6 +189,10 @@ void loop() {
   }
 
   interface.tick();
+
+  NFCtick();
+  channels[0].ports[7].screen.clear();
+  channels[0].ports[7].screen.printText(nfcMessage);
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].display();

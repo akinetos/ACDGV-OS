@@ -5,7 +5,6 @@
 			["kanciasty",[],["run","batterfly",1]]
 		]],
 		["grawitacja",[[],
-			["slaba",[],["run","gravity",0]],
 			["srednia",[],["run","gravity",1]],
 			["silna",[],["run","gravity",2]]
 		]],
@@ -14,19 +13,15 @@
 			["linie",[],["run","vv",1]]
 		]],
 		["logo",[[],
-			["ACDGV",[],["run","logo",0]],
-			["OTHER",[],["run","logo",1]]
+			["ACDGV",[],["run","logo",0]]
 		]]
-	]],
-	["dzieci",[[],
-		["Amelia",[],["run","dzieci",1]],
-		["Igor"],
-		["Feliks"],
-		["Erazm"],
-		["Matylda"]
 	]],
 	["programy",[[],
 		["i2c",[],["run","i2c"]],
-		["telefon",[],["run","telephone"]]
+		["NFC",[[],
+			["odczytaj",[],["run","NFC",1]],
+			["zapisz",[],["run","NFC",2]]
+		]],
+		["kontakty",[],["run","dzieci",1]]
 	]]
 ]]
