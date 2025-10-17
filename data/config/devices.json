@@ -22,5 +22,9 @@
 	{
 		"name": "OLED",
 		"address": [60]
+	},
+	{
+		"name": "NFC",
+		"address": [36]
 	}
 ]

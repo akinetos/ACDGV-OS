@@ -13,7 +13,7 @@
 #include <NfcAdapter.h>
 
 //------- NFC ------
-String nfcContent = "www.acdgv.dev";
+String nfcContent = "";
 String nfcMessage = "";
 bool nfcReading = false;
 bool nfcWritting = false;

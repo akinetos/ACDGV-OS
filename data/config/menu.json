@@ -20,7 +20,8 @@
 		["i2c",[],["run","i2c"]],
 		["NFC",[[],
 			["odczytaj",[],["run","NFC",1]],
-			["zapisz",[],["run","NFC",2]]
+			["zapisz A",[],["run","NFC",2]],
+			["zapisz B",[],["run","NFC",3]]
 		]],
 		["kontakty",[],["run","dzieci",1]]
 	]]
