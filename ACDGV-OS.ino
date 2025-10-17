@@ -12,6 +12,14 @@
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
 
+//------- NFC ------
+String nfcContent = "www.acdgv.dev";
+String nfcMessage = "";
+bool nfcReading = false;
+bool nfcWritting = false;
+PN532_I2C pn532_i2c(Wire);
+NfcAdapter nfc = NfcAdapter(pn532_i2c);
+
 const String version = "8";
 const int devicesCount = 7;
 const int programsCount = 8;
@@ -63,14 +71,6 @@ Interface interface;
 #include "./programs/I2c.h";
 #include "./programs/Dzieci.h";
 #include "./programs/NFC.h";
-
-//------- NFC ------
-String nfcContent = "www.acdgv.dev";
-String nfcMessage = "";
-bool nfcReading = false;
-bool nfcWritting = false;
-PN532_I2C pn532_i2c(Wire);
-NfcAdapter nfc = NfcAdapter(pn532_i2c);
 
 void nfcRead() {
   nfcReading = true;
@@ -179,6 +179,7 @@ void loop() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->tick();
   }
+  NFCtick();
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].tick();
@@ -189,10 +190,6 @@ void loop() {
   }
 
   interface.tick();
-
-  NFCtick();
-  channels[0].ports[7].screen.clear();
-  channels[0].ports[7].screen.printText(nfcMessage);
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].display();

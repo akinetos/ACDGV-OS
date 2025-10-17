@@ -1,12 +1,16 @@
 class NFCProgram:public Program {
     public:
-      void update() {}
+      void update() {
+        channels[0].ports[7].screen.needsRefresh = true;
+      }
 
       void init() {
         this->initialised = true;
       }
 
-      void tick() {}
+      void tick() {
+        channels[0].ports[7].screen.printText(nfcMessage);
+      }
 
       void setOption(int option) {
         if (option == 1) {
