@@ -72,7 +72,7 @@ class Interface:public Program {
     void updatePointer() {
       if (!this->anyProgramActive) {
         Surface & surface = surfaces[0];
-        if (surface.pointerPositionX > 120) {
+        if (surface.pointerPositionX > 120 && channels[surface.channel].ports[surface.pointerPort].screen.scrollbarHovered) {
           surface.pointerPositionY = surface.pointerPreviousPositionY;
           if (surface.pointerPortChanged()) {
             surface.pointerPort = surface.pointerPreviousPort;
@@ -257,7 +257,7 @@ class Interface:public Program {
         }
       }
 
-      if (surface->pointerPort > 0) {
+      if (surface->pointerPort > 0 && !this->anyProgramActive) {
         int index;
         if (version == "8") {
           index = surface->pointerPort;
