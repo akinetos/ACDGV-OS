@@ -485,15 +485,14 @@ class OLED: public Device {
         }
         
         if (this->type == "ssd1306") {
-          this->ssd1306.fillRect(11, 0, 106, this->height, SSD1306_BLACK);
           for (int l=0; l<this->optionsCount; l++) {
             int y = l*10 + this->offsetY;
-            this->ssd1306.setCursor(11 + 2 - this->lineScrollWidth[l], y + 2);
+            this->ssd1306.setCursor(this->lineScrollWidth[l], y + 2);
             if (this->showLines) {
-              this->ssd1306.drawRect(11, y, 106, 11, SSD1306_WHITE);
+              this->ssd1306.drawRect(0, y, 117, 11, SSD1306_WHITE);
             }
             if (l == this->lineHovered) {
-              this->ssd1306.fillRect(11, y, 106, 11, SSD1306_WHITE);
+              this->ssd1306.fillRect(0, y, 117, 11, SSD1306_WHITE);
               this->ssd1306.setTextColor(SSD1306_BLACK);
             } else {
               this->ssd1306.setTextColor(SSD1306_WHITE);
