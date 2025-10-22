@@ -1,62 +1,59 @@
-class NFCDevice: public Device {
+class NFCDevice {
   public:
-    String nfcContent = "www.acdgv.dev";
-    String nfcMessage = "";
-    bool nfcReading = false;
-    bool nfcWritting = false;
-    PN532_I2C pn532_i2c(&Wire);
-    NfcAdapter device = NfcAdapter(pn532_i2c);
+    String content = "www.acdgv.dev";
+    String message = "";
+    bool reading = false;
+    bool writting = false;
 
     void read() {
-        nfcReading = true;
-        if (this->device.tagPresent()) {
-            NfcTag tag = this->device.read();
+        this->reading = true;
+        if (nfc.tagPresent()) {
+            NfcTag tag = nfc.read();
             NdefMessage message = tag.getNdefMessage();
             NdefRecord record = message.getRecord(0);
             int payloadLength = record.getPayloadLength();
             byte payload[payloadLength];
             record.getPayload(payload);
-            String text = "";
+            this->message = "";
             for (int c = 1; c < payloadLength; c++) {
-                text += (char)payload[c];
+                this->message += (char)payload[c];
             }
-            nfcMessage = text;
         } else {
-            nfcMessage = "no tag";
+            this->message = "no tag";
         }
-        nfcReading = false;
+        this->reading = false;
     }
 
     void write() {
-        nfcWritting = true;
-        if (this->device.tagPresent()) {
+        this->writting = true;
+        if (nfc.tagPresent()) {
             NdefMessage message = NdefMessage();
-            message.addUriRecord(nfcContent);
-            bool success = this->device.write(message);
+            message.addUriRecord(this->content);
+            bool success = nfc.write(message);
             if (success) {
-                nfcMessage = "zapisano";
+                this->message = "zapisano";
             }
         } else {
-            nfcMessage = "no tag";
+            this->message = "no tag";
         }
-        nfcWritting = false;
+        this->writting = false;
     }
 
     void init() {
-        this->device.begin();
+        nfc.begin();
     }
 
     void tick() {
-        if (action == "nfc read" && !nfcReading) {
+        if (action == "nfc read" && !this->reading) {
             action = "";
             delay(1000);
-            read();
+            this->read();
         }
 
-        if (action == "nfc write" && !nfcReading) {
+        if (action == "nfc write" && !this->reading) {
             action = "";
             delay(1000);
-            write();
+            this->write();
         }
     }
 

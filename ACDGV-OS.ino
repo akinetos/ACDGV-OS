@@ -13,10 +13,6 @@
 #include <NfcAdapter.h>
 
 //------- NFC ------
-String nfcContent = "";
-String nfcMessage = "";
-bool nfcReading = false;
-bool nfcWritting = false;
 PN532_I2C pn532_i2c(Wire);
 NfcAdapter nfc = NfcAdapter(pn532_i2c);
 
@@ -45,6 +41,7 @@ Device * devices[devicesCount];
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
 #include "./devices/GD.h";
+#include "./devices/NFC.h";
 
 AM accelerometer = AM(0x1D);
 GV gv = GV();
@@ -53,6 +50,7 @@ RE re = RE(0x55);
 Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
 GD gd = GD();
+NFCDevice nfcDevice = NFCDevice();
 
 #include "./engine/Channel.h";
 Channel * channels;
@@ -71,59 +69,6 @@ Interface interface;
 #include "./programs/I2c.h";
 #include "./programs/Dzieci.h";
 #include "./programs/NFC.h";
-
-void nfcRead() {
-  nfcReading = true;
-  if (nfc.tagPresent()) {
-    NfcTag tag = nfc.read();
-    NdefMessage message = tag.getNdefMessage();
-    NdefRecord record = message.getRecord(0);
-    int payloadLength = record.getPayloadLength();
-    byte payload[payloadLength];
-    record.getPayload(payload);
-    String text = "";
-    for (int c = 1; c < payloadLength; c++) {
-      text += (char)payload[c];
-    }
-    nfcMessage = text;
-  } else {
-    nfcMessage = "no tag";
-  }
-  nfcReading = false;
-}
-
-void nfcWrite() {
-  nfcWritting = true;
-  if (nfc.tagPresent()) {
-    NdefMessage message = NdefMessage();
-    message.addUriRecord(nfcContent);
-    bool success = nfc.write(message);
-    if (success) {
-      nfcMessage = "zapisano";
-    }
-  } else {
-    nfcMessage = "no tag";
-  }
-  nfcWritting = false;
-}
-
-void NFCinit() {
-  nfc.begin();
-}
-
-void NFCtick() {
-  if (action == "nfc read" && !nfcReading) {
-    action = "";
-    delay(1000);
-    nfcRead();
-  }
-
-  if (action == "nfc write" && !nfcReading) {
-    action = "";
-    delay(1000);
-    nfcWrite();
-  }
-}
 
 void setup() {
   Serial.begin(9600);
@@ -150,6 +95,7 @@ void setup() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->init();
   }
+  nfcDevice.init();
 
   surfaces = new Surface[surfacesCount];
   for (int i=0; i<surfacesCount; i++) {
@@ -171,15 +117,13 @@ void setup() {
   programs[7] = new NFCProgram();
 
   interface.init();
-
-  NFCinit();
 }
 
 void loop() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->tick();
   }
-  NFCtick();
+  nfcDevice.tick();
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].tick();

@@ -9,7 +9,7 @@ class NFCProgram:public Program {
       }
 
       void tick() {
-        channels[0].ports[7].screen.printText(nfcMessage);
+        channels[0].ports[7].screen.printText(nfcDevice.message);
       }
 
       void setOption(int option) {
@@ -17,11 +17,11 @@ class NFCProgram:public Program {
           action = "nfc read";
         }
         if (option == 2) {
-          nfcContent = "www.acdgv.dev";
+          nfcDevice.content = "www.acdgv.dev";
           action = "nfc write";
         }
         if (option == 3) {
-          nfcContent = "www.acdgv.dev/nakoneczny";
+          nfcDevice.content = "www.acdgv.dev/nakoneczny";
           action = "nfc write";
         }
       }
