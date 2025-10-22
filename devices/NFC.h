@@ -4,11 +4,12 @@ class NFCDevice {
     String message = "";
     bool reading = false;
     bool writting = false;
+    NfcAdapter device = NfcAdapter(pn532_i2c);
 
     void read() {
         this->reading = true;
-        if (nfc.tagPresent()) {
-            NfcTag tag = nfc.read();
+        if (this->device.tagPresent()) {
+            NfcTag tag = this->device.read();
             NdefMessage message = tag.getNdefMessage();
             NdefRecord record = message.getRecord(0);
             int payloadLength = record.getPayloadLength();
@@ -26,10 +27,10 @@ class NFCDevice {
 
     void write() {
         this->writting = true;
-        if (nfc.tagPresent()) {
+        if (this->device.tagPresent()) {
             NdefMessage message = NdefMessage();
             message.addUriRecord(this->content);
-            bool success = nfc.write(message);
+            bool success = this->device.write(message);
             if (success) {
                 this->message = "zapisano";
             }
@@ -40,7 +41,7 @@ class NFCDevice {
     }
 
     void init() {
-        nfc.begin();
+        this->device.begin();
     }
 
     void tick() {

@@ -12,9 +12,7 @@
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
 
-//------- NFC ------
 PN532_I2C pn532_i2c(Wire);
-NfcAdapter nfc = NfcAdapter(pn532_i2c);
 
 const String version = "8";
 const int devicesCount = 7;
