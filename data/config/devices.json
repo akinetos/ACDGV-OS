@@ -26,5 +26,9 @@
 	{
 		"name": "NFC",
 		"address": [36]
+	},
+	{
+		"name": "voice recognizer",
+		"address": [100]
 	}
 ]

@@ -1,28 +1,22 @@
 ["menu",[[],
 	["gry",[[],
-		["motyl",[[],
-			["zaokraglony",[],["run","batterfly",0]],
-			["kanciasty",[],["run","batterfly",1]]
-		]],
-		["grawitacja",[[],
-			["srednia",[],["run","gravity",1]],
-			["silna",[],["run","gravity",2]]
-		]],
-		["VV",[[],
-			["punkty",[],["run","vv",0]],
-			["linie",[],["run","vv",1]]
-		]],
-		["logo",[[],
-			["ACDGV",[],["run","logo",0]]
-		]]
+		["motyl",[],["run","batterfly"]],
+		["grawitacja",[],["run","gravity"]]
 	]],
 	["programy",[[],
+		["logo",[],["run","logo"]],
 		["i2c",[],["run","i2c"]],
+		["kontakty",[],["run","contacts"]],
 		["NFC",[[],
 			["odczytaj",[],["run","NFC",1]],
 			["zapisz A",[],["run","NFC",2]],
 			["zapisz B",[],["run","NFC",3]]
 		]],
-		["kontakty",[],["run","dzieci",1]]
+		["VV",[[],
+			["punkty",[],["run","vv",0]],
+			["linie",[],["run","vv",1]],
+			["odczytaj",[],["run","vv",2]],
+			["zapisz",[],["run","vv",3]]
+		],["run","vv"]]
 	]]
 ]]

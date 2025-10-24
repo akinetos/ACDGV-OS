@@ -196,7 +196,7 @@ class Interface:public Program {
       if (programName == "logo") programIndex = 3;
       if (programName == "telephone") programIndex = 4;
       if (programName == "i2c") programIndex = 5;
-      if (programName == "dzieci") programIndex = 6;
+      if (programName == "contacts") programIndex = 6;
       if (programName == "NFC") programIndex = 7;
       
       this->deactivatePrograms();

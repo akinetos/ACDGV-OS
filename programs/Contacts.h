@@ -134,13 +134,13 @@ const unsigned char Feliks [] PROGMEM = {
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x87, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
-const unsigned char* dzieci[2] = {
+const unsigned char* images[2] = {
 	Amelia,
 	Feliks
 };
 
 
-class Dzieci:public Program {
+class Contacts:public Program {
   public:
 
     void init() {
@@ -151,7 +151,7 @@ class Dzieci:public Program {
 		Surface & s8x1 = surfaces[0];
 		if (s8x1.facingUp) {
 			for (int port=1; port<3; port++) {
-				channels[s8x1.channel].ports[port].screen.ssd1306.drawBitmap(0,0,dzieci[port-1],128,32,SSD1306_WHITE);
+				channels[s8x1.channel].ports[port].screen.ssd1306.drawBitmap(0,0,images[port-1],128,32,SSD1306_WHITE);
 				channels[s8x1.channel].ports[port].screen.needsRefresh = true;
 			}
 		}
@@ -161,5 +161,5 @@ class Dzieci:public Program {
 		this->activatedTimestamp = millis();
 	}
 
-  Dzieci() {}
+  Contacts() {}
 };

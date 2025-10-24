@@ -65,7 +65,7 @@ Interface interface;
 #include "./programs/Logo.h";
 #include "./programs/Telephone.h";
 #include "./programs/I2c.h";
-#include "./programs/Dzieci.h";
+#include "./programs/Contacts.h";
 #include "./programs/NFC.h";
 
 void setup() {
@@ -111,7 +111,7 @@ void setup() {
   programs[3] = new Logo();
   programs[4] = new Telephone();
   programs[5] = new I2c();
-  programs[6] = new Dzieci();
+  programs[6] = new Contacts();
   programs[7] = new NFCProgram();
 
   interface.init();
