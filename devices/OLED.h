@@ -75,6 +75,7 @@ class OLED: public Device {
     int minOffsetY = 0;
 
     int textScroll = 0;
+    int textScrollLimit = 0;
     int pathSegmentHovered = -1;
     
     void init(int width, int height, String type) {
@@ -295,15 +296,16 @@ class OLED: public Device {
       if (this->type == "ssd1306") {
         this->ssd1306.setCursor(this->textScroll, 0);
         this->ssd1306.setTextColor(SSD1306_WHITE);
-        this->ssd1306.setTextWrap(true);
+        this->ssd1306.setTextWrap(false);
         this->ssd1306.print(message);
       }
-      /*
+
+      int letterWidth = 12;
+      this->textScrollLimit = this->width - length * letterWidth;
       this->textScroll--;
-      if (this->textScroll < -100) {
+      if (this->textScroll < this->textScrollLimit) {
         this->textScroll = 0;
       }
-      */
       this->needsRefresh = true;
     }
 
@@ -314,7 +316,7 @@ class OLED: public Device {
       int segments[10] = {0,0,0,0,0,0,0,0,0,0};
       int segmentStart = 0;
       int letterWidth = 6;
-      int textScrollLimit = this->width - length * letterWidth;
+      this->textScrollLimit = this->width - length * letterWidth;
       boolean pathSegmentIsHovered = false;
 
       for (int i=0; i<length; i++) {
@@ -359,8 +361,8 @@ class OLED: public Device {
 
       if (length * letterWidth > this->width) {
         this->textScroll--;
-        if (this->textScroll < textScrollLimit) {
-          this->textScroll = textScrollLimit;
+        if (this->textScroll < this->textScrollLimit) {
+          this->textScroll = this->textScrollLimit;
         }
       } else {
         this->textScroll = 0;
