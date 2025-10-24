@@ -1,4 +1,4 @@
-class NFCDevice {
+class NFCDevice: public Device {
   public:
     String content = "www.acdgv.dev";
     String message = "";

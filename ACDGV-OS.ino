@@ -15,7 +15,7 @@
 PN532_I2C pn532_i2c(Wire);
 
 const String version = "8";
-const int devicesCount = 7;
+const int devicesCount = 8;
 const int programsCount = 8;
 
 String action = "";
@@ -90,10 +90,10 @@ void setup() {
   devices[4] = &gamepad;
   devices[5] = &keypad;
   devices[6] = &gd;
+  devices[7] = &nfcDevice;
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->init();
   }
-  nfcDevice.init();
 
   surfaces = new Surface[surfacesCount];
   for (int i=0; i<surfacesCount; i++) {
@@ -121,7 +121,6 @@ void loop() {
   for (int i = 0; i < devicesCount; i++) {
     devices[i]->tick();
   }
-  nfcDevice.tick();
 
   for (int c = 0; c < channelsCount; c++) {
     channels[c].tick();
