@@ -257,7 +257,7 @@ class Interface:public Program {
         }
       }
 
-      if (surface->pointerPort > 0 && !this->anyProgramActive) {
+      if (surface->pointerPort > 0) {
         int index;
         if (version == "8") {
           index = surface->pointerPort;

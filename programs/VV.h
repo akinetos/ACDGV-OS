@@ -32,7 +32,7 @@ class VV:public Program {
 
     void update() {
       if (gamepad.buttonApressed()) {
-        this->move = !this->move;
+        //this->move = !this->move;
       }
 
       if (this->move) {
