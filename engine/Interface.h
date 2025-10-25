@@ -164,7 +164,6 @@ class Interface:public Program {
 
         if (this->pathChanged) {
           Surface * surface = & surfaces[0];
-          surface->refreshScreens();
           surface->menuAddress = this->getMenuAddress();
           surface->menuPath = this->getMenuPath();
         }
@@ -221,7 +220,6 @@ class Interface:public Program {
       if (version == "8") {
         Surface * surface = & surfaces[0];
         surface->populateInit(element[1]);
-        surface->refreshScreens();
       } else {
         OLED & screen = channels[0].ports[1].screen;
         screen.populate(element[1]);
@@ -251,7 +249,6 @@ class Interface:public Program {
         if (version == "8") {
           JsonArray & element = this->getElement();
           surface->populateInit(element[1]);
-          surface->refreshScreens();
         } else {
           this->populateOptions();
         }

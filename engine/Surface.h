@@ -233,6 +233,7 @@ class Surface {
       this->optionsCount = 0;
     }
     this->hasOptions = this->optionsCount > 0;
+    this->refreshScreens();
   }
 
   void populateTick() {
