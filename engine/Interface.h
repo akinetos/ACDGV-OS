@@ -249,6 +249,11 @@ class Interface:public Program {
         if (version == "8") {
           JsonArray & element = this->getElement();
           surface->populateInit(element[1]);
+          if (element[2]) {
+            if (element[2][0] == "run") {
+              this->run(element);
+            }
+          }
         } else {
           this->populateOptions();
         }
