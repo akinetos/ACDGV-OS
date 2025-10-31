@@ -17,11 +17,11 @@ class NFCProgram:public Program {
           action = "nfc read";
         }
         if (option == 2) {
-          nfcDevice.content = "www.acdgv.dev";
+          nfcDevice.content = "ERAZM";
           action = "nfc write";
         }
         if (option == 3) {
-          nfcDevice.content = "www.acdgv.dev/nakoneczny";
+          nfcDevice.content = "FELIKS";
           action = "nfc write";
         }
       }

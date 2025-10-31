@@ -9,8 +9,10 @@
 		["kontakty",[],["run","contacts"]],
 		["NFC",[[],
 			["odczytaj",[],["run","NFC",1]],
-			["zapisz A",[],["run","NFC",2]],
-			["zapisz B",[],["run","NFC",3]]
+			["zapisz",[[],
+				["ERAZM",[],["run","NFC",2]],
+				["FELIKS",[],["run","NFC",3]]
+			]]
 		]],
 		["VV",[[],
 			["punkty",[],["run","vv",0]],

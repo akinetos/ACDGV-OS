@@ -110,6 +110,9 @@ class Interface:public Program {
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
       JsonArray & file = loadFromFile("/config/menu.json");
+      if (this->pathLevel == 4) {
+        screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1][address[3]][1]);
+      }
       if (this->pathLevel == 3) {
         screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1]);
       }
@@ -183,6 +186,9 @@ class Interface:public Program {
       }
       if (this->pathLevel == 3) {
         return file[1][address[0]][1][address[1]][1][address[2]];
+      }
+      if (this->pathLevel == 4) {
+        return file[1][address[0]][1][address[1]][1][address[2]][1][address[3]];
       }
     }
 
