@@ -15,10 +15,14 @@
 			]]
 		]],
 		["VV",[[],
-			["punkty",[],["run","vv",0]],
-			["linie",[],["run","vv",1]],
-			["odczytaj",[],["run","vv",2]],
-			["zapisz",[],["run","vv",3]]
+			["parametry",[[],
+				["odczytaj",[],["run","vv",2]],
+				["zapisz",[],["run","vv",3]]
+			]],
+			["wyglad",[[],
+				["punkty",[],["run","vv",0]],
+				["linie",[],["run","vv",1]]
+			]]
 		],["run","vv"]]
 	]]
 ]]

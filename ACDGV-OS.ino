@@ -101,8 +101,8 @@ void setup() {
   }
   
   for (int i = 0; i < surfacesCount; i++) {
+    surfaces[i].handleOrientationChange(accelerometer.orientation);
     surfaces[i].init();
-    surfaces[i].countScreens();
   }
 
   programs[0] = new Batterfly();
@@ -128,6 +128,14 @@ void loop() {
 
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].tick();
+    if (accelerometer.orientationChanged) {
+        surfaces[i].handleOrientationChange(accelerometer.orientation);
+      }
+    if (surfaces[i].facingUp) {
+      if (gamepad.connected) {
+        surfaces[i].updatePointer(gamepad.axisX * surfaces[i].orientationX, gamepad.axisY);
+      }
+    }
   }
 
   interface.tick();
