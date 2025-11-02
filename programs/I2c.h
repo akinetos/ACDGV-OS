@@ -7,7 +7,7 @@ class I2c:public Program {
 
     void init() {
       if (!this->scanned) {
-        this->scan();
+        //this->scan();
       }
     }
 
@@ -53,6 +53,12 @@ class I2c:public Program {
           screen.offsetY = 0;
           screen.printLines();
         }
+      } else {
+        OLED & screen = channels[0].ports[1].screen;
+        screen.hasOptions = true;
+        screen.lines[0] = "Scanning I2C";
+        screen.lines[1] = "...";
+        screen.printLines();
       }
     }
 

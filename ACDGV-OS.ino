@@ -19,7 +19,6 @@ const int devicesCount = 8;
 const int programsCount = 8;
 
 String action = "";
-
 int channelsCount;
 int surfacesCount;
 
@@ -31,6 +30,12 @@ int surfacesCount;
 I2C i2c = I2C();
 Program * programs[programsCount];
 Device * devices[devicesCount];
+
+#include "./engine/Channel.h";
+Channel * channels;
+
+#include "./engine/Surface.h";
+Surface * surfaces;
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -49,12 +54,6 @@ Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
 GD gd = GD();
 NFCDevice nfcDevice = NFCDevice();
-
-#include "./engine/Channel.h";
-Channel * channels;
-
-#include "./engine/Surface.h";
-Surface * surfaces;
 
 #include "./engine/Interface.h";
 Interface interface;
