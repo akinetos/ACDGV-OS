@@ -23,19 +23,19 @@ int channelsCount;
 int surfacesCount;
 
 #include "./engine/I2C.h";
+I2C i2c = I2C();
+
 #include "./engine/Program.h";
 #include "./engine/Device.h";
 #include "./engine/Storage.h";
-
-I2C i2c = I2C();
-Program * programs[programsCount];
-Device * devices[devicesCount];
 
 #include "./engine/Channel.h";
 Channel * channels;
 
 #include "./engine/Surface.h";
 Surface * surfaces;
+
+Device * devices[devicesCount];
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -55,8 +55,7 @@ Keypad keypad = Keypad();
 GD gd = GD();
 NFCDevice nfcDevice = NFCDevice();
 
-#include "./engine/Interface.h";
-Interface interface;
+Program * programs[programsCount];
 
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
@@ -66,6 +65,9 @@ Interface interface;
 #include "./programs/I2c.h";
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
+
+#include "./engine/Interface.h";
+Interface interface;
 
 void setup() {
   Serial.begin(9600);
@@ -95,10 +97,9 @@ void setup() {
   }
 
   surfaces = new Surface[surfacesCount];
-  for (int i=0; i<surfacesCount; i++) {
+  for (int i = 0; i < surfacesCount; i++) {
     surfaces[i] = *Surface::createFromConfigFile(configSurfaces[i]);
   }
-  
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].handleOrientationChange(accelerometer.orientation);
     surfaces[i].init();

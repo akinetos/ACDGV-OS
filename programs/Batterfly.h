@@ -280,7 +280,7 @@ class Batterfly:public Program {
             Surface & surface = surfaces[this->surfaceIndex];
             
             int index = -1;
-            if (gamepad.buttonApressed() && !interface.showMenu) {
+            if (gamepad.buttonApressed()) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp == 0) {
                         index = i;
