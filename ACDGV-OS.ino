@@ -26,7 +26,11 @@ int surfacesCount;
 I2C i2c = I2C();
 
 #include "./engine/Program.h";
+Program * programs[programsCount];
+
 #include "./engine/Device.h";
+Device * devices[devicesCount];
+
 #include "./engine/Storage.h";
 
 #include "./engine/Channel.h";
@@ -34,8 +38,6 @@ Channel * channels;
 
 #include "./engine/Surface.h";
 Surface * surfaces;
-
-Device * devices[devicesCount];
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -54,8 +56,6 @@ Gamepad gamepad = Gamepad(0x51);
 Keypad keypad = Keypad();
 GD gd = GD();
 NFCDevice nfcDevice = NFCDevice();
-
-Program * programs[programsCount];
 
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
@@ -129,12 +129,10 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].tick();
     if (accelerometer.orientationChanged) {
-        surfaces[i].handleOrientationChange(accelerometer.orientation);
-      }
-    if (surfaces[i].facingUp) {
-      if (gamepad.connected) {
-        surfaces[i].updatePointer(gamepad.axisX * surfaces[i].orientationX, gamepad.axisY);
-      }
+      surfaces[i].handleOrientationChange(accelerometer.orientation);
+    }
+    if (surfaces[i].facingUp && gamepad.connected) {
+      surfaces[i].updatePointer(gamepad.axisX * surfaces[i].orientationX, gamepad.axisY);
     }
   }
 
