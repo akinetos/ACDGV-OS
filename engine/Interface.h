@@ -52,8 +52,8 @@ class Interface:public Program {
       if (surface.pointerPort == 1) {
         previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
         if (previewScreen1.scrollbarHovered) {
-          if (gamepad.connected) {
-            previewScreen1.updateScrollbar(gamepad.axisY);
+          if (devices[4]->connected) {
+            previewScreen1.updateScrollbar(devices[4]->axisY);
           }
         } else {
           int y = surface.getRelativeY();
@@ -142,7 +142,7 @@ class Interface:public Program {
         screen.needsRefresh = true;
       }
 
-      if (gamepad.buttonApressed() && this->mainMenuHovered()) {
+      if (devices[4]->buttonApressed() && this->mainMenuHovered()) {
         this->pathChanged = false;
 
         if (screen.closeButtonHovered) {
@@ -313,7 +313,7 @@ class Interface:public Program {
         this->updatePrograms();
         this->updateMenu();
 
-        if (gamepad.buttonApressed()) {
+        if (devices[4]->buttonApressed()) {
           this->reactToGamepadAction();
         }
 
