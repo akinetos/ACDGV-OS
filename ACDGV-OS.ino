@@ -57,6 +57,9 @@ Keypad keypad = Keypad();
 GD gd = GD();
 NFCDevice nfcDevice = NFCDevice();
 
+#include "./engine/Interface.h";
+Interface interface;
+
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -65,9 +68,6 @@ NFCDevice nfcDevice = NFCDevice();
 #include "./programs/I2c.h";
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
-
-#include "./engine/Interface.h";
-Interface interface;
 
 void setup() {
   Serial.begin(9600);
