@@ -52,8 +52,8 @@ class Interface:public Program {
       if (surface.pointerPort == 1) {
         previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
         if (previewScreen1.scrollbarHovered) {
-          if (gamepad.connected) {
-            previewScreen1.updateScrollbar(gamepad.axisY);
+          if (devices[4]->connected) {
+            previewScreen1.updateScrollbar(devices[4]->axisY);
           }
         } else {
           int y = surface.getRelativeY();
@@ -134,7 +134,6 @@ class Interface:public Program {
       channels[0].ports[1].screen.textScroll = 0;
     }
 
-    //updates this->segments and this->address when back or segment selected
     void updateMenu() {
       OLED & screen = channels[0].ports[0].screen;
 
@@ -142,7 +141,7 @@ class Interface:public Program {
         screen.needsRefresh = true;
       }
 
-      if (gamepad.buttonApressed() && this->mainMenuHovered()) {
+      if (devices[4]->buttonApressed() && this->mainMenuHovered()) {
         this->pathChanged = false;
 
         if (screen.closeButtonHovered) {
@@ -281,12 +280,14 @@ class Interface:public Program {
     }
 
     void reactToKeypadAction() {
+      /*
       Surface * surface = & surfaces[0];
       char button = keypad.device.getButton();
       if (button != '*' && button != '#' && !this->anyProgramActive) {
         int index = button - 48;
         this->selectOption(index);
       }
+      */
     }
 
     boolean mainMenuHovered() {
@@ -313,13 +314,13 @@ class Interface:public Program {
         this->updatePrograms();
         this->updateMenu();
 
-        if (gamepad.buttonApressed()) {
+        if (devices[4]->buttonApressed()) {
           this->reactToGamepadAction();
         }
 
-        if (keypad.anyKeyPressed()) {
-          this->reactToKeypadAction();
-        }
+        //if (keypad.anyKeyPressed()) {
+        //  this->reactToKeypadAction();
+        //}
 
         surface->clear();
 

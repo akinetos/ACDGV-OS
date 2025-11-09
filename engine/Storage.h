@@ -1,3 +1,7 @@
+void initStorage() {
+  SPIFFS.begin();
+}
+
 JsonArray & loadFromFile (String filePath) {
   File file = SPIFFS.open(filePath, "r");
   if (file) {

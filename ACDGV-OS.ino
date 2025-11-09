@@ -22,6 +22,9 @@ String action = "";
 int channelsCount;
 int surfacesCount;
 
+// engine
+#include "./engine/Storage.h";
+
 #include "./engine/I2C.h";
 I2C i2c = I2C();
 
@@ -31,35 +34,41 @@ Program * programs[programsCount];
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 
-#include "./engine/Storage.h";
-
 #include "./engine/Channel.h";
 Channel * channels;
 
 #include "./engine/Surface.h";
 Surface * surfaces;
 
-#include "./devices/AM.h";
-#include "./devices/GV.h";
-#include "./devices/HRS.h";
-#include "./devices/RE.h";
-#include "./devices/Gamepad.h";
-#include "./devices/Keypad.h";
-#include "./devices/GD.h";
-#include "./devices/NFC.h";
-
-AM accelerometer = AM(0x1D);
-GV gv = GV();
-HRS hrs = HRS(0x57);
-RE re = RE(0x55);
-Gamepad gamepad = Gamepad(0x51);
-Keypad keypad = Keypad();
-GD gd = GD();
-NFCDevice nfcDevice = NFCDevice();
-
 #include "./engine/Interface.h";
 Interface interface;
 
+// devices
+#include "./devices/AM.h";
+AM accelerometer = AM(0x1D);
+
+#include "./devices/GV.h";
+GV gv = GV();
+
+#include "./devices/HRS.h";
+HRS hrs = HRS(0x57);
+
+#include "./devices/RE.h";
+RE re = RE(0x55);
+
+#include "./devices/Gamepad.h";
+Gamepad gamepad = Gamepad(0x51);
+
+#include "./devices/Keypad.h";
+Keypad keypad = Keypad();
+
+#include "./devices/GD.h";
+GD gd = GD();
+
+#include "./devices/NFC.h";
+NFCDevice nfcDevice = NFCDevice();
+
+// programs
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -71,7 +80,7 @@ Interface interface;
 
 void setup() {
   Serial.begin(9600);
-  SPIFFS.begin();
+  initStorage();
   i2c.init();
 
   String filePath = "/config/surfaces/" + version + ".json";
