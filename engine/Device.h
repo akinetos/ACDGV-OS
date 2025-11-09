@@ -1,5 +1,6 @@
 class Device {
   public:
+    int address;
     boolean connected;
     boolean changed;
     float axisY;

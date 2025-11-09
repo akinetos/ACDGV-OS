@@ -6,8 +6,6 @@ class RE: public Device {
     int buttonTimestamp = 0;
     boolean connected = false;
     boolean changed = false;
-    
-    int address = 0x54;
     DFRobot_VisualRotaryEncoder_I2C device = DFRobot_VisualRotaryEncoder_I2C(0x54, &Wire);
   
     void init() {
@@ -32,6 +30,7 @@ class RE: public Device {
       }
     }
 
+  //0x54 or 0x55
   RE(int address) {
     this->address = address;
   }

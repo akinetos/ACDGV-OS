@@ -1,6 +1,5 @@
 class Gamepad: public Device {
   public:
-    int address;
     Adafruit_seesaw device;
     float axisX;
     float axisY;

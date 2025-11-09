@@ -8,7 +8,6 @@ class AM: public Device {
     double y;
     double z;
 
-    int address;
     boolean changed = false;
 
     String orientation = "";

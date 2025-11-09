@@ -5,7 +5,6 @@ class HRS: public Device {
     int rate;
     double previousTemperature;
     double temperature;
-    int address;
     boolean changed = false;
     int lastTick = 0;
     int connectionAttempts = 0;
