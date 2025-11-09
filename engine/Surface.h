@@ -199,22 +199,27 @@ class Surface {
 
   void drawMenuOptions() {
     if (version == "8") {
-      this->populateTick();
+      for (int port = 1; port < this->optionsCount; port++) {
+        OLED & screen = channels[channel].ports[port].screen;
+        int amount = 2;
+        screen.hasOptions = amount > 0;
+        screen.optionsCount = amount;
+        screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
+        screen.lines[0] = String(port);
+        screen.lines[1] = this->options[port];
+        screen.printLines();
+      }
     } else {
-      this->drawOptions(1);
+      OLED & screen = channels[this->channel].ports[1].screen;
+      if (screen.hasOptions) {
+        screen.printBoxes();
+        screen.printLines();
+        screen.drawScrollbar();
+      }
     }
   }
 
-  void drawOptions(int port) {
-    OLED & screen = channels[this->channel].ports[port].screen;
-    if (screen.hasOptions) {
-      screen.printBoxes();
-      screen.printLines();
-      screen.drawScrollbar();
-    }
-  }
-
-  void populateInit(JsonArray & list) {
+  void populate(JsonArray & list) {
     if (list.size() > 0) {
       this->optionsCount = list.size();
       for (int i = 0; i < this->optionsCount; i++) {
@@ -225,29 +230,19 @@ class Surface {
       this->optionsCount = 0;
     }
     this->hasOptions = this->optionsCount > 0;
-    this->refreshScreens();
-  }
 
-  void populateTick() {
     if (version == "8") {
       for (int port = 1; port < this->optionsCount; port++) {
         OLED & screen = channels[channel].ports[port].screen;
-        //screen.printText(this->options[port]);
-
-        int amount = 2;
-        screen.hasOptions = amount > 0;
-        screen.optionsCount = amount;
-        screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
-        screen.lines[0] = String(port);
-        screen.lines[1] = this->options[port];
         screen.lineSelected = -1;
         for (int i=0; i<=20; i++) {
           screen.lineScrollWidth[i] = 0;
         }
         screen.offsetY = 0;
-        screen.printLines();
       }
     }
+
+    this->refreshScreens();
   }
 
   static Surface * createFromConfigFile(JsonObject & configSurface) {

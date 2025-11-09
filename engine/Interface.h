@@ -87,7 +87,7 @@ class Interface:public Program {
       String optionName = file[0];
 
       if (version == "8") {
-        surface->populateInit(file[1]);
+        surface->populate(file[1]);
       } else {
         channels[0].ports[1].screen.populate(file[1]);
       }
@@ -224,7 +224,7 @@ class Interface:public Program {
 
       if (version == "8") {
         Surface * surface = & surfaces[0];
-        surface->populateInit(element[1]);
+        surface->populate(element[1]);
       } else {
         OLED & screen = channels[0].ports[1].screen;
         screen.populate(element[1]);
@@ -253,7 +253,7 @@ class Interface:public Program {
       if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
         if (version == "8") {
           JsonArray & element = this->getElement();
-          surface->populateInit(element[1]);
+          surface->populate(element[1]);
           if (element[2]) {
             if (element[2][0] == "run") {
               this->run(element);
