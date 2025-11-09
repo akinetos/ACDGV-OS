@@ -110,6 +110,17 @@ class VV:public Program {
           }
         }
 
+        if (this->option == 2) {
+          action = "nfc read";
+        }
+
+        if (this->option == 3) {
+          String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
+          nfcDevice.content = content;
+          action = "nfc write";
+          this->option = 0;
+        }
+
         this->drawProgress();
       }
     }
