@@ -178,7 +178,7 @@ class Surface {
     OLED & screen1 = channels[this->channel].ports[port1].screen;
     OLED & screen2 = channels[this->channel].ports[port2].screen;
     if (port1 == port2) {
-      screen2.drawLine(x1, y1, x2, y2);
+      screen2.drawLine(x1, y1 - port1 * height, x2, y2 - port1 * height);
     } else {
       screen1.drawPoint(x1, y1 - port1 * height);
       screen2.drawPoint(x2, y2 - port2 * height);

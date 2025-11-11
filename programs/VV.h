@@ -83,6 +83,10 @@ class VV:public Program {
           newZim = newerZim;
         }
       }
+
+      if (nfcDevice.message != "") {
+        channels[0].ports[7].screen.needsRefresh = true;
+      }
     }
 
     boolean isWithinRange(int i) {
@@ -99,6 +103,11 @@ class VV:public Program {
             if (this->isWithinRange(i)) {
               surface.drawPoint(points[i*2], points[i*2+1]);
             }
+          }
+
+          if (nfcDevice.message != "") {
+            OLED & screen = channels[0].ports[7].screen;
+            screen.printText(nfcDevice.message);
           }
         }
 
