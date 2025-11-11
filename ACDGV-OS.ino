@@ -16,7 +16,7 @@ PN532_I2C pn532_i2c(Wire);
 
 const String version = "8";
 const int devicesCount = 8;
-const int programsCount = 8;
+const int programsCount = 9;
 
 String action = "";
 int channelsCount;
@@ -77,6 +77,7 @@ NFCDevice nfcDevice = NFCDevice();
 #include "./programs/I2c.h";
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
+#include "./programs/Battery.h";
 
 void setup() {
   Serial.begin(9600);
@@ -122,6 +123,7 @@ void setup() {
   programs[5] = new I2c();
   programs[6] = new Contacts();
   programs[7] = new NFCProgram();
+  programs[8] = new Battery();
 
   interface.init();
 }

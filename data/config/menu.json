@@ -6,13 +6,11 @@
 	["programy",[[],
 		["logo",[],["run","logo"]],
 		["i2c",[],["run","i2c"]],
+		["battery",[],["run","battery"]],
 		["kontakty",[],["run","contacts"]],
 		["NFC",[[],
 			["odczytaj",[],["run","NFC",1]],
-			["zapisz",[[],
-				["ERAZM",[],["run","NFC",2]],
-				["FELIKS",[],["run","NFC",3]]
-			]]
+			["zapisz",[],["run","NFC",2]]
 		]],
 		["VV",[[],
 			["parametry",[[],

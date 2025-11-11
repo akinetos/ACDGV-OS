@@ -202,6 +202,7 @@ class Interface:public Program {
       if (programName == "i2c") programIndex = 5;
       if (programName == "contacts") programIndex = 6;
       if (programName == "NFC") programIndex = 7;
+      if (programName == "battery") programIndex = 8;
       
       this->deactivatePrograms();
       programs[programIndex]->active = true;
