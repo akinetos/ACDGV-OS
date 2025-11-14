@@ -148,4 +148,8 @@ void loop() {
   }
 
   interface.tick();
+
+  for (int c = 0; c < channelsCount; c++) {
+    channels[c].display();
+  }
 }

@@ -12,23 +12,15 @@
 		"address": [29, 83]
 	},
 	{
-		"name": "multiplexer",
-		"address": [112, 113, 114]
-	},
-	{
-		"name": "gesture sensor",
+		"name": "gesture",
 		"address": [115]
-	},
-	{
-		"name": "OLED",
-		"address": [60]
 	},
 	{
 		"name": "NFC",
 		"address": [36]
 	},
 	{
-		"name": "voice recognizer",
+		"name": "voice",
 		"address": [100]
 	}
 ]

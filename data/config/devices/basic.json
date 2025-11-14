@@ -1,0 +1,10 @@
+[
+	{
+		"name": "multiplexer",
+		"address": [112, 113, 114]
+	},
+	{
+		"name": "OLED",
+		"address": [60]
+	}
+]

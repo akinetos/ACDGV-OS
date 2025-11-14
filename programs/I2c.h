@@ -7,20 +7,20 @@ class I2c:public Program {
 
     void init() {
       if (!this->scanned) {
-        //this->scan();
+        this->scan();
       }
     }
 
     void scan() {
-      JsonArray & configDevices = loadFromFile("/config/devices.json");
+      JsonArray & controllers = loadFromFile("/config/devices.json");
       for (int address = 8; address < 120; address++) {
         Wire.beginTransmission(address);
         if (Wire.endTransmission() == 0) {
           String deviceType = "unknown";
-          for (int d=0; d<configDevices.size(); d++) {
-            for (int a=0; a<configDevices[d]["address"].size(); a++) {
-              if (configDevices[d]["address"][a] == address) {
-                String name = configDevices[d]["name"];
+          for (int d=0; d<controllers.size(); d++) {
+            for (int a=0; a<controllers[d]["address"].size(); a++) {
+              if (controllers[d]["address"][a] == address) {
+                String name = controllers[d]["name"];
                 deviceType = name;
               }
             }
