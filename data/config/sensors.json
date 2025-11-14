@@ -1,0 +1,26 @@
+[
+	{
+		"name": "gamepad",
+		"address": [81]
+	},
+	{
+		"name": "keypad",
+		"address": [75]
+	},
+	{
+		"name": "accelerometer",
+		"address": [29, 83]
+	},
+	{
+		"name": "gesture",
+		"address": [115]
+	},
+	{
+		"name": "NFC",
+		"address": [36]
+	},
+	{
+		"name": "voice",
+		"address": [100]
+	}
+]

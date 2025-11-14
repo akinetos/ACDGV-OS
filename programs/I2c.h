@@ -12,7 +12,7 @@ class I2c:public Program {
     }
 
     void scan() {
-      JsonArray & controllers = loadFromFile("/config/devices.json");
+      JsonArray & controllers = loadFromFile("/config/sensors.json");
       for (int address = 8; address < 120; address++) {
         Wire.beginTransmission(address);
         if (Wire.endTransmission() == 0) {
