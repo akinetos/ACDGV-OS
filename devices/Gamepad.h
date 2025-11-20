@@ -34,7 +34,7 @@ class Gamepad: public Device {
       }
     }
 
-    boolean buttonApressed() {
+    boolean buttonPressed() {
       return this->buttonApressedTime == this->time;
     }
 

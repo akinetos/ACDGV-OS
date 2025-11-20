@@ -3,17 +3,27 @@ class Device {
     int address;
     boolean connected;
     boolean changed;
-    float axisY;
 
     Device();
+    
     void virtual init(void);
+
     void virtual tick(void);
-    boolean virtual buttonApressed() {
+
+    boolean virtual buttonPressed() {
       return false;
     }
 
+    float axisX;
+    float axisY;
+
+    boolean orientationChanged;
+    String orientation;
+
     double x;
     double y;
+    double z;
+
     int position = 0;
 };
 

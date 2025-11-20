@@ -139,9 +139,6 @@ void loop() {
 
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].tick();
-    if (accelerometer.orientationChanged) {
-      surfaces[i].handleOrientationChange(accelerometer.orientation);
-    }
     if (surfaces[i].facingUp && gamepad.connected) {
       surfaces[i].updatePointer(gamepad.axisX * surfaces[i].orientationX, gamepad.axisY);
     }

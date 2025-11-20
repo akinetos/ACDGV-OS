@@ -232,7 +232,7 @@ class Batterfly:public Program {
                 this->scoresChanged = false;
 
                 int radius = 2;
-                if (gamepad.buttonApressed()) {
+                if (gamepad.buttonPressed()) {
                     p07.screen.sh1106.fillCircle(20, 50, 12, SH110X_WHITE);
                     p07.screen.sh1106.fillCircle(20 - (int)(p07.devices[0]->x * 20), 50 - (int)(p07.devices[0]->y * 20), radius, SH110X_BLACK);
                 } else {
@@ -280,7 +280,7 @@ class Batterfly:public Program {
             Surface & surface = surfaces[this->surfaceIndex];
             
             int index = -1;
-            if (gamepad.buttonApressed()) {
+            if (gamepad.buttonPressed()) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp == 0) {
                         index = i;

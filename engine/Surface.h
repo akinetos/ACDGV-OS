@@ -96,6 +96,10 @@ class Surface {
       if (this->pointerPortChanged()) {
         this->pointerPreviousPort = this->pointerPort;
       }
+
+      if (devices[0]->orientationChanged) {
+        this->handleOrientationChange(devices[0]->orientation);
+      }
     }
 
     void turnScreens(String state) {
