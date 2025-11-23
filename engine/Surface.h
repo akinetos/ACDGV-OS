@@ -94,10 +94,11 @@ class Surface {
 
     void tick() {
       if (this->pointerPortChanged()) {
+        channels[this->channel].ports[this->pointerPreviousPort].screen.needsRefresh = true;
         this->pointerPreviousPort = this->pointerPort;
       }
 
-      if (devices[0]->orientationChanged) {
+      if (devices[0]->orientationChanged) { //accelerometer
         this->handleOrientationChange(devices[0]->orientation);
       }
     }

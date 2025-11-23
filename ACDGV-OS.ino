@@ -12,8 +12,6 @@
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
 
-PN532_I2C pn532_i2c(Wire);
-
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
@@ -22,53 +20,37 @@ String action = "";
 int channelsCount;
 int surfacesCount;
 
-// engine
 #include "./engine/Storage.h";
-
 #include "./engine/I2C.h";
 I2C i2c = I2C();
-
 #include "./engine/Program.h";
 Program * programs[programsCount];
-
 #include "./engine/Device.h";
 Device * devices[devicesCount];
-
 #include "./engine/Channel.h";
 Channel * channels;
-
 #include "./engine/Surface.h";
 Surface * surfaces;
-
 #include "./engine/Interface.h";
 Interface interface;
 
-// devices
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
-
 #include "./devices/GV.h";
 GV gv = GV();
-
 #include "./devices/HRS.h";
 HRS hrs = HRS(0x57);
-
 #include "./devices/RE.h";
 RE re = RE(0x55);
-
 #include "./devices/Gamepad.h";
 Gamepad gamepad = Gamepad(0x51);
-
 #include "./devices/Keypad.h";
 Keypad keypad = Keypad();
-
 #include "./devices/GD.h";
 GD gd = GD();
-
 #include "./devices/NFC.h";
 NFCDevice nfcDevice = NFCDevice();
 
-// programs
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -139,9 +121,6 @@ void loop() {
 
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].tick();
-    if (surfaces[i].facingUp && gamepad.connected) {
-      surfaces[i].updatePointer(gamepad.axisX * surfaces[i].orientationX, gamepad.axisY);
-    }
   }
 
   interface.tick();
