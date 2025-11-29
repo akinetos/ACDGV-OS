@@ -40,6 +40,7 @@ class Surface {
     }
 
     void init() {
+      this->handleOrientationChange(devices[0]->orientation);
       if (!this->facingUp) {
         this->turnScreens("off");
       }
@@ -250,14 +251,14 @@ class Surface {
     this->refreshScreens();
   }
 
-  static Surface * createFromConfigFile(JsonObject & configSurface) {
-    int width = configSurface["width"];
-    int height = configSurface["height"];
-    int screenWidth = configSurface["screenWidth"];
-    int screenHeight = configSurface["screenHeight"];
-    int orientationX = configSurface["orientationX"];
-    int orientationY = configSurface["orientationY"];
-    int channel = configSurface["channel"];
+  static Surface * createFromConfigFile(JsonObject & config) {
+    int width = config["width"];
+    int height = config["height"];
+    int screenWidth = config["screenWidth"];
+    int screenHeight = config["screenHeight"];
+    int orientationX = config["orientationX"];
+    int orientationY = config["orientationY"];
+    int channel = config["channel"];
     return new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
   }
 

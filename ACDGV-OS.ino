@@ -93,7 +93,6 @@ void setup() {
     surfaces[i] = *Surface::createFromConfigFile(configSurfaces[i]);
   }
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i].handleOrientationChange(accelerometer.orientation);
     surfaces[i].init();
   }
 
@@ -115,8 +114,8 @@ void loop() {
     devices[i]->tick();
   }
 
-  for (int c = 0; c < channelsCount; c++) {
-    channels[c].tick();
+  for (int i = 0; i < channelsCount; i++) {
+    channels[i].tick();
   }
 
   for (int i = 0; i < surfacesCount; i++) {
@@ -125,7 +124,7 @@ void loop() {
 
   interface.tick();
 
-  for (int c = 0; c < channelsCount; c++) {
-    channels[c].display();
+  for (int i = 0; i < channelsCount; i++) {
+    channels[i].display();
   }
 }
