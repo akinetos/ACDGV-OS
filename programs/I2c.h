@@ -28,7 +28,7 @@ class I2c:public Program {
       this->list[1].name = "OLED";
       this->list[1].address[0] = 60;
       this->knownDevicesCount = 2;
-      JsonArray & sensors = loadFromFile("/config/sensors.json");
+      JsonArray & sensors = storage.load("/config/sensors.json");
       int sensorsCount = sensors.size();
       for (int d=0; d<sensorsCount; d++) {
         int index = this->knownDevicesCount;

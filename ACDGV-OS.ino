@@ -15,12 +15,12 @@
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
-
 String action = "";
 int channelsCount;
 int surfacesCount;
 
 #include "./engine/Storage.h";
+Storage storage = Storage();
 #include "./engine/I2C.h";
 I2C i2c = I2C();
 #include "./engine/Program.h";
@@ -63,11 +63,11 @@ NFCDevice nfcDevice = NFCDevice();
 
 void setup() {
   Serial.begin(9600);
-  initStorage();
+  storage.init();
   i2c.init();
 
   String filePath = "/config/surfaces/" + version + ".json";
-  JsonArray & configSurfaces = loadFromFile(filePath);
+  JsonArray & configSurfaces = storage.load(filePath);
   surfacesCount = configSurfaces.size();
   channelsCount = Surface::countChannels(configSurfaces);
 

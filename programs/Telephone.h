@@ -16,7 +16,7 @@ class Telephone:public Program {
             }
           }
         } else {
-          JsonArray & menu = loadFromFile("/config/menu.json");
+          JsonArray & menu = storage.load("/config/menu.json");
           for (int i=0; i<menu[1][1][1].size(); i++) {
             String name = menu[1][1][1][i][0];
             this->contacts[i] = name;
