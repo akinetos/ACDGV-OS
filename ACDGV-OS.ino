@@ -15,39 +15,55 @@
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
+
 String action = "";
 int channelsCount;
 int surfacesCount;
 
 #include "./engine/Storage.h";
 Storage storage = Storage();
+
 #include "./engine/I2C.h";
 I2C i2c = I2C();
+
 #include "./engine/Program.h";
 Program * programs[programsCount];
+
 #include "./engine/Device.h";
 Device * devices[devicesCount];
+
+#include "./engine/OLED.h";
+#include "./engine/Port.h";
 #include "./engine/Channel.h";
 Channel * channels;
+
 #include "./engine/Surface.h";
 Surface * surfaces;
+
 #include "./engine/Interface.h";
 Interface interface;
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
+
 #include "./devices/GV.h";
 GV gv = GV();
+
 #include "./devices/HRS.h";
 HRS hrs = HRS(0x57);
+
 #include "./devices/RE.h";
 RE re = RE(0x55);
+
 #include "./devices/Gamepad.h";
 Gamepad gamepad = Gamepad(0x51);
+
 #include "./devices/Keypad.h";
 Keypad keypad = Keypad();
+
 #include "./devices/GD.h";
 GD gd = GD();
+
 #include "./devices/NFC.h";
 NFCDevice nfcDevice = NFCDevice();
 
@@ -66,10 +82,10 @@ void setup() {
   storage.init();
   i2c.init();
 
-  String filePath = "/config/surfaces/" + version + ".json";
-  JsonArray & configSurfaces = storage.load(filePath);
-  surfacesCount = configSurfaces.size();
-  channelsCount = Surface::countChannels(configSurfaces);
+  const String path = "/config/surfaces/" + version + ".json";
+  JsonArray & config = storage.load(path);
+  surfacesCount = config.size();
+  channelsCount = Channel::count(config);
 
   channels = new Channel[channelsCount];
   for (int i = 0; i < channelsCount; i++) {
@@ -90,7 +106,7 @@ void setup() {
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i] = *Surface::createFromConfigFile(configSurfaces[i]);
+    surfaces[i] = * Surface::create(config[i]);
   }
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].init();

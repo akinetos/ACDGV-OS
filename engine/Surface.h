@@ -251,7 +251,7 @@ class Surface {
     this->refreshScreens();
   }
 
-  static Surface * createFromConfigFile(JsonObject & config) {
+  static Surface * create(JsonObject & config) {
     int width = config["width"];
     int height = config["height"];
     int screenWidth = config["screenWidth"];
@@ -260,38 +260,6 @@ class Surface {
     int orientationY = config["orientationY"];
     int channel = config["channel"];
     return new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
-  }
-
-  static int countChannels(JsonArray & configSurfaces) {
-    int channelsUsed[8];
-    for (int i=0; i<8; i++) {
-      channelsUsed[i] = -1;
-    }
-    for (int i=0; i<surfacesCount; i++) {
-      int channel = configSurfaces[i]["channel"];
-      boolean found = false;
-      for (int j=0; j<8; j++) {
-        if (channelsUsed[j] == channel) {
-          found = true;
-        }
-      }
-      if (!found) {
-        int index = 0;
-        for (int j=0; j<8; j++) {
-          if (channelsUsed[j] >= 0) {
-            index++;
-          }
-        }
-        channelsUsed[index] = channel;
-      }
-    }
-    int countChannels = 0;
-    for (int i=0; i<8; i++) {
-      if (channelsUsed[i] >= 0) {
-        countChannels++;
-      }
-    }
-    return countChannels;
   }
 
   void countScreens() {
