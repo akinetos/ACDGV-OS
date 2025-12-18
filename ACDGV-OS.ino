@@ -140,6 +140,12 @@ void loop() {
 
   interface.tick();
 
+  for (int i = 0; i < surfacesCount; i++) {
+    if (surfaces[i].pointerPortChanged()) {
+      surfaces[i].pointerPreviousPort = surfaces[i].pointerPort;
+    }
+  }
+
   for (int i = 0; i < channelsCount; i++) {
     channels[i].display();
   }

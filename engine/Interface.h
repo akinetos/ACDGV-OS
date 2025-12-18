@@ -43,6 +43,14 @@ class Interface:public Program {
         previousScreen.resetLineHovered();
       }
 
+      OLED & screen = channels[surface.channel].ports[surface.pointerPort].screen;
+      screen.lineHovered = (int)((y - screen.offsetY) / 10);
+
+      if (surface.pointerPort == 0) {
+        screen.closeButtonHovered = x > 118 && y < 16;
+      }
+      
+      /*
       OLED & previewScreen0 = channels[surface.channel].ports[0].screen;
       OLED & previewScreen1 = channels[surface.channel].ports[1].screen;
       if (surface.pointerPort == 0) {
@@ -67,6 +75,7 @@ class Interface:public Program {
           }
         }
       }
+      */
     }
 
     void updatePointer() {

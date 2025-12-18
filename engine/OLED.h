@@ -14,8 +14,8 @@ class OLED: public Device {
     int lineScrollTimestamp[21];
     int lineScrollStep[21];
     
-    int lineHovered;
-    int previousLineHovered;
+    int lineHovered = -1;
+    int previousLineHovered = -1;
     int lineHoveredTimestamp;
     
     int lineSelected = -1;
