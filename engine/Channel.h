@@ -19,12 +19,6 @@ class Channel {
       }
     }
 
-    void display() {
-      for (int p = 0; p < 8; p++) {
-        this->ports[p].display();
-      }
-    }
-
     static int count(JsonArray & configSurfaces) {
       int channelsUsed[8];
       for (int i=0; i<8; i++) {

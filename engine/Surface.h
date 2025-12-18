@@ -275,4 +275,10 @@ class Surface {
       channels[channel].ports[i].screen.needsRefresh = true;
     }
   }
+
+  void display() {
+    for (int i=0; i<8; i++) {
+      channels[channel].ports[i].display();
+    }
+  }
 };

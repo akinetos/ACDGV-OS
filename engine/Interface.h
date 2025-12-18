@@ -348,6 +348,10 @@ class Interface:public Program {
         }
         
         surface->drawPointer();
+
+        if (surface->pointerPortChanged()) {
+          surface->pointerPreviousPort = surface->pointerPort;
+        }
       }
     }
 
