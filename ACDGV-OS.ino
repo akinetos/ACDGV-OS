@@ -106,10 +106,9 @@ void setup() {
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i] = * Surface::create(config[i]);
-  }
-  for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i].init();
+    Surface * surface = Surface::create(config[i]);
+    surface->init();
+    surfaces[i] = *surface;
   }
 
   programs[0] = new Batterfly();
