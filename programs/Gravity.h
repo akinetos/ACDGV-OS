@@ -16,7 +16,7 @@ class Gravity:public Program {
       String gestureDirection = "";
 
       void update() {
-        int speed = (this->option + 1) * 2;
+        int speed = (this->option + 1) * 10;
         int tiltX = 0;
         int tiltY = 0;
 

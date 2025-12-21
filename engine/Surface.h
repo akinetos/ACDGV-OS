@@ -69,7 +69,7 @@ class Surface {
       this->pointerPreviousPositionX = this->pointerPositionX;
       
       x *= this->orientationX;
-      this->pointerPositionX += (int)(x * this->pointerSpeed * this->orientationX);
+      this->pointerPositionX -= (int)(x * this->pointerSpeed * this->orientationX);
       if (this->pointerPositionX < 0) {
         this->pointerPositionX = 0;
       }
