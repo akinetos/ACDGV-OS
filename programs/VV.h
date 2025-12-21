@@ -16,7 +16,7 @@ class VV:public Program {
     
     int points[pointsCount * 2];
 
-    boolean move = true;
+    boolean move = false;
 
     boolean screensUpdated[8];
 
@@ -24,15 +24,14 @@ class VV:public Program {
       this->cRe = 0.22;
       this->cIm = 0.52;
       this->initialised = true;
-      this->move = true;
       for (int port=0; port<8; port++) {
         this->screensUpdated[port] = false;
       }
     }
 
     void update() {
-      if (gamepad.buttonPressed()) {
-        //this->move = !this->move;
+      if (gamepad.longPress) {
+        this->move = !this->move;
       }
 
       if (this->move) {
@@ -137,7 +136,6 @@ class VV:public Program {
     void justActivated() {
       this->activatedTimestamp = millis();
       this->counter = 0;
-      this->move = true;
     }
 
     void drawProgress() {

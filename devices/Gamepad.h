@@ -30,6 +30,17 @@ class Gamepad: public Device {
 
         if (this->device.analogRead(5) > 0) {
           if (this->buttonApressedTime > 0) {
+            if (this->time - this->buttonApressedTime > 1000) {
+              this->longPress = true;
+              this->shortPress = false;
+            } else {
+              this->shortPress = true;
+              this->longPress = false;
+            }
+            this->buttonApressedTime = 0;
+          } else {
+            this->shortPress = false;
+            this->longPress = false;
             this->buttonApressedTime = 0;
           }
         }
@@ -41,10 +52,6 @@ class Gamepad: public Device {
           }
         }
       }
-    }
-
-    boolean buttonPressed() {
-      return this->buttonApressedTime == this->time;
     }
 
   Gamepad(int address) {

@@ -10,10 +10,6 @@ class Device {
 
     void virtual tick(void);
 
-    boolean virtual buttonPressed() {
-      return false;
-    }
-
     float axisX;
     float axisY;
 
@@ -25,6 +21,9 @@ class Device {
     double z;
 
     int position = 0;
+
+    boolean shortPress = false;
+    boolean longPress = false;
 };
 
 Device::Device() {}

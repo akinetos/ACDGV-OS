@@ -150,7 +150,7 @@ class Interface:public Program {
         screen.needsRefresh = true;
       }
 
-      if (devices[4]->buttonPressed() && this->mainMenuHovered()) {
+      if (devices[4]->shortPress && this->mainMenuHovered()) {
         this->pathChanged = false;
 
         if (screen.closeButtonHovered) {
@@ -324,7 +324,7 @@ class Interface:public Program {
         this->updatePrograms();
         this->updateMenu();
 
-        if (devices[4]->buttonPressed()) {
+        if (devices[4]->shortPress) {
           this->reactToGamepadAction();
         }
 
