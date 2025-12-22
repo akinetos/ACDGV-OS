@@ -29,58 +29,62 @@ class VV:public Program {
       }
     }
 
+    void compute() {
+      Surface & surface = surfaces[0];
+
+      float newZre = 0;
+      float newZim = 0;
+
+      this->points[0] = 0;
+      this->points[1] = 0;
+
+      this->offsetRe = accelerometer.x / this->precision;
+      this->offsetIm = accelerometer.y / this->precision;
+
+      if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
+        xOffset += gamepad.axisX * 10;
+      }
+
+      if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
+        yOffset -= gamepad.axisY * 10;
+      }
+
+      for (int port=0; port<8; port++) {
+        if (this->screensUpdated[port]) {
+          channels[0].ports[port].screen.needsRefresh = true;
+        }
+      }
+
+      for (int port=0; port<8; port++) {
+        this->screensUpdated[port] = false;
+      }
+      
+      for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
+        this->points[i*2] = surface.width / 2 + (int)(newZre * this->scale) + xOffset;
+        this->points[i*2+1] = surface.height / 2 + (int)(newZim * this->scale) + yOffset;
+
+        int port = (int)(this->points[i*2+1] / 32);
+        if (port >=0) {
+          if ((version == "3" && port < 3) || (version == "8" && port < 8)) {
+            channels[0].ports[port].screen.needsRefresh = true;
+            this->screensUpdated[port] = true;
+          }
+        }
+
+        float newerZre = newZre * newZre - newZim * newZim + this->cRe + this->offsetRe;
+        float newerZim = newZre * newZim * 2 + this->cIm + this->offsetIm;
+        newZre = newerZre;
+        newZim = newerZim;
+      }
+    }
+
     void update() {
       if (gamepad.longPress) {
         this->move = !this->move;
       }
 
       if (this->move) {
-        Surface & surface = surfaces[0];
-
-        float newZre = 0;
-        float newZim = 0;
-
-        this->points[0] = 0;
-        this->points[1] = 0;
-
-        this->offsetRe = accelerometer.x / this->precision;
-        this->offsetIm = accelerometer.y / this->precision;
-
-        if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
-          xOffset += gamepad.axisX * 10;
-        }
-
-        if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
-          yOffset -= gamepad.axisY * 10;
-        }
-
-        for (int port=0; port<8; port++) {
-          if (this->screensUpdated[port]) {
-            channels[0].ports[port].screen.needsRefresh = true;
-          }
-        }
-
-        for (int port=0; port<8; port++) {
-          this->screensUpdated[port] = false;
-        }
-        
-        for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
-          this->points[i*2] = surface.width / 2 + (int)(newZre * this->scale) + xOffset;
-          this->points[i*2+1] = surface.height / 2 + (int)(newZim * this->scale) + yOffset;
-
-          int port = (int)(this->points[i*2+1] / 32);
-          if (port >=0) {
-            if ((version == "3" && port < 3) || (version == "8" && port < 8)) {
-              channels[0].ports[port].screen.needsRefresh = true;
-              this->screensUpdated[port] = true;
-            }
-          }
-
-          float newerZre = newZre * newZre - newZim * newZim + this->cRe + this->offsetRe;
-          float newerZim = newZre * newZim * 2 + this->cIm + this->offsetIm;
-          newZre = newerZre;
-          newZim = newerZim;
-        }
+        this->compute();
       }
 
       if (nfcDevice.message != "") {
@@ -136,6 +140,7 @@ class VV:public Program {
     void justActivated() {
       this->activatedTimestamp = millis();
       this->counter = 0;
+      this->compute();
     }
 
     void drawProgress() {
