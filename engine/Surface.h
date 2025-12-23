@@ -55,6 +55,10 @@ class Surface {
       } else {
         this->facingUp = this->orientationX == -1;
       }
+
+      //DO ZROBIENIA: tymczasowe rozwiązanie
+      this->facingUp = true;
+      
       if (this->facingUp) {
         if (this->screensDisabled) {
           this->turnScreens("on");
@@ -67,10 +71,11 @@ class Surface {
     }
 
     void updatePointer(double x, double y) {
-      this->pointerPreviousPositionX = this->pointerPositionX;
-      
       x *= this->orientationX;
-      this->pointerPositionX -= (int)(x * this->pointerSpeed * this->orientationX);
+      y *= this->orientationY;
+      
+      this->pointerPreviousPositionX = this->pointerPositionX;
+      this->pointerPositionX += (int)(x * this->pointerSpeed * this->orientationX);
       if (this->pointerPositionX < 0) {
         this->pointerPositionX = 0;
       }

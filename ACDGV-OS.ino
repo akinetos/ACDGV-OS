@@ -134,6 +134,15 @@ void loop() {
   }
 
   for (int i = 0; i < surfacesCount; i++) {
+    Surface & surface = surfaces[i];
+    if (surface.facingUp) {
+      if (!surface.cursorBlocked) {
+        surface.updatePointer(gamepad.axisX, gamepad.axisY);
+      }
+    }
+  }
+
+  for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].tick();
   }
 

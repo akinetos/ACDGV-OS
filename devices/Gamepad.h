@@ -44,16 +44,6 @@ class Gamepad: public Device {
             this->buttonApressedTime = 0;
           }
         }
-
-        //should be done somwhere else
-        for (int i = 0; i < surfacesCount; i++) {
-          Surface & surface = surfaces[i];
-          if (surface.facingUp) {
-            if (!surface.cursorBlocked) {
-              surface.updatePointer(this->axisX * surface.orientationX, this->axisY);
-            }
-          }
-        }
       }
     }
 
