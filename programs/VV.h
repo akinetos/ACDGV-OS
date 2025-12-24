@@ -81,7 +81,13 @@ class VV:public Program {
     void update() {
       if (gamepad.longPress) {
         this->move = !this->move;
-        surfaces[0].cursorBlocked = this->move;
+        if (this->move) {
+          surfaces[0].showPointer = false;
+          interface.showMenu = false;
+        } else {
+          surfaces[0].showPointer = true;
+          interface.showMenu = true;
+        }
       }
 
       if (this->move) {

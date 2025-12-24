@@ -131,7 +131,7 @@ void loop() {
 
   for (int i = 0; i < surfacesCount; i++) {
     Surface & surface = surfaces[i];
-    if (surface.facingUp && !surface.cursorBlocked) {
+    if (surface.facingUp && surface.showPointer) {
       surface.updatePointer(gamepad.axisX, gamepad.axisY);
     }
   }
@@ -161,8 +161,10 @@ void loop() {
   if (interface.pathLevel > 0) {
     surface->drawCloseButton(0);
   }
-  
-  surface->drawPointer();
+
+  if (surface->showPointer) {
+    surface->drawPointer();
+  }
 
   if (surface->pointerPortChanged()) {
     surface->pointerPreviousPort = surface->pointerPort;

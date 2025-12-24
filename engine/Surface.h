@@ -30,7 +30,7 @@ class Surface {
     
     int optionsCount = 0;
     boolean hasOptions = false;
-    boolean cursorBlocked = false;
+    boolean showPointer = true;
 
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
