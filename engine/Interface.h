@@ -307,14 +307,6 @@ class Interface:public Program {
       return hovered;
     }
 
-    void drawActivePrograms() {
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->active) {
-          programs[i]->tick();
-        }
-      }
-    }
-
     void tick() {
       Surface * surface = & surfaces[0];
 
@@ -326,31 +318,6 @@ class Interface:public Program {
 
         if (devices[4]->shortPress) {
           this->reactToGamepadAction();
-        }
-
-        //if (keypad.anyKeyPressed()) {
-        //  this->reactToKeypadAction();
-        //}
-
-        surface->clear();
-
-        if (this->anyProgramActive) {
-          this->drawActivePrograms();
-        }
-
-        if (this->showMenu) {
-          surface->drawMenuPath(0);
-          surface->drawMenuOptions();
-        }
-
-        if (this->pathLevel > 0) {
-          surface->drawCloseButton(0);
-        }
-        
-        surface->drawPointer();
-
-        if (surface->pointerPortChanged()) {
-          surface->pointerPreviousPort = surface->pointerPort;
         }
       }
     }

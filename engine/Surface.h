@@ -192,6 +192,11 @@ class Surface {
     }
   }
 
+  void drawMenu() {
+    this->drawMenuPath(0);
+    this->drawMenuOptions();
+  }
+
   void drawMenuPath(int port) {
     OLED & screen = channels[this->channel].ports[port].screen;
     int cursorX = -1;

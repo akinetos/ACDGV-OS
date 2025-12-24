@@ -129,16 +129,10 @@ void loop() {
     devices[i]->tick();
   }
 
-  for (int i = 0; i < channelsCount; i++) {
-    channels[i].tick();
-  }
-
   for (int i = 0; i < surfacesCount; i++) {
     Surface & surface = surfaces[i];
-    if (surface.facingUp) {
-      if (!surface.cursorBlocked) {
-        surface.updatePointer(gamepad.axisX, gamepad.axisY);
-      }
+    if (surface.facingUp && !surface.cursorBlocked) {
+      surface.updatePointer(gamepad.axisX, gamepad.axisY);
     }
   }
 
@@ -147,6 +141,32 @@ void loop() {
   }
 
   interface.tick();
+
+  Surface * surface = & surfaces[0];
+
+  surface->clear();
+
+  if (interface.anyProgramActive) {
+    for (int i=0; i<programsCount; i++) {
+      if (programs[i]->active) {
+        programs[i]->tick();
+      }
+    }
+  }
+
+  if (interface.showMenu) {
+    surface->drawMenu();
+  }
+
+  if (interface.pathLevel > 0) {
+    surface->drawCloseButton(0);
+  }
+  
+  surface->drawPointer();
+
+  if (surface->pointerPortChanged()) {
+    surface->pointerPreviousPort = surface->pointerPort;
+  }
 
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].display();

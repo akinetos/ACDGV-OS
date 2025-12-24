@@ -20,17 +20,6 @@ class Port {
       i2c.activate(this->channel, this->number);
       this->screen.init(128, 32, "ssd1306");
     }
-    
-    void tick() {
-      if (this->hasDevices) {
-        /*
-        for (int d = 0; d < 2; d++) {
-          i2c.activate(this->channel, this->number);
-          this->devices[d]->tick();
-        }
-        */
-      }
-    }
 
     void display() {
       if (this->screen.connected) {
