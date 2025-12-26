@@ -3,7 +3,6 @@ class Interface:public Program {
     String segments[8];
     int pathLevel = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    boolean showMenu = true;
     boolean anyProgramActive = false;
     boolean pathChanged = false;
 
@@ -260,7 +259,7 @@ class Interface:public Program {
     void reactToGamepadAction() {
       Surface * surface = & surfaces[0];
 
-      if (surface->pointerPort == 0 && this->showMenu && this->pathChanged) {
+      if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
         if (version == "8") {
           JsonArray & element = this->getElement();
           surface->populate(element[1]);
@@ -303,7 +302,7 @@ class Interface:public Program {
     boolean mainMenuHovered() {
       Surface * surface = & surfaces[0];
       boolean hovered = surface->pointerPort == 0 
-        && (this->showMenu || channels[0].ports[0].screen.closeButtonHovered);
+        && (surface->showMenu || channels[0].ports[0].screen.closeButtonHovered);
       return hovered;
     }
 

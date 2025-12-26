@@ -83,10 +83,10 @@ class VV:public Program {
         this->move = !this->move;
         if (this->move) {
           surfaces[0].showPointer = false;
-          interface.showMenu = false;
+          surfaces[0].showMenu = false;
         } else {
           surfaces[0].showPointer = true;
-          interface.showMenu = true;
+          surfaces[0].showMenu = true;
         }
       }
 

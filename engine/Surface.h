@@ -32,6 +32,8 @@ class Surface {
     boolean hasOptions = false;
     boolean showPointer = true;
 
+    boolean showMenu = true;
+
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
     }

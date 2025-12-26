@@ -152,7 +152,7 @@ void loop() {
     }
   }
 
-  if (interface.showMenu) {
+  if (surface->showMenu) {
     surface->drawMenu();
   }
 
