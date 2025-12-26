@@ -1,8 +1,6 @@
 class Gamepad: public Device {
   public:
     Adafruit_seesaw device;
-    float axisX;
-    float axisY;
     int buttonApressedTime = 0;
     int time = 0;
     int connectionAttempts = 0;

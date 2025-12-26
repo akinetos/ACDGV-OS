@@ -101,7 +101,10 @@ class Surface {
       return this->pointerPreviousPort != this->pointerPort;
     }
 
-    void tick() {
+    void tick(Device * device) {
+      if (this->facingUp && this->showPointer) {
+        this->updatePointer(device->axisX, device->axisY);
+      }
       if (devices[0]->orientationChanged) { //accelerometer
         this->handleOrientationChange(devices[0]->orientation);
       }
