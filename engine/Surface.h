@@ -300,4 +300,20 @@ class Surface {
       channels[channel].ports[i].display();
     }
   }
+
+  void draw(int pathLevel) {
+    if (this->showMenu) {
+      this->drawMenu();
+    }
+
+    if (pathLevel > 0) {
+      this->drawCloseButton(0);
+    }
+
+    if (this->showPointer) {
+      this->drawPointer();
+    }
+
+    this->display();
+  }
 };

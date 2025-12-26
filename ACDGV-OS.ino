@@ -135,9 +135,9 @@ void loop() {
 
   interface.tick();
 
-  Surface * surface = & surfaces[0];
-
-  surface->clear();
+  for (int i = 0; i < surfacesCount; i++) {
+    surfaces[i].clear();
+  }
 
   for (int i=0; i<programsCount; i++) {
     if (programs[i]->active) {
@@ -145,19 +145,7 @@ void loop() {
     }
   }
 
-  if (surface->showMenu) {
-    surface->drawMenu();
-  }
-
-  if (interface.pathLevel > 0) {
-    surface->drawCloseButton(0);
-  }
-
-  if (surface->showPointer) {
-    surface->drawPointer();
-  }
-
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i].display();
+    surfaces[i].draw(interface.pathLevel);
   }
 }
