@@ -1,7 +1,7 @@
 class Interface:public Program {
   public:
     String segments[8];
-    int pathLevel = 0;
+    int level = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean anyProgramActive = false;
     boolean pathChanged = false;
@@ -100,7 +100,7 @@ class Interface:public Program {
         channels[0].ports[1].screen.populate(file[1]);
       }
 
-      for (int i=this->pathLevel+1; i<8; i++) {
+      for (int i=this->level+1; i<8; i++) {
         this->segments[i] = "";
       }
       this->segments[0] = optionName;
@@ -118,19 +118,19 @@ class Interface:public Program {
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
       JsonArray & file = storage.load("/config/menu.json");
-      if (this->pathLevel == 4) {
+      if (this->level == 4) {
         screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1][address[3]][1]);
       }
-      if (this->pathLevel == 3) {
+      if (this->level == 3) {
         screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1]);
       }
-      if (this->pathLevel == 2) {
+      if (this->level == 2) {
         screen.populate(file[1][address[0]][1][address[1]][1]);
       }
-      if (this->pathLevel == 1) {
+      if (this->level == 1) {
         screen.populate(file[1][address[0]][1]);
       }
-      if (this->pathLevel == 0) {
+      if (this->level == 0) {
         screen.populate(file[1]);
       }
     }
@@ -153,17 +153,17 @@ class Interface:public Program {
         this->pathChanged = false;
 
         if (screen.closeButtonHovered) {
-          if (this->pathLevel > 0) {
-            this->segments[this->pathLevel] = "";
-            this->address[this->pathLevel-1] = NULL;
-            this->pathLevel--;
+          if (this->level > 0) {
+            this->segments[this->level] = "";
+            this->address[this->level-1] = NULL;
+            this->level--;
             this->pathChanged = true;
             this->deactivatePrograms();
           }
         } else {
           if (screen.pathSegmentHovered > -1) {
-            this->pathLevel = screen.pathSegmentHovered;
-            for (int i=this->pathLevel+1; i < 8; i++) {
+            this->level = screen.pathSegmentHovered;
+            for (int i=this->level+1; i < 8; i++) {
               this->segments[i] = "";
               this->address[i-1] = NULL;
               this->pathChanged = true;
@@ -182,19 +182,19 @@ class Interface:public Program {
 
     JsonArray & getElement() {
       JsonArray & file = storage.load("/config/menu.json");
-      if (this->pathLevel == 0) {
+      if (this->level == 0) {
         return file;
       }
-      if (this->pathLevel == 1) {
+      if (this->level == 1) {
         return file[1][address[0]];
       }
-      if (this->pathLevel == 2) {
+      if (this->level == 2) {
         return file[1][address[0]][1][address[1]];
       }
-      if (this->pathLevel == 3) {
+      if (this->level == 3) {
         return file[1][address[0]][1][address[1]][1][address[2]];
       }
-      if (this->pathLevel == 4) {
+      if (this->level == 4) {
         return file[1][address[0]][1][address[1]][1][address[2]][1][address[3]];
       }
     }
@@ -225,11 +225,11 @@ class Interface:public Program {
     }
 
     void selectOption(int index) {
-      this->pathLevel++;
-      this->address[this->pathLevel-1] = index;
+      this->level++;
+      this->address[this->level-1] = index;
       JsonArray & element = this->getElement();
       String optionName = element[0];
-      this->segments[this->pathLevel] = optionName;
+      this->segments[this->level] = optionName;
 
       if (version == "8") {
         Surface * surface = & surfaces[0];

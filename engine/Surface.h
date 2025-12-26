@@ -301,12 +301,12 @@ class Surface {
     }
   }
 
-  void draw(int pathLevel) {
+  void draw(int level) {
     if (this->showMenu) {
       this->drawMenu();
     }
 
-    if (pathLevel > 0) {
+    if (level > 0) {
       this->drawCloseButton(0);
     }
 

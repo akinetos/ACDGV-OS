@@ -41,7 +41,7 @@ Channel * channels;
 Surface * surfaces;
 
 #include "./engine/Interface.h";
-Interface interface;
+Interface menu;
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
@@ -121,7 +121,7 @@ void setup() {
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
 
-  interface.init();
+  menu.init();
 }
 
 void loop() {
@@ -133,7 +133,7 @@ void loop() {
     surfaces[i].tick(devices[4]);
   }
 
-  interface.tick();
+  menu.tick();
 
   for (int i = 0; i < surfacesCount; i++) {
     surfaces[i].clear();
@@ -146,6 +146,6 @@ void loop() {
   }
 
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i].draw(interface.pathLevel);
+    surfaces[i].draw(menu.level);
   }
 }
