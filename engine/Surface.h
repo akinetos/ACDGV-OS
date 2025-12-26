@@ -176,6 +176,9 @@ class Surface {
   void drawPointer() {
     OLED & screen = channels[this->channel].ports[this->pointerPort].screen;
     screen.drawPointer(this->getRelativeX(), this->getRelativeY(), "circle");
+    if (this->pointerPortChanged()) {
+      this->pointerPreviousPort = this->pointerPort;
+    }
   }
 
   void drawLine(int x1, int y1, int x2, int y2) {

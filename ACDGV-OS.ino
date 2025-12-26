@@ -146,11 +146,9 @@ void loop() {
 
   surface->clear();
 
-  if (interface.anyProgramActive) {
-    for (int i=0; i<programsCount; i++) {
-      if (programs[i]->active) {
-        programs[i]->tick();
-      }
+  for (int i=0; i<programsCount; i++) {
+    if (programs[i]->active) {
+      programs[i]->tick();
     }
   }
 
@@ -164,10 +162,6 @@ void loop() {
 
   if (surface->showPointer) {
     surface->drawPointer();
-  }
-
-  if (surface->pointerPortChanged()) {
-    surface->pointerPreviousPort = surface->pointerPort;
   }
 
   for (int i = 0; i < surfacesCount; i++) {
