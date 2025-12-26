@@ -1,4 +1,4 @@
-class Interface:public Program {
+class Menu:public Program {
   public:
     String segments[8];
     int level = 0;
@@ -321,5 +321,5 @@ class Interface:public Program {
       }
     }
 
-    Interface() {}
+    Menu() {}
 };

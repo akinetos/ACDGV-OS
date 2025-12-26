@@ -40,8 +40,8 @@ Channel * channels;
 #include "./engine/Surface.h";
 Surface * surfaces;
 
-#include "./engine/Interface.h";
-Interface menu;
+#include "./engine/Menu.h";
+Menu menu;
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
@@ -133,7 +133,7 @@ void loop() {
     surfaces[i].tick(devices[4], &menu);
   }
 
-  for (int i=0; i<programsCount; i++) {
+  for (int i = 0; i < programsCount; i++) {
     if (programs[i]->active) {
       programs[i]->tick();
     }
