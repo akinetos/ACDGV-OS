@@ -246,16 +246,6 @@ class Menu:public Program {
       }
     }
 
-    void updatePrograms() {
-      this->anyProgramActive = false;
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->active) {
-          this->anyProgramActive = true;
-          programs[i]->update();
-        }
-      }
-    }
-
     void reactToGamepadAction() {
       Surface * surface = & surfaces[0];
 
@@ -312,7 +302,6 @@ class Menu:public Program {
       if (surface->facingUp) {
         this->updatePointer();
         this->updateOptions();
-        this->updatePrograms();
         this->updateMenu();
 
         if (devices[4]->shortPress) {

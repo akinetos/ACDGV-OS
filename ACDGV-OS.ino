@@ -133,6 +133,12 @@ void loop() {
     surfaces[i].tick(devices[4]);
   }
 
+  for (int i=0; i<programsCount; i++) {
+    if (programs[i]->active) {
+      programs[i]->update();
+    }
+  }
+
   menu.tick();
 
   for (int i = 0; i < surfacesCount; i++) {
