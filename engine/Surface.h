@@ -101,15 +101,13 @@ class Surface {
       return this->pointerPreviousPort != this->pointerPort;
     }
 
-    void tick(Device * device, Program * menu) {
+    void tick(Device * controller) {
       if (this->facingUp && this->showPointer) {
-        this->updatePointer(device->axisX, device->axisY);
+        this->updatePointer(controller->axisX, controller->axisY);
       }
-      if (devices[0]->orientationChanged) { //accelerometer
+      if (devices[0]->orientationChanged) {
         this->handleOrientationChange(devices[0]->orientation);
       }
-      menu->tick();
-      this->clear();
     }
 
     void turnScreens(String state) {

@@ -130,7 +130,13 @@ void loop() {
   }
 
   for (int i = 0; i < surfacesCount; i++) {
-    surfaces[i].tick(devices[4], &menu);
+    surfaces[i].tick(devices[4]);
+  }
+
+  menu.tick();
+
+  for (int i = 0; i < surfacesCount; i++) {
+    surfaces[i].clear();
   }
 
   for (int i = 0; i < programsCount; i++) {
