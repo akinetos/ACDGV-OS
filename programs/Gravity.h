@@ -15,7 +15,7 @@ class Gravity:public Program {
       int gestureTimestamp = 0;
       String gestureDirection = "";
 
-      void update() {
+      void tick() {
         int speed = (this->option + 1) * 10;
         int tiltX = 0;
         int tiltY = 0;
@@ -70,8 +70,6 @@ class Gravity:public Program {
         if (version == "8") maxY = 255;
         this->initialised = true;
       }
-
-      void tick() {}
 
       void draw() {
         Surface & surface = surfaces[0];
