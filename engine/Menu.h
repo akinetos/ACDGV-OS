@@ -111,8 +111,9 @@ class Menu:public Program {
         }
       }
 
-      surface->menuAddress = this->getMenuAddress();
-      surface->menuPath = this->getMenuPath();
+      //do przerobienia
+      surface->menuAddress = this->getMenuAddress(); //menu.address = 
+      surface->menuPath = this->getMenuPath(); //menu.path =
     }
 
     void populateOptions() {

@@ -125,33 +125,25 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i < devicesCount; i++) {
+  for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
-  }
 
-  for (int i = 0; i < surfacesCount; i++) {
+  for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
-  }
 
-  for (int i=0; i<programsCount; i++) {
-    if (programs[i]->active) {
+  for (int i = 0; i < programsCount; i++)
+    if (programs[i]->active)
       programs[i]->tick();
-    }
-  }
-
+  
   menu.tick();
 
-  for (int i = 0; i < surfacesCount; i++) {
+  for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
-  }
 
-  for (int i = 0; i < programsCount; i++) {
-    if (programs[i]->active) {
+  for (int i = 0; i < programsCount; i++)
+    if (programs[i]->active)
       programs[i]->draw();
-    }
-  }
-
-  for (int i = 0; i < surfacesCount; i++) {
+  
+  for (int i = 0; i < surfacesCount; i++)
     surfaces[i].draw(menu.level);
-  }
 }
