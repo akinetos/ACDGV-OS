@@ -1,6 +1,8 @@
 class Battery:public Program {
     public:
-        void tick() {
+        void tick() {}
+        
+        void draw() {
             if (gv.changed) {
                 OLED & screen = channels[0].ports[1].screen;
                 screen.lines[0] = (String)gv.voltage;

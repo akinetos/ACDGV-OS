@@ -21,4 +21,6 @@ class Program {
     }
 
     void virtual update() {}
+    
+    void virtual draw() {}
 };

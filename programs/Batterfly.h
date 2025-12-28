@@ -359,7 +359,7 @@ class Batterfly:public Program {
             this->initialised = true;
         }
 
-        void tick() {
+        void draw() {
             Surface & surface = surfaces[this->surfaceIndex];
             
             this->counter++;
@@ -387,7 +387,7 @@ class Batterfly:public Program {
             }
         }
 
-        void update() {
+        void tick() {
             if (this->scoresChanged) {
                 channels[0].ports[1].screen.needsRefresh = true;
             }

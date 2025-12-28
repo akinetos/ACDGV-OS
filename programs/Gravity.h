@@ -71,7 +71,9 @@ class Gravity:public Program {
         this->initialised = true;
       }
 
-      void tick() {
+      void tick() {}
+
+      void draw() {
         Surface & surface = surfaces[0];
         surface.drawCircle(this->x, this->y, 10);
         if (this->port != this->previousPort) {

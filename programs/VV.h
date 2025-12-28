@@ -78,7 +78,7 @@ class VV:public Program {
       }
     }
 
-    void update() {
+    void tick() {
       if (gamepad.longPress) {
         this->move = !this->move;
         if (this->move) {
@@ -104,7 +104,7 @@ class VV:public Program {
       return points[i*2] >=0 && points[i*2] < surface.width && points[i*2+1] >= 0 && points[i*2+1] < surface.height;
     }
 
-    void tick() {
+    void draw() {
       Surface & surface = surfaces[0];
 
       if (surface.facingUp) {

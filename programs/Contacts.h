@@ -147,7 +147,9 @@ class Contacts:public Program {
 		this->initialised = true;
 	}
 
-    void tick() {
+	void tick() {}
+
+    void draw() {
 		Surface & s8x1 = surfaces[0];
 		if (s8x1.facingUp) {
 			for (int port=1; port<3; port++) {

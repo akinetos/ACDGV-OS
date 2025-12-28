@@ -64,7 +64,9 @@ class I2c:public Program {
       }
     }
 
-    void tick() {
+    void tick() {}
+
+    void draw() {
       for (int i=0; i<this->count; i++) {
         OLED & screen = channels[0].ports[i+1].screen;
         const int amount = 3;

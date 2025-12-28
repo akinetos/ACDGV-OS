@@ -135,7 +135,7 @@ void loop() {
 
   for (int i=0; i<programsCount; i++) {
     if (programs[i]->active) {
-      programs[i]->update();
+      programs[i]->tick();
     }
   }
 
@@ -147,7 +147,7 @@ void loop() {
 
   for (int i = 0; i < programsCount; i++) {
     if (programs[i]->active) {
-      programs[i]->tick();
+      programs[i]->draw();
     }
   }
 

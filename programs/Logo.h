@@ -178,7 +178,9 @@ class Logo:public Program {
 		this->initialised = true;
 	}
 
-    void tick() {
+	void tick() {}
+	
+    void draw() {
 		/*
 		Surface & s2x1 = surfaces[0];
 
