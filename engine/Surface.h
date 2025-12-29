@@ -42,7 +42,23 @@ class Surface {
       return this->pointerPositionY - (int)(this->pointerPort / this->screensPerRow) * this->screenHeight;
     }
 
-    void init() {
+    void init(JsonObject & config) {
+      int width = config["width"];
+      int height = config["height"];
+      int screenWidth = config["screenWidth"];
+      int screenHeight = config["screenHeight"];
+      int orientationX = config["orientationX"];
+      int orientationY = config["orientationY"];
+      int channel = config["channel"];
+
+      this->width = width;
+      this->height = height;
+      this->screenWidth = screenWidth;
+      this->screenHeight = screenHeight;
+      this->orientationX = orientationX;
+      this->orientationY = orientationY;
+      this->channel = channel;
+
       this->handleOrientationChange(devices[0]->orientation);
       if (!this->facingUp) {
         this->turnScreens("off");

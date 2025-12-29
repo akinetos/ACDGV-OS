@@ -104,16 +104,8 @@ void setup() {
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
-    int width = config[i]["width"];
-    int height = config[i]["height"];
-    int screenWidth = config[i]["screenWidth"];
-    int screenHeight = config[i]["screenHeight"];
-    int orientationX = config[i]["orientationX"];
-    int orientationY = config[i]["orientationY"];
-    int channel = config[i]["channel"];
-    
-    Surface *surface = new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
-    surface->init();
+    Surface *surface = new Surface();
+    surface->init(config[i]);
     surfaces[i] = *surface;
   }
 
