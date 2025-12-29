@@ -159,7 +159,7 @@ class Menu:public Program {
             this->address[this->level-1] = NULL;
             this->level--;
             this->pathChanged = true;
-            this->deactivatePrograms();
+            //this->deactivatePrograms();
           }
         } else {
           if (screen.pathSegmentHovered > -1) {
@@ -169,7 +169,7 @@ class Menu:public Program {
               this->address[i-1] = NULL;
               this->pathChanged = true;
             }
-            this->deactivatePrograms();
+            //this->deactivatePrograms();
           }
         }
 
@@ -213,7 +213,7 @@ class Menu:public Program {
       if (programName == "NFC") programIndex = 7;
       if (programName == "battery") programIndex = 8;
       
-      this->deactivatePrograms();
+      //this->deactivatePrograms();
       programs[programIndex]->active = true;
       if (!programs[programIndex]->initialised) {
         programs[programIndex]->init();

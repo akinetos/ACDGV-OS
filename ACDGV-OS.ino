@@ -104,9 +104,9 @@ void setup() {
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
-    Surface *surface = new Surface();
+    Surface * surface = new Surface();
     surface->init(config[i]);
-    surfaces[i] = *surface;
+    surfaces[i] = * surface;
   }
 
   programs[0] = new Batterfly();
@@ -118,6 +118,8 @@ void setup() {
   programs[6] = new Contacts();
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
+
+  programs[2]->active = true;
 
   menu.init();
 }

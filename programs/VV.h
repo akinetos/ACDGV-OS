@@ -16,7 +16,7 @@ class VV:public Program {
     
     int points[pointsCount * 2];
 
-    boolean move = false;
+    boolean move = true;
 
     boolean screensUpdated[8];
 
