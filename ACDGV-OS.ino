@@ -88,9 +88,8 @@ void setup() {
   channelsCount = Channel::count(config);
 
   channels = new Channel[channelsCount];
-  for (int i = 0; i < channelsCount; i++) {
+  for (int i = 0; i < channelsCount; i++)
     channels[i].init(i);
-  }
 
   devices[0] = &accelerometer;
   devices[1] = &gv;
@@ -100,13 +99,20 @@ void setup() {
   devices[5] = &keypad;
   devices[6] = &gd;
   devices[7] = &nfcDevice;
-  for (int i = 0; i < devicesCount; i++) {
+  for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
-  }
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
-    Surface * surface = Surface::create(config[i]);
+    int width = config[i]["width"];
+    int height = config[i]["height"];
+    int screenWidth = config[i]["screenWidth"];
+    int screenHeight = config[i]["screenHeight"];
+    int orientationX = config[i]["orientationX"];
+    int orientationY = config[i]["orientationY"];
+    int channel = config[i]["channel"];
+    
+    Surface *surface = new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
     surface->init();
     surfaces[i] = *surface;
   }

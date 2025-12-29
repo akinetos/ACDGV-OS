@@ -265,17 +265,6 @@ class Surface {
     this->refreshScreens();
   }
 
-  static Surface * create(JsonObject & config) {
-    int width = config["width"];
-    int height = config["height"];
-    int screenWidth = config["screenWidth"];
-    int screenHeight = config["screenHeight"];
-    int orientationX = config["orientationX"];
-    int orientationY = config["orientationY"];
-    int channel = config["channel"];
-    return new Surface(width, height, screenWidth, screenHeight, orientationX, orientationY, channel);
-  }
-
   void countScreens() {
     this->screensCount = 0;
     for (int p=0; p<8; p++) {
