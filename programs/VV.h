@@ -6,7 +6,7 @@ class VV:public Program {
     float cIm;
 
     float xOffset = 0;
-    float yOffset = 0;
+    float yOffset = -50;
 
     float offsetRe = 0;
     float offsetIm = 0;
@@ -16,17 +16,17 @@ class VV:public Program {
     
     int points[pointsCount * 2];
 
-    boolean move = true;
+    boolean move = false;
 
     boolean screensUpdated[8];
 
     void init() {
       this->cRe = 0.22;
       this->cIm = 0.52;
-      this->initialised = true;
       for (int port=0; port<8; port++) {
         this->screensUpdated[port] = false;
       }
+      this->initialised = true;
     }
 
     void compute() {
@@ -41,12 +41,13 @@ class VV:public Program {
       this->offsetRe = accelerometer.x / this->precision;
       this->offsetIm = accelerometer.y / this->precision;
 
-      if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
-        xOffset += gamepad.axisX * 10;
-      }
-
-      if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
-        yOffset -= gamepad.axisY * 10;
+      if (this->move) {
+        if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
+          xOffset += gamepad.axisX * 10;
+        }
+        if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
+          yOffset -= gamepad.axisY * 10;
+        }
       }
 
       for (int port=0; port<8; port++) {
@@ -90,10 +91,10 @@ class VV:public Program {
         }
       }
 
-      if (this->move) {
-        this->compute();
-      }
+      this->compute();
 
+      channels[0].ports[0].screen.needsRefresh = true;
+      
       if (nfcDevice.message != "") {
         channels[0].ports[7].screen.needsRefresh = true;
       }
@@ -155,7 +156,11 @@ class VV:public Program {
       screen.ssd1306.setCursor(64, 4);
       screen.ssd1306.setTextColor(SSD1306_WHITE);
       screen.ssd1306.setTextWrap(false);
-      screen.ssd1306.print(String(this->cRe + this->offsetRe) + "/" + String(this->cIm + this->offsetIm));
+      if (this->move) {
+        screen.ssd1306.print(String((int)this->xOffset) + "/" + String((int)this->yOffset));
+      } else {
+        screen.ssd1306.print(String(this->cRe + this->offsetRe) + "/" + String(this->cIm + this->offsetIm));
+      }
     }
 
   VV() {}
