@@ -9,8 +9,8 @@ class Telephone:public Program {
 
       void tick() {
         if (this->contactsLoaded) {
-          Surface & s8x1 = surfaces[0];
-          if (s8x1.facingUp) {
+          Surface * s8x1 = surfaces[0];
+          if (s8x1->facingUp) {
             for (int i=0; i<8; i++) {
               channels[0].ports[i].screen.printText(contacts[i]);
             }

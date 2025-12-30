@@ -38,7 +38,7 @@ Device * devices[devicesCount];
 Channel * channels;
 
 #include "./engine/Surface.h";
-Surface * surfaces;
+Surface * surfaces[1];
 
 #include "./engine/Menu.h";
 Menu menu;
@@ -102,11 +102,10 @@ void setup() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
 
-  surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
     Surface * surface = new Surface();
     surface->init(config[i]);
-    surfaces[i] = * surface;
+    surfaces[i] = surface;
   }
 
   programs[0] = new Batterfly();
@@ -129,7 +128,7 @@ void loop() {
     devices[i]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].tick(devices[4]);
+    surfaces[i]->tick(devices[4]);
 
   for (int i = 0; i < programsCount; i++)
     if (programs[i]->active)
@@ -138,12 +137,12 @@ void loop() {
   menu.tick();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].clear();
+    surfaces[i]->clear();
 
   for (int i = 0; i < programsCount; i++)
     if (programs[i]->active)
       programs[i]->draw();
   
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].draw(menu.level);
+    surfaces[i]->draw(menu.level);
 }
