@@ -103,9 +103,8 @@ void setup() {
     devices[i]->init();
 
   for (int i = 0; i < surfacesCount; i++) {
-    Surface * surface = new Surface();
-    surface->init(config[i]);
-    surfaces[i] = surface;
+    surfaces[i] = new Surface();
+    surfaces[i]->init(config[i]);
   }
 
   programs[0] = new Batterfly();
