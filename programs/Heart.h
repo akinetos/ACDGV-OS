@@ -8,7 +8,7 @@ class Heart:public Program {
         }
 
         void tick() {
-            Surface * surface = surfaces[this->surfaceIndex];
+            Surface * surface = & surfaces[this->surfaceIndex];
             if (!surface->screensDisabled && hrs.changed) {
                 channels[surface->channel].ports[0].screen.heading = (String)hrs.rate;
                 channels[surface->channel].ports[0].screen.clear();

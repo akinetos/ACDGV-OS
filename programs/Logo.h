@@ -182,7 +182,7 @@ class Logo:public Program {
 	
     void draw() {
 		/*
-		Surface * s2x1 = surfaces[0];
+		Surface * s2x1 = & surfaces[0];
 
 		if (s2x1.facingUp) {
 			OLED & screen = channels[s2x1.channel].ports[1].screen;
@@ -207,7 +207,7 @@ class Logo:public Program {
 		}
 		*/
 	  
-		Surface * s8x1 = surfaces[0];
+		Surface * s8x1 = & surfaces[0];
 		if (s8x1->facingUp) {
 			/*
 			int xStep = 8;

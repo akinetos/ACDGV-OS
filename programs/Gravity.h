@@ -72,7 +72,7 @@ class Gravity:public Program {
       }
 
       void draw() {
-        Surface * surface = surfaces[0];
+        Surface * surface = & surfaces[0];
         surface->drawCircle(this->x, this->y, 10);
         if (this->port != this->previousPort) {
           if (this->port != this->previousPort && this->previousPort != -1) {

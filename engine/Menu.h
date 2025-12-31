@@ -33,7 +33,7 @@ class Menu:public Program {
     }
 
     void updateOptions() {
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
       int x = surface->getRelativeX();
       int y = surface->getRelativeY();
 
@@ -79,7 +79,7 @@ class Menu:public Program {
 
     void updatePointer() {
       if (!this->anyProgramActive) {
-        Surface * surface = surfaces[0];
+        Surface * surface = & surfaces[0];
         if (surface->pointerPositionX > 120 && channels[surface->channel].ports[surface->pointerPort].screen.scrollbarHovered) {
           surface->pointerPositionY = surface->pointerPreviousPositionY;
           if (surface->pointerPortChanged()) {
@@ -90,7 +90,7 @@ class Menu:public Program {
     }
 
     void init() {
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
       JsonArray & file = storage.load("/config/menu.json");
       String optionName = file[0];
 
@@ -174,7 +174,7 @@ class Menu:public Program {
         }
 
         if (this->pathChanged) {
-          Surface * surface = surfaces[0];
+          Surface * surface = & surfaces[0];
           surface->menuAddress = this->getMenuAddress();
           surface->menuPath = this->getMenuPath();
         }
@@ -233,7 +233,7 @@ class Menu:public Program {
       this->segments[this->level] = optionName;
 
       if (version == "8") {
-        Surface * surface = surfaces[0];
+        Surface * surface = & surfaces[0];
         surface->populate(element[1]);
       } else {
         OLED & screen = channels[0].ports[1].screen;
@@ -248,7 +248,7 @@ class Menu:public Program {
     }
 
     void reactToGamepadAction() {
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
 
       if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
         if (version == "8") {
@@ -281,7 +281,7 @@ class Menu:public Program {
 
     void reactToKeypadAction() {
       /*
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
       char button = keypad.device.getButton();
       if (button != '*' && button != '#' && !this->anyProgramActive) {
         int index = button - 48;
@@ -291,14 +291,14 @@ class Menu:public Program {
     }
 
     boolean mainMenuHovered() {
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
       boolean hovered = surface->pointerPort == 0 
         && (surface->showMenu || channels[0].ports[0].screen.closeButtonHovered);
       return hovered;
     }
 
     void tick() {
-      Surface * surface = surfaces[0];
+      Surface * surface = & surfaces[0];
 
       if (surface->facingUp) {
         this->updatePointer();

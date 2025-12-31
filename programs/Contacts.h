@@ -150,7 +150,7 @@ class Contacts:public Program {
 	void tick() {}
 
     void draw() {
-		Surface * s8x1 = surfaces[0];
+		Surface * s8x1 = & surfaces[0];
 		if (s8x1->facingUp) {
 			for (int port=1; port<3; port++) {
 				channels[s8x1->channel].ports[port].screen.ssd1306.drawBitmap(0,0,images[port-1],128,32,SSD1306_WHITE);
