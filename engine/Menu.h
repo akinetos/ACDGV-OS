@@ -249,10 +249,10 @@ class Menu:public Program {
 
     void reactToGamepadAction() {
       Surface * surface = & surfaces[0];
+      JsonArray & element = this->getElement();
 
       if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
         if (version == "8") {
-          JsonArray & element = this->getElement();
           surface->populate(element[1]);
           if (element[2]) {
             if (element[2][0] == "run") {
@@ -272,7 +272,10 @@ class Menu:public Program {
           OLED & screen = channels[0].ports[1].screen;
           index = screen.lineHovered;
         }
-        this->selectOption(index);
+        
+        if (element[1].size() > 0 && index < element[1].size()) {
+          this->selectOption(index);
+        }
       }
 
       surface->menuAddress = this->getMenuAddress();
