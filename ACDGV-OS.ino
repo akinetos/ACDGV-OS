@@ -38,7 +38,7 @@ Device * devices[devicesCount];
 Channel * channels;
 
 #include "./engine/Surface.h";
-Surface surfaces[1];
+Surface * surfaces;
 
 #include "./engine/Menu.h";
 Menu menu;
@@ -102,8 +102,12 @@ void setup() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
 
-  for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].init(config[i]);
+  surfaces = new Surface[surfacesCount];
+  for (int i = 0; i < surfacesCount; i++) {
+    Surface * surface = new Surface();
+    surface->init(config[i]);
+    surfaces[i] = * surface;
+  }
 
   programs[0] = new Batterfly();
   programs[1] = new Gravity();
