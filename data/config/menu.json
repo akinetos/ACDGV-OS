@@ -8,10 +8,6 @@
 		["i2c",[],["run","i2c"]],
 		["battery",[],["run","battery"]],
 		["kontakty",[],["run","contacts"]],
-		["NFC",[[],
-			["odczytaj",[],["run","NFC",1]],
-			["zapisz",[],["run","NFC",2]]
-		]],
 		["VV",[[],
 			["parametry",[[],
 				["odczytaj",[],["run","vv",2]],
@@ -22,5 +18,8 @@
 				["linie",[],["run","vv",1]]
 			]]
 		],["run","vv"]]
+	]],
+	["ustawienia",[[],
+		["tlo",[],["run","tlo"]]
 	]]
 ]]
