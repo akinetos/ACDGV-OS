@@ -598,6 +598,10 @@ class OLED: public Device {
           this->ssd1306.drawCircle(x, y, this->pointerRadius + 1, SSD1306_BLACK);
           this->ssd1306.drawCircle(x, y, this->pointerRadius, SSD1306_WHITE);
         }
+        if (pointerType == "rect") {
+          this->ssd1306.drawRect(x - this->pointerRadius, y - this->pointerRadius, this->pointerRadius * 2 + 1, this->pointerRadius * 2 + 1, SSD1306_BLACK);
+          this->ssd1306.drawRect(x - this->pointerRadius, y - this->pointerRadius, this->pointerRadius * 2, this->pointerRadius * 2, SSD1306_WHITE);
+        }
       }
     }
 

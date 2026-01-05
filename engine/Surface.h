@@ -22,6 +22,7 @@ class Surface {
     int pointerPreviousPort = 0;
     int pointerPort = 0;
     int pointerSpeed = 10;
+    int animatePointerTime = 0;
     int screensCount = 0;
 
     String menuPath = "";
@@ -124,6 +125,9 @@ class Surface {
       if (devices[0]->orientationChanged) {
         this->handleOrientationChange(devices[0]->orientation);
       }
+      if (devices[4]->shortPress || devices[4]->longPress) {
+        this->animatePointerTime = millis();
+      }
     }
 
     void turnScreens(String state) {
@@ -196,7 +200,11 @@ class Surface {
 
   void drawPointer() {
     OLED & screen = channels[this->channel].ports[this->pointerPort].screen;
-    screen.drawPointer(this->getRelativeX(), this->getRelativeY(), "circle");
+    String mode = "circle";
+    if (this->animatePointerTime + 1000 > millis()) {
+      mode = "rect";
+    }
+    screen.drawPointer(this->getRelativeX(), this->getRelativeY(), mode);
     if (this->pointerPortChanged()) {
       this->pointerPreviousPort = this->pointerPort;
     }
