@@ -120,7 +120,7 @@ class Surface {
 
     void tick(Device * controller) {
       if (this->facingUp && this->showPointer) {
-        this->updatePointer(controller->axisX, controller->axisY);
+        this->updatePointer(controller->x, controller->y);
       }
       if (devices[0]->orientationChanged) {
         this->handleOrientationChange(devices[0]->orientation);

@@ -42,11 +42,11 @@ class VV:public Program {
       this->offsetIm = accelerometer.y / this->precision;
 
       if (this->move) {
-        if (gamepad.axisX < -0.01 || gamepad.axisX > 0.01) {
-          xOffset += gamepad.axisX * 10;
+        if (devices[4]->x < -0.01 || devices[4]->x > 0.01) {
+          xOffset += devices[4]->x * 10;
         }
-        if (gamepad.axisY < -0.01 || gamepad.axisY > 0.01) {
-          yOffset -= gamepad.axisY * 10;
+        if (devices[4]->y < -0.01 || devices[4]->y > 0.01) {
+          yOffset -= devices[4]->y * 10;
         }
       }
 
@@ -80,7 +80,7 @@ class VV:public Program {
     }
 
     void tick() {
-      if (gamepad.longPress) {
+      if (devices[4]->longPress) {
         this->move = !this->move;
         Surface * surface = & surfaces[0];
         if (this->move) {

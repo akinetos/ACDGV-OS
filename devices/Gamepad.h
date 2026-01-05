@@ -17,8 +17,8 @@ class Gamepad: public Device {
     void tick() {
       if (this->connected) {
         this->time = millis();
-        this->axisX = (512.0 - this->device.analogRead(14)) / 512.0;
-        this->axisY = (512.0 - this->device.analogRead(15)) / 512.0;
+        this->x = (512.0 - this->device.analogRead(14)) / 512.0;
+        this->y = (512.0 - this->device.analogRead(15)) / 512.0;
 
         if (this->device.analogRead(5) == 0) {
           if (this->buttonApressedTime == 0) {

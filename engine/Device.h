@@ -10,9 +10,6 @@ class Device {
 
     void virtual tick(void);
 
-    float axisX;
-    float axisY;
-
     boolean orientationChanged;
     String orientation;
 

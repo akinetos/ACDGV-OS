@@ -60,7 +60,7 @@ class Menu:public Program {
         previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
         if (previewScreen1.scrollbarHovered) {
           if (devices[4]->connected) {
-            previewScreen1.updateScrollbar(devices[4]->axisY);
+            previewScreen1.updateScrollbar(devices[4]->y);
           }
         } else {
           int y = surface.getRelativeY();
