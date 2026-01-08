@@ -119,8 +119,6 @@ void setup() {
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
 
-  programs[2]->active = true;
-
   menu.init();
 }
 

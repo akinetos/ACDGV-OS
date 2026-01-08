@@ -214,7 +214,7 @@ class Menu:public Program {
       if (programName == "battery") programIndex = 8;
       
       //this->deactivatePrograms();
-      programs[programIndex]->active = true;
+      programs[programIndex]->active = !programs[programIndex]->active;
       if (!programs[programIndex]->initialised) {
         programs[programIndex]->init();
       }

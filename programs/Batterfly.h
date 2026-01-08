@@ -231,7 +231,7 @@ class Batterfly:public Program {
                 this->scoresChanged = false;
 
                 int radius = 2;
-                if (gamepad.buttonPressed()) {
+                if (devices[4]->shortPress) {
                     p07.screen.sh1106.fillCircle(20, 50, 12, SH110X_WHITE);
                     p07.screen.sh1106.fillCircle(20 - (int)(p07.devices[0]->x * 20), 50 - (int)(p07.devices[0]->y * 20), radius, SH110X_BLACK);
                 } else {
@@ -279,7 +279,7 @@ class Batterfly:public Program {
             Surface * surface = & surfaces[this->surfaceIndex];
             
             int index = -1;
-            if (gamepad.shortPress) {
+            if (devices[4]->shortPress) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp == 0) {
                         index = i;
@@ -298,7 +298,7 @@ class Batterfly:public Program {
             for (int i=0; i<PESTKI_COUNT; i++) {
                 if (this->pestki[i].timestamp > 0) {
                     this->pestki[i].x -= this->pestki[i].vectorX;
-                    this->pestki[i].y -= this->pestki[i].vectorY;
+                    this->pestki[i].y += this->pestki[i].vectorY;
                     int t = (millis() - this->pestki[i].timestamp) / 1000;
                     if (!(this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4)) {
                         this->pestki[i].timestamp = 0;
