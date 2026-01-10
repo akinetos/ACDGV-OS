@@ -213,16 +213,18 @@ class Menu:public Program {
       if (programName == "NFC") programIndex = 7;
       if (programName == "battery") programIndex = 8;
       
-      //this->deactivatePrograms();
       programs[programIndex]->active = !programs[programIndex]->active;
-      if (!programs[programIndex]->initialised) {
-        programs[programIndex]->init();
+      
+      if (programs[programIndex]->active) {
+        if (!programs[programIndex]->initialised) {
+          programs[programIndex]->init();
+        }
+        if (program[2].size() == 3) {
+          int programOption = program[2][2];
+          programs[programIndex]->setOption(programOption);
+        }
+        programs[programIndex]->justActivated();
       }
-      if (program[2].size() == 3) {
-        int programOption = program[2][2];
-        programs[programIndex]->setOption(programOption);
-      }
-      programs[programIndex]->justActivated();
     }
 
     void selectOption(int index) {
