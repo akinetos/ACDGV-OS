@@ -133,6 +133,7 @@ class VV:public Program {
 
         if (this->option == 2) {
           action = "nfc read";
+          this->option = 0;
         }
 
         if (this->option == 3) {

@@ -35,6 +35,8 @@ class NFCDevice: public Device {
             bool success = this->device.write(message);
             if (success) {
                 this->message = "zapisano";
+            } else {
+                this->message = "blad zapisu";
             }
         } else {
             this->message = "no tag";
@@ -43,7 +45,7 @@ class NFCDevice: public Device {
     }
 
     void init() {
-        //this->device.begin();
+        this->device.begin();
     }
 
     void tick() {
