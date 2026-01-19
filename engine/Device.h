@@ -3,6 +3,7 @@ class Device {
     int address;
     boolean connected;
     boolean changed;
+    char buttonPressed = NULL;
 
     Device();
     

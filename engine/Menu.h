@@ -285,14 +285,20 @@ class Menu:public Program {
     }
 
     void reactToKeypadAction() {
-      /*
       Surface * surface = & surfaces[0];
-      char button = keypad.device.getButton();
-      if (button != '*' && button != '#' && !this->anyProgramActive) {
+      JsonArray & element = this->getElement();
+
+      int index;
+      char button = devices[5]->buttonPressed;
+      if (button != '*' && button != '#') {
         int index = button - 48;
-        this->selectOption(index);
+        if (element[1].size() > 0 && index < element[1].size()) {
+          this->selectOption(index);
+        }
       }
-      */
+
+      surface->menuAddress = this->getMenuAddress();
+      surface->menuPath = this->getMenuPath();
     }
 
     boolean mainMenuHovered() {
@@ -312,6 +318,10 @@ class Menu:public Program {
 
         if (devices[4]->shortPress) {
           this->reactToGamepadAction();
+        }
+
+        if (devices[5]->shortPress) {
+          this->reactToKeypadAction();
         }
       }
     }
