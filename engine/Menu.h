@@ -143,6 +143,14 @@ class Menu:public Program {
       channels[0].ports[1].screen.textScroll = 0;
     }
 
+    void close() {
+      this->segments[this->level] = "";
+      this->address[this->level-1] = NULL;
+      this->level--;
+      this->pathChanged = true;
+      this->deactivatePrograms();
+    }
+    
     void updateMenu() {
       OLED & screen = channels[0].ports[0].screen;
 
@@ -155,11 +163,7 @@ class Menu:public Program {
 
         if (screen.closeButtonHovered) {
           if (this->level > 0) {
-            this->segments[this->level] = "";
-            this->address[this->level-1] = NULL;
-            this->level--;
-            this->pathChanged = true;
-            //this->deactivatePrograms();
+            this->close();
           }
         } else {
           if (screen.pathSegmentHovered > -1) {
@@ -287,13 +291,19 @@ class Menu:public Program {
     void reactToKeypadAction() {
       Surface * surface = & surfaces[0];
       JsonArray & element = this->getElement();
-
       int index;
       char button = devices[5]->buttonPressed;
+
       if (button != '*' && button != '#') {
         int index = button - 48;
         if (element[1].size() > 0 && index < element[1].size()) {
           this->selectOption(index);
+        }
+      }
+
+      if (button == '*') {
+        if (this->level > 0) {
+          this->close();
         }
       }
 

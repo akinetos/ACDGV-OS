@@ -143,6 +143,18 @@ class VV:public Program {
           this->option = 0;
         }
 
+        if (devices[5]->shortPress) {
+          char button = devices[5]->buttonPressed;
+          if (button != '*' && button != '#') {
+            int index = button - 48;
+            if (index == 1) {
+              String content = "[[2,5],[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]]";
+              nfcDevice.content = content;
+              action = "nfc write";
+            }
+          }
+        }
+
         this->drawProgress();
       }
     }
