@@ -2,7 +2,7 @@ class Wifi: public Device {
   public:
     boolean connected = false;
     int attempts = 0;
-    const int maxAttempts = 20;
+    const int maxAttempts = 10;
     const int delayTime = 1000;
     String ip = "";
 
@@ -23,7 +23,7 @@ class Wifi: public Device {
         delay(this->delayTime);
         this->connected = WiFi.status() == WL_CONNECTED;
         this->attempts++;
-        Serial.println("attempt " + (String)this->attempts);
+        Serial.println("attempt " + (String)this->attempts + "/" + (String)this->maxAttempts);
       }
       
       if (this->connected) {

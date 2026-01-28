@@ -9,7 +9,7 @@ class Network {
     }
 };
 
-class Router:public Program {
+class Networks:public Program {
     public:
       Network networks[20];
       int networksCount = 0;
@@ -75,5 +75,5 @@ class Router:public Program {
         }
       }
 
-    Router() {}
+    Networks() {}
 };

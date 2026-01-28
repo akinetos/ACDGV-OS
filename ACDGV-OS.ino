@@ -7,9 +7,6 @@
 
 const int programsCount = 1;
 
-#include "./engine/I2C.h";
-I2C i2c = I2C();
-
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
@@ -17,7 +14,7 @@ Program * programs[programsCount];
 #include "./devices/WiFi.h";
 Wifi wifi = Wifi();
 
-#include "./programs/Router.h";
+#include "./programs/Networks.h";
 
 
 String IpAddress2String(const IPAddress& ip) {
@@ -40,7 +37,13 @@ AsyncWebServer server(80);
 
 void serverInit() {
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+  
   server.serveStatic("/", SPIFFS, "/");
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/index.html", String(), false);
+  });
+  
   server.begin();
 }
 
@@ -112,10 +115,11 @@ void websocketTick(String mode) {
 void setup() {
   Serial.begin(115200);
   SPIFFS.begin();
-  i2c.init();
-  programs[0] = new Router();
+
+  programs[0] = new Networks();
   programs[0]->init();
   programs[0]->active = true;
+  
   serverInit();
   websocketInit();
 }
