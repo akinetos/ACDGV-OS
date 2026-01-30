@@ -4,6 +4,10 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncWebServer.h>
 #include <WebSocketsServer.h>
+#include <Adafruit_seesaw.h>
+
+#include "./engine/I2C.h";
+I2C i2c = I2C();
 
 const int programsCount = 1;
 
@@ -11,8 +15,15 @@ const int programsCount = 1;
 Program * programs[programsCount];
 
 #include "./engine/Device.h";
+
 #include "./devices/WiFi.h";
 Wifi wifi = Wifi();
+
+#include "./devices/AM.h";
+AM accelerometer = AM(0x1D);
+
+#include "./devices/Gamepad.h";
+Gamepad gamepad = Gamepad(0x51);
 
 #include "./programs/Networks.h";
 
@@ -122,17 +133,31 @@ void setup() {
   
   serverInit();
   websocketInit();
+
+  i2c.init();
+
+  accelerometer.init();
+  gamepad.init();
 }
 
 
 void loop() {
   websocketTick("incomming");
   
+  accelerometer.tick();
+  gamepad.tick();
+
   for (int i=0; i<programsCount; i++) {
     if (programs[i]->active) {
       programs[i]->tick();
     }
   }
+
+  String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
+  wsCommandsAdd(command1);
+
+  String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
+  wsCommandsAdd(command2);
 
   websocketTick("outgoing");
 }

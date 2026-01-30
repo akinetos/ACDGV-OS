@@ -1,1 +1,33 @@
-content of index.html
+<html>
+    <script>
+        let websocket;
+
+        function connectWebSocket() {
+            websocket = new WebSocket(`ws://192.168.18.138:81/`, ['arduino']);
+
+            websocket.onopen = function(event) {
+                console.log('połączono', event);
+                document.getElementById('status').innerHTML = 'połączono';
+            };
+
+            websocket.onmessage = function(event) {
+                console.log('otrzymano wiadomość', JSON.parse(event.data));
+                console.log(window.location.host);
+                document.getElementById('status').innerHTML = 'otrzymano wiadomość';
+            };
+
+            websocket.onerror = function(event) {
+                console.error('wystąpił błąd', event);
+            };
+
+            websocket.onclose = function(event) {
+                console.log('rozłączono', event);
+            };
+        }
+    </script>
+
+    <body>
+        <button onclick="connectWebSocket()">Połącz WebSocket</button>
+        <span id="status"></span>
+    </body>
+</html>
