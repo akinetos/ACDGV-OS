@@ -52,6 +52,7 @@ void serverInit() {
   server.serveStatic("/", SPIFFS, "/");
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("server.on /");
     request->send(SPIFFS, "/index.html", String(), false);
   });
   
@@ -86,6 +87,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
     } break;
         
     case WStype_CONNECTED: {
+      Serial.println(" WStype_CONNECTED ");
       wsIncommingCount++;
       wsChanged = true;
       wsConnected = true;
@@ -132,6 +134,7 @@ void setup() {
   programs[0]->active = true;
   
   serverInit();
+
   websocketInit();
 
   i2c.init();
@@ -153,11 +156,13 @@ void loop() {
     }
   }
 
-  String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
-  wsCommandsAdd(command1);
-
-  String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
-  wsCommandsAdd(command2);
+  if (wsConnected) {
+    String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
+    wsCommandsAdd(command1);
+  
+    String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
+    wsCommandsAdd(command2);
+  }
 
   websocketTick("outgoing");
 }
