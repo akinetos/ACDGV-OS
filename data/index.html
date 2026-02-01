@@ -11,9 +11,25 @@
             };
 
             websocket.onmessage = function(event) {
-                console.log('otrzymano wiadomość', JSON.parse(event.data));
-                console.log(window.location.host);
-                document.getElementById('status').innerHTML = 'otrzymano wiadomość';
+                let commands = [];
+                if (event.data) {
+                    commands = JSON.parse(event.data);
+                }
+                if (commands.length > 0) {
+                    for (let i=0; i<commands.length; i++) {
+                        const command = commands[i];
+                        if (command.a[0][5] === 3) {
+                            const gamepad = document.getElementById('gamepad');
+                            gamepad.style.left = 150 + command.v[0] * 100 + 'px';
+                            gamepad.style.top = 150 + command.v[1] * 100 + 'px';
+                        }
+                        if (command.a[0][5] === 4) {
+                            const accelerometer = document.getElementById('accelerometer');
+                            accelerometer.style.left = 150 + command.v[0] * 100 + 'px';
+                            accelerometer.style.top = 150 + command.v[1] * 100 + 'px';
+                        }
+                    }
+                }
             };
 
             websocket.onerror = function(event) {
@@ -29,5 +45,13 @@
     <body>
         <button onclick="connectWebSocket()">Połącz WebSocket</button>
         <span id="status"></span>
+
+        <div style="background-color: yellow; width: 300px; height: 300px; position: relative">
+            <div id="gamepad" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>
+        </div>
+
+        <div style="background-color: lightblue; width: 300px; height: 300px; position: relative">
+            <div id="accelerometer" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>
+        </div>
     </body>
 </html>
