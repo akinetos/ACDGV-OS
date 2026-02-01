@@ -4,6 +4,10 @@ class Gamepad: public Device {
     int buttonApressedTime = 0;
     int time = 0;
     int connectionAttempts = 0;
+
+    double previousX;
+    double previousY;
+    double previousZ;
   
     void init() {
       this->connected = this->device.begin(this->address);
@@ -17,8 +21,17 @@ class Gamepad: public Device {
     void tick() {
       if (this->connected) {
         this->time = millis();
+        this->previousX = this->x;
+        this->previousY = this->y;
+
         this->x = (512.0 - this->device.analogRead(14)) / 512.0;
         this->y = (512.0 - this->device.analogRead(15)) / 512.0;
+
+        float min = 0.01;
+        this->changed = false;
+        if (float(this->x - this->previousX) > min || float(this->x - this->previousX) < -min || float(this->y - this->previousY) > min || float(this->y - this->previousY) < -min) {
+          this->changed = true;
+        }
 
         if (this->device.analogRead(5) == 0) {
           if (this->buttonApressedTime == 0) {

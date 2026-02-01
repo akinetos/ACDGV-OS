@@ -157,11 +157,15 @@ void loop() {
   }
 
   if (wsConnected) {
-    String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
-    wsCommandsAdd(command1);
-  
-    String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
-    wsCommandsAdd(command2);
+    if (gamepad.changed) {
+      String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
+      wsCommandsAdd(command1);
+    }
+
+    if (accelerometer.changed) {
+      String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
+      wsCommandsAdd(command2);
+    }
   }
 
   websocketTick("outgoing");

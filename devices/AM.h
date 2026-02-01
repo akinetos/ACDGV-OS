@@ -42,11 +42,13 @@ class AM: public Device {
         this->previousY = this->y;
         this->previousZ = this->z;
         
-        this->x = ((x / 255.0) + this->previousX) / 2;
-        this->y = ((y / 255.0) + this->previousY) / 2;
+        this->x = x / 255.0;
+        this->y = y / 255.0;
         this->z = z;
+
+        float min = 0.02;
   
-        if (this->x != this->previousX || this->y != this->previousY || this->z != this->previousZ) {
+        if (float(this->x - this->previousX) > min || float(this->x - this->previousX) < -min || float(this->y - this->previousY) > min || float(this->y - this->previousY) < -min) {
           this->changed = true;
           this->orientation = this->z < 65000 ? "up" : "down";
           this->orientationChanged = this->orientation != this->previousOrientation;
