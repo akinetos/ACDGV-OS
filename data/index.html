@@ -20,13 +20,13 @@
                         const command = commands[i];
                         if (command.a[0][5] === 3) {
                             const gamepad = document.getElementById('gamepad');
-                            gamepad.style.left = 150 + command.v[0] * 100 + 'px';
-                            gamepad.style.top = 150 + command.v[1] * 100 + 'px';
+                            gamepad.style.left = 125 + command.v[0] * 100 + 'px';
+                            gamepad.style.top = 125 - command.v[1] * 100 + 'px';
                         }
                         if (command.a[0][5] === 4) {
                             const accelerometer = document.getElementById('accelerometer');
-                            accelerometer.style.left = 150 + command.v[0] * 100 + 'px';
-                            accelerometer.style.top = 150 + command.v[1] * 100 + 'px';
+                            accelerometer.style.left = 125 - command.v[0] * 100 + 'px';
+                            accelerometer.style.top = 125 - command.v[1] * 100 + 'px';
                         }
                     }
                 }
