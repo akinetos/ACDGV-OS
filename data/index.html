@@ -23,11 +23,22 @@
                 if (commands.length > 0) {
                     for (let i=0; i<commands.length; i++) {
                         const command = commands[i];
+
+                        if (command.a[0][5] === 1) {
+                            console.log("websocket sesstion millis: " + command.v[0]);
+                        }
+
+                        if (command.a[0][5] === 2) {
+                            const nfcTag = document.getElementById('nfcTag');
+                            nfcTag.innerHTML = command.v[0];
+                        }
+
                         if (command.a[0][5] === 3) {
                             const gamepad = document.getElementById('gamepad');
                             gamepad.style.left = 125 + command.v[0] * 100 + 'px';
                             gamepad.style.top = 125 - command.v[1] * 100 + 'px';
                         }
+
                         if (command.a[0][5] === 4) {
                             const accelerometer = document.getElementById('accelerometer');
                             accelerometer.style.left = 125 - command.v[0] * 100 + 'px';
@@ -61,8 +72,10 @@
 
     <body>
         <button onclick="connectWebSocket()">Połącz</button>
+        <span id="status"></span><br/>
+
         <button onclick="czytajTagNfc()">NFC</button>
-        <span id="status"></span>
+        <span id="nfcTag"></span>
 
         <div style="background-color: yellow; width: 300px; height: 300px; position: relative">
             <div id="gamepad" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>

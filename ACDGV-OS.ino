@@ -106,7 +106,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       wsConnected = true;
       wsClientNumber = num;
       wsClientIp = IpAddress2String(webSocket.remoteIP(num));
-      String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[" + (String)millis() + "]}";
+      String command = "{\"a\":[[11,1,4,2,1,1]],\"v\":[" + (String)millis() + "]}";
       wsCommandsAdd(command);
     } break;
     
@@ -166,9 +166,8 @@ void loop() {
   nfcDevice.tick();
 
   if (nfcDevice.message != "") {
-    //send message using websocket with this message
-    Serial.println("nfcDevice.message:");
-    Serial.println(nfcDevice.message);
+    String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[\"" + nfcDevice.message + "\"]}";
+    wsCommandsAdd(command);
     nfcDevice.message = "";
   }
 
