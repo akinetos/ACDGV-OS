@@ -5,6 +5,10 @@
 #include <ESPAsyncWebServer.h>
 #include <WebSocketsServer.h>
 #include <Adafruit_seesaw.h>
+#include <PN532_I2C.h>
+#include <NfcAdapter.h>
+
+String action = "";
 
 #include "./engine/I2C.h";
 I2C i2c = I2C();
@@ -25,6 +29,9 @@ AM accelerometer = AM(0x1D);
 #include "./devices/Gamepad.h";
 Gamepad gamepad = Gamepad(0x51);
 
+#include "./devices/NFC.h";
+NFCDevice nfcDevice = NFCDevice();
+
 #include "./programs/Networks.h";
 
 
@@ -38,7 +45,13 @@ void executeAll(String commandsString) {
   StaticJsonBuffer<2000> jsonBuffer;
   JsonArray& commands = jsonBuffer.parseArray(commandsString);
   for (int i=0; i<commands.size(); i++) {
-
+    JsonObject& command = commands[i];
+    JsonArray & address = command["a"];
+    JsonArray & values = command["v"];
+    int s = address[0].size();
+    action = "nfc read";
+    Serial.print("test");
+    Serial.println(s);
   }
 }
 
@@ -141,6 +154,7 @@ void setup() {
 
   accelerometer.init();
   gamepad.init();
+  nfcDevice.init();
 }
 
 
@@ -149,6 +163,14 @@ void loop() {
   
   accelerometer.tick();
   gamepad.tick();
+  nfcDevice.tick();
+
+  if (nfcDevice.message != "") {
+    //send message using websocket with this message
+    Serial.println("nfcDevice.message:");
+    Serial.println(nfcDevice.message);
+    nfcDevice.message = "";
+  }
 
   for (int i=0; i<programsCount; i++) {
     if (programs[i]->active) {

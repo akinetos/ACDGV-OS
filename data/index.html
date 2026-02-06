@@ -1,4 +1,9 @@
 <html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebSocket Test</title>
+    </head>
+
     <script>
         let websocket;
 
@@ -40,10 +45,23 @@
                 console.log('rozłączono', event);
             };
         }
+
+        function czytajTagNfc() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const command = {
+                    a: [[11,1,4,1]],
+                    v: [1982]
+                };
+                websocket.send(JSON.stringify([command]));
+            } else {
+                console.error('WebSocket nie jest połączony');
+            }
+        }
     </script>
 
     <body>
-        <button onclick="connectWebSocket()">Połącz WebSocket</button>
+        <button onclick="connectWebSocket()">Połącz</button>
+        <button onclick="czytajTagNfc()">NFC</button>
         <span id="status"></span>
 
         <div style="background-color: yellow; width: 300px; height: 300px; position: relative">
