@@ -14,11 +14,13 @@ String action = "";
 I2C i2c = I2C();
 
 const int programsCount = 1;
+const int devicesCount = 3;
 
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
 #include "./engine/Device.h";
+Device * devices[devicesCount];
 
 #include "./devices/WiFi.h";
 Wifi wifi = Wifi();
@@ -128,6 +130,7 @@ void websocketTick(String mode) {
   if (mode == "incomming") {
     webSocket.loop();
   }
+
   if (mode == "outgoing") {
     if (wsConnected && wsCommands != "") {
       webSocket.sendTXT(wsClientNumber, "[" + wsCommands + "]");
@@ -152,23 +155,21 @@ void setup() {
 
   i2c.init();
 
-  accelerometer.init();
-  gamepad.init();
-  nfcDevice.init();
+  devices[0] = &accelerometer;
+  devices[1] = &gamepad;
+  devices[2] = &nfcDevice;
+
+  for (int i=0; i<devicesCount; i++) {
+    devices[i]->init();
+  }
 }
 
 
 void loop() {
   websocketTick("incomming");
   
-  accelerometer.tick();
-  gamepad.tick();
-  nfcDevice.tick();
-
-  if (nfcDevice.message != "") {
-    String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[\"" + nfcDevice.message + "\"]}";
-    wsCommandsAdd(command);
-    nfcDevice.message = "";
+  for (int i=0; i<devicesCount; i++) {
+    devices[i]->tick();
   }
 
   for (int i=0; i<programsCount; i++) {
@@ -177,15 +178,21 @@ void loop() {
     }
   }
 
-  if (wsConnected) {
+  if (wsConnected) {  
+    if (nfcDevice.changed) {
+      String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[\"" + nfcDevice.message + "\"]}";
+      wsCommandsAdd(command);
+      nfcDevice.message = "";
+    }
+
     if (gamepad.changed) {
-      String command1 = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
-      wsCommandsAdd(command1);
+      String command = "{\"a\":[[11,1,4,2,1,3]],\"v\":[" + (String)gamepad.x + ", " + (String)gamepad.y + "]}";
+      wsCommandsAdd(command);
     }
 
     if (accelerometer.changed) {
-      String command2 = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
-      wsCommandsAdd(command2);
+      String command = "{\"a\":[[11,1,4,2,1,4]],\"v\":[" + (String)accelerometer.x + ", " + (String)accelerometer.y + "]}";
+      wsCommandsAdd(command);
     }
   }
 

@@ -25,6 +25,7 @@ class NFCDevice: public Device {
             this->message = "no tag";
         }
         this->reading = false;
+        this->changed = true;
     }
 
     void write() {
@@ -42,6 +43,7 @@ class NFCDevice: public Device {
             this->message = "no tag";
         }
         this->writting = false;
+        this->changed = true;
     }
 
     void init() {
@@ -49,6 +51,8 @@ class NFCDevice: public Device {
     }
 
     void tick() {
+        this->changed = false;
+        
         if (action == "nfc read" && !this->reading) {
             action = "";
             delay(1000);
