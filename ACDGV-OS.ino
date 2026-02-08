@@ -48,12 +48,16 @@ void executeAll(String commandsString) {
   JsonArray& commands = jsonBuffer.parseArray(commandsString);
   for (int i=0; i<commands.size(); i++) {
     JsonObject& command = commands[i];
-    JsonArray & address = command["a"];
+    JsonArray & address = command["a"][0];
     JsonArray & values = command["v"];
-    int s = address[0].size();
-    action = "nfc read";
-    Serial.print("test");
-    Serial.println(s);
+    if (address[3] == 1) {
+      action = "nfc read";
+    }
+    if (address[3] == 2) {
+      String content = values[0];
+      nfcDevice.content = content;
+      action = "nfc write";
+    }
   }
 }
 

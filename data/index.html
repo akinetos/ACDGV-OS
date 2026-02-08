@@ -61,7 +61,19 @@
             if (websocket && websocket.readyState === WebSocket.OPEN) {
                 const command = {
                     a: [[11,1,4,1]],
-                    v: [1982]
+                    v: []
+                };
+                websocket.send(JSON.stringify([command]));
+            } else {
+                console.error('WebSocket nie jest połączony');
+            }
+        }
+
+        function zapiszNaNfc() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const command = {
+                    a: [[11,1,4,2]],
+                    v: ["FELIKS"]
                 };
                 websocket.send(JSON.stringify([command]));
             } else {
@@ -74,8 +86,10 @@
         <button onclick="connectWebSocket()">Połącz</button>
         <span id="status"></span><br/>
 
-        <button onclick="czytajTagNfc()">NFC</button>
-        <span id="nfcTag"></span>
+        <button onclick="czytajTagNfc()">odczyt z NFC</button>
+        <span id="nfcTag"></span><br/>
+
+        <button onclick="zapiszNaNfc()">zapis na NFC</button>
 
         <div style="background-color: yellow; width: 300px; height: 300px; position: relative">
             <div id="gamepad" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>
