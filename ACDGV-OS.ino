@@ -50,14 +50,20 @@ void executeAll(String commandsString) {
     JsonObject& command = commands[i];
     JsonArray & address = command["a"][0];
     JsonArray & values = command["v"];
-    if (address[3] == 1) {
-      action = "nfc read";
-    }
+
     if (address[3] == 2) {
-      String content = values[0];
-      nfcDevice.content = content;
-      action = "nfc write";
+      if (address[4] == 2) {
+        if (address[5] == 1) {
+          action = "nfc read";
+        }
+        if (address[5] == 2) {
+          String content = values[0];
+          nfcDevice.content = content;
+          action = "nfc write";
+        }
+      }
     }
+
   }
 }
 
@@ -182,7 +188,7 @@ void loop() {
     }
   }
 
-  if (wsConnected) {  
+  if (wsConnected) {
     if (nfcDevice.changed) {
       String command = "{\"a\":[[11,1,4,2,1,2]],\"v\":[\"" + nfcDevice.message + "\"]}";
       wsCommandsAdd(command);
