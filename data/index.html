@@ -4,6 +4,48 @@
         <title>WebSocket Test</title>
     </head>
 
+    <style>
+        * {
+            display: flex;
+        }
+
+        head, style, title, script {
+            display: none;
+        }
+
+        body {
+            flex-direction: column
+        }
+
+        .row {
+            flex-direction: row;
+            margin-bottom: 20px;
+        }
+
+        .device {
+            background-color: lightgray;
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            position: relative;
+            flex-direction: column;
+            border-radius: 10px;
+            margin-right: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .ball {
+            background-color: black; 
+            width: 50px; 
+            height: 50px; 
+            position: relative; 
+            border-radius: 25px; 
+            left: 125px; 
+            top: 125px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        }
+    </style>
+
     <script>
         let websocket;
 
@@ -70,9 +112,11 @@
 
         function zapiszNaNfc() {
             if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const inputValue = document.getElementById('nfcInput').value;
+                console.log(inputValue);
                 const command = {
                     a: [[11,1,4,2,2,2]],
-                    v: ["ERAZM"]
+                    v: [inputValue]
                 };
                 websocket.send(JSON.stringify([command]));
             } else {
@@ -82,20 +126,31 @@
     </script>
 
     <body>
-        <button onclick="connectWebSocket()">Połącz</button>
-        <span id="status"></span><br/>
-
-        <button onclick="czytajTagNfc()">odczyt z NFC</button>
-        <span id="nfcTag"></span><br/>
-
-        <button onclick="zapiszNaNfc()">zapis na NFC</button>
-
-        <div style="background-color: yellow; width: 300px; height: 300px; position: relative">
-            <div id="gamepad" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>
+        
+        <div class="row">
+            <button onclick="connectWebSocket()">Połącz</button>
+            <span id="status"></span><br/>
         </div>
 
-        <div style="background-color: lightblue; width: 300px; height: 300px; position: relative">
-            <div id="accelerometer" style="background-color: black; width: 50px; height: 50px; position: relative; border-radius: 25px; left: 125px; top: 125px;"></div>
+        <div class="row">
+            <div class="device">
+                <button onclick="czytajTagNfc()">odczyt z NFC</button>
+
+                <button onclick="zapiszNaNfc()">zapis na NFC</button>
+                <textarea id="nfcInput" placeholder="Wpisz dane do zapisu"></textarea>
+            </div>
+
+            <div class="device">
+                <div id="gamepad" class="ball"></div>
+            </div>
+
+            <div class="device" class="ball">
+                <div id="accelerometer" class="ball"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <span id="nfcTag"></span>
         </div>
     </body>
 </html>
