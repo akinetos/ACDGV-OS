@@ -14,7 +14,7 @@ String action = "";
 I2C i2c = I2C();
 
 const int programsCount = 1;
-const int devicesCount = 3;
+const int devicesCount = 2;
 
 #include "./engine/Program.h";
 Program * programs[programsCount];
@@ -167,7 +167,7 @@ void setup() {
 
   devices[0] = &accelerometer;
   devices[1] = &gamepad;
-  devices[2] = &nfcDevice;
+  //devices[2] = &nfcDevice;
 
   for (int i=0; i<devicesCount; i++) {
     devices[i]->init();

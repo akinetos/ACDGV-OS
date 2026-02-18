@@ -1,56 +1,15 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>WebSocket Test</title>
+        <title>ACDGV</title>
+        <link rel="stylesheet" href="http://192.168.0.103/struktura.css">
     </head>
-
-    <style>
-        * {
-            display: flex;
-        }
-
-        head, style, title, script {
-            display: none;
-        }
-
-        body {
-            flex-direction: column
-        }
-
-        .row {
-            flex-direction: row;
-            margin-bottom: 20px;
-        }
-
-        .device {
-            background-color: lightgray;
-            width: 300px;
-            height: 300px;
-            border: 1px solid black;
-            position: relative;
-            flex-direction: column;
-            border-radius: 10px;
-            margin-right: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-        }
-
-        .ball {
-            background-color: black; 
-            width: 50px; 
-            height: 50px; 
-            position: relative; 
-            border-radius: 25px; 
-            left: 125px; 
-            top: 125px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
-        }
-    </style>
 
     <script>
         let websocket;
 
         function connectWebSocket() {
-            websocket = new WebSocket(`ws://192.168.18.138:81/`, ['arduino']);
+            websocket = new WebSocket(`ws://192.168.0.103:81/`, ['arduino']);
 
             websocket.onopen = function(event) {
                 console.log('połączono', event);
