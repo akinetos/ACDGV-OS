@@ -41,7 +41,7 @@ class Networks:public Program {
 
     void connect() {
       Serial.println("not connected");
-      String networkName = "[[18,2,2],1]";
+      String networkName = "[[18,1,1],1]";
       boolean found = false;
       int index = -1;
 

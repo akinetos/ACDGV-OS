@@ -28,6 +28,7 @@ class Wifi: public Device {
       
       if (this->connected) {
         this->ip = this->IpAddress2String(WiFi.localIP());
+        WiFi.hostname("ACDGV-8");
       }
     }
   

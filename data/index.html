@@ -2,14 +2,14 @@
     <head>
         <meta charset="utf-8">
         <title>ACDGV</title>
-        <link rel="stylesheet" href="http://192.168.0.103/struktura.css">
+        <link rel="stylesheet" href="http://192.168.0.8/struktura.css">
     </head>
 
     <script>
         let websocket;
 
         function connectWebSocket() {
-            websocket = new WebSocket(`ws://192.168.0.103:81/`, ['arduino']);
+            websocket = new WebSocket(`ws://192.168.0.8:81/`, ['arduino']);
 
             websocket.onopen = function(event) {
                 console.log('połączono', event);
@@ -87,11 +87,15 @@
     <body>
         
         <div class="row">
-            <button onclick="connectWebSocket()">Połącz</button>
-            <span id="status"></span><br/>
+            <h1>ACDGV</h1>
         </div>
 
         <div class="row">
+            <div class="device">
+                <button onclick="connectWebSocket()">Połącz</button>
+                <span id="status"></span>
+            </div>
+
             <div class="device">
                 <button onclick="czytajTagNfc()">odczyt z NFC</button>
 
