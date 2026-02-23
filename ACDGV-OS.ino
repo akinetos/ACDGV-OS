@@ -80,6 +80,26 @@ void serverInit() {
     Serial.println("server.on /");
     request->send(SPIFFS, "/index.html", String(), false);
   });
+
+  server.on("/api/user/preferences", [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/preferences.json", String(), false);
+  });
+
+  server.on("/api/content/latest", [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/latest.json", String(), false);
+  });
+
+  server.on("/projekty/ACDGV/v1", [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/index.html", String(), false);
+  });
+
+  server.on("/api/image/11.1.1.2.3/1", [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/1.svg", String(), false);
+  });
+
+  server.on("/api/image/11.1.1.2.3/2", [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/2.svg", String(), false);
+  });
   
   server.begin();
 }
