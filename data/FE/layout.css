@@ -1022,16 +1022,10 @@ component[type=PCB] .wrapper .surface .screen .OLED {
   background-color: gray;
   margin: 2%;
 }
-component[type=PCB] .wrapper.front .surface {
-  height: 15%;
-}
-component[type=PCB] .wrapper.front .surface .screen {
-  height: 50%;
-}
-component[type=PCB] .wrapper.back .surface {
+component[type=PCB] .wrapper .surface {
   height: 62%;
 }
-component[type=PCB] .wrapper.back .surface .screen {
+component[type=PCB] .wrapper .surface .screen {
   height: 12.5%;
 }
 component[type=PCB] content {
