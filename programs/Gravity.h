@@ -73,14 +73,12 @@ class Gravity:public Program {
 
       void draw() {
         Surface * surface = & surfaces[0];
-        surface->drawCircle(this->x, this->y, 10);
         if (this->port != this->previousPort) {
-          if (this->port != this->previousPort && this->previousPort != -1) {
-            OLED & screen = channels[surface->channel].ports[this->previousPort].screen;
-            screen.clear();
-          }
+          if (this->previousPort != -1)
+            channels[surface->channel].ports[this->previousPort].screen.clear();
           this->previousPort = this->port;
         }
+        surface->drawCircle(this->x, this->y, 20);
       }
 
     Gravity() {}
