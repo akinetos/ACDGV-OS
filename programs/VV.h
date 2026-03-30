@@ -20,6 +20,8 @@ class VV:public Program {
 
     boolean screensUpdated[8];
 
+    boolean messageHandled = false;
+
     void init() {
       this->cRe = 0.22;
       this->cIm = 0.52;
@@ -27,6 +29,15 @@ class VV:public Program {
         this->screensUpdated[port] = false;
       }
       this->initialised = true;
+    }
+
+    JsonArray & load (String source) {
+      int sourceLength = source.length() + 1; 
+      char charArray[sourceLength];
+      source.toCharArray(charArray, sourceLength);
+      StaticJsonBuffer<2250> jsonBuffer;
+      JsonArray & data = jsonBuffer.parseArray(charArray);
+      return data;
     }
 
     void compute() {
@@ -119,6 +130,14 @@ class VV:public Program {
 
           if (nfcDevice.message != "") {
             OLED & screen = channels[0].ports[7].screen;
+            if (!this->messageHandled) {
+              JsonArray & point = this->load(nfcDevice.message);
+              String re = point[0];
+              String im = point[1];
+              this->cRe = re.toFloat();
+              this->cIm = im.toFloat();
+              this->messageHandled = true;
+            }
             screen.printText(nfcDevice.message);
           }
         }
