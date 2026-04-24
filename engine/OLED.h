@@ -196,53 +196,6 @@ class OLED: public Device {
       this->refresh();
     }
 
-    void setTextColor() {
-      if (this->type == "ssd1306") {
-        if (this->textColor == "white") {
-          this->ssd1306.setTextColor(SSD1306_WHITE);
-        }
-        if (this->textColor == "black") {
-          this->ssd1306.setTextColor(SSD1306_BLACK);
-        }
-      }
-    }
-
-    void printSelectedLine() {
-      this->textSize = 4;
-      this->setTextSize();
-      this->textColor = "white";
-      this->setTextColor();
-
-      if (this->lineSelected > -1) {
-        int scrollWidth = (this->lines[this->lineSelected].length() - 5) * 24;
-        if (this->lineScrollWidth[this->lineSelected] <= 0) {
-          this->lineScrollWidth[this->lineSelected] = 0;
-          this->lineScrollWait[this->lineSelected] = this->lastWaitTime;
-          this->lineScrollStep[this->lineSelected] = 3;
-        } else if (this->lineScrollWidth[this->lineSelected] >= scrollWidth) {
-          this->lineScrollWidth[this->lineSelected] = scrollWidth;
-          this->lineScrollWait[this->lineSelected] = this->lastWaitTime;
-          this->lineScrollStep[this->lineSelected] = -20;
-        } else {
-          this->lineScrollWait[this->lineSelected] = 0;
-        }
-        if ((millis() - this->lineScrollTimestamp[this->lineSelected]) > this->lineScrollWait[this->lineSelected]) {
-          this->lineScrollWidth[this->lineSelected] += this->lineScrollStep[this->lineSelected];
-          this->lineScrollTimestamp[this->lineSelected] = millis();
-        }
-      }
-      
-      if (this->type == "ssd1306") {
-        if (this->lineSelected > -1) {
-          this->ssd1306.setCursor(-1 * this->lineScrollWidth[this->lineSelected], 2);
-          this->ssd1306.print(this->lines[this->lineSelected]);
-        } else {
-          this->ssd1306.setCursor(0, 0);
-          this->ssd1306.print("");
-        }
-      }
-    }
-
     void printHeading() {
       this->printHeading(2);
     }
@@ -442,23 +395,6 @@ class OLED: public Device {
         this->ssd1306.setRotation(this->rotation);
       }
       this->currentRotation = this->rotation;
-    }
-
-    boolean hasLongLines() {
-      boolean output = false;
-      for (int l=0; l<this->optionsCount; l++) {
-        if (this->lines[l].length() > this->maxLineLength) {
-          int scrollWidth = (this->lines[l].length() - this->maxLineLength) * 7;
-          if ((millis() - this->lineScrollTimestamp[l]) > this->lineScrollWait[l]) {
-            output = true;
-          }
-        }
-      }
-      return output;
-    }
-
-    boolean selectedLineIsLong() {
-      return this->lines[this->lineSelected].length() > 5;
     }
 
     void printLines() {

@@ -1,7 +1,8 @@
 ["menu",[[],
 	["gry",[[],
 		["motyl",[],["run","batterfly"]],
-		["grawitacja",[],["run","gravity"]]
+		["grawitacja",[],["run","gravity"]],
+		["rambug",[],["run","rambug"]]
 	]],
 	["programy",[[],
 		["logo",[],["run","logo"]],
@@ -16,10 +17,29 @@
 			["wyglad",[[],
 				["punkty",[],["run","vv",0]],
 				["linie",[],["run","vv",1]]
+			]],
+			["animacje",[[],
+				["animacja1",[],["run","vv",2]],
+				["animacja2",[],["run","vv",3]]
 			]]
 		],["run","vv"]]
 	]],
 	["ustawienia",[[],
-		["tlo",[],["run","tlo"]]
+		["tlo",[],["run","settings",1]],
+		["rozmiar",[],["run","settings",2]],
+		["jasnosc",[],["run","settings",3]]
+	]],
+	["dzieci",[[],
+		["Amelia"],
+		["Igor"],
+		["Feliks"],
+		["Erazm"],
+		["Matylda"]
+	]],
+	["kamery",[[],
+		["5"],
+		["6"],
+		["7"],
+		["8"]
 	]]
 ]]

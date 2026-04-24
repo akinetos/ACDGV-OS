@@ -5,6 +5,7 @@ class I2C {
 
     void init() {
       Wire.begin();
+      Wire.setClock(400000);
     }
 
     void deactivate(int channel) {
@@ -37,14 +38,12 @@ class I2C {
       Wire.beginTransmission(device);
       Wire.write(address);
       Wire.endTransmission();
-      Wire.beginTransmission(device);
       Wire.requestFrom(device, num);
       int i = 0;
       while(Wire.available()) {
         buff[i] = Wire.read();
         i++;
       }
-      Wire.endTransmission();
     }
 
   I2C() {}

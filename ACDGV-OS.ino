@@ -20,6 +20,8 @@ String action = "";
 int channelsCount;
 int surfacesCount;
 
+DynamicJsonBuffer jsonBuffer;
+
 #include "./engine/Storage.h";
 Storage storage = Storage();
 

@@ -160,11 +160,6 @@ class Surface {
     return port;
   }
 
-  void drawRectangle2(int x, int y) {
-    OLED & screen = channels[this->channel].ports[1].screen;
-    screen.drawRectangle(x, y);
-  }
-
   int drawPoint(int x, int y) {
     int height = 32;
     int port = (int)(y / height);

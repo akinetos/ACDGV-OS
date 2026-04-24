@@ -16,6 +16,8 @@ class VV:public Program {
     
     int points[pointsCount * 2];
 
+    int computedPoints = 0;
+
     boolean move = false;
 
     boolean screensUpdated[8];
@@ -87,6 +89,8 @@ class VV:public Program {
         float newerZim = newZre * newZim * 2 + this->cIm + this->offsetIm;
         newZre = newerZre;
         newZim = newerZim;
+
+        this->computedPoints = i;
       }
     }
 
@@ -122,7 +126,7 @@ class VV:public Program {
 
       if (surface->facingUp) {
         if (this->option == 0) {
-          for (int i=0; i<pointsCount; i++) {
+          for (int i=0; i<this->computedPoints; i++) {
             if (this->isWithinRange(i)) {
               surface->drawPoint(points[i*2], points[i*2+1]);
             }
@@ -143,7 +147,7 @@ class VV:public Program {
         }
 
         if (this->option == 1) {
-          for (int i=0; i<(pointsCount-1); i++) {
+          for (int i=0; i<this->computedPoints; i++) {
             if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
               surface->drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
             }

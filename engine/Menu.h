@@ -118,22 +118,7 @@ class Menu:public Program {
 
     void populateOptions() {
       OLED & screen = channels[0].ports[1].screen;
-      JsonArray & file = storage.load("/config/menu.json");
-      if (this->level == 4) {
-        screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1][address[3]][1]);
-      }
-      if (this->level == 3) {
-        screen.populate(file[1][address[0]][1][address[1]][1][address[2]][1]);
-      }
-      if (this->level == 2) {
-        screen.populate(file[1][address[0]][1][address[1]][1]);
-      }
-      if (this->level == 1) {
-        screen.populate(file[1][address[0]][1]);
-      }
-      if (this->level == 0) {
-        screen.populate(file[1]);
-      }
+      screen.populate(this->getElement()[1]);
     }
 
     void deactivatePrograms() {
@@ -187,21 +172,13 @@ class Menu:public Program {
 
     JsonArray & getElement() {
       JsonArray & file = storage.load("/config/menu.json");
-      if (this->level == 0) {
-        return file;
+      JsonArray * node = &file;
+      for (int i=0; i<this->level; i++) {
+        JsonArray & children = (*node)[1];
+        JsonArray & next = children[address[i]];
+        node = &next;
       }
-      if (this->level == 1) {
-        return file[1][address[0]];
-      }
-      if (this->level == 2) {
-        return file[1][address[0]][1][address[1]];
-      }
-      if (this->level == 3) {
-        return file[1][address[0]][1][address[1]][1][address[2]];
-      }
-      if (this->level == 4) {
-        return file[1][address[0]][1][address[1]][1][address[2]][1][address[3]];
-      }
+      return *node;
     }
 
     void run(JsonArray & program) {
