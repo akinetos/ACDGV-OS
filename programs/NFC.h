@@ -26,5 +26,7 @@ class NFCProgram:public Program {
         }
       }
 
-    NFCProgram() {}
+    NFCProgram() {
+      this->name = "NFC";
+    }
 };

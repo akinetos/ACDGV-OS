@@ -392,5 +392,7 @@ class Batterfly:public Program {
             }
         }
     
-    Batterfly() {}
+    Batterfly() {
+        this->name = "batterfly";
+    }
 };

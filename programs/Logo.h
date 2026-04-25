@@ -235,5 +235,7 @@ class Logo:public Program {
 		this->activatedTimestamp = millis();
 	}
 
-  Logo() {}
+  Logo() {
+	this->name = "logo";
+  }
 };

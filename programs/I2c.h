@@ -85,5 +85,7 @@ class I2c:public Program {
       }
     }
 
-  I2c() {}
+  I2c() {
+    this->name = "i2c";
+  }
 };

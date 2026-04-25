@@ -22,5 +22,7 @@ class Heart:public Program {
             }
         }
     
-    Heart() {}
+    Heart() {
+        this->name = "heart";
+    }
 };

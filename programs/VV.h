@@ -200,5 +200,7 @@ class VV:public Program {
       }
     }
 
-  VV() {}
+  VV() {
+    this->name = "vv";
+  }
 };

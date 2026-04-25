@@ -6,6 +6,7 @@ class Program {
     int activatedTimestamp = 0;
     int option = 0;
     int counter = 0;
+    String name = "";
 
     void virtual init(void) {}
 

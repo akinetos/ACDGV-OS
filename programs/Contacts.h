@@ -163,5 +163,7 @@ class Contacts:public Program {
 		this->activatedTimestamp = millis();
 	}
 
-  Contacts() {}
+  Contacts() {
+	this->name = "contacts";
+  }
 };

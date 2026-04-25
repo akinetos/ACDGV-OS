@@ -81,5 +81,7 @@ class Gravity:public Program {
         surface->drawCircle(this->x, this->y, 20);
       }
 
-    Gravity() {}
+    Gravity() {
+      this->name = "gravity";
+    }
 };

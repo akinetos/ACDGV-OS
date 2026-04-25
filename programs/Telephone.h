@@ -25,5 +25,7 @@ class Telephone:public Program {
         }
       }
 
-    Telephone() {}
+    Telephone() {
+      this->name = "telephoner";
+    }
 };

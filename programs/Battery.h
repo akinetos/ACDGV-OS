@@ -14,5 +14,7 @@ class Battery:public Program {
             }
         }
     
-    Battery() {}
+    Battery() {
+        this->name = "battery";
+    }
 };

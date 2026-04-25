@@ -181,29 +181,30 @@ class Menu:public Program {
       return *node;
     }
 
-    void run(JsonArray & program) {
-      String programName = program[2][1];
+    void run(JsonArray & command) {
+      String commandType = command[0];
+      String programName = command[1];
+      int optionValue = command[2];
+      boolean hasOption = command.size() == 3;
       int programIndex = -1;
-      if (programName == "batterfly") programIndex = 0;
-      if (programName == "gravity") programIndex = 1;
-      if (programName == "vv") programIndex = 2;
-      if (programName == "logo") programIndex = 3;
-      if (programName == "telephone") programIndex = 4;
-      if (programName == "i2c") programIndex = 5;
-      if (programName == "contacts") programIndex = 6;
-      if (programName == "NFC") programIndex = 7;
-      if (programName == "battery") programIndex = 8;
+
+      for (int i=0; i<programsCount; i++) {
+        if (programs[i]->name == programName) {
+          programIndex = i;
+        }
+      }
       
-      if (program[2].size() == 3) {
-        int programOption = program[2][2];
-        programs[programIndex]->setOption(programOption);
-      } else {
-        programs[programIndex]->active = !programs[programIndex]->active;
-        if (programs[programIndex]->active) {
-          if (!programs[programIndex]->initialised) {
-            programs[programIndex]->init();
+      if (programIndex > -1) {
+        if (hasOption) {
+          programs[programIndex]->setOption(optionValue);
+        } else {
+          programs[programIndex]->active = !programs[programIndex]->active;
+          if (programs[programIndex]->active) {
+            if (!programs[programIndex]->initialised) {
+              programs[programIndex]->init();
+            }
+            programs[programIndex]->justActivated();
           }
-          programs[programIndex]->justActivated();
         }
       }
     }
@@ -223,10 +224,9 @@ class Menu:public Program {
         screen.populate(element[1]);
       }
 
-      if (element[2]) {
-        if (element[2][0] == "run") {
-          this->run(element);
-        }
+      JsonArray & command = element[2];
+      if (command.size()) {
+        this->run(command);
       }
     }
 
@@ -237,10 +237,9 @@ class Menu:public Program {
       if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
         if (version == "8") {
           surface->populate(element[1]);
-          if (element[2]) {
-            if (element[2][0] == "run") {
-              this->run(element);
-            }
+          JsonArray & command = element[2];
+          if (command.size()) {
+            this->run(command);
           }
         } else {
           this->populateOptions();
