@@ -3,7 +3,6 @@ class Menu:public Program {
     String segments[8];
     int level = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    boolean anyProgramActive = false;
     boolean pathChanged = false;
 
     String getMenuPath() {
@@ -48,43 +47,14 @@ class Menu:public Program {
       if (surface->pointerPort == 0) {
         screen.closeButtonHovered = x > 118 && y < 16;
       }
-      
-      /*
-      OLED & previewScreen0 = channels[surface.channel].ports[0].screen;
-      OLED & previewScreen1 = channels[surface.channel].ports[1].screen;
-      if (surface.pointerPort == 0) {
-        previewScreen0.closeButtonHovered = x > 118 && y < 16;
-      }
-
-      if (surface.pointerPort == 1) {
-        previewScreen1.scrollbarHovered = x > (previewScreen1.width-10);
-        if (previewScreen1.scrollbarHovered) {
-          if (devices[4]->connected) {
-            previewScreen1.updateScrollbar(devices[4]->y);
-          }
-        } else {
-          int y = surface.getRelativeY();
-          if (surface.pointerPositionX < 118) {
-            previewScreen1.lineHovered = (int)((y - previewScreen1.offsetY) / 10);
-          } else {
-            previewScreen1.lineHovered = -1;
-          }
-          if (previewScreen1.lineHoveredChanged()) {
-            previewScreen1.previousLineHovered = previewScreen1.lineHovered;
-          }
-        }
-      }
-      */
     }
 
     void updatePointer() {
-      if (!this->anyProgramActive) {
-        Surface * surface = & surfaces[0];
-        if (surface->pointerPositionX > 120 && channels[surface->channel].ports[surface->pointerPort].screen.scrollbarHovered) {
-          surface->pointerPositionY = surface->pointerPreviousPositionY;
-          if (surface->pointerPortChanged()) {
-            surface->pointerPort = surface->pointerPreviousPort;
-          }
+      Surface * surface = & surfaces[0];
+      if (surface->pointerPositionX > 120 && channels[surface->channel].ports[surface->pointerPort].screen.scrollbarHovered) {
+        surface->pointerPositionY = surface->pointerPreviousPositionY;
+        if (surface->pointerPortChanged()) {
+          surface->pointerPort = surface->pointerPreviousPort;
         }
       }
     }
@@ -125,7 +95,6 @@ class Menu:public Program {
       for (int i=0; i<programsCount; i++) {
         programs[i]->active = false;
       }
-      channels[0].ports[1].screen.textScroll = 0;
     }
 
     void close() {

@@ -51,15 +51,6 @@ class OLED: public Device {
     boolean scrollbarHovered = false;
     boolean closeButtonHovered = false;
 
-    boolean showRambugGuns = false;
-    boolean showRambugFire = false;
-
-    int rambugFireOriginX = 0;
-    int rambugFireOriginY = 0;
-    int rambugFireRadius = 10;
-    String rambugRotation = "";
-    String rambugFireDirection = "";
-
     int maxLineLength = 11;
     int normalWaitTime = 100;
     int lastWaitTime = 2000;
@@ -127,36 +118,6 @@ class OLED: public Device {
 
     boolean stateChanged() {
       return this->state != this->currentState;
-    }
-
-    void rambugGuns() {
-      if (this->showRambugGuns) {
-        this->ssd1306.fillCircle(0, 16, 10, SSD1306_WHITE);
-        this->ssd1306.fillCircle(128, 16, 10, SSD1306_WHITE);
-      }
-    }
-
-    void rambugFire() {
-      if (this->showRambugFire) {
-        this->rambugFireRadius += 1;
-        if (this->rambugFireRadius < 40) {
-          if (this->rambugFireDirection == "prawo") {
-            this->rambugFireOriginX = 0;
-            this->rambugFireOriginY = 16;
-          }
-          if (this->rambugFireDirection == "lewo") {
-            this->rambugFireOriginX = 128;
-            this->rambugFireOriginY = 16;
-          }
-          if (this->rambugFireDirection == "lewo" || this->rambugFireDirection == "prawo") {
-            this->ssd1306.drawCircle(this->rambugFireOriginX, this->rambugFireOriginY, this->rambugFireRadius, SSD1306_WHITE);
-          }
-        } else {
-          this->rambugFireDirection = "";
-          this->rambugFireRadius = 10;
-          this->showRambugFire = false;
-        }
-      }
     }
 
     void setState() {
