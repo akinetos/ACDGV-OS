@@ -127,7 +127,7 @@ class Menu:public Program {
               this->address[i-1] = NULL;
               this->pathChanged = true;
             }
-            //this->deactivatePrograms();
+            this->deactivatePrograms();
           }
         }
 

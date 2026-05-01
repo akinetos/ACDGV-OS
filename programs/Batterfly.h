@@ -279,7 +279,11 @@ class Batterfly:public Program {
             Surface * surface = & surfaces[this->surfaceIndex];
             
             int index = -1;
-            if (devices[4]->shortPress) {
+            if (
+                devices[4]->shortPress && 
+                surface->pointerPort > 0 && 
+                (millis() - this->activatedTimestamp) > 1000
+            ) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp == 0) {
                         index = i;
