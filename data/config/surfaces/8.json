@@ -4,8 +4,6 @@
         "height": 256, 
         "screenWidth": 128,
         "screenHeight": 32,
-        "orientationX": 1,
-        "orientationY": 1,
         "channel": 0
     }
 ]

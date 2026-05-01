@@ -11,7 +11,7 @@ class Surface {
     int screensPerColumn = (int)(this->height / this->screenHeight);
     boolean screensDisabled = true;
 
-    int orientationX = 1;
+    int orientationX = -1;
     int orientationY = 1;
     boolean facingUp = false;
 
@@ -47,8 +47,6 @@ class Surface {
       int width = config["width"];
       int height = config["height"];
       int screenWidth = config["screenWidth"];
-      int screenHeight = config["screenHeight"];
-      int orientationX = config["orientationX"];
       int orientationY = config["orientationY"];
       int channel = config["channel"];
 
@@ -56,8 +54,6 @@ class Surface {
       this->height = height;
       this->screenWidth = screenWidth;
       this->screenHeight = screenHeight;
-      this->orientationX = orientationX;
-      this->orientationY = orientationY;
       this->channel = channel;
 
       this->handleOrientationChange(devices[0]->orientation);
@@ -94,7 +90,7 @@ class Surface {
       y *= this->orientationY;
       
       this->pointerPreviousPositionX = this->pointerPositionX;
-      this->pointerPositionX += (int)(x * this->pointerSpeed * this->orientationX);
+      this->pointerPositionX += (int)(x * this->pointerSpeed);
       if (this->pointerPositionX < 0) {
         this->pointerPositionX = 0;
       }
@@ -140,16 +136,6 @@ class Surface {
     }
 
   Surface() {}
-
-  Surface(int width, int height, int screenWidth, int screenHeight, int orientationX, int orientationY, int channel) {
-    this->width = width;
-    this->height = height;
-    this->screenWidth = screenWidth;
-    this->screenHeight = screenHeight;
-    this->orientationX = orientationX;
-    this->orientationY = orientationY;
-    this->channel = channel;
-  }
 
   int drawRectangle(int x, int y) {
     int height = 32;

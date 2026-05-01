@@ -287,8 +287,8 @@ class Batterfly:public Program {
                 }
                 if (index > -1) {
                     this->pestki[index].timestamp = millis();
-                    this->pestki[index].vectorX = this->vectorX;
-                    this->pestki[index].vectorY = this->vectorY;
+                    this->pestki[index].vectorX = this->vectorX * surface->orientationX;
+                    this->pestki[index].vectorY = this->vectorY * surface->orientationY;
                     this->pestki[index].x = surface->pointerPositionX;
                     this->pestki[index].y = surface->pointerPositionY;
                     channels[surface->channel].ports[this->pestki[index].port].screen.needsRefresh = true;
