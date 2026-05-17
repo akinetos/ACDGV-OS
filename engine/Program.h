@@ -8,7 +8,9 @@ class Program {
     int counter = 0;
     String name = "";
 
-    void virtual init(void) {}
+    void virtual init(void) {
+      this->initialised = true;
+    }
 
     void virtual tick(void) {}
 

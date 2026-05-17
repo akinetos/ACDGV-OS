@@ -142,26 +142,20 @@ const unsigned char* images[2] = {
 
 class Contacts:public Program {
   public:
-
-    void init() {
-		this->initialised = true;
-	}
-
-	void tick() {}
+	int offsetY = 0;
 
     void draw() {
-		Surface * s8x1 = & surfaces[0];
-		if (s8x1->facingUp) {
+		Surface * surface = & surfaces[0];
+		if (surface->facingUp) {
 			for (int port=1; port<3; port++) {
-				channels[s8x1->channel].ports[port].screen.ssd1306.drawBitmap(0,0,images[port-1],128,32,SSD1306_WHITE);
-				channels[s8x1->channel].ports[port].screen.needsRefresh = true;
+				surface->drawBitmap(images[port-1], port, this->offsetY);
 			}
 		}
+		this->offsetY--;
+		if (this->offsetY <= -32) {
+			this->offsetY = 0;
+		}
     }
-
-	void justActivated() {
-		this->activatedTimestamp = millis();
-	}
 
   Contacts() {
 	this->name = "contacts";

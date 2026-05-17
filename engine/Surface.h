@@ -310,4 +310,14 @@ class Surface {
 
     this->display();
   }
+
+  void drawBitmap(const unsigned char* image, int port, int offsetY) {
+    channels[channel].ports[port].screen.ssd1306.drawBitmap(
+      0, offsetY,
+      image,
+      128, 64,
+      SSD1306_WHITE
+    );
+    channels[channel].ports[port].screen.needsRefresh = true;
+  }
 };
