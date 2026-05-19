@@ -8,7 +8,10 @@
 		["logo",[],["run","logo"]],
 		["i2c",[],["run","i2c"]],
 		["battery",[],["run","battery"]],
-		["kontakty",[],["run","contacts"]],
+		["kontakty",[[],
+			["Amelia",[],["run","contacts",1]],
+			["Feliks",[],["run","contacts",3]]
+		],["run","contacts"]],
 		["VV",[[],
 			["parametry",[[],
 				["odczytaj",[],["run","vv",2]],

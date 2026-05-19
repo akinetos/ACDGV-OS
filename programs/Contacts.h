@@ -143,6 +143,7 @@ const unsigned char* images[2] = {
 class Contacts:public Program {
   public:
 	int offsetY = 0;
+	String text = "";
 
     void draw() {
 		Surface * surface = & surfaces[0];
@@ -155,6 +156,18 @@ class Contacts:public Program {
 		if (this->offsetY <= -32) {
 			this->offsetY = 0;
 		}
+
+		if (this->option == 1) {
+          this->text = "Amelia";
+          this->option = 0;
+        }
+
+		if (this->option == 3) {
+          this->text = "Feliks";
+          this->option = 0;
+        }
+
+		channels[0].ports[7].screen.printText(this->text);
     }
 
   Contacts() {
