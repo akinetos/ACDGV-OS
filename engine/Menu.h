@@ -167,13 +167,11 @@ class Menu:public Program {
         if (hasOption) {
           programs[programIndex]->setOption(optionValue);
         } else {
-          programs[programIndex]->active = !programs[programIndex]->active;
-          if (programs[programIndex]->active) {
-            if (!programs[programIndex]->initialised) {
-              programs[programIndex]->init();
-            }
-            programs[programIndex]->justActivated();
+          programs[programIndex]->active = true;
+          if (!programs[programIndex]->initialised) {
+            programs[programIndex]->init();
           }
+          programs[programIndex]->justActivated();
         }
       }
     }
