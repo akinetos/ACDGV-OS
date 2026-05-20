@@ -150,28 +150,30 @@ class Menu:public Program {
       return *node;
     }
 
-    void run(JsonArray & command) {
+    void execute(JsonArray & command) {
       String commandType = command[0];
-      String programName = command[1];
-      int optionValue = command[2];
-      boolean hasOption = command.size() == 3;
-      int programIndex = -1;
 
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->name == programName) {
-          programIndex = i;
-        }
-      }
-      
-      if (programIndex > -1) {
-        if (hasOption) {
-          programs[programIndex]->setOption(optionValue);
-        } else {
-          programs[programIndex]->active = true;
-          if (!programs[programIndex]->initialised) {
-            programs[programIndex]->init();
+      if (commandType == "run") {
+        String programName = command[1];
+        int programIndex = -1;
+        for (int i=0; i<programsCount; i++) {
+          if (programs[i]->name == programName) {
+            programIndex = i;
           }
-          programs[programIndex]->justActivated();
+        }
+        
+        if (programIndex > -1) {
+          boolean hasOption = command.size() == 3;
+          if (hasOption) {
+            int optionValue = command[2];
+            programs[programIndex]->setOption(optionValue);
+          } else {
+            programs[programIndex]->active = true;
+            if (!programs[programIndex]->initialised) {
+              programs[programIndex]->init();
+            }
+            programs[programIndex]->justActivated();
+          }
         }
       }
     }
@@ -193,7 +195,7 @@ class Menu:public Program {
 
       JsonArray & command = element[2];
       if (command.size()) {
-        this->run(command);
+        this->execute(command);
       }
     }
 
@@ -206,7 +208,7 @@ class Menu:public Program {
           surface->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
-            this->run(command);
+            this->execute(command);
           }
         } else {
           this->populateOptions();
