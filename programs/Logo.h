@@ -230,8 +230,9 @@ class Logo:public Program {
 		}
     }
 
-	void justActivated() {
+	void activate() {
 		this->offsetY = 0;
+		this->active = true;
 		this->activatedTimestamp = millis();
 	}
 

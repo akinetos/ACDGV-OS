@@ -168,11 +168,10 @@ class Menu:public Program {
             int optionValue = command[2];
             programs[programIndex]->setOption(optionValue);
           } else {
-            programs[programIndex]->active = true;
             if (!programs[programIndex]->initialised) {
               programs[programIndex]->init();
             }
-            programs[programIndex]->justActivated();
+            programs[programIndex]->activate();
           }
         }
       }

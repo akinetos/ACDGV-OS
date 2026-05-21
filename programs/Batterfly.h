@@ -365,12 +365,6 @@ class Batterfly:public Program {
         void draw() {
             Surface * surface = & surfaces[this->surfaceIndex];
             
-            this->counter++;
-
-            if (this->counter == 1) {
-                surface->refreshScreens();
-            }
-            
             if (this->over) {
                 this->drawProgress();
                 int time = (endedAt - this->activatedTimestamp) / 1000;

@@ -5,7 +5,6 @@ class Program {
     boolean active = false;
     int activatedTimestamp = 0;
     int option = 0;
-    int counter = 0;
     String name = "";
 
     void virtual init(void) {
@@ -18,9 +17,9 @@ class Program {
       this->option = option;
     }
 
-    void virtual justActivated() {
+    void virtual activate() {
+      this->active = true;
       this->activatedTimestamp = millis();
-      this->counter = 0;
     }
 
     void virtual update() {}

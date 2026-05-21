@@ -182,9 +182,9 @@ class VV:public Program {
       }
     }
 
-    void justActivated() {
+    void activate() {
+      this->active = true;
       this->activatedTimestamp = millis();
-      this->counter = 0;
       this->compute();
     }
 
