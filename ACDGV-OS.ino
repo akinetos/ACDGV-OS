@@ -15,10 +15,12 @@
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
+const int effectsCount = 1;
 
 String action = "";
 int channelsCount;
 int surfacesCount;
+boolean przejscie = false;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -79,6 +81,9 @@ NFCDevice nfcDevice = NFCDevice();
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
 
+#include "./effects/fall.h";
+FallEffect * effects[effectsCount];
+
 void setup() {
   Serial.begin(9600);
   storage.init();
@@ -121,6 +126,8 @@ void setup() {
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
 
+  effects[0] = new FallEffect();
+
   menu.init();
 }
 
@@ -140,10 +147,18 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  for (int i = 0; i < programsCount; i++)
-    if (programs[i]->active)
-      programs[i]->draw();
-  
-  for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].draw(menu.level);
+  if (przejscie) {
+    for (int i=0; i<effectsCount; i++) {
+      if (effects[i]->active) {
+        effects[i]->draw();
+      }
+    }
+  } else {
+    for (int i = 0; i < programsCount; i++)
+      if (programs[i]->active)
+        programs[i]->draw();
+    
+    for (int i = 0; i < surfacesCount; i++)
+      surfaces[i].draw(menu.level);
+  }
 }
