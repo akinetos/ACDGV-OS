@@ -44,6 +44,9 @@ Channel * channels;
 #include "./engine/Surface.h";
 Surface * surfaces;
 
+#include "./effects/fall.h";
+FallEffect * effects[effectsCount];
+
 #include "./engine/Menu.h";
 Menu menu;
 
@@ -80,9 +83,6 @@ NFCDevice nfcDevice = NFCDevice();
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
-
-#include "./effects/fall.h";
-FallEffect * effects[effectsCount];
 
 void setup() {
   Serial.begin(9600);
@@ -156,9 +156,9 @@ void loop() {
   } else {
     for (int i = 0; i < programsCount; i++)
       if (programs[i]->active)
-        programs[i]->draw();
-    
-    for (int i = 0; i < surfacesCount; i++)
-      surfaces[i].draw(menu.level);
+        programs[i]->draw();  
   }
+  
+  for (int i = 0; i < surfacesCount; i++)
+    surfaces[i].draw(menu.level);
 }
