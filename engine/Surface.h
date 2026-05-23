@@ -151,6 +151,7 @@ class Surface {
     int port = (int)(y / height);
     OLED & screen = channels[this->channel].ports[port].screen;
     screen.drawPoint(x, y - port * height);
+    return port;
   }
 
   int drawCircle(int x, int y, int r) {

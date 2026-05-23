@@ -138,9 +138,17 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
 
-  for (int i = 0; i < programsCount; i++)
-    if (programs[i]->active)
-      programs[i]->tick();
+  if (przejscie) {
+    for (int i=0; i<effectsCount; i++) {
+      if (effects[i]->active) {
+        effects[i]->tick();
+      }
+    }
+  } else {
+    for (int i = 0; i < programsCount; i++)
+      if (programs[i]->active)
+        programs[i]->tick();  
+  }
   
   menu.tick();
 

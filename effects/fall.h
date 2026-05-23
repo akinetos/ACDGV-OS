@@ -32,19 +32,24 @@ class FallEffect {
       }
     }
 
-    void prepare() {}
-
-    void tick() {}
+    void tick() {
+      for (int i=0; i<p; i++) {
+        int randNumber = random(10);
+        this->pixels[i].y += randNumber;
+      }
+      for (int i=0; i<8; i++) {
+        channels[0].ports[i].screen.needsRefresh = true;
+      }
+    }
 
     void draw() {
       for (int i=0; i<p; i++) {
-        this->pixels[i].y++;
-      }
-      for (int i=0; i<p; i++) {
-        surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
+        if (this->pixels[i].y < 256) {
+          int port = surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
+        }
       }
       this->counter++;
-      if (this->counter > 100) {
+      if (this->counter > 50) {
         przejscie = false;
         this->active = false;
       }
