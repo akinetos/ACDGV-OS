@@ -296,16 +296,18 @@ class Surface {
   }
 
   void draw(int level) {
-    if (this->showMenu) {
-      this->drawMenu();
-    }
+    if (!przejscie) {
+      if (this->showMenu) {
+        this->drawMenu();
+      }
 
-    if (level > 0) {
-      this->drawCloseButton(0);
-    }
+      if (level > 0) {
+        this->drawCloseButton(0);
+      }
 
-    if (this->showPointer) {
-      this->drawPointer();
+      if (this->showPointer) {
+        this->drawPointer();
+      }
     }
 
     this->display();
@@ -319,5 +321,12 @@ class Surface {
       SSD1306_WHITE
     );
     channels[channel].ports[port].screen.needsRefresh = true;
+  }
+
+  boolean getPixel(int x, int y) {
+    int height = 32;
+    int port = (int)(y / height);
+    boolean white = channels[0].ports[port].screen.ssd1306.getPixel(x, y - port * height);
+    return white;
   }
 };

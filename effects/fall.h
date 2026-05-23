@@ -14,15 +14,22 @@ class Pixel {
 class FallEffect {
   public:
     boolean active = false;
-    Pixel pixels[4];
+    Pixel pixels[300];
     int counter = 0;
+    int p = 0;
 
     void init() {
       this->counter = 0;
-      pixels[0] = Pixel(1,1);
-      pixels[1] = Pixel(3,3);
-      pixels[2] = Pixel(5,5);
-      pixels[3] = Pixel(7,7);
+      this->p = 0;
+      for (int y=0; y<96; y+=4) {
+        for (int x=0; x<128; x+=4) {
+          boolean white = surfaces[0].getPixel(x,y);
+          if (white && p<300) {
+            this->pixels[p] = Pixel(x,y);
+            p++;
+          }
+        }
+      }
     }
 
     void prepare() {}
@@ -30,9 +37,12 @@ class FallEffect {
     void tick() {}
 
     void draw() {
-      surfaces[0].drawPoint(this->counter, 100);
-      surfaces[0].drawPoint(this->counter, 101);
-      surfaces[0].drawPoint(this->counter, 102);
+      for (int i=0; i<p; i++) {
+        this->pixels[i].y++;
+      }
+      for (int i=0; i<p; i++) {
+        surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
+      }
       this->counter++;
       if (this->counter > 100) {
         przejscie = false;
