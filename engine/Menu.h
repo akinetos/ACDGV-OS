@@ -103,6 +103,9 @@ class Menu:public Program {
       this->level--;
       this->pathChanged = true;
       this->deactivatePrograms();
+      przejscie = true;
+		  effects[0]->init();
+		  effects[0]->active = true;
     }
     
     void updateMenu() {
@@ -176,6 +179,10 @@ class Menu:public Program {
               programs[programIndex]->init();
             }
             programs[programIndex]->activate();
+
+            przejscie = true;
+            effects[0]->init();
+            effects[0]->active = true;
           }
         }
       }

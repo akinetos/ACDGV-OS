@@ -14,17 +14,17 @@ class Pixel {
 class FallEffect {
   public:
     boolean active = false;
-    Pixel pixels[300];
+    Pixel pixels[500];
     int counter = 0;
     int p = 0;
 
     void init() {
       this->counter = 0;
       this->p = 0;
-      for (int y=0; y<96; y+=4) {
-        for (int x=0; x<128; x+=4) {
+      for (int y=0; y<256; y+=5) {
+        for (int x=0; x<128; x+=5) {
           boolean white = surfaces[0].getPixel(x,y);
-          if (white && p<300) {
+          if (white && p<500) {
             this->pixels[p] = Pixel(x,y);
             p++;
           }
