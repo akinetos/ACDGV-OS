@@ -164,10 +164,14 @@ class Menu:public Program {
         
         if (programIndex > -1) {
           boolean hasOption = command.size() == 3;
+          boolean isActive = programs[programIndex]->active;
+
           if (hasOption) {
             int optionValue = command[2];
             programs[programIndex]->setOption(optionValue);
-          } else {
+          }
+
+          if (!isActive) {
             if (!programs[programIndex]->initialised) {
               programs[programIndex]->init();
             }

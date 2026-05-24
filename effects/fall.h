@@ -34,8 +34,8 @@ class FallEffect {
 
     void tick() {
       for (int i=0; i<p; i++) {
-        int randNumber = random(10);
-        this->pixels[i].y += randNumber;
+        int weight = this->counter * this->counter;
+        this->pixels[i].y += weight;
       }
       for (int i=0; i<8; i++) {
         channels[0].ports[i].screen.needsRefresh = true;
@@ -49,9 +49,10 @@ class FallEffect {
         }
       }
       this->counter++;
-      if (this->counter > 50) {
+      if (this->counter > 16) {
         przejscie = false;
         this->active = false;
+        this->counter = 0;
       }
     }
 
