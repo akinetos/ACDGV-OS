@@ -161,18 +161,18 @@ class Contacts:public Program {
           this->text = "Amelia";
           this->option = 0;
 
-		  przejscie = true;
-		  effects[0]->init();
-		  effects[0]->active = true;
+		  transition = true;
+		  transitions[0]->init();
+		  transitions[0]->active = true;
         }
 
 		if (this->option == 3) {
           this->text = "Feliks";
           this->option = 0;
 
-		  przejscie = true;
-		  effects[0]->init();
-		  effects[0]->active = true;
+		  transition = true;
+		  transitions[0]->init();
+		  transitions[0]->active = true;
         }
 
 		channels[0].ports[7].screen.printText(this->text);

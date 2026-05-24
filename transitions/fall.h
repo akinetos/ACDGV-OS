@@ -11,7 +11,7 @@ class Pixel {
   }
 };
 
-class FallEffect {
+class FallTransition {
   public:
     boolean active = false;
     Pixel pixels[500];
@@ -50,11 +50,11 @@ class FallEffect {
       }
       this->counter++;
       if (this->counter > 16) {
-        przejscie = false;
+        transition = false;
         this->active = false;
         this->counter = 0;
       }
     }
 
-  FallEffect() {}
+  FallTransition() {}
 };

@@ -297,7 +297,7 @@ class Surface {
   }
 
   void draw(int level) {
-    if (!przejscie) {
+    if (!transition) {
       if (this->showMenu) {
         this->drawMenu();
       }

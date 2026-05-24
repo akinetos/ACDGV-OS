@@ -15,12 +15,12 @@
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
-const int effectsCount = 1;
+const int transitionsCount = 1;
 
 String action = "";
 int channelsCount;
 int surfacesCount;
-boolean przejscie = false;
+boolean transition = false;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -44,8 +44,8 @@ Channel * channels;
 #include "./engine/Surface.h";
 Surface * surfaces;
 
-#include "./effects/fall.h";
-FallEffect * effects[effectsCount];
+#include "./transitions/fall.h";
+FallTransition * transitions[transitionsCount];
 
 void execute(JsonArray & command) {
   String commandType = command[0];
@@ -74,9 +74,9 @@ void execute(JsonArray & command) {
         }
         programs[programIndex]->activate();
 
-        przejscie = true;
-        effects[0]->init();
-        effects[0]->active = true;
+        transition = true;
+        transitions[0]->init();
+        transitions[0]->active = true;
       }
     }
   }
@@ -161,7 +161,7 @@ void setup() {
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
 
-  effects[0] = new FallEffect();
+  transitions[0] = new FallTransition();
 
   menu.init();
 }
@@ -173,10 +173,10 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
 
-  if (przejscie) {
-    for (int i=0; i<effectsCount; i++) {
-      if (effects[i]->active) {
-        effects[i]->tick();
+  if (transition) {
+    for (int i=0; i<transitionsCount; i++) {
+      if (transitions[i]->active) {
+        transitions[i]->tick();
       }
     }
   } else {
@@ -190,10 +190,10 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  if (przejscie) {
-    for (int i=0; i<effectsCount; i++) {
-      if (effects[i]->active) {
-        effects[i]->draw();
+  if (transition) {
+    for (int i=0; i<transitionsCount; i++) {
+      if (transitions[i]->active) {
+        transitions[i]->draw();
       }
     }
   } else {
