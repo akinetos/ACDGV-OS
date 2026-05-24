@@ -153,41 +153,6 @@ class Menu:public Program {
       return *node;
     }
 
-    void execute(JsonArray & command) {
-      String commandType = command[0];
-
-      if (commandType == "run") {
-        String programName = command[1];
-        int programIndex = -1;
-        for (int i=0; i<programsCount; i++) {
-          if (programs[i]->name == programName) {
-            programIndex = i;
-          }
-        }
-        
-        if (programIndex > -1) {
-          boolean hasOption = command.size() == 3;
-          boolean isActive = programs[programIndex]->active;
-
-          if (hasOption) {
-            int optionValue = command[2];
-            programs[programIndex]->setOption(optionValue);
-          }
-
-          if (!isActive) {
-            if (!programs[programIndex]->initialised) {
-              programs[programIndex]->init();
-            }
-            programs[programIndex]->activate();
-
-            przejscie = true;
-            effects[0]->init();
-            effects[0]->active = true;
-          }
-        }
-      }
-    }
-
     void selectOption(int index) {
       this->level++;
       this->address[this->level-1] = index;
@@ -205,7 +170,7 @@ class Menu:public Program {
 
       JsonArray & command = element[2];
       if (command.size()) {
-        this->execute(command);
+        execute(command);
       }
     }
 
@@ -218,7 +183,7 @@ class Menu:public Program {
           surface->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
-            this->execute(command);
+            execute(command);
           }
         } else {
           this->populateOptions();

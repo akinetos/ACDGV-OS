@@ -47,6 +47,41 @@ Surface * surfaces;
 #include "./effects/fall.h";
 FallEffect * effects[effectsCount];
 
+void execute(JsonArray & command) {
+  String commandType = command[0];
+
+  if (commandType == "run") {
+    String programName = command[1];
+    int programIndex = -1;
+    for (int i=0; i<programsCount; i++) {
+      if (programs[i]->name == programName) {
+        programIndex = i;
+      }
+    }
+    
+    if (programIndex > -1) {
+      boolean hasOption = command.size() == 3;
+      boolean isActive = programs[programIndex]->active;
+
+      if (hasOption) {
+        int optionValue = command[2];
+        programs[programIndex]->setOption(optionValue);
+      }
+
+      if (!isActive) {
+        if (!programs[programIndex]->initialised) {
+          programs[programIndex]->init();
+        }
+        programs[programIndex]->activate();
+
+        przejscie = true;
+        effects[0]->init();
+        effects[0]->active = true;
+      }
+    }
+  }
+}
+
 #include "./engine/Menu.h";
 Menu menu;
 
