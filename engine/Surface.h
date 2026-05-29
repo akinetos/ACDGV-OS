@@ -297,15 +297,15 @@ class Surface {
   }
 
   void draw(int level) {
+    if (this->showMenu) {
+      this->drawMenu();
+    }
+    
+    if (level > 0) {
+      this->drawCloseButton(0);
+    }
+
     if (!transition) {
-      if (this->showMenu) {
-        this->drawMenu();
-      }
-
-      if (level > 0) {
-        this->drawCloseButton(0);
-      }
-
       if (this->showPointer) {
         this->drawPointer();
       }

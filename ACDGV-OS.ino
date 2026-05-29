@@ -69,14 +69,22 @@ void execute(JsonArray & command) {
       }
 
       if (!isActive) {
+        boolean anyProgramActive = false;
+        for (int i=0; i<programsCount; i++) {
+          if (programs[i]->active) {
+            anyProgramActive = true;
+          }
+        }
+        if (anyProgramActive) {
+          transition = true;
+          transitions[0]->init();
+          transitions[0]->active = true;
+        }
+
         if (!programs[programIndex]->initialised) {
           programs[programIndex]->init();
         }
         programs[programIndex]->activate();
-
-        transition = true;
-        transitions[0]->init();
-        transitions[0]->active = true;
       }
     }
   }

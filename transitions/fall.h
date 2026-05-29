@@ -21,7 +21,7 @@ class FallTransition {
     void init() {
       this->counter = 0;
       this->p = 0;
-      for (int y=0; y<256; y+=5) {
+      for (int y=32; y<256; y+=5) {
         for (int x=0; x<128; x+=5) {
           boolean white = surfaces[0].getPixel(x,y);
           if (white && p<500) {
