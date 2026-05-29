@@ -33,6 +33,16 @@ I2C i2c = I2C();
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
+boolean anyProgramActive() {
+  boolean output = false;
+  for (int i=0; i<programsCount; i++) {
+    if (programs[i]->active) {
+      output = true;
+    }
+  }
+  return output;
+}
+
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 
@@ -69,13 +79,7 @@ void execute(JsonArray & command) {
       }
 
       if (!isActive) {
-        boolean anyProgramActive = false;
-        for (int i=0; i<programsCount; i++) {
-          if (programs[i]->active) {
-            anyProgramActive = true;
-          }
-        }
-        if (anyProgramActive) {
+        if (anyProgramActive()) {
           transition = true;
           transitions[0]->init();
           transitions[0]->active = true;

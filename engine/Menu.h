@@ -102,13 +102,8 @@ class Menu:public Program {
       this->address[this->level-1] = NULL;
       this->level--;
       this->pathChanged = true;
-      boolean anyProgramActive = false;
-      for (int i=0; i<programsCount; i++) {
-        if (programs[i]->active) {
-          anyProgramActive = true;
-        }
-      }
-      if (anyProgramActive) {
+      
+      if (anyProgramActive()) {
         transition = true;
         transitions[0]->init();
         transitions[0]->active = true;

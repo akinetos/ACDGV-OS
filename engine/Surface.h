@@ -305,10 +305,8 @@ class Surface {
       this->drawCloseButton(0);
     }
 
-    if (!transition) {
-      if (this->showPointer) {
-        this->drawPointer();
-      }
+    if (this->showPointer) {
+      this->drawPointer();
     }
 
     this->display();
