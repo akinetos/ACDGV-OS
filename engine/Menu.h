@@ -95,6 +95,7 @@ class Menu:public Program {
       for (int i=0; i<programsCount; i++) {
         programs[i]->active = false;
       }
+      activeProgramMenuLevel = -1;
     }
 
     void close() {
@@ -104,11 +105,19 @@ class Menu:public Program {
       this->pathChanged = true;
       
       if (anyProgramActive()) {
-        transition = true;
-        transitions[0]->init();
-        transitions[0]->active = true;
+        if (this->level < activeProgramMenuLevel) {
+          transition = true;
+          transitions[0]->init();
+          transitions[0]->active = true;
+          Serial.println("transition");
+        } else {
+          Serial.print("level:");
+          Serial.println(this->level);
+          Serial.print("activeProgramMenuLevel:");
+          Serial.println(activeProgramMenuLevel);
+        }
+        this->deactivatePrograms();
       }
-      this->deactivatePrograms();
     }
     
     void updateMenu() {
@@ -133,7 +142,12 @@ class Menu:public Program {
               this->address[i-1] = NULL;
               this->pathChanged = true;
             }
-            this->deactivatePrograms();
+            if (this->level < activeProgramMenuLevel) {
+              this->deactivatePrograms();
+              transition = true;
+              transitions[0]->init();
+              transitions[0]->active = true;
+            }
           }
         }
 

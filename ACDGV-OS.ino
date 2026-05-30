@@ -21,6 +21,8 @@ String action = "";
 int channelsCount;
 int surfacesCount;
 boolean transition = false;
+int activeProgram = -1;
+int activeProgramMenuLevel = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -33,6 +35,7 @@ I2C i2c = I2C();
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
+//acdgv.anyProgramActive()
 boolean anyProgramActive() {
   boolean output = false;
   for (int i=0; i<programsCount; i++) {
@@ -57,6 +60,10 @@ Surface * surfaces;
 #include "./transitions/fall.h";
 FallTransition * transitions[transitionsCount];
 
+#include "./engine/Menu.h";
+Menu menu;
+
+//acdgv.execute(command)
 void execute(JsonArray & command) {
   String commandType = command[0];
 
@@ -79,23 +86,18 @@ void execute(JsonArray & command) {
       }
 
       if (!isActive) {
-        if (anyProgramActive()) {
-          transition = true;
-          transitions[0]->init();
-          transitions[0]->active = true;
-        }
-
         if (!programs[programIndex]->initialised) {
           programs[programIndex]->init();
         }
         programs[programIndex]->activate();
+        activeProgram = programIndex;
+        activeProgramMenuLevel = menu.level;
+        Serial.print("activeProgramMenuLevel:");
+        Serial.println(activeProgramMenuLevel);
       }
     }
   }
 }
-
-#include "./engine/Menu.h";
-Menu menu;
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
