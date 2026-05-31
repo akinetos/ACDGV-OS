@@ -91,11 +91,15 @@ class Menu:public Program {
       screen.populate(this->getElement()[1]);
     }
 
-    void deactivatePrograms() {
-      for (int i=0; i<programsCount; i++) {
-        programs[i]->active = false;
+    void closeProgram() {
+      if (activeProgram > -1) {
+        programs[activeProgram]->active = false;
       }
+      activeProgram = -1;
       activeProgramMenuLevel = -1;
+      transition = true;
+      transitions[0]->init();
+      transitions[0]->active = true;
     }
 
     void close() {
@@ -104,19 +108,16 @@ class Menu:public Program {
       this->level--;
       this->pathChanged = true;
       
-      if (anyProgramActive()) {
+      if (activeProgram > -1) {
         if (this->level < activeProgramMenuLevel) {
-          transition = true;
-          transitions[0]->init();
-          transitions[0]->active = true;
-          Serial.println("transition");
+          this->closeProgram();
         } else {
+          Serial.println("keeping the program active, no transition");
           Serial.print("level:");
           Serial.println(this->level);
           Serial.print("activeProgramMenuLevel:");
           Serial.println(activeProgramMenuLevel);
         }
-        this->deactivatePrograms();
       }
     }
     
@@ -143,10 +144,7 @@ class Menu:public Program {
               this->pathChanged = true;
             }
             if (this->level < activeProgramMenuLevel) {
-              this->deactivatePrograms();
-              transition = true;
-              transitions[0]->init();
-              transitions[0]->active = true;
+              this->closeProgram();
             }
           }
         }

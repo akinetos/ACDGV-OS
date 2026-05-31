@@ -92,8 +92,6 @@ void execute(JsonArray & command) {
         programs[programIndex]->activate();
         activeProgram = programIndex;
         activeProgramMenuLevel = menu.level;
-        Serial.print("activeProgramMenuLevel:");
-        Serial.println(activeProgramMenuLevel);
       }
     }
   }
