@@ -92,7 +92,7 @@ class Menu:public Program {
     }
 
     void closeProgram() {
-      if (activeProgram > -1) {
+      if (anyProgramActive()) {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
@@ -108,15 +108,9 @@ class Menu:public Program {
       this->level--;
       this->pathChanged = true;
       
-      if (activeProgram > -1) {
+      if (anyProgramActive()) {
         if (this->level < activeProgramMenuLevel) {
           this->closeProgram();
-        } else {
-          Serial.println("keeping the program active, no transition");
-          Serial.print("level:");
-          Serial.println(this->level);
-          Serial.print("activeProgramMenuLevel:");
-          Serial.println(activeProgramMenuLevel);
         }
       }
     }

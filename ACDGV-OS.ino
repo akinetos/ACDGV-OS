@@ -37,13 +37,7 @@ Program * programs[programsCount];
 
 //acdgv.anyProgramActive()
 boolean anyProgramActive() {
-  boolean output = false;
-  for (int i=0; i<programsCount; i++) {
-    if (programs[i]->active) {
-      output = true;
-    }
-  }
-  return output;
+  return activeProgram != -1;
 }
 
 #include "./engine/Device.h";
@@ -58,6 +52,7 @@ Channel * channels;
 Surface * surfaces;
 
 #include "./transitions/fall.h";
+#include "./transitions/slide.h";
 FallTransition * transitions[transitionsCount];
 
 #include "./engine/Menu.h";

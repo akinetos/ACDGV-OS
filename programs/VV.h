@@ -56,7 +56,7 @@ class VV:public Program {
 
       if (this->move) {
         if (devices[4]->x < -0.01 || devices[4]->x > 0.01) {
-          xOffset += devices[4]->x * 10;
+          xOffset -= devices[4]->x * 10;
         }
         if (devices[4]->y < -0.01 || devices[4]->y > 0.01) {
           yOffset -= devices[4]->y * 10;
