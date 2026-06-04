@@ -34,7 +34,6 @@ I2C i2c = I2C();
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
-//acdgv.anyProgramActive()
 boolean anyProgramActive() {
   return activeProgram != -1;
 }
@@ -57,7 +56,6 @@ FallTransition * transitions[transitionsCount];
 #include "./engine/Menu.h";
 Menu menu;
 
-//acdgv.execute(command)
 void execute(JsonArray & command) {
   String commandType = command[0];
 
@@ -179,34 +177,30 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
 
-  if (transition) {
-    for (int i=0; i<transitionsCount; i++) {
-      if (transitions[i]->active) {
-        transitions[i]->tick();
-      }
+  for (int i=0; i<transitionsCount; i++) {
+    if (transitions[i]->active) {
+      transitions[i]->tick();
     }
-  } else {
-    for (int i = 0; i < programsCount; i++)
-      if (programs[i]->active)
-        programs[i]->tick();  
   }
+
+  for (int i = 0; i < programsCount; i++)
+    if (programs[i]->active)
+      programs[i]->tick();
   
   menu.tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  if (transition) {
-    for (int i=0; i<transitionsCount; i++) {
-      if (transitions[i]->active) {
-        transitions[i]->draw();
-      }
+  for (int i=0; i<transitionsCount; i++) {
+    if (transitions[i]->active) {
+      transitions[i]->draw();
     }
-  } else {
-    for (int i = 0; i < programsCount; i++)
-      if (programs[i]->active)
-        programs[i]->draw();  
   }
+
+  for (int i = 0; i < programsCount; i++)
+    if (programs[i]->active)
+      programs[i]->draw();
   
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].draw(menu.level);

@@ -30,6 +30,7 @@ class FallTransition {
           }
         }
       }
+      this->active = true;
     }
 
     void tick() {
@@ -50,7 +51,6 @@ class FallTransition {
       }
       this->counter++;
       if (this->counter > 16) {
-        transition = false;
         this->active = false;
         this->counter = 0;
       }
