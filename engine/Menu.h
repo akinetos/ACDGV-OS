@@ -169,6 +169,24 @@ class Menu:public Program {
       if (version == "8") {
         Surface * surface = & surfaces[0];
         surface->populate(element[1]);
+
+        int optionsCount = element[1].size();
+        for (int i = 0; i < optionsCount; i++) {
+          boolean hasCommand = element[1][i].size() == 3;
+          if (hasCommand) {
+            String commandType = element[1][i][2][0];
+            if (commandType == "run") {
+              String programName = element[1][i][2][1];
+              int programIndex = -1;
+              for (int i=0; i<programsCount; i++)
+                if (programs[i]->name == programName)
+                  programIndex = i;
+              if (programIndex > -1)
+                if (programs[programIndex]->menuLevel == -1)
+                  programs[programIndex]->menuLevel = this->level + 1;
+            }
+          }
+        }
       } else {
         OLED & screen = channels[0].ports[1].screen;
         screen.populate(element[1]);

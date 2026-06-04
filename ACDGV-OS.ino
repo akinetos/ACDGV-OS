@@ -80,7 +80,6 @@ void execute(JsonArray & command) {
         if (!programs[activeProgram]->initialised)
           programs[activeProgram]->init();
         programs[activeProgram]->activate();
-        programs[activeProgram]->menuLevel = menu.level;
       }
     }
   }
@@ -192,5 +191,5 @@ void loop() {
     programs[i]->draw();
   
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].draw(menu.level);
+    surfaces[i].draw();
 }
