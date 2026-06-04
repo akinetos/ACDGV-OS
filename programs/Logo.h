@@ -207,25 +207,27 @@ class Logo:public Program {
 		}
 		*/
 	  
-		Surface * s8x1 = & surfaces[0];
-		if (s8x1->facingUp) {
-			/*
-			int xStep = 8;
-			int yStep = 8;
-			for (int p=0; p<8; p++) {
-				for (int x=0; x<128; x+=xStep) {
-					for (int y=0; y<32; y+=yStep) {
-						channels[s8x1.channel].ports[p].screen.ssd1306.drawLine(x-1,y-1,x+128-1,y-1,SSD1306_WHITE);
-						channels[s8x1.channel].ports[p].screen.ssd1306.drawLine(x-1,y-1,x-1,y+32-1,SSD1306_WHITE);
-						channels[s8x1.channel].ports[p].screen.needsRefresh = true;
+		if (this->active) {
+			Surface * s8x1 = & surfaces[0];
+			if (s8x1->facingUp) {
+				/*
+				int xStep = 8;
+				int yStep = 8;
+				for (int p=0; p<8; p++) {
+					for (int x=0; x<128; x+=xStep) {
+						for (int y=0; y<32; y+=yStep) {
+							channels[s8x1.channel].ports[p].screen.ssd1306.drawLine(x-1,y-1,x+128-1,y-1,SSD1306_WHITE);
+							channels[s8x1.channel].ports[p].screen.ssd1306.drawLine(x-1,y-1,x-1,y+32-1,SSD1306_WHITE);
+							channels[s8x1.channel].ports[p].screen.needsRefresh = true;
+						}
 					}
 				}
-			}
-			*/
+				*/
 
-			for (int i=0; i<5; i++) {
-				channels[s8x1->channel].ports[i+3].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
-				channels[s8x1->channel].ports[i+3].screen.needsRefresh = true;
+				for (int i=0; i<5; i++) {
+					channels[s8x1->channel].ports[i+3].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
+					channels[s8x1->channel].ports[i+3].screen.needsRefresh = true;
+				}
 			}
 		}
     }

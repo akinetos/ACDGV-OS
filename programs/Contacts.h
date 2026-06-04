@@ -146,36 +146,38 @@ class Contacts:public Program {
 	String text = "";
 
     void draw() {
-		Surface * surface = & surfaces[0];
-		if (surface->facingUp) {
-			for (int port=1; port<3; port++) {
-				surface->drawBitmap(images[port-1], port, this->offsetY);
+		if (this->active) {
+			Surface * surface = & surfaces[0];
+			if (surface->facingUp) {
+				for (int port=1; port<3; port++) {
+					surface->drawBitmap(images[port-1], port, this->offsetY);
+				}
 			}
+			this->offsetY--;
+			if (this->offsetY <= -32) {
+				this->offsetY = 0;
+			}
+
+			if (this->option == 1) {
+			this->text = "Amelia";
+			this->option = 0;
+
+			transition = true;
+			transitions[0]->init();
+			transitions[0]->active = true;
+			}
+
+			if (this->option == 3) {
+			this->text = "Feliks";
+			this->option = 0;
+
+			transition = true;
+			transitions[0]->init();
+			transitions[0]->active = true;
+			}
+
+			channels[0].ports[7].screen.printText(this->text);
 		}
-		this->offsetY--;
-		if (this->offsetY <= -32) {
-			this->offsetY = 0;
-		}
-
-		if (this->option == 1) {
-          this->text = "Amelia";
-          this->option = 0;
-
-		  transition = true;
-		  transitions[0]->init();
-		  transitions[0]->active = true;
-        }
-
-		if (this->option == 3) {
-          this->text = "Feliks";
-          this->option = 0;
-
-		  transition = true;
-		  transitions[0]->init();
-		  transitions[0]->active = true;
-        }
-
-		channels[0].ports[7].screen.printText(this->text);
     }
 
   Contacts() {

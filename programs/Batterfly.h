@@ -363,30 +363,33 @@ class Batterfly:public Program {
         }
 
         void draw() {
-            Surface * surface = & surfaces[this->surfaceIndex];
-            
-            if (this->over) {
-                this->drawProgress();
-                int time = (endedAt - this->activatedTimestamp) / 1000;
-                String message1 = "BRAWO!";
-                String message2 = "czas: " + String(time) + " s";
-                this->splash(message1, message2);
-            } else {
-                this->updatePointer();
-                this->updateBatterfly();
-                this->updatePestki();
-                surface->clear();
-                this->drawStars();
-                this->drawBatterfly();
-                this->drawPestki();
-                this->detectColisions();
-                this->drawProgress();
+            if (this->active) {
+                Surface * surface = & surfaces[this->surfaceIndex];
+                if (this->over) {
+                    this->drawProgress();
+                    int time = (endedAt - this->activatedTimestamp) / 1000;
+                    String message1 = "BRAWO!";
+                    String message2 = "czas: " + String(time) + " s";
+                    this->splash(message1, message2);
+                } else {
+                    this->updatePointer();
+                    this->updateBatterfly();
+                    this->updatePestki();
+                    surface->clear();
+                    this->drawStars();
+                    this->drawBatterfly();
+                    this->drawPestki();
+                    this->detectColisions();
+                    this->drawProgress();
+                }
             }
         }
 
         void tick() {
-            if (this->scoresChanged) {
-                channels[0].ports[1].screen.needsRefresh = true;
+            if (this->active) {
+                if (this->scoresChanged) {
+                    channels[0].ports[1].screen.needsRefresh = true;
+                }
             }
         }
     

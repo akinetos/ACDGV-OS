@@ -62,11 +62,9 @@ void execute(JsonArray & command) {
   if (commandType == "run") {
     String programName = command[1];
     int programIndex = -1;
-    for (int i=0; i<programsCount; i++) {
-      if (programs[i]->name == programName) {
+    for (int i=0; i<programsCount; i++)
+      if (programs[i]->name == programName)
         programIndex = i;
-      }
-    }
     
     if (programIndex > -1) {
       boolean hasOption = command.size() == 3;
@@ -79,9 +77,8 @@ void execute(JsonArray & command) {
 
       if (!isActive) {
         activeProgram = programIndex;
-        if (!programs[activeProgram]->initialised) {
+        if (!programs[activeProgram]->initialised)
           programs[activeProgram]->init();
-        }
         programs[activeProgram]->activate();
         programs[activeProgram]->menuLevel = menu.level;
       }
@@ -177,30 +174,22 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
 
-  for (int i=0; i<transitionsCount; i++) {
-    if (transitions[i]->active) {
-      transitions[i]->tick();
-    }
-  }
+  for (int i=0; i<transitionsCount; i++)
+    transitions[i]->tick();
 
   for (int i = 0; i < programsCount; i++)
-    if (programs[i]->active)
-      programs[i]->tick();
+    programs[i]->tick();
   
   menu.tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  for (int i=0; i<transitionsCount; i++) {
-    if (transitions[i]->active) {
-      transitions[i]->draw();
-    }
-  }
+  for (int i=0; i<transitionsCount; i++)
+    transitions[i]->draw();
 
   for (int i = 0; i < programsCount; i++)
-    if (programs[i]->active)
-      programs[i]->draw();
+    programs[i]->draw();
   
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].draw(menu.level);

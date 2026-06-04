@@ -16,53 +16,55 @@ class Gravity:public Program {
       String gestureDirection = "";
 
       void tick() {
-        int speed = (this->option + 1) * 10;
-        int tiltX = 0;
-        int tiltY = 0;
+        if (this->active) {
+          int speed = (this->option + 1) * 10;
+          int tiltX = 0;
+          int tiltY = 0;
 
-        tiltX += (int)(accelerometer.x * speed);
-        tiltY += (int)(accelerometer.y * speed);
+          tiltX += (int)(accelerometer.x * speed);
+          tiltY += (int)(accelerometer.y * speed);
 
-        if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
-          if (gd.changed) {
-            this->gestureTimestamp = millis();
-            this->gestureDirection = gd.gesture;
+          if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
+            if (gd.changed) {
+              this->gestureTimestamp = millis();
+              this->gestureDirection = gd.gesture;
+            }
+            
+            if (this->gestureDirection == "gora") tiltY -= 1;
+            if (this->gestureDirection == "dol") tiltY += 1;
+            if (this->gestureDirection == "lewo") tiltX -= 1;
+            if (this->gestureDirection == "prawo") tiltX += 1;
           }
-          
-          if (this->gestureDirection == "gora") tiltY -= 1;
-          if (this->gestureDirection == "dol") tiltY += 1;
-          if (this->gestureDirection == "lewo") tiltX -= 1;
-          if (this->gestureDirection == "prawo") tiltX += 1;
-        }
 
-        if (this->bounceX < -0.01 || this->bounceX > 0.01) {
-          this->x += this->bounceX;
-          this->bounceX *= 0.99;
-        } else {
-          this->x += tiltX;
-        }
+          if (this->bounceX < -0.01 || this->bounceX > 0.01) {
+            this->x += this->bounceX;
+            this->bounceX *= 0.99;
+          } else {
+            this->x += tiltX;
+          }
 
-        if (this->bounceY < -0.01 || this->bounceY > 0.01) {
-          this->y += this->bounceY;
-          this->bounceY *= 0.99;
-        } else {
-          this->y += tiltY;
-        }
+          if (this->bounceY < -0.01 || this->bounceY > 0.01) {
+            this->y += this->bounceY;
+            this->bounceY *= 0.99;
+          } else {
+            this->y += tiltY;
+          }
 
-        if (this->x < 0 || this->x > this->maxX) {
-          if (this->x < 0) this->x = 0;
-          if (this->x > this->maxX) this->x = this->maxX;
-          this->bounceX = -tiltX;
-        }
+          if (this->x < 0 || this->x > this->maxX) {
+            if (this->x < 0) this->x = 0;
+            if (this->x > this->maxX) this->x = this->maxX;
+            this->bounceX = -tiltX;
+          }
 
-        if (this->y < 0 || this->y > this->maxY) {
-          if (this->y < 0) this->y = 0;
-          if (this->y > this->maxY) this->y = this->maxY;
-          this->bounceY = -tiltY;
-        }
+          if (this->y < 0 || this->y > this->maxY) {
+            if (this->y < 0) this->y = 0;
+            if (this->y > this->maxY) this->y = this->maxY;
+            this->bounceY = -tiltY;
+          }
 
-        this->port = (int)(this->y / 32);
-        channels[0].ports[port].screen.needsRefresh = true;
+          this->port = (int)(this->y / 32);
+          channels[0].ports[port].screen.needsRefresh = true;
+        }
       }
 
       void init() {
@@ -72,13 +74,15 @@ class Gravity:public Program {
       }
 
       void draw() {
-        Surface * surface = & surfaces[0];
-        if (this->port != this->previousPort) {
-          if (this->previousPort != -1)
-            channels[surface->channel].ports[this->previousPort].screen.clear();
-          this->previousPort = this->port;
+        if (this->active) {
+          Surface * surface = & surfaces[0];
+          if (this->port != this->previousPort) {
+            if (this->previousPort != -1)
+              channels[surface->channel].ports[this->previousPort].screen.clear();
+            this->previousPort = this->port;
+          }
+          surface->drawCircle(this->x, this->y, 20);
         }
-        surface->drawCircle(this->x, this->y, 20);
       }
 
     Gravity() {

@@ -95,24 +95,26 @@ class VV:public Program {
     }
 
     void tick() {
-      if (devices[4]->longPress) {
-        this->move = !this->move;
-        Surface * surface = & surfaces[0];
-        if (this->move) {
-          surface->showPointer = false;
-          surface->showMenu = false;
-        } else {
-          surface->showPointer = true;
-          surface->showMenu = true;
+      if (this->active) {
+        if (devices[4]->longPress) {
+          this->move = !this->move;
+          Surface * surface = & surfaces[0];
+          if (this->move) {
+            surface->showPointer = false;
+            surface->showMenu = false;
+          } else {
+            surface->showPointer = true;
+            surface->showMenu = true;
+          }
         }
-      }
 
-      this->compute();
+        this->compute();
 
-      channels[0].ports[0].screen.needsRefresh = true;
-      
-      if (nfcDevice.message != "") {
-        channels[0].ports[7].screen.needsRefresh = true;
+        channels[0].ports[0].screen.needsRefresh = true;
+        
+        if (nfcDevice.message != "") {
+          channels[0].ports[7].screen.needsRefresh = true;
+        }
       }
     }
 
@@ -122,63 +124,65 @@ class VV:public Program {
     }
 
     void draw() {
-      Surface * surface = & surfaces[0];
+      if (this->active) {
+        Surface * surface = & surfaces[0];
 
-      if (surface->facingUp) {
-        if (this->option == 0) {
-          for (int i=0; i<this->computedPoints; i++) {
-            if (this->isWithinRange(i)) {
-              surface->drawPoint(points[i*2], points[i*2+1]);
+        if (surface->facingUp) {
+          if (this->option == 0) {
+            for (int i=0; i<this->computedPoints; i++) {
+              if (this->isWithinRange(i)) {
+                surface->drawPoint(points[i*2], points[i*2+1]);
+              }
+            }
+
+            if (nfcDevice.message != "") {
+              OLED & screen = channels[0].ports[7].screen;
+              if (!this->messageHandled) {
+                JsonArray & point = this->load(nfcDevice.message);
+                String re = point[0];
+                String im = point[1];
+                this->cRe = re.toFloat();
+                this->cIm = im.toFloat();
+                this->messageHandled = true;
+              }
+              screen.printText(nfcDevice.message);
             }
           }
 
-          if (nfcDevice.message != "") {
-            OLED & screen = channels[0].ports[7].screen;
-            if (!this->messageHandled) {
-              JsonArray & point = this->load(nfcDevice.message);
-              String re = point[0];
-              String im = point[1];
-              this->cRe = re.toFloat();
-              this->cIm = im.toFloat();
-              this->messageHandled = true;
-            }
-            screen.printText(nfcDevice.message);
-          }
-        }
-
-        if (this->option == 1) {
-          for (int i=0; i<this->computedPoints; i++) {
-            if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
-              surface->drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
+          if (this->option == 1) {
+            for (int i=0; i<this->computedPoints; i++) {
+              if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
+                surface->drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
+              }
             }
           }
-        }
 
-        if (this->option == 2) {
-          action = "nfc read";
-          this->option = 0;
-        }
+          if (this->option == 2) {
+            action = "nfc read";
+            this->option = 0;
+          }
 
-        if (this->option == 3) {
-          String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          nfcDevice.content = content;
-          action = "nfc write";
-          this->option = 0;
-        }
+          if (this->option == 3) {
+            String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
+            nfcDevice.content = content;
+            action = "nfc write";
+            this->option = 0;
+          }
 
-        if (devices[5]->shortPress) {
-          char button = devices[5]->buttonPressed;
-          if (button != '*' && button != '#') {
-            int index = button - 48;
-            if (index == 1) {
-              String content = "[[2,5],[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]]";
-              nfcDevice.content = content;
-              action = "nfc write";
+          if (devices[5]->shortPress) {
+            char button = devices[5]->buttonPressed;
+            if (button != '*' && button != '#') {
+              int index = button - 48;
+              if (index == 1) {
+                String content = "[[2,5],[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]]";
+                nfcDevice.content = content;
+                action = "nfc write";
+              }
             }
           }
-        }
 
-        this->drawProgress();
+          this->drawProgress();
+        }
       }
     }
 

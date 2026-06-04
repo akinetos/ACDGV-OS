@@ -34,25 +34,29 @@ class FallTransition {
     }
 
     void tick() {
-      for (int i=0; i<p; i++) {
-        int weight = this->counter * this->counter;
-        this->pixels[i].y += weight;
-      }
-      for (int i=0; i<8; i++) {
-        channels[0].ports[i].screen.needsRefresh = true;
+      if (this->active) {
+        for (int i=0; i<p; i++) {
+          int weight = this->counter * this->counter;
+          this->pixels[i].y += weight;
+        }
+        for (int i=0; i<8; i++) {
+          channels[0].ports[i].screen.needsRefresh = true;
+        }
       }
     }
 
     void draw() {
-      for (int i=0; i<p; i++) {
-        if (this->pixels[i].y < 256) {
-          int port = surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
+      if (this->active) {
+        for (int i=0; i<p; i++) {
+          if (this->pixels[i].y < 256) {
+            int port = surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
+          }
         }
-      }
-      this->counter++;
-      if (this->counter > 16) {
-        this->active = false;
-        this->counter = 0;
+        this->counter++;
+        if (this->counter > 16) {
+          this->active = false;
+          this->counter = 0;
+        }
       }
     }
 

@@ -9,7 +9,9 @@ class NFCProgram:public Program {
       }
 
       void tick() {
-        channels[0].ports[7].screen.printText(nfcDevice.message);
+        if (this->active) {
+          channels[0].ports[7].screen.printText(nfcDevice.message);
+        }
       }
 
       void setOption(int option) {
