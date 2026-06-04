@@ -174,18 +174,18 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick(devices[4]);
 
-  for (int i=0; i<transitionsCount; i++)
+  menu.tick();
+  
+  for (int i = 0; i < transitionsCount; i++)
     transitions[i]->tick();
 
   for (int i = 0; i < programsCount; i++)
     programs[i]->tick();
-  
-  menu.tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  for (int i=0; i<transitionsCount; i++)
+  for (int i = 0; i < transitionsCount; i++)
     transitions[i]->draw();
 
   for (int i = 0; i < programsCount; i++)
