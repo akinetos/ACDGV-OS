@@ -6,6 +6,7 @@ class Program {
     int activatedTimestamp = 0;
     int option = 0;
     String name = "";
+    int menuLevel = -1;
 
     void virtual init(void) {
       this->initialised = true;

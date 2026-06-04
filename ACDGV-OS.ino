@@ -22,7 +22,6 @@ int channelsCount;
 int surfacesCount;
 boolean transition = false;
 int activeProgram = -1;
-int activeProgramMenuLevel = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -81,12 +80,12 @@ void execute(JsonArray & command) {
       }
 
       if (!isActive) {
-        if (!programs[programIndex]->initialised) {
-          programs[programIndex]->init();
-        }
-        programs[programIndex]->activate();
         activeProgram = programIndex;
-        activeProgramMenuLevel = menu.level;
+        if (!programs[activeProgram]->initialised) {
+          programs[activeProgram]->init();
+        }
+        programs[activeProgram]->activate();
+        programs[activeProgram]->menuLevel = menu.level;
       }
     }
   }

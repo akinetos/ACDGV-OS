@@ -96,7 +96,6 @@ class Menu:public Program {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
-      activeProgramMenuLevel = -1;
       transition = true;
       transitions[0]->init();
       transitions[0]->active = true;
@@ -109,7 +108,7 @@ class Menu:public Program {
       this->pathChanged = true;
       
       if (anyProgramActive()) {
-        if (this->level < activeProgramMenuLevel) {
+        if (this->level < programs[activeProgram]->menuLevel) {
           this->closeProgram();
         }
       }
@@ -137,7 +136,7 @@ class Menu:public Program {
               this->address[i-1] = NULL;
               this->pathChanged = true;
             }
-            if (this->level < activeProgramMenuLevel) {
+            if (this->level < programs[activeProgram]->menuLevel) {
               this->closeProgram();
             }
           }
