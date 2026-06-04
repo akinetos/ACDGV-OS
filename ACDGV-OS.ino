@@ -53,9 +53,6 @@ Surface * surfaces;
 #include "./transitions/slide.h";
 FallTransition * transitions[transitionsCount];
 
-#include "./engine/Menu.h";
-Menu menu;
-
 void execute(JsonArray & command) {
   String commandType = command[0];
 
@@ -84,6 +81,9 @@ void execute(JsonArray & command) {
     }
   }
 }
+
+#include "./engine/Menu.h";
+Menu menu;
 
 #include "./devices/AM.h";
 AM accelerometer = AM(0x1D);
