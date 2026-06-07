@@ -15,15 +15,26 @@
 const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
-const int transitionsCount = 1;
 
 String action = "";
 int channelsCount;
 int surfacesCount;
-boolean transition = false;
 int activeProgram = -1;
 
 DynamicJsonBuffer jsonBuffer;
+
+class Pixel {
+  public:
+    int x;
+    int y;
+    
+  Pixel() {}
+
+  Pixel(int x, int y) {
+    this->x = x;
+    this->y = y;
+  }
+};
 
 #include "./engine/Storage.h";
 Storage storage = Storage();
@@ -49,9 +60,8 @@ Channel * channels;
 #include "./engine/Surface.h";
 Surface * surfaces;
 
-#include "./transitions/fall.h";
-#include "./transitions/slide.h";
-FallTransition * transitions[transitionsCount];
+#include "./engine/Transition.h";
+Transition transition = Transition();
 
 void execute(JsonArray & command) {
   String commandType = command[0];
@@ -161,7 +171,7 @@ void setup() {
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
 
-  transitions[0] = new FallTransition();
+  transition = Transition();
 
   menu.init();
 }
@@ -175,8 +185,7 @@ void loop() {
 
   menu.tick();
   
-  for (int i = 0; i < transitionsCount; i++)
-    transitions[i]->tick();
+  transition.tick();
 
   for (int i = 0; i < programsCount; i++)
     programs[i]->tick();
@@ -184,8 +193,7 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  for (int i = 0; i < transitionsCount; i++)
-    transitions[i]->draw();
+  transition.draw();
 
   for (int i = 0; i < programsCount; i++)
     programs[i]->draw();

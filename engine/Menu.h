@@ -96,7 +96,7 @@ class Menu:public Program {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
-      transitions[0]->init();
+      transition.init();
     }
 
     void close() {
