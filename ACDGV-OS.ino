@@ -16,6 +16,7 @@ const String version = "8";
 const int devicesCount = 8;
 const int programsCount = 9;
 
+int transitionType = 0;
 String action = "";
 int channelsCount;
 int surfacesCount;

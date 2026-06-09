@@ -96,6 +96,7 @@ class Menu:public Program {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
+      transitionType = 1;
       transition.init();
     }
 
@@ -224,6 +225,8 @@ class Menu:public Program {
         }
         
         if (element[1].size() > 0 && index < element[1].size()) {
+          transitionType = 2;
+          transition.init();
           this->selectOption(index);
         }
       }

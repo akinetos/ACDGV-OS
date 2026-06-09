@@ -8,12 +8,27 @@ class Transition {
     void init() {
       this->counter = 0;
       this->p = 0;
-      for (int y=32; y<256; y+=2) {
-        for (int x=0; x<128; x+=2) {
-          boolean white = surfaces[0].getPixel(x,y);
-          if (white && p<500) {
-            this->pixels[p] = Pixel(x,y);
-            p++;
+      if (transitionType == 1) {
+        for (int y=32; y<256; y+=5) {
+          for (int x=0; x<128; x+=5) {
+            boolean white = surfaces[0].getPixel(x,y);
+            if (white && p<500) {
+              this->pixels[p] = Pixel(x,y);
+              p++;
+            }
+          }
+        }
+      }
+      if (transitionType == 2) {
+        int minY = surfaces[0].pointerPort * 32;
+        int maxY = (surfaces[0].pointerPort + 1) * 32;
+        for (int y=minY; y<maxY; y+=2) {
+          for (int x=0; x<128; x+=2) {
+            boolean white = surfaces[0].getPixel(x,y);
+            if (white && p<500) {
+              this->pixels[p] = Pixel(x,y);
+              p++;
+            }
           }
         }
       }
@@ -24,7 +39,12 @@ class Transition {
       if (this->active) {
         for (int i=0; i<p; i++) {
           int weight = this->counter * this->counter;
-          this->pixels[i].y += weight;
+          if (transitionType == 1) {
+            this->pixels[i].y += weight;
+          }
+          if (transitionType == 2) {
+            this->pixels[i].x -= weight;
+          }
         }
         for (int i=0; i<8; i++) {
           channels[0].ports[i].screen.needsRefresh = true;
