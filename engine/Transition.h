@@ -40,10 +40,18 @@ class Transition {
         for (int i=0; i<p; i++) {
           int weight = this->counter * this->counter;
           if (transitionType == 1) {
-            this->pixels[i].y += weight;
+            if (this->pixels[i].y + weight < 256) {
+              this->pixels[i].y += weight;
+            } else {
+              this->pixels[i].y = 256;
+            }
           }
           if (transitionType == 2) {
-            this->pixels[i].x -= weight;
+            if (this->pixels[i].y - weight > 0) {
+              this->pixels[i].y -= weight;
+            } else {
+              this->pixels[i].y = 0;
+            }
           }
         }
         for (int i=0; i<8; i++) {
@@ -55,12 +63,16 @@ class Transition {
     void draw() {
       if (this->active) {
         for (int i=0; i<p; i++) {
-          if (this->pixels[i].y < 256) {
+          if (this->pixels[i].x > 0 
+            && this->pixels[i].x < 128
+            && this->pixels[i].y > 32
+            && this->pixels[i].y < 256
+          ) {
             int port = surfaces[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
           }
         }
         this->counter++;
-        if (this->counter > 16) {
+        if (this->counter > 15) {
           this->active = false;
           this->counter = 0;
         }
