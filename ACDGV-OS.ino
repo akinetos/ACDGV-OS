@@ -24,18 +24,7 @@ int activeProgram = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
-class Pixel {
-  public:
-    int x;
-    int y;
-    
-  Pixel() {}
-
-  Pixel(int x, int y) {
-    this->x = x;
-    this->y = y;
-  }
-};
+#include "./engine/Pixel.h";
 
 #include "./engine/Storage.h";
 Storage storage = Storage();
@@ -198,7 +187,9 @@ void loop() {
 
   for (int i = 0; i < programsCount; i++)
     programs[i]->draw();
-  
+
+  menu.draw();
+
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].draw();
 }

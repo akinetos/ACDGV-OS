@@ -283,5 +283,12 @@ class Menu:public Program {
       }
     }
 
+    void draw() {
+      if (this->level > 0) {
+        OLED & screen = channels[0].ports[0].screen;
+        screen.drawCloseButton();
+      }
+    }
+
     Menu() {}
 };

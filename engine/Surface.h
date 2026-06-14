@@ -175,11 +175,6 @@ class Surface {
     }
   }
 
-  void drawCloseButton() {
-    OLED & screen = channels[this->channel].ports[0].screen;
-    screen.drawCloseButton();
-  }
-
   void drawPointer() {
     OLED & screen = channels[this->channel].ports[this->pointerPort].screen;
     String mode = "circle";
@@ -298,10 +293,8 @@ class Surface {
 
   void draw() {
     if (this->showMenu) {
-      this->drawMenu();
+      this->drawMenu();//move to menu.draw()
     }
-    
-    this->drawCloseButton();
 
     if (this->showPointer) {
       this->drawPointer();
