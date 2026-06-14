@@ -195,7 +195,7 @@ class Menu:public Program {
 
       JsonArray & command = element[2];
       if (command.size()) {
-        execute(command);
+        this->execute(command);
       }
     }
 
@@ -208,7 +208,7 @@ class Menu:public Program {
           surface->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
-            execute(command);
+            this->execute(command);
           }
         } else {
           this->populateOptions();
@@ -287,6 +287,35 @@ class Menu:public Program {
       if (this->level > 0) {
         OLED & screen = channels[0].ports[0].screen;
         screen.drawCloseButton();
+      }
+    }
+
+    void execute(JsonArray & command) {
+      String commandType = command[0];
+
+      if (commandType == "run") {
+        String programName = command[1];
+        int programIndex = -1;
+        for (int i=0; i<programsCount; i++)
+          if (programs[i]->name == programName)
+            programIndex = i;
+        
+        if (programIndex > -1) {
+          boolean hasOption = command.size() == 3;
+          boolean isActive = programs[programIndex]->active;
+
+          if (hasOption) {
+            int optionValue = command[2];
+            programs[programIndex]->setOption(optionValue);
+          }
+
+          if (!isActive) {
+            activeProgram = programIndex;
+            if (!programs[activeProgram]->initialised)
+              programs[activeProgram]->init();
+            programs[activeProgram]->activate();
+          }
+        }
       }
     }
 

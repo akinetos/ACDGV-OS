@@ -53,35 +53,6 @@ Surface * surfaces;
 #include "./engine/Transition.h";
 Transition transition = Transition();
 
-void execute(JsonArray & command) {
-  String commandType = command[0];
-
-  if (commandType == "run") {
-    String programName = command[1];
-    int programIndex = -1;
-    for (int i=0; i<programsCount; i++)
-      if (programs[i]->name == programName)
-        programIndex = i;
-    
-    if (programIndex > -1) {
-      boolean hasOption = command.size() == 3;
-      boolean isActive = programs[programIndex]->active;
-
-      if (hasOption) {
-        int optionValue = command[2];
-        programs[programIndex]->setOption(optionValue);
-      }
-
-      if (!isActive) {
-        activeProgram = programIndex;
-        if (!programs[activeProgram]->initialised)
-          programs[activeProgram]->init();
-        programs[activeProgram]->activate();
-      }
-    }
-  }
-}
-
 #include "./engine/Menu.h";
 Menu menu;
 
@@ -174,7 +145,6 @@ void loop() {
     surfaces[i].tick(devices[4]);
 
   menu.tick();
-  
   transition.tick();
 
   for (int i = 0; i < programsCount; i++)
@@ -183,12 +153,11 @@ void loop() {
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  transition.draw();
-
   for (int i = 0; i < programsCount; i++)
     programs[i]->draw();
 
   menu.draw();
+  transition.draw();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].draw();
