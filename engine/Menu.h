@@ -4,6 +4,12 @@ class Menu:public Program {
     int level = 0;
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean pathChanged = false;
+    
+    String menuPath = "";
+    String menuAddress = "";
+    int optionsCount = 0;
+    boolean hasOptions = false;
+    String options[8];
 
     String getMenuPath() {
       String output = "";
@@ -65,7 +71,7 @@ class Menu:public Program {
       String optionName = file[0];
 
       if (version == "8") {
-        surface->populate(file[1]);
+        this->populate(file[1]);
       } else {
         channels[0].ports[1].screen.populate(file[1]);
       }
@@ -81,9 +87,8 @@ class Menu:public Program {
         }
       }
 
-      //do przerobienia
-      surface->menuAddress = this->getMenuAddress(); //menu.address = 
-      surface->menuPath = this->getMenuPath(); //menu.path =
+      this->menuAddress = this->getMenuAddress(); //menu.address = 
+      this->menuPath = this->getMenuPath(); //menu.path =
     }
 
     void populateOptions() {
@@ -143,8 +148,8 @@ class Menu:public Program {
 
         if (this->pathChanged) {
           Surface * surface = & surfaces[0];
-          surface->menuAddress = this->getMenuAddress();
-          surface->menuPath = this->getMenuPath();
+          this->menuAddress = this->getMenuAddress();
+          this->menuPath = this->getMenuPath();
         }
       }
     }
@@ -169,7 +174,7 @@ class Menu:public Program {
 
       if (version == "8") {
         Surface * surface = & surfaces[0];
-        surface->populate(element[1]);
+        this->populate(element[1]);
 
         int optionsCount = element[1].size();
         for (int i = 0; i < optionsCount; i++) {
@@ -205,7 +210,7 @@ class Menu:public Program {
 
       if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
         if (version == "8") {
-          surface->populate(element[1]);
+          this->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
             this->execute(command);
@@ -231,8 +236,8 @@ class Menu:public Program {
         }
       }
 
-      surface->menuAddress = this->getMenuAddress();
-      surface->menuPath = this->getMenuPath();
+      this->menuAddress = this->getMenuAddress();
+      this->menuPath = this->getMenuPath();
     }
 
     void reactToKeypadAction() {
@@ -254,8 +259,8 @@ class Menu:public Program {
         }
       }
 
-      surface->menuAddress = this->getMenuAddress();
-      surface->menuPath = this->getMenuPath();
+      this->menuAddress = this->getMenuAddress();
+      this->menuPath = this->getMenuPath();
     }
 
     boolean mainMenuHovered() {
@@ -335,21 +340,21 @@ class Menu:public Program {
         cursorX = surface->getRelativeX();
         cursorY = surface->getRelativeY() - int(surface->getRelativeY() / screen.height);
       }
-      screen.drawMenuAddress(surface->menuAddress);
-      screen.drawMenuPath(surface->menuPath, cursorX, cursorY);
+      screen.drawMenuAddress(menuAddress);
+      screen.drawMenuPath(menuPath, cursorX, cursorY);
     }
 
     void drawOptions() {
       Surface * surface = & surfaces[0];
       if (version == "8") {
-        for (int port = 1; port < surface->optionsCount; port++) {
+        for (int port = 1; port < this->optionsCount; port++) {
           OLED & screen = channels[0].ports[port].screen;
           int amount = 2;
           screen.hasOptions = amount > 0;
           screen.optionsCount = amount;
           screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
           screen.lines[0] = String(port);
-          screen.lines[1] = surface->options[port];
+          screen.lines[1] = this->options[port];
           screen.printLines();
         }
       } else {
@@ -360,6 +365,33 @@ class Menu:public Program {
           screen.drawScrollbar();
         }
       }
+    }
+
+    void populate(JsonArray & list) {
+      Surface * surface = & surfaces[0];
+      if (list.size() > 0) {
+        this->optionsCount = list.size();
+        for (int i = 0; i < this->optionsCount; i++) {
+          String optionName = list[i][0];
+          this->options[i] = optionName;
+        }
+      } else {
+        this->optionsCount = 0;
+      }
+      this->hasOptions = this->optionsCount > 0;
+
+      if (version == "8") {
+        for (int port = 1; port < this->optionsCount; port++) {
+          OLED & screen = channels[0].ports[port].screen;
+          screen.lineSelected = -1;
+          for (int i=0; i<=20; i++) {
+            screen.lineScrollWidth[i] = 0;
+          }
+          screen.offsetY = 0;
+        }
+      }
+
+      surface->refreshScreens();
     }
 
     Menu() {}

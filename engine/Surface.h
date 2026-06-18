@@ -24,13 +24,7 @@ class Surface {
     int pointerSpeed = 10;
     int animatePointerTime = 0;
     int screensCount = 0;
-
-    String menuPath = "";
-    String menuAddress = "";
-    String options[8];
     
-    int optionsCount = 0;
-    boolean hasOptions = false;
     boolean showPointer = true;
 
     boolean showMenu = true;
@@ -199,32 +193,6 @@ class Surface {
       screen1.drawPoint(x1, y1 - port1 * height);
       screen2.drawPoint(x2, y2 - port2 * height);
     }
-  }
-
-  void populate(JsonArray & list) {
-    if (list.size() > 0) {
-      this->optionsCount = list.size();
-      for (int i = 0; i < this->optionsCount; i++) {
-        String optionName = list[i][0];
-        this->options[i] = optionName;
-      }
-    } else {
-      this->optionsCount = 0;
-    }
-    this->hasOptions = this->optionsCount > 0;
-
-    if (version == "8") {
-      for (int port = 1; port < this->optionsCount; port++) {
-        OLED & screen = channels[channel].ports[port].screen;
-        screen.lineSelected = -1;
-        for (int i=0; i<=20; i++) {
-          screen.lineScrollWidth[i] = 0;
-        }
-        screen.offsetY = 0;
-      }
-    }
-
-    this->refreshScreens();
   }
 
   void countScreens() {
