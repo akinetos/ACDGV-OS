@@ -294,7 +294,12 @@ class Menu:public Program {
       Surface * surface = & surfaces[0];
 
       if (this->show) {
-        this->drawPath(0);
+        if (surface->pointerPort > 0) {
+          channels[0].ports[0].screen.printText(segments[level]);
+        } else {
+          this->drawPath(0);
+        }
+        
         this->drawOptions();
       }
 
