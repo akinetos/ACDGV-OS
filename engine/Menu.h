@@ -284,6 +284,13 @@ class Menu:public Program {
     }
 
     void draw() {
+      Surface * surface = & surfaces[0];
+
+      if (surface->showMenu) {
+        this->drawPath(0);
+        this->drawOptions();
+      }
+
       if (this->level > 0) {
         OLED & screen = channels[0].ports[0].screen;
         screen.drawCloseButton();
@@ -315,6 +322,42 @@ class Menu:public Program {
               programs[activeProgram]->init();
             programs[activeProgram]->activate();
           }
+        }
+      }
+    }
+
+    void drawPath(int port) {
+      Surface * surface = & surfaces[0];
+      OLED & screen = channels[0].ports[port].screen;
+      int cursorX = -1;
+      int cursorY = -1;
+      if (surface->pointerPort == 0) {
+        cursorX = surface->getRelativeX();
+        cursorY = surface->getRelativeY() - int(surface->getRelativeY() / screen.height);
+      }
+      screen.drawMenuAddress(surface->menuAddress);
+      screen.drawMenuPath(surface->menuPath, cursorX, cursorY);
+    }
+
+    void drawOptions() {
+      Surface * surface = & surfaces[0];
+      if (version == "8") {
+        for (int port = 1; port < surface->optionsCount; port++) {
+          OLED & screen = channels[0].ports[port].screen;
+          int amount = 2;
+          screen.hasOptions = amount > 0;
+          screen.optionsCount = amount;
+          screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
+          screen.lines[0] = String(port);
+          screen.lines[1] = surface->options[port];
+          screen.printLines();
+        }
+      } else {
+        OLED & screen = channels[0].ports[1].screen;
+        if (screen.hasOptions) {
+          screen.printBoxes();
+          screen.printLines();
+          screen.drawScrollbar();
         }
       }
     }

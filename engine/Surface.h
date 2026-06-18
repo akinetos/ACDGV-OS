@@ -201,45 +201,6 @@ class Surface {
     }
   }
 
-  void drawMenu() {
-    this->drawMenuPath(0);
-    this->drawMenuOptions();
-  }
-
-  void drawMenuPath(int port) {
-    OLED & screen = channels[this->channel].ports[port].screen;
-    int cursorX = -1;
-    int cursorY = -1;
-    if (this->pointerPort == 0) {
-      cursorX = this->getRelativeX();
-      cursorY = this->getRelativeY() - int(this->getRelativeY() / screen.height);
-    }
-    screen.drawMenuAddress(this->menuAddress);
-    screen.drawMenuPath(this->menuPath, cursorX, cursorY);
-  }
-
-  void drawMenuOptions() {
-    if (version == "8") {
-      for (int port = 1; port < this->optionsCount; port++) {
-        OLED & screen = channels[channel].ports[port].screen;
-        int amount = 2;
-        screen.hasOptions = amount > 0;
-        screen.optionsCount = amount;
-        screen.minOffsetY = -(screen.optionsCount * 10) + screen.height - 1;
-        screen.lines[0] = String(port);
-        screen.lines[1] = this->options[port];
-        screen.printLines();
-      }
-    } else {
-      OLED & screen = channels[this->channel].ports[1].screen;
-      if (screen.hasOptions) {
-        screen.printBoxes();
-        screen.printLines();
-        screen.drawScrollbar();
-      }
-    }
-  }
-
   void populate(JsonArray & list) {
     if (list.size() > 0) {
       this->optionsCount = list.size();
@@ -292,10 +253,6 @@ class Surface {
   }
 
   void draw() {
-    if (this->showMenu) {
-      this->drawMenu();//move to menu.draw()
-    }
-
     if (this->showPointer) {
       this->drawPointer();
     }
