@@ -11,6 +11,8 @@ class Menu:public Program {
     boolean hasOptions = false;
     String options[8];
 
+    boolean show = true;
+
     String getMenuPath() {
       String output = "";
       for (int i=0; i<8; i++) {
@@ -208,7 +210,7 @@ class Menu:public Program {
       Surface * surface = & surfaces[0];
       JsonArray & element = this->getElement();
 
-      if (surface->pointerPort == 0 && surface->showMenu && this->pathChanged) {
+      if (surface->pointerPort == 0 && this->show && this->pathChanged) {
         if (version == "8") {
           this->populate(element[1]);
           JsonArray & command = element[2];
@@ -266,7 +268,7 @@ class Menu:public Program {
     boolean mainMenuHovered() {
       Surface * surface = & surfaces[0];
       boolean hovered = surface->pointerPort == 0 
-        && (surface->showMenu || channels[0].ports[0].screen.closeButtonHovered);
+        && (this->show || channels[0].ports[0].screen.closeButtonHovered);
       return hovered;
     }
 
@@ -291,7 +293,7 @@ class Menu:public Program {
     void draw() {
       Surface * surface = & surfaces[0];
 
-      if (surface->showMenu) {
+      if (this->show) {
         this->drawPath(0);
         this->drawOptions();
       }

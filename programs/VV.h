@@ -101,10 +101,10 @@ class VV:public Program {
           Surface * surface = & surfaces[0];
           if (this->move) {
             surface->showPointer = false;
-            surface->showMenu = false;
+            menu.show = false;
           } else {
             surface->showPointer = true;
-            surface->showMenu = true;
+            menu.show = true;
           }
         }
 
