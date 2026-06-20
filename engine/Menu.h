@@ -1,17 +1,17 @@
-class Menu:public Program {
+class Menu {
   public:
+    int address[8];
     String segments[8];
-    int level = 0;
-    int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-    boolean pathChanged = false;
-    
-    String segmentsPath = "";
-    String addressPath = "";
-    int optionsCount = 0;
-    boolean hasOptions = false;
     String options[8];
 
+    String segmentsPath = "";
+    String addressPath = "";
+    boolean hasOptions = false;
+    int optionsCount = 0;
+
     boolean show = true;
+    boolean changed = false;
+    int level = 0;
 
     String getSegmentsPath() {
       String output = "";
@@ -111,7 +111,7 @@ class Menu:public Program {
       this->segments[this->level] = "";
       this->address[this->level-1] = NULL;
       this->level--;
-      this->pathChanged = true;
+      this->changed = true;
       
       if (anyProgramActive()) {
         if (this->level < programs[activeProgram]->menuLevel) {
@@ -120,7 +120,7 @@ class Menu:public Program {
       }
     }
     
-    void updateMenu() {
+    void update() {
       OLED & screen = channels[0].ports[0].screen;
 
       if (screen.textScroll != 0) {
@@ -128,7 +128,7 @@ class Menu:public Program {
       }
 
       if (devices[4]->shortPress && this->mainMenuHovered()) {
-        this->pathChanged = false;
+        this->changed = false;
 
         if (screen.closeButtonHovered) {
           if (this->level > 0) {
@@ -140,7 +140,7 @@ class Menu:public Program {
             for (int i=this->level+1; i < 8; i++) {
               this->segments[i] = "";
               this->address[i-1] = NULL;
-              this->pathChanged = true;
+              this->changed = true;
             }
             if (this->level < programs[activeProgram]->menuLevel) {
               this->closeProgram();
@@ -148,7 +148,7 @@ class Menu:public Program {
           }
         }
 
-        if (this->pathChanged) {
+        if (this->changed) {
           Surface * surface = & surfaces[0];
           this->addressPath = this->getAddressPath();
           this->segmentsPath = this->getSegmentsPath();
@@ -210,7 +210,7 @@ class Menu:public Program {
       Surface * surface = & surfaces[0];
       JsonArray & element = this->getElement();
 
-      if (surface->pointerPort == 0 && this->show && this->pathChanged) {
+      if (surface->pointerPort == 0 && this->show && this->changed) {
         if (version == "8") {
           this->populate(element[1]);
           JsonArray & command = element[2];
@@ -278,7 +278,7 @@ class Menu:public Program {
       if (surface->facingUp) {
         this->updatePointer();
         this->updateOptions();
-        this->updateMenu();
+        this->update();
 
         if (devices[4]->shortPress) {
           this->reactToGamepadAction();
@@ -401,5 +401,13 @@ class Menu:public Program {
       surface->refreshScreens();
     }
 
-    Menu() {}
+    Menu() {
+      for (int i=0; i<8; i++) {
+        if (i==0) {
+          this->address[i] = 0;
+        } else {
+          this->address[i] = NULL;
+        }
+      }
+    }
 };
