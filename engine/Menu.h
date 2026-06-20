@@ -5,15 +5,15 @@ class Menu:public Program {
     int address[8] = {0,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     boolean pathChanged = false;
     
-    String menuPath = "";
-    String menuAddress = "";
+    String segmentsPath = "";
+    String addressPath = "";
     int optionsCount = 0;
     boolean hasOptions = false;
     String options[8];
 
     boolean show = true;
 
-    String getMenuPath() {
+    String getSegmentsPath() {
       String output = "";
       for (int i=0; i<8; i++) {
         if (this->segments[i] != "") {
@@ -26,7 +26,7 @@ class Menu:public Program {
       return output;
     }
 
-    String getMenuAddress() {
+    String getAddressPath() {
       String output = "";
       for (int i=0; i<8; i++) {
         if (this->address[i] != NULL) {
@@ -89,8 +89,8 @@ class Menu:public Program {
         }
       }
 
-      this->menuAddress = this->getMenuAddress(); //menu.address = 
-      this->menuPath = this->getMenuPath(); //menu.path =
+      this->addressPath = this->getAddressPath();
+      this->segmentsPath = this->getSegmentsPath();
     }
 
     void populateOptions() {
@@ -150,8 +150,8 @@ class Menu:public Program {
 
         if (this->pathChanged) {
           Surface * surface = & surfaces[0];
-          this->menuAddress = this->getMenuAddress();
-          this->menuPath = this->getMenuPath();
+          this->addressPath = this->getAddressPath();
+          this->segmentsPath = this->getSegmentsPath();
         }
       }
     }
@@ -238,8 +238,8 @@ class Menu:public Program {
         }
       }
 
-      this->menuAddress = this->getMenuAddress();
-      this->menuPath = this->getMenuPath();
+      this->addressPath = this->getAddressPath();
+      this->segmentsPath = this->getSegmentsPath();
     }
 
     void reactToKeypadAction() {
@@ -261,8 +261,8 @@ class Menu:public Program {
         }
       }
 
-      this->menuAddress = this->getMenuAddress();
-      this->menuPath = this->getMenuPath();
+      this->addressPath = this->getAddressPath();
+      this->segmentsPath = this->getSegmentsPath();
     }
 
     boolean mainMenuHovered() {
@@ -347,8 +347,8 @@ class Menu:public Program {
         cursorX = surface->getRelativeX();
         cursorY = surface->getRelativeY() - int(surface->getRelativeY() / screen.height);
       }
-      screen.drawMenuAddress(menuAddress);
-      screen.drawMenuPath(menuPath, cursorX, cursorY);
+      screen.drawMenuAddress(addressPath);
+      screen.drawMenuPath(segmentsPath, cursorX, cursorY);
     }
 
     void drawOptions() {
