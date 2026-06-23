@@ -11,6 +11,8 @@ class Device {
 
     void virtual tick(void);
 
+    double virtual read(String);
+
     boolean orientationChanged;
     String orientation;
 
@@ -28,3 +30,4 @@ Device::Device() {}
 
 void Device::init() {}
 void Device::tick() {}
+double Device::read(String) {}

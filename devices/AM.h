@@ -57,6 +57,17 @@ class AM: public Device {
       }
     }
 
+    double read(String field) {
+      if (field == "x") return this->x;
+      if (field == "y") return this->y;
+      if (field == "previousX") return this->previousX;
+      if (field == "previousY") return this->previousY;
+    }
+
+    double getY() {
+      return this->y;
+    }
+
   AM() {}
 
   AM(int address) {

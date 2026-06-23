@@ -167,14 +167,14 @@ class Batterfly:public Program {
         }
 
         void updateStars() {
-            double diffX = accelerometer.x - accelerometer.previousX;
-            double diffY = accelerometer.y - accelerometer.previousY;
+            double diffX = devices[0]->read("x") - devices[0]->read("previousX");
+            double diffY = devices[0]->read("y") - devices[0]->read("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 Surface * surface = & surfaces[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     Star & star = this->stars[s];
-                    star.x = star.originalX + accelerometer.x * 100;
-                    star.y = star.originalY + accelerometer.y * 100;
+                    star.x = star.originalX + devices[0]->read("x") * 100;
+                    star.y = star.originalY + devices[0]->read("y") * 100;
                     channels[surface->channel].ports[star.port].screen.needsRefresh = true;
                 }
             }
@@ -259,8 +259,8 @@ class Batterfly:public Program {
 
         void updateBatterfly() {
             Surface * surface = & surfaces[this->surfaceIndex];
-            this->vectorX = accelerometer.x * 10;
-            this->vectorY = accelerometer.y * 10;
+            this->vectorX = devices[0]->read("x") * 10;
+            this->vectorY = devices[0]->read("y") * 10;
             channels[surface->channel].ports[surface->pointerPort].screen.needsRefresh = true;
         }
 

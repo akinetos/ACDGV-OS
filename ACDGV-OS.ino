@@ -57,27 +57,19 @@ Transition transition = Transition();
 Menu menu;
 
 #include "./devices/AM.h";
-AM accelerometer = AM(0x1D);
-
 #include "./devices/GV.h";
-GV gv = GV();
-
 #include "./devices/HRS.h";
-HRS hrs = HRS(0x57);
-
 #include "./devices/RE.h";
-RE re = RE(0x55);
-
 #include "./devices/Gamepad.h";
-Gamepad gamepad = Gamepad(0x51);
-
 #include "./devices/Keypad.h";
-Keypad keypad = Keypad();
-
 #include "./devices/GD.h";
-GD gd = GD();
-
 #include "./devices/NFC.h";
+
+HRS hrs = HRS(0x57);
+RE re = RE(0x55);
+Keypad keypad = Keypad();
+GD gd = GD();
+GV gv = GV();
 NFCDevice nfcDevice = NFCDevice();
 
 #include "./programs/Batterfly.h";
@@ -104,11 +96,11 @@ void setup() {
   for (int i = 0; i < channelsCount; i++)
     channels[i].init(i);
 
-  devices[0] = &accelerometer;
+  devices[0] = new AM(0x1D);
   devices[1] = &gv;
   devices[2] = &hrs;
   devices[3] = &re;
-  devices[4] = &gamepad;
+  devices[4] = new Gamepad(0x51);
   devices[5] = &keypad;
   devices[6] = &gd;
   devices[7] = &nfcDevice;
