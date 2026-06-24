@@ -6,7 +6,6 @@ class Menu {
 
     String segmentsPath = "";
     String addressPath = "";
-    boolean hasOptions = false;
     int optionsCount = 0;
 
     boolean show = true;
@@ -385,7 +384,6 @@ class Menu {
       } else {
         this->optionsCount = 0;
       }
-      this->hasOptions = this->optionsCount > 0;
 
       if (version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {

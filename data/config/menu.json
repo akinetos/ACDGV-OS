@@ -24,6 +24,10 @@
 			["animacje",[[],
 				["animacja 1",[],["run","vv",4]],
 				["animacja 2",[],["run","vv",5]]
+			],["run","vv"]],
+			["gamepad",[[],
+				["wartosc",[],["run","vv",6]],
+				["przesuniecie",[],["run","vv",7]]
 			],["run","vv"]]
 		],["run","vv"]]
 	]],
