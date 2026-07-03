@@ -294,7 +294,7 @@ class Menu {
 
       if (this->show) {
         if (surface->pointerPort > 0) {
-          channels[0].ports[0].screen.printText(segments[level]);
+          channels[0].ports[0].screen.printLargestText(segments[level]);
         } else {
           this->drawPath(0);
         }

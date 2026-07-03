@@ -203,6 +203,26 @@ class OLED: public Device {
       this->needsRefresh = true;
     }
 
+    void printLargestText(String message) {
+      const int length = message.length();
+      this->textSize = 4;
+      this->setTextSize();
+      if (this->type == "ssd1306") {
+        this->ssd1306.setCursor(this->textScroll, 0);
+        this->ssd1306.setTextColor(SSD1306_WHITE);
+        this->ssd1306.setTextWrap(false);
+        this->ssd1306.print(message);
+      }
+
+      int letterWidth = 24;
+      this->textScrollLimit = this->width - length * letterWidth;
+      this->textScroll--;
+      if (this->textScroll < this->textScrollLimit) {
+        this->textScroll = 0;
+      }
+      this->needsRefresh = true;
+    }
+
     void printText(String message) {
       const int length = message.length();
       this->textSize = 2;

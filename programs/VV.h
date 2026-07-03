@@ -23,6 +23,7 @@ class VV:public Program {
     boolean screensUpdated[8];
 
     boolean messageHandled = false;
+    String nfcTag = "";
 
     void init() {
       this->cRe = 0.22;
@@ -111,9 +112,40 @@ class VV:public Program {
         this->compute();
 
         channels[0].ports[0].screen.needsRefresh = true;
+
+        if (this->option == 2) {
+          action = "nfc read";
+          this->option = 0;
+        }
+
+        if (this->option == 3) {
+          String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
+          nfcDevice.content = content;
+          action = "nfc write";
+          this->option = 0;
+        }
         
         if (nfcDevice.message != "") {
           channels[0].ports[7].screen.needsRefresh = true;
+          this->nfcTag = nfcDevice.message;
+          nfcDevice.message = "";
+          JsonArray & point = this->load(this->nfcTag);
+          String re = point[0];
+          String im = point[1];
+          this->cRe = re.toFloat();
+          this->cIm = im.toFloat();
+        }
+
+        if (devices[5]->shortPress) {
+          char button = devices[5]->buttonPressed;
+          if (button != '*' && button != '#') {
+            int index = button - 48;
+            if (index == 1) {
+              String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
+              nfcDevice.content = content;
+              action = "nfc write";
+            }
+          }
         }
       }
     }
@@ -135,17 +167,9 @@ class VV:public Program {
               }
             }
 
-            if (nfcDevice.message != "") {
+            if (this->nfcTag != "") {
               OLED & screen = channels[0].ports[7].screen;
-              if (!this->messageHandled) {
-                JsonArray & point = this->load(nfcDevice.message);
-                String re = point[0];
-                String im = point[1];
-                this->cRe = re.toFloat();
-                this->cIm = im.toFloat();
-                this->messageHandled = true;
-              }
-              screen.printText(nfcDevice.message);
+              screen.printText(this->nfcTag);
             }
           }
 
@@ -153,30 +177,6 @@ class VV:public Program {
             for (int i=0; i<this->computedPoints; i++) {
               if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
                 surface->drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
-              }
-            }
-          }
-
-          if (this->option == 2) {
-            action = "nfc read";
-            this->option = 0;
-          }
-
-          if (this->option == 3) {
-            String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-            nfcDevice.content = content;
-            action = "nfc write";
-            this->option = 0;
-          }
-
-          if (devices[5]->shortPress) {
-            char button = devices[5]->buttonPressed;
-            if (button != '*' && button != '#') {
-              int index = button - 48;
-              if (index == 1) {
-                String content = "[[2,5],[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]]";
-                nfcDevice.content = content;
-                action = "nfc write";
               }
             }
           }
