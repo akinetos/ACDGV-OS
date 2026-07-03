@@ -126,7 +126,6 @@ class VV:public Program {
         }
         
         if (nfcDevice.message != "") {
-          channels[0].ports[7].screen.needsRefresh = true;
           this->nfcTag = nfcDevice.message;
           nfcDevice.message = "";
           JsonArray & point = this->load(this->nfcTag);
@@ -146,6 +145,10 @@ class VV:public Program {
               action = "nfc write";
             }
           }
+        }
+
+        if (this->nfcTag != "") {
+          channels[0].ports[7].screen.needsRefresh = true;
         }
       }
     }
