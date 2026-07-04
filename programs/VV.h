@@ -102,10 +102,8 @@ class VV:public Program {
           Surface * surface = & surfaces[0];
           if (this->move) {
             surface->showPointer = false;
-            menu.show = false;
           } else {
             surface->showPointer = true;
-            menu.show = true;
           }
         }
 
@@ -197,14 +195,12 @@ class VV:public Program {
 
     void drawProgress() {
       OLED & screen = channels[0].ports[0].screen;
-      screen.ssd1306.setCursor(64, 4);
-      screen.ssd1306.setTextColor(SSD1306_WHITE);
-      screen.ssd1306.setTextWrap(false);
-      if (this->move) {
-        screen.ssd1306.print(String((int)this->xOffset) + "/" + String((int)this->yOffset));
-      } else {
-        screen.ssd1306.print(String(this->cRe + this->offsetRe) + "/" + String(this->cIm + this->offsetIm));
-      }
+      screen.ssd1306.setCursor(50, 0);
+      screen.ssd1306.print(String(this->cRe) + "," + String(this->cIm));
+      screen.ssd1306.setCursor(50, 9);
+      screen.ssd1306.print(String(this->offsetRe) + "," + String(this->offsetIm));
+      screen.ssd1306.setCursor(50, 18);
+      screen.ssd1306.print(String(this->xOffset) + "," + String(this->yOffset));
     }
 
   VV() {
