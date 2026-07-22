@@ -56,11 +56,11 @@ class VV:public Program {
       this->offsetIm = devices[0]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (devices[4]->x < -0.01 || devices[4]->x > 0.01) {
-          xOffset -= devices[4]->x * 10;
+        if (devices[4]->readNumber("x") < -0.01 || devices[4]->readNumber("x") > 0.01) {
+          xOffset -= devices[4]->readNumber("x") * 10;
         }
-        if (devices[4]->y < -0.01 || devices[4]->y > 0.01) {
-          yOffset -= devices[4]->y * 10;
+        if (devices[4]->readNumber("y") < -0.01 || devices[4]->readNumber("y") > 0.01) {
+          yOffset -= devices[4]->readNumber("y") * 10;
         }
       }
 

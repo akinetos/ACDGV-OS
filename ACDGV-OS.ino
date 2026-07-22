@@ -129,7 +129,7 @@ void loop() {
     devices[i]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].tick(devices[4]);
+    surfaces[i].tick();
 
   menu.tick();
   transition.tick();

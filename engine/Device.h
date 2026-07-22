@@ -16,10 +16,6 @@ class Device {
     boolean orientationChanged;
     String orientation;
 
-    double x;
-    double y;
-    double z;
-
     int position = 0;
 
     boolean shortPress = false;

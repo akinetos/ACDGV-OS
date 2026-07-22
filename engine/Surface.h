@@ -106,9 +106,9 @@ class Surface {
       return this->pointerPreviousPort != this->pointerPort;
     }
 
-    void tick(Device * controller) {
+    void tick() {
       if (this->facingUp && this->showPointer) {
-        this->updatePointer(controller->x, controller->y);
+        this->updatePointer(devices[4]->readNumber("x"), devices[4]->readNumber("y"));
       }
       if (devices[0]->orientationChanged) {
         this->handleOrientationChange(devices[0]->orientation);

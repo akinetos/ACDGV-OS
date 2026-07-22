@@ -4,6 +4,9 @@ class Gamepad: public Device {
     int buttonApressedTime = 0;
     int time = 0;
     int connectionAttempts = 0;
+
+    double x;
+    double y;
   
     void init() {
       this->connected = this->device.begin(this->address);
@@ -48,4 +51,9 @@ class Gamepad: public Device {
   Gamepad(int address) {
     this->address = address;
   }
+
+  double readNumber(String field) {
+      if (field == "x") return this->x;
+      if (field == "y") return this->y;
+    }
 };
