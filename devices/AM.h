@@ -57,7 +57,7 @@ class AM: public Device {
       }
     }
 
-    double read(String field) {
+    double readNumber(String field) {
       if (field == "x") return this->x;
       if (field == "y") return this->y;
       if (field == "previousX") return this->previousX;
