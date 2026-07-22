@@ -24,8 +24,6 @@ int activeProgram = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
-#include "./engine/Pixel.h";
-
 #include "./engine/Storage.h";
 Storage storage = Storage();
 
@@ -35,13 +33,10 @@ I2C i2c = I2C();
 #include "./engine/Program.h";
 Program * programs[programsCount];
 
-boolean anyProgramActive() {
-  return activeProgram != -1;
-}
-
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 
+#include "./engine/Pixel.h";
 #include "./engine/OLED.h";
 #include "./engine/Port.h";
 #include "./engine/Channel.h";

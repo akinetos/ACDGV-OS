@@ -98,7 +98,7 @@ class Menu {
     }
 
     void closeProgram() {
-      if (anyProgramActive()) {
+      if (activeProgram != -1) {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
@@ -112,7 +112,7 @@ class Menu {
       this->level--;
       this->changed = true;
       
-      if (anyProgramActive()) {
+      if (activeProgram != -1) {
         if (this->level < programs[activeProgram]->menuLevel) {
           this->closeProgram();
         }
