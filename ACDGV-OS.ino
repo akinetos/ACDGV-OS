@@ -65,7 +65,6 @@ RE re = RE(0x55);
 Keypad keypad = Keypad();
 GD gd = GD();
 GV gv = GV();
-NFCDevice nfcDevice = NFCDevice();
 
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
@@ -92,13 +91,13 @@ void setup() {
     channels[i].init(i);
 
   devices[0] = new AM(0x1D);
-  devices[1] = &gv;
-  devices[2] = &hrs;
-  devices[3] = &re;
-  devices[4] = new Gamepad(0x51);
-  devices[5] = &keypad;
-  devices[6] = &gd;
-  devices[7] = &nfcDevice;
+  devices[1] = new Gamepad(0x51);
+  devices[2] = new NFCDevice();
+  devices[3] = &gv;
+  devices[4] = &hrs;
+  devices[5] = &re;
+  devices[6] = &keypad;
+  devices[7] = &gd;
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
 

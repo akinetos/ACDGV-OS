@@ -13,6 +13,10 @@ class Device {
 
     double virtual readNumber(String);
 
+    String virtual readString(String);
+
+    void virtual writeString(String, String);
+
     boolean orientationChanged;
     String orientation;
 
@@ -27,3 +31,5 @@ Device::Device() {}
 void Device::init() {}
 void Device::tick() {}
 double Device::readNumber(String) {}
+String Device::readString(String) {}
+void Device::writeString(String, String) {}

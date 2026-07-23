@@ -56,11 +56,11 @@ class VV:public Program {
       this->offsetIm = devices[0]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (devices[4]->readNumber("x") < -0.01 || devices[4]->readNumber("x") > 0.01) {
-          xOffset -= devices[4]->readNumber("x") * 10;
+        if (devices[1]->readNumber("x") < -0.01 || devices[1]->readNumber("x") > 0.01) {
+          xOffset -= devices[1]->readNumber("x") * 10;
         }
-        if (devices[4]->readNumber("y") < -0.01 || devices[4]->readNumber("y") > 0.01) {
-          yOffset -= devices[4]->readNumber("y") * 10;
+        if (devices[1]->readNumber("y") < -0.01 || devices[1]->readNumber("y") > 0.01) {
+          yOffset -= devices[1]->readNumber("y") * 10;
         }
       }
 
@@ -97,7 +97,7 @@ class VV:public Program {
 
     void tick() {
       if (this->active) {
-        if (devices[4]->longPress) {
+        if (devices[1]->longPress) {
           this->move = !this->move;
           Surface * surface = & surfaces[0];
           if (this->move) {
@@ -118,14 +118,14 @@ class VV:public Program {
 
         if (this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          nfcDevice.content = content;
+          devices[2]->writeString("content", content);
           action = "nfc write";
           this->option = 0;
         }
         
-        if (nfcDevice.message != "") {
-          this->nfcTag = nfcDevice.message;
-          nfcDevice.message = "";
+        if (devices[2]->readString("message") != "") {
+          this->nfcTag = devices[2]->readString("message");
+          devices[2]->writeString("message", "");
           JsonArray & point = this->load(this->nfcTag);
           String re = point[0];
           String im = point[1];
@@ -139,7 +139,7 @@ class VV:public Program {
             int index = button - 48;
             if (index == 1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-              nfcDevice.content = content;
+              devices[2]->writeString("content", content);
               action = "nfc write";
             }
           }

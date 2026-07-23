@@ -51,14 +51,32 @@ class NFCDevice: public Device {
     void tick() {
         if (action == "nfc read" && !this->reading) {
             action = "";
-            delay(1000);
             this->read();
         }
 
         if (action == "nfc write" && !this->reading) {
             action = "";
-            delay(1000);
             this->write();
+        }
+    }
+
+    void writeString(String field, String value) {
+        if (field == "content") {
+            this->content = value;
+        }
+
+        if (field == "message") {
+            this->message = value;
+        }
+    }
+
+    String readString(String field) {
+        if (field == "content") {
+            return this->content;
+        }
+
+        if (field == "message") {
+            return this->message;
         }
     }
 

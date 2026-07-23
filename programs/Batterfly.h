@@ -231,7 +231,7 @@ class Batterfly:public Program {
                 this->scoresChanged = false;
 
                 int radius = 2;
-                if (devices[4]->shortPress) {
+                if (devices[1]->shortPress) {
                     p07.screen.sh1106.fillCircle(20, 50, 12, SH110X_WHITE);
                     p07.screen.sh1106.fillCircle(20 - (int)(p07.devices[0]->x * 20), 50 - (int)(p07.devices[0]->y * 20), radius, SH110X_BLACK);
                 } else {
@@ -280,7 +280,7 @@ class Batterfly:public Program {
             
             int index = -1;
             if (
-                devices[4]->shortPress && 
+                devices[1]->shortPress && 
                 surface->pointerPort > 0 && 
                 (millis() - this->activatedTimestamp) > 1000
             ) {

@@ -108,12 +108,12 @@ class Surface {
 
     void tick() {
       if (this->facingUp && this->showPointer) {
-        this->updatePointer(devices[4]->readNumber("x"), devices[4]->readNumber("y"));
+        this->updatePointer(devices[1]->readNumber("x"), devices[1]->readNumber("y"));
       }
       if (devices[0]->orientationChanged) {
         this->handleOrientationChange(devices[0]->orientation);
       }
-      if (devices[4]->shortPress || devices[4]->longPress) {
+      if (devices[1]->shortPress || devices[1]->longPress) {
         this->animatePointerTime = millis();
       }
     }

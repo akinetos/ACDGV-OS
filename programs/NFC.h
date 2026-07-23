@@ -10,7 +10,7 @@ class NFCProgram:public Program {
 
       void tick() {
         if (this->active) {
-          channels[0].ports[7].screen.printText(nfcDevice.message);
+          channels[0].ports[7].screen.printText(devices[2]->readString("message"));
         }
       }
 
@@ -19,11 +19,11 @@ class NFCProgram:public Program {
           action = "nfc read";
         }
         if (option == 2) {
-          nfcDevice.content = "ERAZM";
+          devices[2]->writeString("content", "ERAZM");
           action = "nfc write";
         }
         if (option == 3) {
-          nfcDevice.content = "FELIKS";
+          devices[2]->writeString("content", "FELIKS");
           action = "nfc write";
         }
       }

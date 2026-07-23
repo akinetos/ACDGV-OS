@@ -126,7 +126,7 @@ class Menu {
         screen.needsRefresh = true;
       }
 
-      if (devices[4]->shortPress && this->mainMenuHovered()) {
+      if (devices[1]->shortPress && this->mainMenuHovered()) {
         this->changed = false;
 
         if (screen.closeButtonHovered) {
@@ -279,7 +279,7 @@ class Menu {
         this->updateOptions();
         this->update();
 
-        if (devices[4]->shortPress) {
+        if (devices[1]->shortPress) {
           this->reactToGamepadAction();
         }
 
