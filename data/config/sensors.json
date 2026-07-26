@@ -1,18 +1,18 @@
 [
 	{
-		"name": "gamepad",
+		"name": "dzojstik",
 		"address": [81]
 	},
 	{
-		"name": "keypad",
+		"name": "klawiatura",
 		"address": [75]
 	},
 	{
-		"name": "accelerometer",
+		"name": "akcelerometr",
 		"address": [29, 83]
 	},
 	{
-		"name": "gesture",
+		"name": "czujnik gestow",
 		"address": [115]
 	},
 	{
@@ -20,7 +20,11 @@
 		"address": [36]
 	},
 	{
-		"name": "voice",
+		"name": "mikrofon",
 		"address": [100]
+	},
+	{
+		"name": "czujnik odleglosci",
+		"address": [41]
 	}
 ]

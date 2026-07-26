@@ -11,9 +11,10 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
+#include <Adafruit_VL53L0X.h>
 
 const String version = "8";
-const int devicesCount = 8;
+const int devicesCount = 9;
 const int programsCount = 9;
 
 int transitionType = 0;
@@ -59,12 +60,14 @@ Menu menu;
 #include "./devices/Keypad.h";
 #include "./devices/GD.h";
 #include "./devices/NFC.h";
+#include "./devices/DistanceSensor.h";
 
 HRS hrs = HRS(0x57);
 RE re = RE(0x55);
 Keypad keypad = Keypad();
 GD gd = GD();
 GV gv = GV();
+DistanceSensor ds = DistanceSensor();
 
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
@@ -98,8 +101,9 @@ void setup() {
   devices[5] = &re;
   devices[6] = &keypad;
   devices[7] = &gd;
+  devices[8] = &ds;
   for (int i = 0; i < devicesCount; i++)
-    devices[i]->init();
+    devices[i]->init(); 
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
