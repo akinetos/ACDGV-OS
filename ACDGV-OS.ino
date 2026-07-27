@@ -79,6 +79,8 @@ DistanceSensor ds = DistanceSensor();
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
 
+//Adafruit_VL53L0X distanceSensor = Adafruit_VL53L0X();
+
 void setup() {
   Serial.begin(9600);
   storage.init();
@@ -103,7 +105,9 @@ void setup() {
   devices[7] = &gd;
   devices[8] = &ds;
   for (int i = 0; i < devicesCount; i++)
-    devices[i]->init(); 
+    devices[i]->init();
+
+  //distanceSensor.begin();
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
@@ -124,10 +128,31 @@ void setup() {
 
   transition = Transition();
 
+delay(100);
   menu.init();
 }
 
 void loop() {
+  // Start single measurement
+  Wire.beginTransmission(0x29);
+  Wire.write(0x00); // SYSRANGE_START register
+  Wire.write(0x01); // Data / start command
+  Wire.endTransmission();
+
+  // Read range result high and low byte from 0x1E
+  Wire.beginTransmission(0x29);
+  Wire.write(0x1E);
+  Wire.endTransmission(false);
+  
+  Wire.requestFrom(0x29, 2);
+  if (Wire.available() >= 2) {
+    int highByte = Wire.read();
+    int lowByte = Wire.read();
+    int distance = (highByte << 8) | lowByte;
+    Serial.print("Distance (mm): ");
+    Serial.println(distance);
+  }
+  
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
 
