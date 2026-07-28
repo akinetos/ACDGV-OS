@@ -11,7 +11,6 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
-#include <Adafruit_VL53L0X.h>
 
 const String version = "8";
 const int devicesCount = 9;
@@ -67,7 +66,6 @@ RE re = RE(0x55);
 Keypad keypad = Keypad();
 GD gd = GD();
 GV gv = GV();
-DistanceSensor ds = DistanceSensor();
 
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
@@ -78,8 +76,6 @@ DistanceSensor ds = DistanceSensor();
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
-
-//Adafruit_VL53L0X distanceSensor = Adafruit_VL53L0X();
 
 void setup() {
   Serial.begin(9600);
@@ -103,11 +99,9 @@ void setup() {
   devices[5] = &re;
   devices[6] = &keypad;
   devices[7] = &gd;
-  devices[8] = &ds;
+  devices[8] = new DistanceSensor(0x29);
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
-
-  //distanceSensor.begin();
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
@@ -128,31 +122,10 @@ void setup() {
 
   transition = Transition();
 
-delay(100);
   menu.init();
 }
 
 void loop() {
-  // Start single measurement
-  Wire.beginTransmission(0x29);
-  Wire.write(0x00); // SYSRANGE_START register
-  Wire.write(0x01); // Data / start command
-  Wire.endTransmission();
-
-  // Read range result high and low byte from 0x1E
-  Wire.beginTransmission(0x29);
-  Wire.write(0x1E);
-  Wire.endTransmission(false);
-  
-  Wire.requestFrom(0x29, 2);
-  if (Wire.available() >= 2) {
-    int highByte = Wire.read();
-    int lowByte = Wire.read();
-    int distance = (highByte << 8) | lowByte;
-    Serial.print("Distance (mm): ");
-    Serial.println(distance);
-  }
-  
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
 

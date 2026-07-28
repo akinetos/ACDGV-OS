@@ -64,6 +64,7 @@ class Gravity:public Program {
 
           this->port = (int)(this->y / 32);
           channels[0].ports[port].screen.needsRefresh = true;
+          channels[0].ports[7].screen.clear();
         }
       }
 
@@ -82,6 +83,9 @@ class Gravity:public Program {
             this->previousPort = this->port;
           }
           surface->drawCircle(this->x, this->y, 20);
+
+          double distance = devices[8]->readNumber("distance");
+          channels[0].ports[7].screen.printText((String)distance);
         }
       }
 

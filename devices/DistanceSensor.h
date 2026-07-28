@@ -1,29 +1,28 @@
 class DistanceSensor: public Device {
   public:
-    Adafruit_VL53L0X device;
     int distance = 0;
     int previousDistance = 0;
-    boolean polaczone = false;
   
-    void init() {
-      this->device = Adafruit_VL53L0X();
-      //this->device.begin();
-    }
+    void init() {}
   
     void tick() {
-      /*
-      this->changed = false;
-      this->previousDistance = this->distance;
-      VL53L0X_RangingMeasurementData_t measure;
-      this->device.rangingTest(&measure, false);
-      if (measure.RangeStatus != 4) {
-        this->distance = measure.RangeMilliMeter;
-        if (this->distance != this->previousDistance) {
-          this->changed = true;
-          Serial.println(this->distance);
-        }
+      // Start single measurement
+      Wire.beginTransmission(this->address);
+      Wire.write(0x00); // SYSRANGE_START register
+      Wire.write(0x01); // Data / start command
+      Wire.endTransmission();
+
+      // Read range result high and low byte from 0x1E
+      Wire.beginTransmission(this->address);
+      Wire.write(0x1E);
+      Wire.endTransmission(false);
+      
+      Wire.requestFrom(this->address, 2);
+      if (Wire.available() >= 2) {
+        int highByte = Wire.read();
+        int lowByte = Wire.read();
+        this->distance = (highByte << 8) | lowByte;
       }
-      */
     }
 
     double readNumber(String parameter) {
@@ -34,5 +33,7 @@ class DistanceSensor: public Device {
       return output;
     }
 
-  DistanceSensor() {}
+  DistanceSensor(int address) {
+    this->address = address;
+  }
 };
