@@ -13,7 +13,7 @@
 #include <NfcAdapter.h>
 
 const String version = "8";
-const int devicesCount = 9;
+const int devicesCount = 8;
 const int programsCount = 9;
 
 int transitionType = 0;
@@ -99,9 +99,9 @@ void setup() {
   devices[5] = &re;
   devices[6] = &keypad;
   devices[7] = &gd;
-  devices[8] = new DistanceSensor(0x29);
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
+  channels[0].ports[7].devices[0] = new DistanceSensor(0x29);
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
@@ -128,6 +128,7 @@ void setup() {
 void loop() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
+  channels[0].ports[7].devices[0]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick();

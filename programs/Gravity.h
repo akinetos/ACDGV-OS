@@ -84,7 +84,7 @@ class Gravity:public Program {
           }
           surface->drawCircle(this->x, this->y, 20);
 
-          double distance = devices[8]->readNumber("distance");
+          double distance = channels[0].ports[7].devices[0]->readNumber("distance");
           channels[0].ports[7].screen.printText((String)distance);
         }
       }
