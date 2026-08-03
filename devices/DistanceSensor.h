@@ -22,7 +22,6 @@ class DistanceSensor: public Device {
         int highByte = Wire.read();
         int lowByte = Wire.read();
         this->distance = (highByte << 8) | lowByte;
-        Serial.println((String)this->distance);
       }
     }
 

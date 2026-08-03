@@ -178,7 +178,9 @@ class Logo:public Program {
 		this->initialised = true;
 	}
 
-	void tick() {}
+	void tick() {
+		channels[0].ports[7].screen.needsRefresh = true;
+	}
 	
     void draw() {
 		/*
@@ -225,8 +227,18 @@ class Logo:public Program {
 				*/
 
 				for (int i=0; i<5; i++) {
-					channels[s8x1->channel].ports[i+3].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
-					channels[s8x1->channel].ports[i+3].screen.needsRefresh = true;
+					channels[s8x1->channel].ports[i+1].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
+					channels[s8x1->channel].ports[i+1].screen.needsRefresh = true;
+				}
+
+				double distance = channels[0].ports[7].devices[0]->readNumber("distance");
+				Serial.print("distance: "); 
+				Serial.println((String)distance);
+
+				for (int x=0; x<128; x+=5) {
+					if (x < distance) {
+						channels[0].ports[7].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
+					}
 				}
 			}
 		}

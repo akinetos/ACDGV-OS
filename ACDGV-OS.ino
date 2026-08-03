@@ -20,7 +20,7 @@ int transitionType = 0;
 String action = "";
 int channelsCount;
 int surfacesCount;
-int activeProgram = -1;
+int activeProgram = 3;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -123,6 +123,11 @@ void setup() {
   transition = Transition();
 
   menu.init();
+
+  if (activeProgram > -1) {
+    programs[activeProgram]->init();
+    programs[activeProgram]->activate();
+  }
 }
 
 void loop() {
