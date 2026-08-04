@@ -14,13 +14,13 @@
 
 const String version = "8";
 const int devicesCount = 8;
-const int programsCount = 9;
+const int programsCount = 10;
 
 int transitionType = 0;
 String action = "";
 int channelsCount;
 int surfacesCount;
-int activeProgram = 3;
+int activeProgram = 9;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -76,6 +76,7 @@ GV gv = GV();
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
+#include "./programs/Skaner3d.h";
 
 void setup() {
   Serial.begin(9600);
@@ -101,8 +102,10 @@ void setup() {
   devices[7] = &gd;
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
-  channels[0].ports[6].devices[0] = new DistanceSensor(0x29);
-  channels[0].ports[7].devices[0] = new DistanceSensor(0x29);
+
+  for (int i = 0; i<8; i++) {
+    channels[0].ports[i].devices[0] = new DistanceSensor(0x29);
+  }
 
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
@@ -120,6 +123,7 @@ void setup() {
   programs[6] = new Contacts();
   programs[7] = new NFCProgram();
   programs[8] = new Battery();
+  programs[9] = new Skaner3d();
 
   transition = Transition();
 
@@ -134,12 +138,11 @@ void setup() {
 void loop() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
-  
-  i2c.activate(0, 6);
-  channels[0].ports[6].devices[0]->tick();
 
-  i2c.activate(0, 7);
-  channels[0].ports[7].devices[0]->tick();
+  for (int i = 0; i < 8; i++) {
+    i2c.activate(0, i);
+    channels[0].ports[i].devices[0]->tick();
+  }
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick();
