@@ -179,6 +179,7 @@ class Logo:public Program {
 	}
 
 	void tick() {
+		channels[0].ports[6].screen.needsRefresh = true;
 		channels[0].ports[7].screen.needsRefresh = true;
 	}
 	
@@ -231,12 +232,14 @@ class Logo:public Program {
 					channels[s8x1->channel].ports[i+1].screen.needsRefresh = true;
 				}
 
-				double distance = channels[0].ports[7].devices[0]->readNumber("distance");
-				Serial.print("distance: "); 
-				Serial.println((String)distance);
+				double distance6 = channels[0].ports[6].devices[0]->readNumber("distance");
+				double distance7 = channels[0].ports[7].devices[0]->readNumber("distance");
 
 				for (int x=0; x<128; x+=5) {
-					if (x < distance) {
+					if (x < distance6) {
+						channels[0].ports[6].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
+					}
+					if (x < distance7) {
 						channels[0].ports[7].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
 					}
 				}

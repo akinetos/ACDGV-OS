@@ -101,6 +101,7 @@ void setup() {
   devices[7] = &gd;
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
+  channels[0].ports[6].devices[0] = new DistanceSensor(0x29);
   channels[0].ports[7].devices[0] = new DistanceSensor(0x29);
 
   surfaces = new Surface[surfacesCount];
@@ -133,6 +134,11 @@ void setup() {
 void loop() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
+  
+  i2c.activate(0, 6);
+  channels[0].ports[6].devices[0]->tick();
+
+  i2c.activate(0, 7);
   channels[0].ports[7].devices[0]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
