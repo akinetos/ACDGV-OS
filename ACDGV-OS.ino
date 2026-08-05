@@ -140,8 +140,7 @@ void loop() {
     devices[i]->tick();
 
   for (int i = 0; i < 8; i++) {
-    i2c.activate(0, i);
-    channels[0].ports[i].devices[0]->tick();
+    channels[0].ports[i].tick();
   }
 
   for (int i = 0; i < surfacesCount; i++)

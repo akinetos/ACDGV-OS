@@ -29,6 +29,11 @@ class Port {
         }
       }
     }
+
+    void tick() {
+      i2c.activate(this->channel, this->number);
+      this->devices[0]->tick();
+    }
     
   Port() {}
 };
