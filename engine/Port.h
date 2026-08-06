@@ -7,17 +7,9 @@ class Port {
     OLED screen = OLED("ssd1306");
     
     void init() {
-      if (this->hasDevices) {
-        /*
-        this->devices[0] = new AM(83);
-        this->devices[1] = new RE(0x54);
-        for (int d = 0; d < 2; d++) {
-          i2c.activate(this->channel, this->number);
-          this->devices[d]->init();
-        }
-        */
-      }
       i2c.activate(this->channel, this->number);
+      this->devices[0] = new DistanceSensor(0x29);
+      this->devices[0]->init();
       this->screen.init(128, 32, "ssd1306");
     }
 

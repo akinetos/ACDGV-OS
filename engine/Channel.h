@@ -45,5 +45,11 @@ class Channel {
       return countChannels;
     }
     
+    void tick() {
+      for (int i=0; i<8; i++) {
+        this->ports[i].tick();
+      }
+    }
+
   Channel() {}
 };

@@ -36,6 +36,16 @@ Program * programs[programsCount];
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 
+#include "./devices/AM.h";
+#include "./devices/GV.h";
+#include "./devices/HRS.h";
+#include "./devices/RE.h";
+#include "./devices/Gamepad.h";
+#include "./devices/Keypad.h";
+#include "./devices/GD.h";
+#include "./devices/NFC.h";
+#include "./devices/DistanceSensor.h";
+
 #include "./engine/Pixel.h";
 #include "./engine/OLED.h";
 #include "./engine/Port.h";
@@ -50,16 +60,6 @@ Transition transition = Transition();
 
 #include "./engine/Menu.h";
 Menu menu;
-
-#include "./devices/AM.h";
-#include "./devices/GV.h";
-#include "./devices/HRS.h";
-#include "./devices/RE.h";
-#include "./devices/Gamepad.h";
-#include "./devices/Keypad.h";
-#include "./devices/GD.h";
-#include "./devices/NFC.h";
-#include "./devices/DistanceSensor.h";
 
 HRS hrs = HRS(0x57);
 RE re = RE(0x55);
@@ -103,10 +103,6 @@ void setup() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->init();
 
-  for (int i = 0; i<8; i++) {
-    channels[0].ports[i].devices[0] = new DistanceSensor(0x29);
-  }
-
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
     Surface * surface = new Surface();
@@ -139,9 +135,8 @@ void loop() {
   for (int i = 0; i < devicesCount; i++)
     devices[i]->tick();
 
-  for (int i = 0; i < 8; i++) {
-    channels[0].ports[i].tick();
-  }
+  for (int i = 0; i < channelsCount; i++)
+    channels[i].tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].tick();
