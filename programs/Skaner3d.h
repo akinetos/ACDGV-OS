@@ -8,15 +8,26 @@ class Skaner3d:public Program {
 
 		void tick() {
 			for (int i=0; i<8; i++) {
-				this->distances[i] = channels[0].ports[i].devices[0]->readNumber("distance");
-				channels[0].ports[i].screen.needsRefresh = true;
+				Port * port = & channels[0].ports[i];
+				double distance = port->devices[0]->readNumber("distance");
+				if (distance != 20 && distance != this->distances[i]) {
+					this->distances[i] = distance;
+					port->screen.needsRefresh = true;
+				}
 			}
 		}
 		
 		void draw() {
-			for (int i=0; i<8; i++)
-				for (int x=0; x<distances[i]; x++)
-					channels[0].ports[i].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
+			for (int i=0; i<8; i++) {
+				OLED * screen = & channels[0].ports[i].screen;
+				if (screen->needsRefresh) {
+					double distance = this->distances[i];
+					for (int x=0; x<distance; x+=2)
+						screen->ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
+					for (int x=distance-5; x<distance; x++)
+						screen->ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
+				}
+			}
 		}
 
 		Skaner3d() {
