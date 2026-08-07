@@ -29,7 +29,8 @@
 				["wartosc",[],["run","vv",6]],
 				["przesuniecie",[],["run","vv",7]]
 			],["run","vv"]]
-		],["run","vv"]]
+		],["run","vv"]],
+		["skaner-3d",[],["run","skaner-3d"]]
 	]],
 	["ustawienia",[[],
 		["tlo",[],["run","settings",1]],

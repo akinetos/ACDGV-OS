@@ -20,7 +20,7 @@ int transitionType = 0;
 String action = "";
 int channelsCount;
 int surfacesCount;
-int activeProgram = 9;
+int activeProgram = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -71,12 +71,13 @@ GV gv = GV();
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
 #include "./programs/Logo.h";
-#include "./programs/Telephone.h";
 #include "./programs/I2c.h";
+#include "./programs/Skaner3d.h";
+
+#include "./programs/Telephone.h";
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
 #include "./programs/Battery.h";
-#include "./programs/Skaner3d.h";
 
 void setup() {
   Serial.begin(9600);
