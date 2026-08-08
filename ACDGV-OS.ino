@@ -73,11 +73,11 @@ GV gv = GV();
 #include "./programs/Logo.h";
 #include "./programs/I2c.h";
 #include "./programs/Skaner3d.h";
+#include "./programs/Battery.h";
 
 #include "./programs/Telephone.h";
 #include "./programs/Contacts.h";
 #include "./programs/NFC.h";
-#include "./programs/Battery.h";
 
 void setup() {
   Serial.begin(9600);

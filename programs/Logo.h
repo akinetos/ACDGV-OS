@@ -178,10 +178,7 @@ class Logo:public Program {
 		this->initialised = true;
 	}
 
-	void tick() {
-		channels[0].ports[6].screen.needsRefresh = true;
-		channels[0].ports[7].screen.needsRefresh = true;
-	}
+	void tick() {}
 	
     void draw() {
 		/*
@@ -230,18 +227,6 @@ class Logo:public Program {
 				for (int i=0; i<5; i++) {
 					channels[s8x1->channel].ports[i+1].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
 					channels[s8x1->channel].ports[i+1].screen.needsRefresh = true;
-				}
-
-				double distance6 = channels[0].ports[6].devices[0]->readNumber("distance");
-				double distance7 = channels[0].ports[7].devices[0]->readNumber("distance");
-
-				for (int x=0; x<128; x+=5) {
-					if (x < distance6) {
-						channels[0].ports[6].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
-					}
-					if (x < distance7) {
-						channels[0].ports[7].screen.ssd1306.drawLine(x,0,x,31,SSD1306_WHITE);
-					}
 				}
 			}
 		}
