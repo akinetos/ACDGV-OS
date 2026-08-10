@@ -14,7 +14,7 @@
 
 const String version = "8";
 const int devicesCount = 8;
-const int programsCount = 10;
+const int programsCount = 8;
 
 int transitionType = 0;
 String action = "";
@@ -74,10 +74,7 @@ GV gv = GV();
 #include "./programs/I2c.h";
 #include "./programs/Skaner3d.h";
 #include "./programs/Battery.h";
-
-#include "./programs/Telephone.h";
 #include "./programs/Contacts.h";
-#include "./programs/NFC.h";
 
 void setup() {
   Serial.begin(9600);
@@ -115,12 +112,10 @@ void setup() {
   programs[1] = new Gravity();
   programs[2] = new VV();
   programs[3] = new Logo();
-  programs[4] = new Telephone();
-  programs[5] = new I2c();
-  programs[6] = new Contacts();
-  programs[7] = new NFCProgram();
-  programs[8] = new Battery();
-  programs[9] = new Skaner3d();
+  programs[4] = new I2c();
+  programs[5] = new Contacts();
+  programs[6] = new Battery();
+  programs[7] = new Skaner3d();
 
   transition = Transition();
 
