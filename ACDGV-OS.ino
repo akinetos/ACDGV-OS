@@ -120,11 +120,6 @@ void setup() {
   transition = Transition();
 
   menu.init();
-
-  if (activeProgram > -1) {
-    programs[activeProgram]->init();
-    programs[activeProgram]->activate();
-  }
 }
 
 void loop() {
