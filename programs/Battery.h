@@ -4,6 +4,7 @@ class Battery:public Program {
         
         void draw() {
             if (this->active) {
+                /*
                 if (gv.changed) {
                     OLED & screen = channels[0].ports[1].screen;
                     screen.lines[0] = (String)gv.voltage;
@@ -13,6 +14,7 @@ class Battery:public Program {
                     screen.optionsCount = 3;
                     screen.printLines();
                 }
+                */
             }
         }
     

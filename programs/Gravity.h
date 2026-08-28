@@ -24,6 +24,7 @@ class Gravity:public Program {
           tiltX += (int)(devices[0]->readNumber("x") * speed);
           tiltY += (int)(devices[0]->readNumber("y") * speed);
 
+          /*
           if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
             if (gd.changed) {
               this->gestureTimestamp = millis();
@@ -35,6 +36,7 @@ class Gravity:public Program {
             if (this->gestureDirection == "lewo") tiltX -= 1;
             if (this->gestureDirection == "prawo") tiltX += 1;
           }
+          */
 
           if (this->bounceX < -0.01 || this->bounceX > 0.01) {
             this->x += this->bounceX;

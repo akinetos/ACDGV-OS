@@ -58,15 +58,6 @@ Surface * surfaces;
 #include "./engine/Transition.h";
 Transition transition = Transition();
 
-#include "./engine/Menu.h";
-Menu menu;
-
-HRS hrs = HRS(0x57);
-RE re = RE(0x55);
-Keypad keypad = Keypad();
-GD gd = GD();
-GV gv = GV();
-
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -75,6 +66,15 @@ GV gv = GV();
 #include "./programs/Skaner3d.h";
 #include "./programs/Battery.h";
 #include "./programs/Contacts.h";
+
+#include "./engine/Menu.h";
+Menu menu;
+
+HRS hrs = HRS(0x57);
+RE re = RE(0x55);
+Keypad keypad = Keypad();
+GD gd = GD();
+GV gv = GV();
 
 void setup() {
   Serial.begin(9600);
