@@ -295,33 +295,15 @@ class Menu {
 
       if (commandType == "run") {
         String programName = command[1];
+        boolean hasOption = command.size() == 3;
+        
         int programIndex = -1;
         for (int i=0; i<lastProgramIndex; i++)
           if (programs[i]->name == programName)
             programIndex = i;
 
-        boolean hasOption = command.size() == 3;
-
-        if (programIndex > -1) {
-          boolean isActive = programs[programIndex]->active;
-
-          if (hasOption) {
-            int optionValue = command[2];
-            programs[programIndex]->setOption(optionValue);
-          }
-
-          if (!isActive) {
-            activeProgram = programIndex;
-            if (!programs[activeProgram]->initialised)
-              programs[activeProgram]->init();
-            programs[activeProgram]->activate();
-          }
-
-          if (programs[programIndex]->menuLevel == -1)
-            programs[programIndex]->menuLevel = this->level + 1;
-        } else {
+        if (programIndex == -1) {
           lastProgramIndex++;
-          programIndex = lastProgramIndex;
           if (programName == "batterfly") {
             programs[lastProgramIndex] = new Batterfly();
           }
@@ -346,18 +328,22 @@ class Menu {
           if (programName == "battery") {
             programs[lastProgramIndex] = new Battery();
           }
-
-          activeProgram = programIndex;
-
-          if (hasOption) {
-            int optionValue = command[2];
-            programs[lastProgramIndex]->setOption(optionValue);
-          }
-
-          programs[activeProgram]->init();
-          programs[activeProgram]->activate();
-          programs[activeProgram]->menuLevel = this->level + 1;
+          programIndex = lastProgramIndex;
         }
+
+        if (!programs[programIndex]->active) {
+          if (!programs[programIndex]->initialised)
+            programs[programIndex]->init();
+          programs[programIndex]->activate();
+          activeProgram = programIndex;
+        }
+
+        if (hasOption) {
+          int optionValue = command[2];
+          programs[programIndex]->setOption(optionValue);
+        }
+        
+        programs[programIndex]->menuLevel = this->level + 1;
       }
     }
 
