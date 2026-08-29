@@ -21,6 +21,7 @@ String action = "";
 int channelsCount;
 int surfacesCount;
 int activeProgram = -1;
+int lastProgramIndex = -1;
 
 DynamicJsonBuffer jsonBuffer;
 
@@ -108,15 +109,6 @@ void setup() {
     surfaces[i] = * surface;
   }
 
-  programs[0] = new Batterfly();
-  programs[1] = new Gravity();
-  programs[2] = new VV();
-  programs[3] = new Logo();
-  programs[4] = new I2c();
-  programs[5] = new Contacts();
-  programs[6] = new Battery();
-  programs[7] = new Skaner3d();
-
   transition = Transition();
 
   menu.init();
@@ -135,13 +127,13 @@ void loop() {
   menu.tick();
   transition.tick();
 
-  for (int i = 0; i < programsCount; i++)
+  for (int i = 0; i <= lastProgramIndex; i++)
     programs[i]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
     surfaces[i].clear();
 
-  for (int i = 0; i < programsCount; i++)
+  for (int i = 0; i <= lastProgramIndex; i++)
     programs[i]->draw();
 
   menu.draw();

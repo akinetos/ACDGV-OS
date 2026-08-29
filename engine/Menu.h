@@ -82,7 +82,7 @@ class Menu {
       }
       this->segments[0] = optionName;
       
-      for (int i=0; i<programsCount; i++) {
+      for (int i=0; i<=lastProgramIndex; i++) {
         if (programs[i]->active) {
           programs[i]->init();
         }
@@ -176,24 +176,6 @@ class Menu {
       if (version == "8") {
         Surface * surface = & surfaces[0];
         this->populate(element[1]);
-
-        int optionsCount = element[1].size();
-        for (int i = 0; i < optionsCount; i++) {
-          boolean hasCommand = element[1][i].size() == 3;
-          if (hasCommand) {
-            String commandType = element[1][i][2][0];
-            if (commandType == "run") {
-              String programName = element[1][i][2][1];
-              int programIndex = -1;
-              for (int i=0; i<programsCount; i++)
-                if (programs[i]->name == programName)
-                  programIndex = i;
-              if (programIndex > -1)
-                if (programs[programIndex]->menuLevel == -1)
-                  programs[programIndex]->menuLevel = this->level + 1;
-            }
-          }
-        }
       } else {
         OLED & screen = channels[0].ports[1].screen;
         screen.populate(element[1]);
@@ -314,12 +296,13 @@ class Menu {
       if (commandType == "run") {
         String programName = command[1];
         int programIndex = -1;
-        for (int i=0; i<programsCount; i++)
+        for (int i=0; i<lastProgramIndex; i++)
           if (programs[i]->name == programName)
             programIndex = i;
-        
+
+        boolean hasOption = command.size() == 3;
+
         if (programIndex > -1) {
-          boolean hasOption = command.size() == 3;
           boolean isActive = programs[programIndex]->active;
 
           if (hasOption) {
@@ -333,6 +316,47 @@ class Menu {
               programs[activeProgram]->init();
             programs[activeProgram]->activate();
           }
+
+          if (programs[programIndex]->menuLevel == -1)
+            programs[programIndex]->menuLevel = this->level + 1;
+        } else {
+          lastProgramIndex++;
+          programIndex = lastProgramIndex;
+          if (programName == "batterfly") {
+            programs[lastProgramIndex] = new Batterfly();
+          }
+          if (programName == "vv") {
+            programs[lastProgramIndex] = new VV();
+          }
+          if (programName == "logo") {
+            programs[lastProgramIndex] = new Logo();
+          }
+          if (programName == "skaner-3d") {
+            programs[lastProgramIndex] = new Skaner3d();
+          }
+          if (programName == "contacts") {
+            programs[lastProgramIndex] = new Contacts();
+          }
+          if (programName == "i2c") {
+            programs[lastProgramIndex] = new I2c();
+          }
+          if (programName == "gravity") {
+            programs[lastProgramIndex] = new Gravity();
+          }
+          if (programName == "battery") {
+            programs[lastProgramIndex] = new Battery();
+          }
+
+          activeProgram = programIndex;
+
+          if (hasOption) {
+            int optionValue = command[2];
+            programs[lastProgramIndex]->setOption(optionValue);
+          }
+
+          programs[activeProgram]->init();
+          programs[activeProgram]->activate();
+          programs[activeProgram]->menuLevel = this->level + 1;
         }
       }
     }
