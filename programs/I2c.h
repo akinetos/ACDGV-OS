@@ -21,12 +21,14 @@ class I2c:public Program {
     }
 
     void prepare() {
-      this->list[0].name = "multiplexer";
+      this->list[0].name = "multiplekser";
       this->list[0].address[0] = 112;
       this->list[0].address[1] = 113;
       this->list[0].address[2] = 114;
+
       this->list[1].name = "OLED";
       this->list[1].address[0] = 60;
+      
       this->knownDevicesCount = 2;
       JsonArray & sensors = storage.load("/config/sensors.json");
       int sensorsCount = sensors.size();

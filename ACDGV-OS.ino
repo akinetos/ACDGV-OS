@@ -92,7 +92,10 @@ void setup() {
     channels[i].init(i);
 
   devices[0] = new AM(0x1D);
-  devices[1] = new Gamepad(0x51);
+  Wire.beginTransmission(0x51);
+  if (Wire.endTransmission() == 0) {
+    devices[1] = new Gamepad(0x51);
+  }
   devices[2] = new NFCDevice();
   devices[3] = &gv;
   devices[4] = &hrs;
