@@ -280,7 +280,7 @@ class Batterfly:public Program {
             
             int index = -1;
             if (
-                devices[1]->shortPress && 
+                devices[deviceIndexGamepad]->shortPress && 
                 surface->pointerPort > 0 && 
                 (millis() - this->activatedTimestamp) > 1000
             ) {

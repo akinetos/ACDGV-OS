@@ -36,6 +36,7 @@ Program * programs[programsCount];
 
 #include "./engine/Device.h";
 Device * devices[devicesCount];
+int deviceIndexGamepad = -1;
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -94,7 +95,8 @@ void setup() {
   devices[0] = new AM(0x1D);
   Wire.beginTransmission(0x51);
   if (Wire.endTransmission() == 0) {
-    devices[1] = new Gamepad(0x51);
+    deviceIndexGamepad = 1;
+    devices[deviceIndexGamepad] = new Gamepad(0x51);
   }
   devices[2] = new NFCDevice();
   devices[3] = &gv;

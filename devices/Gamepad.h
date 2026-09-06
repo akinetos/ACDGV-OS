@@ -20,7 +20,7 @@ class Gamepad: public Device {
     void tick() {
       if (this->connected) {
         this->time = millis();
-        this->x = (512.0 - this->device.analogRead(14)) / 512.0;
+        this->x = (512.0 - this->device.analogRead(14)) / 512.0 * -1;
         this->y = (512.0 - this->device.analogRead(15)) / 512.0;
 
         if (this->device.analogRead(5) == 0) {

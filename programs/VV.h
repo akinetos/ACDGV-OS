@@ -56,11 +56,11 @@ class VV:public Program {
       this->offsetIm = devices[0]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (devices[1]->readNumber("x") < -0.01 || devices[1]->readNumber("x") > 0.01) {
-          xOffset -= devices[1]->readNumber("x") * 10;
+        if (devices[deviceIndexGamepad]->readNumber("x") < -0.01 || devices[deviceIndexGamepad]->readNumber("x") > 0.01) {
+          xOffset -= devices[deviceIndexGamepad]->readNumber("x") * 10;
         }
-        if (devices[1]->readNumber("y") < -0.01 || devices[1]->readNumber("y") > 0.01) {
-          yOffset -= devices[1]->readNumber("y") * 10;
+        if (devices[deviceIndexGamepad]->readNumber("y") < -0.01 || devices[deviceIndexGamepad]->readNumber("y") > 0.01) {
+          yOffset -= devices[deviceIndexGamepad]->readNumber("y") * 10;
         }
       }
 
@@ -97,7 +97,7 @@ class VV:public Program {
 
     void tick() {
       if (this->active) {
-        if (devices[1]->longPress) {
+        if (devices[deviceIndexGamepad]->longPress) {
           this->move = !this->move;
           Surface * surface = & surfaces[0];
           if (this->move) {
