@@ -167,14 +167,14 @@ class Batterfly:public Program {
         }
 
         void updateStars() {
-            double diffX = devices[0]->readNumber("x") - devices[0]->readNumber("previousX");
-            double diffY = devices[0]->readNumber("y") - devices[0]->readNumber("previousY");
+            double diffX = devices[deviceIndexAccelerometer]->readNumber("x") - devices[deviceIndexAccelerometer]->readNumber("previousX");
+            double diffY = devices[deviceIndexAccelerometer]->readNumber("y") - devices[deviceIndexAccelerometer]->readNumber("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 Surface * surface = & surfaces[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     Star & star = this->stars[s];
-                    star.x = star.originalX + devices[0]->readNumber("x") * 100;
-                    star.y = star.originalY + devices[0]->readNumber("y") * 100;
+                    star.x = star.originalX + devices[deviceIndexAccelerometer]->readNumber("x") * 100;
+                    star.y = star.originalY + devices[deviceIndexAccelerometer]->readNumber("y") * 100;
                     channels[surface->channel].ports[star.port].screen.needsRefresh = true;
                 }
             }
@@ -259,8 +259,8 @@ class Batterfly:public Program {
 
         void updateBatterfly() {
             Surface * surface = & surfaces[this->surfaceIndex];
-            this->vectorX = devices[0]->readNumber("x") * 10;
-            this->vectorY = devices[0]->readNumber("y") * 10;
+            this->vectorX = devices[deviceIndexAccelerometer]->readNumber("x") * 10;
+            this->vectorY = devices[deviceIndexAccelerometer]->readNumber("y") * 10;
             channels[surface->channel].ports[surface->pointerPort].screen.needsRefresh = true;
         }
 

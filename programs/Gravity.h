@@ -21,8 +21,8 @@ class Gravity:public Program {
           int tiltX = 0;
           int tiltY = 0;
 
-          tiltX += (int)(devices[0]->readNumber("x") * speed);
-          tiltY += (int)(devices[0]->readNumber("y") * speed);
+          tiltX += (int)(devices[deviceIndexAccelerometer]->readNumber("x") * speed);
+          tiltY += (int)(devices[deviceIndexAccelerometer]->readNumber("y") * speed);
 
           /*
           if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
@@ -86,7 +86,7 @@ class Gravity:public Program {
           }
           surface->drawCircle(this->x, this->y, 20);
 
-          double distance = channels[0].ports[7].devices[0]->readNumber("distance");
+          double distance = channels[0].ports[7].devices[deviceIndexAccelerometer]->readNumber("distance");
           channels[0].ports[7].screen.printText((String)distance);
         }
       }

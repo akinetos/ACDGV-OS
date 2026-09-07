@@ -52,8 +52,8 @@ class VV:public Program {
       this->points[0] = 0;
       this->points[1] = 0;
 
-      this->offsetRe = devices[0]->readNumber("x") / this->precision;
-      this->offsetIm = devices[0]->readNumber("y") / this->precision;
+      this->offsetRe = devices[deviceIndexAccelerometer]->readNumber("x") / this->precision;
+      this->offsetIm = devices[deviceIndexAccelerometer]->readNumber("y") / this->precision;
 
       if (this->move) {
         if (devices[deviceIndexGamepad]->readNumber("x") < -0.01 || devices[deviceIndexGamepad]->readNumber("x") > 0.01) {

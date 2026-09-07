@@ -37,6 +37,7 @@ Program * programs[programsCount];
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
+int deviceIndexAccelerometer = -1;
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -92,12 +93,18 @@ void setup() {
   for (int i = 0; i < channelsCount; i++)
     channels[i].init(i);
 
-  devices[0] = new AM(0x1D);
+  Wire.beginTransmission(0x1D);
+  if (Wire.endTransmission() == 0) {
+    deviceIndexAccelerometer = 0;
+    devices[deviceIndexAccelerometer] = new AM(0x1D);
+  }
+  
   Wire.beginTransmission(0x51);
   if (Wire.endTransmission() == 0) {
     deviceIndexGamepad = 1;
     devices[deviceIndexGamepad] = new Gamepad(0x51);
   }
+  
   devices[2] = new NFCDevice();
   devices[3] = &gv;
   devices[4] = &hrs;

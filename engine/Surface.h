@@ -48,7 +48,7 @@ class Surface {
       this->screenHeight = screenHeight;
       this->channel = channel;
 
-      this->handleOrientationChange(devices[0]->orientation);
+      this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
       if (!this->facingUp) {
         this->turnScreens("off");
       }
@@ -110,8 +110,8 @@ class Surface {
       if (this->facingUp && this->showPointer) {
         this->updatePointer(devices[1]->readNumber("x"), devices[1]->readNumber("y"));
       }
-      if (devices[0]->orientationChanged) {
-        this->handleOrientationChange(devices[0]->orientation);
+      if (devices[deviceIndexAccelerometer]->orientationChanged) {
+        this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
       }
       if (devices[1]->shortPress || devices[1]->longPress) {
         this->animatePointerTime = millis();
