@@ -38,6 +38,7 @@ Program * programs[programsCount];
 Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
+int lastDeviceIndex = -1;
 
 #include "./devices/AM.h";
 #include "./devices/GV.h";
@@ -95,13 +96,15 @@ void setup() {
 
   Wire.beginTransmission(0x1D);
   if (Wire.endTransmission() == 0) {
-    deviceIndexAccelerometer = 0;
+    lastDeviceIndex++;
+    deviceIndexAccelerometer = lastDeviceIndex;
     devices[deviceIndexAccelerometer] = new AM(0x1D);
   }
   
   Wire.beginTransmission(0x51);
   if (Wire.endTransmission() == 0) {
-    deviceIndexGamepad = 1;
+    lastDeviceIndex++;
+    deviceIndexGamepad = lastDeviceIndex;
     devices[deviceIndexGamepad] = new Gamepad(0x51);
   }
   
@@ -111,7 +114,7 @@ void setup() {
   devices[5] = &re;
   devices[6] = &keypad;
   devices[7] = &gd;
-  for (int i = 0; i < devicesCount; i++)
+  for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();
 
   surfaces = new Surface[surfacesCount];
@@ -127,7 +130,7 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i < devicesCount; i++)
+  for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->tick();
 
   for (int i = 0; i < channelsCount; i++)
