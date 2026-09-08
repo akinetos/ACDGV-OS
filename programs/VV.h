@@ -116,16 +116,16 @@ class VV:public Program {
           this->option = 0;
         }
 
-        if (this->option == 3) {
+        if (deviceIndexNfc > -1 && this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          devices[2]->writeString("content", content);
+          devices[deviceIndexNfc]->writeString("content", content);
           action = "nfc write";
           this->option = 0;
         }
         
-        if (devices[2]->readString("message") != "") {
-          this->nfcTag = devices[2]->readString("message");
-          devices[2]->writeString("message", "");
+        if (deviceIndexNfc > -1 && devices[deviceIndexNfc]->readString("message") != "") {
+          this->nfcTag = devices[deviceIndexNfc]->readString("message");
+          devices[deviceIndexNfc]->writeString("message", "");
           JsonArray & point = this->load(this->nfcTag);
           String re = point[0];
           String im = point[1];
@@ -133,13 +133,13 @@ class VV:public Program {
           this->cIm = im.toFloat();
         }
 
-        if (devices[5]->shortPress) {
-          char button = devices[5]->buttonPressed;
+        if (deviceIndexKeypad > -1 && devices[deviceIndexKeypad]->shortPress) {
+          char button = devices[deviceIndexKeypad]->buttonPressed;
           if (button != '*' && button != '#') {
             int index = button - 48;
-            if (index == 1) {
+            if (index == 1 && deviceIndexNfc > -1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-              devices[2]->writeString("content", content);
+              devices[deviceIndexNfc]->writeString("content", content);
               action = "nfc write";
             }
           }

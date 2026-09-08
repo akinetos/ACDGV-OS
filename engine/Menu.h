@@ -126,7 +126,7 @@ class Menu {
         screen.needsRefresh = true;
       }
 
-      if (devices[1]->shortPress && this->mainMenuHovered()) {
+      if (devices[deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
         this->changed = false;
 
         if (screen.closeButtonHovered) {
@@ -227,7 +227,7 @@ class Menu {
       Surface * surface = & surfaces[0];
       JsonArray & element = this->getElement();
       int index;
-      char button = devices[5]->buttonPressed;
+      char button = devices[deviceIndexKeypad]->buttonPressed;
 
       if (button != '*' && button != '#') {
         int index = button - 48;
@@ -261,11 +261,11 @@ class Menu {
         this->updateOptions();
         this->update();
 
-        if (devices[1]->shortPress) {
+        if (deviceIndexGamepad > -1 && devices[deviceIndexGamepad]->shortPress) {
           this->reactToGamepadAction();
         }
 
-        if (devices[5]->shortPress) {
+        if (deviceIndexKeypad > -1 && devices[deviceIndexKeypad]->shortPress) {
           this->reactToKeypadAction();
         }
       }

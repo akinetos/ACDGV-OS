@@ -39,6 +39,7 @@ Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
 int deviceIndexNfc = -1;
+int deviceIndexKeypad = -1;
 int lastDeviceIndex = -1;
 
 #include "./devices/AM.h";
@@ -50,6 +51,11 @@ int lastDeviceIndex = -1;
 #include "./devices/GD.h";
 #include "./devices/NFC.h";
 #include "./devices/DistanceSensor.h";
+
+HRS hrs = HRS(0x57);
+RE re = RE(0x55);
+GD gd = GD();
+GV gv = GV();
 
 #include "./engine/Pixel.h";
 #include "./engine/OLED.h";
@@ -74,12 +80,6 @@ Transition transition = Transition();
 
 #include "./engine/Menu.h";
 Menu menu;
-
-HRS hrs = HRS(0x57);
-RE re = RE(0x55);
-Keypad keypad = Keypad();
-GD gd = GD();
-GV gv = GV();
 
 void setup() {
   Serial.begin(9600);
@@ -115,12 +115,14 @@ void setup() {
     deviceIndexNfc = lastDeviceIndex;
     devices[deviceIndexNfc] = new NFCDevice();
   }
-  
-  devices[3] = &gv;
-  devices[4] = &hrs;
-  devices[5] = &re;
-  devices[6] = &keypad;
-  devices[7] = &gd;
+
+  Wire.beginTransmission(75);
+  if (Wire.endTransmission() == 0) {
+    lastDeviceIndex++;
+    deviceIndexKeypad = lastDeviceIndex;
+    devices[deviceIndexKeypad] = new Keypad();
+  }
+
   for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();
 

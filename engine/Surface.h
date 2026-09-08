@@ -108,12 +108,12 @@ class Surface {
 
     void tick() {
       if (this->facingUp && this->showPointer) {
-        this->updatePointer(devices[1]->readNumber("x"), devices[1]->readNumber("y"));
+        this->updatePointer(devices[deviceIndexGamepad]->readNumber("x"), devices[deviceIndexGamepad]->readNumber("y"));
       }
       if (devices[deviceIndexAccelerometer]->orientationChanged) {
         this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
       }
-      if (devices[1]->shortPress || devices[1]->longPress) {
+      if (devices[deviceIndexGamepad]->shortPress || devices[deviceIndexGamepad]->longPress) {
         this->animatePointerTime = millis();
       }
     }
