@@ -48,10 +48,14 @@ class Surface {
       this->screenHeight = screenHeight;
       this->channel = channel;
 
-      this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
-      if (!this->facingUp) {
+      if (deviceIndexAccelerometer > -1)
+        this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
+      else
+        this->handleOrientationChange("up");
+
+      if (!this->facingUp)
         this->turnScreens("off");
-      }
+
       this->countScreens();
       this->clear();
     }
@@ -107,15 +111,17 @@ class Surface {
     }
 
     void tick() {
-      if (this->facingUp && this->showPointer) {
-        this->updatePointer(devices[deviceIndexGamepad]->readNumber("x"), devices[deviceIndexGamepad]->readNumber("y"));
-      }
-      if (devices[deviceIndexAccelerometer]->orientationChanged) {
-        this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
-      }
-      if (devices[deviceIndexGamepad]->shortPress || devices[deviceIndexGamepad]->longPress) {
-        this->animatePointerTime = millis();
-      }
+      if (deviceIndexGamepad > -1)
+        if (this->facingUp && this->showPointer)
+          this->updatePointer(devices[deviceIndexGamepad]->readNumber("x"), devices[deviceIndexGamepad]->readNumber("y"));
+
+      if (deviceIndexAccelerometer > -1)
+        if (devices[deviceIndexAccelerometer]->orientationChanged)
+          this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
+
+      if (deviceIndexGamepad > -1)
+        if (devices[deviceIndexGamepad]->shortPress || devices[deviceIndexGamepad]->longPress)
+          this->animatePointerTime = millis();
     }
 
     void turnScreens(String state) {

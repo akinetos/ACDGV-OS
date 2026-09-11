@@ -126,31 +126,33 @@ class Menu {
         screen.needsRefresh = true;
       }
 
-      if (devices[deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
-        this->changed = false;
+      if (deviceIndexGamepad > -1) {
+        if (devices[deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
+          this->changed = false;
 
-        if (screen.closeButtonHovered) {
-          if (this->level > 0) {
-            this->close();
-          }
-        } else {
-          if (screen.pathSegmentHovered > -1) {
-            this->level = screen.pathSegmentHovered;
-            for (int i=this->level+1; i < 8; i++) {
-              this->segments[i] = "";
-              this->address[i-1] = NULL;
-              this->changed = true;
+          if (screen.closeButtonHovered) {
+            if (this->level > 0) {
+              this->close();
             }
-            if (this->level < programs[activeProgram]->menuLevel) {
-              this->closeProgram();
+          } else {
+            if (screen.pathSegmentHovered > -1) {
+              this->level = screen.pathSegmentHovered;
+              for (int i=this->level+1; i < 8; i++) {
+                this->segments[i] = "";
+                this->address[i-1] = NULL;
+                this->changed = true;
+              }
+              if (this->level < programs[activeProgram]->menuLevel) {
+                this->closeProgram();
+              }
             }
           }
-        }
 
-        if (this->changed) {
-          Surface * surface = & surfaces[0];
-          this->addressPath = this->getAddressPath();
-          this->segmentsPath = this->getSegmentsPath();
+          if (this->changed) {
+            Surface * surface = & surfaces[0];
+            this->addressPath = this->getAddressPath();
+            this->segmentsPath = this->getSegmentsPath();
+          }
         }
       }
     }
