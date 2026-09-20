@@ -89,6 +89,43 @@ class I2c:public Program {
       }
     }
 
+    void autoconnect() {
+      Wire.beginTransmission(29);
+      if (Wire.endTransmission() == 0) {
+        lastDeviceIndex++;
+        deviceIndexAccelerometer = lastDeviceIndex;
+        devices[deviceIndexAccelerometer] = new AM(29);
+      }
+
+      Wire.beginTransmission(81);
+      if (Wire.endTransmission() == 0) {
+        lastDeviceIndex++;
+        deviceIndexGamepad = lastDeviceIndex;
+        devices[deviceIndexGamepad] = new Gamepad(81);
+      }
+
+      Wire.beginTransmission(36);
+      if (Wire.endTransmission() == 0) {
+        lastDeviceIndex++;
+        deviceIndexNfc = lastDeviceIndex;
+        devices[deviceIndexNfc] = new NFCDevice();
+      }
+
+      Wire.beginTransmission(75);
+      if (Wire.endTransmission() == 0) {
+        lastDeviceIndex++;
+        deviceIndexKeypad = lastDeviceIndex;
+        devices[deviceIndexKeypad] = new Keypad();
+      }
+
+      Wire.beginTransmission(80);
+      if (Wire.endTransmission() == 0) {
+        lastDeviceIndex++;
+        deviceIndexMemory = lastDeviceIndex;
+        devices[deviceIndexMemory] = new Memory();
+      }
+    }
+
   I2c() {
     this->name = "i2c";
   }
