@@ -11,6 +11,7 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
+#include <Adafruit_EEPROM_I2C.h>
 
 const String version = "8";
 const int devicesCount = 8;
@@ -40,22 +41,15 @@ int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
 int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;
+int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
 
 #include "./devices/AM.h";
-#include "./devices/GV.h";
-#include "./devices/HRS.h";
-#include "./devices/RE.h";
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
-#include "./devices/GD.h";
 #include "./devices/NFC.h";
 #include "./devices/DistanceSensor.h";
-
-HRS hrs = HRS(0x57);
-RE re = RE(0x55);
-GD gd = GD();
-GV gv = GV();
+#include "./devices/Memory.h";
 
 #include "./engine/Pixel.h";
 #include "./engine/OLED.h";
@@ -85,7 +79,7 @@ void setup() {
   Serial.begin(9600);
   storage.init();
   i2c.init();
-
+  
   const String path = "/config/surfaces/" + version + ".json";
   JsonArray & config = storage.load(path);
   surfacesCount = config.size();
@@ -121,6 +115,13 @@ void setup() {
     lastDeviceIndex++;
     deviceIndexKeypad = lastDeviceIndex;
     devices[deviceIndexKeypad] = new Keypad();
+  }
+
+  Wire.beginTransmission(80);
+  if (Wire.endTransmission() == 0) {
+    lastDeviceIndex++;
+    deviceIndexMemory = lastDeviceIndex;
+    devices[deviceIndexMemory] = new Memory();
   }
 
   for (int i = 0; i <= lastDeviceIndex; i++)

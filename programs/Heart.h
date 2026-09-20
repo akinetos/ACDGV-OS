@@ -8,6 +8,7 @@ class Heart:public Program {
         }
 
         void tick() {
+            /*
             if (this->active) {
                 Surface * surface = & surfaces[this->surfaceIndex];
                 if (!surface->screensDisabled && hrs.changed) {
@@ -22,6 +23,7 @@ class Heart:public Program {
                     channels[surface->channel].ports[1].screen.needsRefresh = true;
                 }
             }
+            */
         }
     
     Heart() {

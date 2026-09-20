@@ -1,8 +1,7 @@
 ["menu",[[],
 	["gry",[[],
 		["motyl",[],["run","batterfly"]],
-		["grawitacja",[],["run","gravity"]],
-		["rambug",[],["run","rambug"]]
+		["grawitacja",[],["run","gravity"]]
 	]],
 	["programy",[[],
 		["logo",[],["run","logo"]],
@@ -10,6 +9,7 @@
 		["battery",[],["run","battery"]],
 		["kontakty",[[],
 			["Amelia",[],["run","contacts",1]],
+			["Igor",[],["run","contacts",2]],
 			["Feliks",[],["run","contacts",3]]
 		],["run","contacts"]],
 		["VV",[[],

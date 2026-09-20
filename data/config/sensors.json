@@ -26,5 +26,9 @@
 	{
 		"name": "czujnik odleglosci",
 		"address": [41]
+	},
+	{
+		"name": "pamiec 4 KB",
+		"address": [80]
 	}
 ]
