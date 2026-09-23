@@ -22,6 +22,8 @@ Storage storage = Storage();
 #include "./engine/I2C.h";
 I2C i2c = I2C();
 
+#include "./engine/Pixel.h";
+
 const int programsCount = 8;
 #include "./engine/Program.h";
 Program * programs[programsCount];
@@ -43,8 +45,6 @@ int lastDeviceIndex = -1;
 #include "./devices/NFC.h";
 #include "./devices/DistanceSensor.h";
 #include "./devices/Memory.h";
-
-#include "./engine/Pixel.h";
 
 int channelsCount;
 #include "./engine/Channel.h";
@@ -78,15 +78,14 @@ void setup() {
   const String path = "/config/surfaces/" + version + ".json";
   JsonArray & config = storage.load(path);
   surfacesCount = config.size();
-  channelsCount = Channel::count(config);
 
+  channelsCount = Channel::count(config);
   channels = new Channel[channelsCount];
   for (int i = 0; i < channelsCount; i++)
     channels[i].init(i);
 
   Kontrolery * kontrolery = new Kontrolery();
   kontrolery->skanuj();
-
   for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();
 
