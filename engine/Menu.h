@@ -321,8 +321,8 @@ class Menu {
           if (programName == "contacts") {
             programs[lastProgramIndex] = new Contacts();
           }
-          if (programName == "i2c") {
-            programs[lastProgramIndex] = new I2c();
+          if (programName == "Kontrolery") {
+            programs[lastProgramIndex] = new Kontrolery();
           }
           if (programName == "gravity") {
             programs[lastProgramIndex] = new Gravity();

@@ -5,7 +5,7 @@ class item {
   item() {}
 };
 
-class I2c:public Program {
+class Kontrolery:public Program {
   public:
     String foundDevices[10];
     int foundAddresses[10];
@@ -21,12 +21,12 @@ class I2c:public Program {
     }
 
     void prepare() {
-      this->list[0].name = "multiplekser";
+      this->list[0].name = "multiplekser i2c";
       this->list[0].address[0] = 112;
       this->list[0].address[1] = 113;
       this->list[0].address[2] = 114;
 
-      this->list[1].name = "OLED";
+      this->list[1].name = "ekran OLED 128x32";
       this->list[1].address[0] = 60;
       
       this->knownDevicesCount = 2;
@@ -49,7 +49,7 @@ class I2c:public Program {
       for (int address = 8; address < 120; address++) {
         Wire.beginTransmission(address);
         if (Wire.endTransmission() == 0) {
-          String deviceType = "unknown";
+          String deviceType = "nieznany";
           for (int index=0; index<this->knownDevicesCount; index++) {
             for (int a=0; a<8; a++) {
               if (this->list[index].address[a] == address) {
@@ -89,7 +89,7 @@ class I2c:public Program {
       }
     }
 
-    void autoconnect() {
+    void skanuj() {
       Wire.beginTransmission(29);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
@@ -126,7 +126,7 @@ class I2c:public Program {
       }
     }
 
-  I2c() {
-    this->name = "i2c";
+  Kontrolery() {
+    this->name = "Kontrolery";
   }
 };

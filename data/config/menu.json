@@ -5,7 +5,7 @@
 	]],
 	["programy",[[],
 		["logo",[],["run","logo"]],
-		["i2c",[],["run","i2c"]],
+		["Kontrolery",[],["run","Kontrolery"]],
 		["battery",[],["run","battery"]],
 		["kontakty",[[],
 			["Amelia",[],["run","contacts",1]],

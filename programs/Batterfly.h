@@ -301,7 +301,7 @@ class Batterfly:public Program {
 
             for (int i=0; i<PESTKI_COUNT; i++) {
                 if (this->pestki[i].timestamp > 0) {
-                    this->pestki[i].x -= this->pestki[i].vectorX;
+                    this->pestki[i].x += this->pestki[i].vectorX;
                     this->pestki[i].y += this->pestki[i].vectorY;
                     int t = (millis() - this->pestki[i].timestamp) / 1000;
                     if (!(this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4)) {

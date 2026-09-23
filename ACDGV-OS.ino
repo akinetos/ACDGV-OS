@@ -65,7 +65,7 @@ Transition transition = Transition();
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
 #include "./programs/Logo.h";
-#include "./programs/I2c.h";
+#include "./programs/Kontrolery.h";
 #include "./programs/Skaner3d.h";
 #include "./programs/Battery.h";
 #include "./programs/Contacts.h";
@@ -87,8 +87,8 @@ void setup() {
   for (int i = 0; i < channelsCount; i++)
     channels[i].init(i);
 
-  I2c * i2cProgram = new I2c();
-  i2cProgram->autoconnect();
+  Kontrolery * kontrolery = new Kontrolery();
+  kontrolery->skanuj();
 
   for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();

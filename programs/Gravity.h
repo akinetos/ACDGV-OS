@@ -21,7 +21,7 @@ class Gravity:public Program {
           int tiltX = 0;
           int tiltY = 0;
 
-          tiltX += (int)(devices[deviceIndexAccelerometer]->readNumber("x") * speed);
+          tiltX -= (int)(devices[deviceIndexAccelerometer]->readNumber("x") * speed);
           tiltY += (int)(devices[deviceIndexAccelerometer]->readNumber("y") * speed);
 
           /*
