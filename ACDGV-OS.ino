@@ -14,15 +14,7 @@
 #include <Adafruit_EEPROM_I2C.h>
 
 const String version = "8";
-const int devicesCount = 8;
-const int programsCount = 8;
-
-int transitionType = 0;
 String action = "";
-int channelsCount;
-int surfacesCount;
-int activeProgram = -1;
-int lastProgramIndex = -1;
 
 #include "./engine/Storage.h";
 Storage storage = Storage();
@@ -30,9 +22,13 @@ Storage storage = Storage();
 #include "./engine/I2C.h";
 I2C i2c = I2C();
 
+const int programsCount = 8;
 #include "./engine/Program.h";
 Program * programs[programsCount];
+int activeProgram = -1;
+int lastProgramIndex = -1;
 
+const int devicesCount = 8;
 #include "./engine/Device.h";
 Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
@@ -41,7 +37,6 @@ int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;
 int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
-
 #include "./devices/AM.h";
 #include "./devices/Gamepad.h";
 #include "./devices/Keypad.h";
@@ -50,14 +45,16 @@ int lastDeviceIndex = -1;
 #include "./devices/Memory.h";
 
 #include "./engine/Pixel.h";
-#include "./engine/OLED.h";
-#include "./engine/Port.h";
+
+int channelsCount;
 #include "./engine/Channel.h";
 Channel * channels;
 
+int surfacesCount;
 #include "./engine/Surface.h";
 Surface * surfaces;
 
+int transitionType = 0;
 #include "./engine/Transition.h";
 Transition transition = Transition();
 

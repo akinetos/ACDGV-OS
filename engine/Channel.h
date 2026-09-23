@@ -1,3 +1,6 @@
+#include "./OLED.h";
+#include "./Port.h";
+
 class Channel {
   public:
     int number;
@@ -18,7 +21,7 @@ class Channel {
       for (int i=0; i<8; i++) {
         channelsUsed[i] = -1;
       }
-      for (int i=0; i<surfacesCount; i++) {
+      for (int i=0; i<configSurfaces.size(); i++) {
         int channel = configSurfaces[i]["channel"];
         boolean found = false;
         for (int j=0; j<8; j++) {
