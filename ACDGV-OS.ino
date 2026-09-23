@@ -24,8 +24,6 @@ int surfacesCount;
 int activeProgram = -1;
 int lastProgramIndex = -1;
 
-DynamicJsonBuffer jsonBuffer;
-
 #include "./engine/Storage.h";
 Storage storage = Storage();
 
@@ -101,8 +99,6 @@ void setup() {
     surface->init(config[i]);
     surfaces[i] = * surface;
   }
-
-  transition = Transition();
 
   menu.init();
 }

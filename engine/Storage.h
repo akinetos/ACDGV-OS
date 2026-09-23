@@ -1,3 +1,5 @@
+DynamicJsonBuffer jsonBuffer;
+
 class Storage {
   public:
     static void init() {
