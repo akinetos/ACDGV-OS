@@ -14,6 +14,7 @@
 #include <Adafruit_EEPROM_I2C.h>
 
 const String version = "8";
+
 String action = "";
 
 #include "./engine/Storage.h";
@@ -23,12 +24,6 @@ Storage storage = Storage();
 I2C i2c = I2C();
 
 #include "./engine/Pixel.h";
-
-const int programsCount = 8;
-#include "./engine/Program.h";
-Program * programs[programsCount];
-int activeProgram = -1;
-int lastProgramIndex = -1;
 
 const int devicesCount = 8;
 #include "./engine/Device.h";
@@ -58,6 +53,11 @@ int transitionType = 0;
 #include "./engine/Transition.h";
 Transition transition = Transition();
 
+const int programsCount = 8;
+#include "./engine/Program.h";
+Program * programs[programsCount];
+int activeProgram = -1;
+int lastProgramIndex = -1;
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -72,12 +72,12 @@ Menu menu;
 
 void setup() {
   Serial.begin(9600);
-  storage.init();
+  
   i2c.init();
   
+  storage.init();
   const String path = "/config/surfaces/" + version + ".json";
   JsonArray & config = storage.load(path);
-  surfacesCount = config.size();
 
   channelsCount = Channel::count(config);
   channels = new Channel[channelsCount];
@@ -89,6 +89,7 @@ void setup() {
   for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();
 
+  surfacesCount = config.size();
   surfaces = new Surface[surfacesCount];
   for (int i = 0; i < surfacesCount; i++) {
     Surface * surface = new Surface();
