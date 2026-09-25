@@ -1,6 +1,16 @@
+const String version = "8";
+String action = "";
+#include "./engine/Pixel.h";
+
 #include <Wire.h>
+#include "./engine/I2C.h";
+I2C i2c = I2C();
+
 #include <FS.h>
 #include <ArduinoJson.h>
+#include "./engine/Storage.h";
+Storage storage = Storage();
+
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 #include <Adafruit_seesaw.h>
@@ -12,21 +22,8 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
-
-const String version = "8";
-
-String action = "";
-
-#include "./engine/Pixel.h";
-
-#include "./engine/Storage.h";
-Storage storage = Storage();
-
-#include "./engine/I2C.h";
-I2C i2c = I2C();
-
-const int devicesCount = 8;
 #include "./engine/Device.h";
+const int devicesCount = 8;
 Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
