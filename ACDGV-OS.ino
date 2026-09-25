@@ -17,13 +17,13 @@ const String version = "8";
 
 String action = "";
 
+#include "./engine/Pixel.h";
+
 #include "./engine/Storage.h";
 Storage storage = Storage();
 
 #include "./engine/I2C.h";
 I2C i2c = I2C();
-
-#include "./engine/Pixel.h";
 
 const int devicesCount = 8;
 #include "./engine/Device.h";
