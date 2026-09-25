@@ -1,6 +1,6 @@
+#include "./engine/Pixel.h";
 const String version = "8";
 String action = "";
-#include "./engine/Pixel.h";
 
 #include <Wire.h>
 #include "./engine/I2C.h";
@@ -23,6 +23,12 @@ Storage storage = Storage();
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
 #include "./engine/Device.h";
+#include "./devices/AM.h";
+#include "./devices/Gamepad.h";
+#include "./devices/Keypad.h";
+#include "./devices/NFC.h";
+#include "./devices/DistanceSensor.h";
+#include "./devices/Memory.h";
 const int devicesCount = 8;
 Device * devices[devicesCount];
 int deviceIndexGamepad = -1;
@@ -31,30 +37,19 @@ int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;
 int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
-#include "./devices/AM.h";
-#include "./devices/Gamepad.h";
-#include "./devices/Keypad.h";
-#include "./devices/NFC.h";
-#include "./devices/DistanceSensor.h";
-#include "./devices/Memory.h";
 
-int channelsCount;
 #include "./engine/Channel.h";
+int channelsCount;
 Channel * channels;
 
-int surfacesCount;
 #include "./engine/Surface.h";
+int surfacesCount;
 Surface * surfaces;
 
-int transitionType = 0;
 #include "./engine/Transition.h";
 Transition transition = Transition();
 
-const int programsCount = 8;
 #include "./engine/Program.h";
-Program * programs[programsCount];
-int activeProgram = -1;
-int lastProgramIndex = -1;
 #include "./programs/Batterfly.h";
 #include "./programs/Gravity.h";
 #include "./programs/VV.h";
@@ -63,6 +58,10 @@ int lastProgramIndex = -1;
 #include "./programs/Skaner3d.h";
 #include "./programs/Battery.h";
 #include "./programs/Contacts.h";
+const int programsCount = 8;
+Program * programs[programsCount];
+int activeProgram = -1;
+int lastProgramIndex = -1;
 
 #include "./engine/Menu.h";
 Menu menu;

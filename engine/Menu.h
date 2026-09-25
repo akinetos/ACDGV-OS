@@ -102,8 +102,7 @@ class Menu {
         programs[activeProgram]->active = false;
       }
       activeProgram = -1;
-      transitionType = 1;
-      transition.init();
+      transition.init(1);
     }
 
     void close() {
@@ -215,8 +214,7 @@ class Menu {
         }
         
         if (element[1].size() > 0 && index < element[1].size()) {
-          transitionType = 2;
-          transition.init();
+          transition.init(2);
           this->selectOption(index);
         }
       }

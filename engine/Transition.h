@@ -4,11 +4,13 @@ class Transition {
     Pixel pixels[500];
     int counter = 0;
     int p = 0;
+    int type = 0;
 
-    void init() {
+    void init(int type) {
+      this->type = type;
       this->counter = 0;
       this->p = 0;
-      if (transitionType == 1) {
+      if (this->type == 1) {
         for (int y=32; y<256; y+=5) {
           for (int x=0; x<128; x+=5) {
             boolean white = surfaces[0].getPixel(x,y);
@@ -19,7 +21,7 @@ class Transition {
           }
         }
       }
-      if (transitionType == 2) {
+      if (this->type == 2) {
         int minY = surfaces[0].pointerPort * 32;
         int maxY = (surfaces[0].pointerPort + 1) * 32;
         for (int y=minY; y<maxY; y+=2) {
@@ -39,14 +41,14 @@ class Transition {
       if (this->active) {
         for (int i=0; i<p; i++) {
           int weight = this->counter * this->counter;
-          if (transitionType == 1) {
+          if (this->type == 1) {
             if (this->pixels[i].y + weight < 256) {
               this->pixels[i].y += weight;
             } else {
               this->pixels[i].y = 256;
             }
           }
-          if (transitionType == 2) {
+          if (this->type == 2) {
             if (this->pixels[i].y - weight > 0) {
               this->pixels[i].y -= weight;
             } else {
