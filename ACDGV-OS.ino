@@ -1,9 +1,10 @@
-#include <FS.h>
 #include <Wire.h>
+#include <FS.h>
 #include <ArduinoJson.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 #include <Adafruit_seesaw.h>
+#include <Adafruit_EEPROM_I2C.h>
 #include <DFRobot_GR10_30.h>
 #include <DFRobot_MAX17043.h>
 #include <DFRobot_VisualRotaryEncoder.h>
@@ -11,7 +12,6 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 #include <PN532_I2C.h>
 #include <NfcAdapter.h>
-#include <Adafruit_EEPROM_I2C.h>
 
 const String version = "8";
 
