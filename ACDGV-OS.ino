@@ -1,5 +1,4 @@
 #include "./engine/Pixel.h";
-const String version = "8";
 String action = "";
 
 #include <Wire.h>
@@ -72,7 +71,7 @@ void setup() {
   i2c.init();
   
   storage.init();
-  const String path = "/config/surfaces/" + version + ".json";
+  const String path = "/config/surfaces/8.json";
   JsonArray & config = storage.load(path);
 
   channelsCount = Channel::count(config);

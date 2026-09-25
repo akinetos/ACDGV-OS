@@ -12,6 +12,8 @@ class Menu {
     boolean changed = false;
     int level = 0;
 
+    String version = "8";
+
     String getSegmentsPath() {
       String output = "";
       for (int i=0; i<8; i++) {
@@ -71,7 +73,7 @@ class Menu {
       JsonArray & file = storage.load("/config/menu.json");
       String optionName = file[0];
 
-      if (version == "8") {
+      if (this->version == "8") {
         this->populate(file[1]);
       } else {
         channels[0].ports[1].screen.populate(file[1]);
@@ -174,7 +176,7 @@ class Menu {
       String optionName = element[0];
       this->segments[this->level] = optionName;
 
-      if (version == "8") {
+      if (this->version == "8") {
         Surface * surface = & surfaces[0];
         this->populate(element[1]);
       } else {
@@ -193,7 +195,7 @@ class Menu {
       JsonArray & element = this->getElement();
 
       if (surface->pointerPort == 0 && this->show && this->changed) {
-        if (version == "8") {
+        if (this->version == "8") {
           this->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
@@ -206,7 +208,7 @@ class Menu {
 
       if (surface->pointerPort > 0) {
         int index;
-        if (version == "8") {
+        if (this->version == "8") {
           index = surface->pointerPort;
         } else {
           OLED & screen = channels[0].ports[1].screen;
@@ -362,7 +364,7 @@ class Menu {
 
     void drawOptions() {
       Surface * surface = & surfaces[0];
-      if (version == "8") {
+      if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
           OLED & screen = channels[0].ports[port].screen;
           int amount = 2;
@@ -395,7 +397,7 @@ class Menu {
         this->optionsCount = 0;
       }
 
-      if (version == "8") {
+      if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
           OLED & screen = channels[0].ports[port].screen;
           screen.lineSelected = -1;

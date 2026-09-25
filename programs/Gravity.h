@@ -14,6 +14,7 @@ class Gravity:public Program {
 
       int gestureTimestamp = 0;
       String gestureDirection = "";
+      String version = "8";
 
       void tick() {
         if (this->active) {
@@ -71,8 +72,10 @@ class Gravity:public Program {
       }
 
       void init() {
-        if (version == "3") maxY = 95;
-        if (version == "8") maxY = 255;
+        if (this->version == "3") 
+          this->maxY = 95;
+        if (this->version == "8") 
+          this->maxY = 255;
         this->initialised = true;
       }
 

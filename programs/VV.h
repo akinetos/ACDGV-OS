@@ -25,6 +25,8 @@ class VV:public Program {
     boolean messageHandled = false;
     String nfcTag = "";
 
+    String version = "8";
+
     void init() {
       this->cRe = 0.22;
       this->cIm = 0.52;
@@ -80,7 +82,7 @@ class VV:public Program {
 
         int port = (int)(this->points[i*2+1] / 32);
         if (port >=0) {
-          if ((version == "3" && port < 3) || (version == "8" && port < 8)) {
+          if ((this->version == "3" && port < 3) || (this->version == "8" && port < 8)) {
             channels[0].ports[port].screen.needsRefresh = true;
             this->screensUpdated[port] = true;
           }
