@@ -28,8 +28,8 @@ Storage storage = Storage();
 #include "./devices/NFC.h";
 #include "./devices/DistanceSensor.h";
 #include "./devices/Memory.h";
-const int devicesCount = 8;
-Device * devices[devicesCount];
+const int maxDevicesCount = 8;
+Device * devices[maxDevicesCount];
 int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
 int deviceIndexNfc = -1;
@@ -57,8 +57,8 @@ Transition transition = Transition();
 #include "./programs/Skaner3d.h";
 #include "./programs/Battery.h";
 #include "./programs/Contacts.h";
-const int programsCount = 8;
-Program * programs[programsCount];
+const int maxProgramsCount = 8;
+Program * programs[maxProgramsCount];
 int activeProgram = -1;
 int lastProgramIndex = -1;
 
@@ -81,6 +81,7 @@ void setup() {
 
   Kontrolery * kontrolery = new Kontrolery();
   kontrolery->skanuj();
+  
   for (int i = 0; i <= lastDeviceIndex; i++)
     devices[i]->init();
 
