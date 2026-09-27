@@ -1,3 +1,5 @@
+#include <Adafruit_seesaw.h>
+
 class Gamepad: public Device {
   public:
     Adafruit_seesaw device;

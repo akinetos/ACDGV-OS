@@ -1,3 +1,6 @@
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_SH110X.h>
+
 class OLED: public Device {
   public:
     Adafruit_SH1106G sh1106 = Adafruit_SH1106G(128, 64, &Wire, -1);
