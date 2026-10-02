@@ -52,6 +52,7 @@ class Gamepad: public Device {
 
   Gamepad(int address) {
     this->address = address;
+    this->name = "dzojstik";
   }
 
   double readNumber(String field) {

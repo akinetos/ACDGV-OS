@@ -26,7 +26,6 @@ Storage storage = Storage();
 #include "./devices/Memory.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
-int deviceIndexGamepad = -1;
 int deviceIndexAccelerometer = -1;
 int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;

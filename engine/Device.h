@@ -4,6 +4,7 @@ class Device {
     boolean connected;
     boolean changed;
     char buttonPressed = NULL;
+    String name;
 
     Device();
     

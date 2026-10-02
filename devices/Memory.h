@@ -40,5 +40,7 @@ class Memory: public Device {
       }
     }
 
-  Memory() {}
+  Memory() {
+    this->name = "pamiec";
+  }
 };

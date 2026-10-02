@@ -27,6 +27,8 @@ class Surface {
     
     boolean showPointer = true;
 
+    int deviceIndexGamepad = -1;
+
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
     }
@@ -35,7 +37,17 @@ class Surface {
       return this->pointerPositionY - (int)(this->pointerPort / this->screensPerRow) * this->screenHeight;
     }
 
+    int findGamepad() {
+      for (int i=0; i<=lastDeviceIndex; i++) {
+        if (devices[i]->name == "dzojstik") {
+          this->deviceIndexGamepad = i;
+        }
+      }
+    }
+
     void init(JsonObject & config) {
+      this->findGamepad();
+
       int width = config["width"];
       int height = config["height"];
       int screenWidth = config["screenWidth"];
@@ -111,16 +123,16 @@ class Surface {
     }
 
     void tick() {
-      if (deviceIndexGamepad > -1)
+      if (this->deviceIndexGamepad > -1)
         if (this->facingUp && this->showPointer)
-          this->updatePointer(devices[deviceIndexGamepad]->readNumber("x"), devices[deviceIndexGamepad]->readNumber("y"));
+          this->updatePointer(devices[this->deviceIndexGamepad]->readNumber("x"), devices[this->deviceIndexGamepad]->readNumber("y"));
 
       if (deviceIndexAccelerometer > -1)
         if (devices[deviceIndexAccelerometer]->orientationChanged)
           this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
 
-      if (deviceIndexGamepad > -1)
-        if (devices[deviceIndexGamepad]->shortPress || devices[deviceIndexGamepad]->longPress)
+      if (this->deviceIndexGamepad > -1)
+        if (devices[this->deviceIndexGamepad]->shortPress || devices[this->deviceIndexGamepad]->longPress)
           this->animatePointerTime = millis();
     }
 

@@ -14,6 +14,8 @@ class Menu {
 
     String version = "8";
 
+    int deviceIndexGamepad = -1;
+
     String getSegmentsPath() {
       String output = "";
       for (int i=0; i<8; i++) {
@@ -68,7 +70,17 @@ class Menu {
       }
     }
 
+    int findGamepad() {
+      for (int i=0; i<=lastDeviceIndex; i++) {
+        if (devices[i]->name == "dzojstik") {
+          this->deviceIndexGamepad = i;
+        }
+      }
+    }
+
     void init() {
+      this->findGamepad();
+
       Surface * surface = & surfaces[0];
       JsonArray & file = storage.load("/config/menu.json");
       String optionName = file[0];
@@ -127,8 +139,8 @@ class Menu {
         screen.needsRefresh = true;
       }
 
-      if (deviceIndexGamepad > -1) {
-        if (devices[deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
+      if (this->deviceIndexGamepad > -1) {
+        if (devices[this->deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
           this->changed = false;
 
           if (screen.closeButtonHovered) {
@@ -263,7 +275,7 @@ class Menu {
         this->updateOptions();
         this->update();
 
-        if (deviceIndexGamepad > -1 && devices[deviceIndexGamepad]->shortPress) {
+        if (this->deviceIndexGamepad > -1 && devices[this->deviceIndexGamepad]->shortPress) {
           this->reactToGamepadAction();
         }
 

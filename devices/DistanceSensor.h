@@ -35,5 +35,6 @@ class DistanceSensor: public Device {
 
   DistanceSensor(int address) {
     this->address = address;
+    this->name = "czujnik-odleglosci";
   }
 };

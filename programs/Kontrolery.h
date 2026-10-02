@@ -100,8 +100,7 @@ class Kontrolery:public Program {
       Wire.beginTransmission(81);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
-        deviceIndexGamepad = lastDeviceIndex;
-        devices[deviceIndexGamepad] = new Gamepad(81);
+        devices[lastDeviceIndex] = new Gamepad(81);
       }
 
       Wire.beginTransmission(36);

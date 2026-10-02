@@ -56,6 +56,7 @@ class Batterfly:public Program {
         boolean over = false;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
+        int deviceIndexGamepad = -1;
 
         void drawBatterfly() {
             int channel = -1;
@@ -280,7 +281,7 @@ class Batterfly:public Program {
             
             int index = -1;
             if (
-                devices[deviceIndexGamepad]->shortPress && 
+                devices[this->deviceIndexGamepad]->shortPress && 
                 surface->pointerPort > 0 && 
                 (millis() - this->activatedTimestamp) > 1000
             ) {
@@ -351,7 +352,16 @@ class Batterfly:public Program {
             }
         }
 
+        int findGamepad() {
+            for (int i=0; i<=lastDeviceIndex; i++) {
+                if (devices[i]->name == "dzojstik") {
+                    this->deviceIndexGamepad = i;
+                }
+            }
+        }
+
         void init() {
+            this->findGamepad();
             this->surfaceIndex = 0;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();

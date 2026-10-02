@@ -27,7 +27,18 @@ class VV:public Program {
 
     String version = "8";
 
+    int deviceIndexGamepad = -1;
+
+    int findGamepad() {
+      for (int i=0; i<=lastDeviceIndex; i++) {
+          if (devices[i]->name == "dzojstik") {
+              this->deviceIndexGamepad = i;
+          }
+      }
+    }
+
     void init() {
+      this->findGamepad();
       this->cRe = 0.22;
       this->cIm = 0.52;
       for (int port=0; port<8; port++) {
@@ -58,11 +69,11 @@ class VV:public Program {
       this->offsetIm = devices[deviceIndexAccelerometer]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (devices[deviceIndexGamepad]->readNumber("x") < -0.01 || devices[deviceIndexGamepad]->readNumber("x") > 0.01) {
-          xOffset -= devices[deviceIndexGamepad]->readNumber("x") * 10;
+        if (devices[this->deviceIndexGamepad]->readNumber("x") < -0.01 || devices[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
+          xOffset -= devices[this->deviceIndexGamepad]->readNumber("x") * 10;
         }
-        if (devices[deviceIndexGamepad]->readNumber("y") < -0.01 || devices[deviceIndexGamepad]->readNumber("y") > 0.01) {
-          yOffset -= devices[deviceIndexGamepad]->readNumber("y") * 10;
+        if (devices[this->deviceIndexGamepad]->readNumber("y") < -0.01 || devices[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
+          yOffset -= devices[this->deviceIndexGamepad]->readNumber("y") * 10;
         }
       }
 
@@ -99,7 +110,7 @@ class VV:public Program {
 
     void tick() {
       if (this->active) {
-        if (devices[deviceIndexGamepad]->longPress) {
+        if (devices[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
           Surface * surface = & surfaces[0];
           if (this->move) {

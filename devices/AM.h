@@ -68,10 +68,15 @@ class AM: public Device {
       return this->y;
     }
 
-  AM() {}
+  AM() {
+    this->name = "czujnik-nachylenia";
+  }
 
+  //do zrobienia
+  //dodaj tablice z mozliwymi adresami zamiast dodawac mozliwe adresy jako komentarz w konstruktorze
   AM(int address) {
     //0x1D (29), 0x53 (83)
     this->address = address;
+    this->name = "czujnik-nachylenia";
   }
 };
