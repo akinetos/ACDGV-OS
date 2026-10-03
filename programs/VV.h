@@ -28,17 +28,12 @@ class VV:public Program {
     String version = "8";
 
     int deviceIndexGamepad = -1;
-
-    int findGamepad() {
-      for (int i=0; i<=lastDeviceIndex; i++) {
-          if (devices[i]->name == "dzojstik") {
-              this->deviceIndexGamepad = i;
-          }
-      }
-    }
+    int deviceIndexAccelerometer = -1;
 
     void init() {
-      this->findGamepad();
+      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
+      this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+
       this->cRe = 0.22;
       this->cIm = 0.52;
       for (int port=0; port<8; port++) {
@@ -65,8 +60,8 @@ class VV:public Program {
       this->points[0] = 0;
       this->points[1] = 0;
 
-      this->offsetRe = devices[deviceIndexAccelerometer]->readNumber("x") / this->precision;
-      this->offsetIm = devices[deviceIndexAccelerometer]->readNumber("y") / this->precision;
+      this->offsetRe = devices[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
+      this->offsetIm = devices[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
 
       if (this->move) {
         if (devices[this->deviceIndexGamepad]->readNumber("x") < -0.01 || devices[this->deviceIndexGamepad]->readNumber("x") > 0.01) {

@@ -26,11 +26,18 @@ Storage storage = Storage();
 #include "./devices/Memory.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
-int deviceIndexAccelerometer = -1;
 int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;
 int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
+
+int znajdzCzujnik(String nazwa) {
+  int indeks = -1;
+  for (int i=0; i<=lastDeviceIndex; i++)
+    if (devices[i]->name == nazwa)
+      indeks = i;
+  return indeks;
+}
 
 #include "./engine/Channel.h";
 int channelsCount;

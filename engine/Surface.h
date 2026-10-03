@@ -28,6 +28,7 @@ class Surface {
     boolean showPointer = true;
 
     int deviceIndexGamepad = -1;
+    int deviceIndexAccelerometer = -1;
 
     int getRelativeX() {
       return this->pointerPositionX - (this->pointerPort % this->screensPerRow) * this->screenWidth;
@@ -37,16 +38,9 @@ class Surface {
       return this->pointerPositionY - (int)(this->pointerPort / this->screensPerRow) * this->screenHeight;
     }
 
-    int findGamepad() {
-      for (int i=0; i<=lastDeviceIndex; i++) {
-        if (devices[i]->name == "dzojstik") {
-          this->deviceIndexGamepad = i;
-        }
-      }
-    }
-
     void init(JsonObject & config) {
-      this->findGamepad();
+      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
+      this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
 
       int width = config["width"];
       int height = config["height"];
@@ -60,8 +54,8 @@ class Surface {
       this->screenHeight = screenHeight;
       this->channel = channel;
 
-      if (deviceIndexAccelerometer > -1)
-        this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
+      if (this->deviceIndexAccelerometer > -1)
+        this->handleOrientationChange(devices[this->deviceIndexAccelerometer]->orientation);
       else
         this->handleOrientationChange("up");
 
@@ -127,9 +121,9 @@ class Surface {
         if (this->facingUp && this->showPointer)
           this->updatePointer(devices[this->deviceIndexGamepad]->readNumber("x"), devices[this->deviceIndexGamepad]->readNumber("y"));
 
-      if (deviceIndexAccelerometer > -1)
-        if (devices[deviceIndexAccelerometer]->orientationChanged)
-          this->handleOrientationChange(devices[deviceIndexAccelerometer]->orientation);
+      if (this->deviceIndexAccelerometer > -1)
+        if (devices[this->deviceIndexAccelerometer]->orientationChanged)
+          this->handleOrientationChange(devices[this->deviceIndexAccelerometer]->orientation);
 
       if (this->deviceIndexGamepad > -1)
         if (devices[this->deviceIndexGamepad]->shortPress || devices[this->deviceIndexGamepad]->longPress)

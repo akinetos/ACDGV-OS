@@ -70,16 +70,8 @@ class Menu {
       }
     }
 
-    int findGamepad() {
-      for (int i=0; i<=lastDeviceIndex; i++) {
-        if (devices[i]->name == "dzojstik") {
-          this->deviceIndexGamepad = i;
-        }
-      }
-    }
-
     void init() {
-      this->findGamepad();
+      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
 
       Surface * surface = & surfaces[0];
       JsonArray & file = storage.load("/config/menu.json");

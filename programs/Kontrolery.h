@@ -93,8 +93,7 @@ class Kontrolery:public Program {
       Wire.beginTransmission(29);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
-        deviceIndexAccelerometer = lastDeviceIndex;
-        devices[deviceIndexAccelerometer] = new AM(29);
+        devices[lastDeviceIndex] = new AM(29);
       }
 
       Wire.beginTransmission(81);

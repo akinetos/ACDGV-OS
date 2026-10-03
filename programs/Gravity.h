@@ -16,14 +16,16 @@ class Gravity:public Program {
       String gestureDirection = "";
       String version = "8";
 
+      int deviceIndexAccelerometer = -1;
+
       void tick() {
         if (this->active) {
           int speed = (this->option + 1) * 10;
           int tiltX = 0;
           int tiltY = 0;
 
-          tiltX -= (int)(devices[deviceIndexAccelerometer]->readNumber("x") * speed);
-          tiltY += (int)(devices[deviceIndexAccelerometer]->readNumber("y") * speed);
+          tiltX -= (int)(devices[this->deviceIndexAccelerometer]->readNumber("x") * speed);
+          tiltY += (int)(devices[this->deviceIndexAccelerometer]->readNumber("y") * speed);
 
           /*
           if (gd.changed || ((this->gestureTimestamp + 1000) > millis())) {
@@ -72,6 +74,8 @@ class Gravity:public Program {
       }
 
       void init() {
+        this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+        
         if (this->version == "3") 
           this->maxY = 95;
         if (this->version == "8") 
@@ -89,7 +93,7 @@ class Gravity:public Program {
           }
           surface->drawCircle(this->x, this->y, 20);
 
-          double distance = channels[0].ports[7].devices[deviceIndexAccelerometer]->readNumber("distance");
+          double distance = channels[0].ports[7].devices[this->deviceIndexAccelerometer]->readNumber("distance");
           channels[0].ports[7].screen.printText((String)distance);
         }
       }

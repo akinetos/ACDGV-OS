@@ -56,7 +56,9 @@ class Batterfly:public Program {
         boolean over = false;
         Star stars[STARS_COUNT];
         Pestka pestki[PESTKI_COUNT];
+        
         int deviceIndexGamepad = -1;
+        int deviceIndexAccelerometer = -1;
 
         void drawBatterfly() {
             int channel = -1;
@@ -168,14 +170,14 @@ class Batterfly:public Program {
         }
 
         void updateStars() {
-            double diffX = devices[deviceIndexAccelerometer]->readNumber("x") - devices[deviceIndexAccelerometer]->readNumber("previousX");
-            double diffY = devices[deviceIndexAccelerometer]->readNumber("y") - devices[deviceIndexAccelerometer]->readNumber("previousY");
+            double diffX = devices[this->deviceIndexAccelerometer]->readNumber("x") - devices[this->deviceIndexAccelerometer]->readNumber("previousX");
+            double diffY = devices[this->deviceIndexAccelerometer]->readNumber("y") - devices[this->deviceIndexAccelerometer]->readNumber("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 Surface * surface = & surfaces[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     Star & star = this->stars[s];
-                    star.x = star.originalX + devices[deviceIndexAccelerometer]->readNumber("x") * 100;
-                    star.y = star.originalY + devices[deviceIndexAccelerometer]->readNumber("y") * 100;
+                    star.x = star.originalX + devices[this->deviceIndexAccelerometer]->readNumber("x") * 100;
+                    star.y = star.originalY + devices[this->deviceIndexAccelerometer]->readNumber("y") * 100;
                     channels[surface->channel].ports[star.port].screen.needsRefresh = true;
                 }
             }
@@ -260,8 +262,8 @@ class Batterfly:public Program {
 
         void updateBatterfly() {
             Surface * surface = & surfaces[this->surfaceIndex];
-            this->vectorX = devices[deviceIndexAccelerometer]->readNumber("x") * 10;
-            this->vectorY = devices[deviceIndexAccelerometer]->readNumber("y") * 10;
+            this->vectorX = devices[this->deviceIndexAccelerometer]->readNumber("x") * 10;
+            this->vectorY = devices[this->deviceIndexAccelerometer]->readNumber("y") * 10;
             channels[surface->channel].ports[surface->pointerPort].screen.needsRefresh = true;
         }
 
@@ -352,16 +354,10 @@ class Batterfly:public Program {
             }
         }
 
-        int findGamepad() {
-            for (int i=0; i<=lastDeviceIndex; i++) {
-                if (devices[i]->name == "dzojstik") {
-                    this->deviceIndexGamepad = i;
-                }
-            }
-        }
-
         void init() {
-            this->findGamepad();
+            this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
+            this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+
             this->surfaceIndex = 0;
             for (int i=0; i<STARS_COUNT; i++) {
                 this->stars[i] = Star();
