@@ -1,3 +1,5 @@
+#include <DFRobot_MAX17043.h>
+
 class GV: public Device {
   public:
     DFRobot_MAX17043 device;

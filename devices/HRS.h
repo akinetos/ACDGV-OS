@@ -1,3 +1,5 @@
+#include <DFRobot_BloodOxygen_S.h>
+
 class HRS: public Device {
   public:
     DFRobot_BloodOxygen_S_I2C device = DFRobot_BloodOxygen_S_I2C(&Wire, 0x57);

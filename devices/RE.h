@@ -1,3 +1,5 @@
+#include <DFRobot_VisualRotaryEncoder.h>
+
 class RE: public Device {
   public:
     uint16_t value = 0;

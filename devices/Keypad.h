@@ -1,3 +1,5 @@
+#include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
+
 class Keypad: public Device {
   public:
     KEYPAD device;

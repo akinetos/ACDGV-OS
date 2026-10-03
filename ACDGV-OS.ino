@@ -10,13 +10,6 @@ I2C i2c = I2C();
 #include "./engine/Storage.h";
 Storage storage = Storage();
 
-#include <DFRobot_GR10_30.h>
-#include <DFRobot_MAX17043.h>
-#include <DFRobot_VisualRotaryEncoder.h>
-#include <DFRobot_BloodOxygen_S.h>
-#include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
-#include <PN532_I2C.h>
-#include <NfcAdapter.h>
 #include "./engine/Device.h";
 #include "./devices/AM.h";
 #include "./devices/Gamepad.h";
