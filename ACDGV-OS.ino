@@ -89,6 +89,11 @@ void setup() {
   }
 
   menu.init();
+  
+  String commandString = "['run','gravity']";
+  DynamicJsonBuffer dynamicJsonBuffer;
+  JsonArray & command = dynamicJsonBuffer.parseArray(commandString);
+  menu.execute(command);
 }
 
 void loop() {
