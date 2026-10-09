@@ -60,6 +60,69 @@ int lastProgramIndex = -1;
 #include "./engine/Menu.h";
 Menu menu;
 
+void execute(JsonArray & command) {
+  String commandType = command[0];
+
+  if (commandType == "run") {
+    String programName = command[1];
+    boolean hasOption = command.size() == 3;
+    
+    int programIndex = -1;
+    for (int i=0; i<lastProgramIndex; i++)
+      if (programs[i]->name == programName)
+        programIndex = i;
+
+    if (programIndex == -1) {
+      lastProgramIndex++;
+      if (programName == "batterfly") {
+        programs[lastProgramIndex] = new Batterfly();
+      }
+      if (programName == "vv") {
+        programs[lastProgramIndex] = new VV();
+      }
+      if (programName == "logo") {
+        programs[lastProgramIndex] = new Logo();
+      }
+      if (programName == "skaner-3d") {
+        programs[lastProgramIndex] = new Skaner3d();
+      }
+      if (programName == "contacts") {
+        programs[lastProgramIndex] = new Contacts();
+      }
+      if (programName == "Kontrolery") {
+        programs[lastProgramIndex] = new Kontrolery();
+      }
+      if (programName == "gravity") {
+        programs[lastProgramIndex] = new Gravity();
+      }
+      if (programName == "battery") {
+        programs[lastProgramIndex] = new Battery();
+      }
+      programIndex = lastProgramIndex;
+    }
+
+    if (!programs[programIndex]->active) {
+      if (!programs[programIndex]->initialised)
+        programs[programIndex]->init();
+      programs[programIndex]->activate();
+      activeProgram = programIndex;
+    }
+
+    if (hasOption) {
+      int optionValue = command[2];
+      programs[programIndex]->setOption(optionValue);
+    }
+    
+    programs[programIndex]->menuLevel = menu.level + 1;
+  }
+}
+
+void execute(String commandString) {
+  DynamicJsonBuffer dynamicJsonBuffer;
+  JsonArray & command = dynamicJsonBuffer.parseArray(commandString);
+  execute(command);
+}
+
 void setup() {
   Serial.begin(9600);
   
@@ -90,10 +153,8 @@ void setup() {
 
   menu.init();
   
-  String commandString = "['run','gravity']";
-  DynamicJsonBuffer dynamicJsonBuffer;
-  JsonArray & command = dynamicJsonBuffer.parseArray(commandString);
-  menu.execute(command);
+  String command = "[run,logo]";
+  execute(command);
 }
 
 void loop() {

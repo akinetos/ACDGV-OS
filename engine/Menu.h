@@ -190,7 +190,7 @@ class Menu {
 
       JsonArray & command = element[2];
       if (command.size()) {
-        this->execute(command);
+        execute(command);
       }
     }
 
@@ -203,7 +203,7 @@ class Menu {
           this->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
-            this->execute(command);
+            execute(command);
           }
         } else {
           this->populateOptions();
@@ -293,63 +293,6 @@ class Menu {
       if (this->level > 0) {
         OLED & screen = channels[0].ports[0].screen;
         screen.drawCloseButton();
-      }
-    }
-
-    void execute(JsonArray & command) {
-      String commandType = command[0];
-
-      if (commandType == "run") {
-        String programName = command[1];
-        boolean hasOption = command.size() == 3;
-        
-        int programIndex = -1;
-        for (int i=0; i<lastProgramIndex; i++)
-          if (programs[i]->name == programName)
-            programIndex = i;
-
-        if (programIndex == -1) {
-          lastProgramIndex++;
-          if (programName == "batterfly") {
-            programs[lastProgramIndex] = new Batterfly();
-          }
-          if (programName == "vv") {
-            programs[lastProgramIndex] = new VV();
-          }
-          if (programName == "logo") {
-            programs[lastProgramIndex] = new Logo();
-          }
-          if (programName == "skaner-3d") {
-            programs[lastProgramIndex] = new Skaner3d();
-          }
-          if (programName == "contacts") {
-            programs[lastProgramIndex] = new Contacts();
-          }
-          if (programName == "Kontrolery") {
-            programs[lastProgramIndex] = new Kontrolery();
-          }
-          if (programName == "gravity") {
-            programs[lastProgramIndex] = new Gravity();
-          }
-          if (programName == "battery") {
-            programs[lastProgramIndex] = new Battery();
-          }
-          programIndex = lastProgramIndex;
-        }
-
-        if (!programs[programIndex]->active) {
-          if (!programs[programIndex]->initialised)
-            programs[programIndex]->init();
-          programs[programIndex]->activate();
-          activeProgram = programIndex;
-        }
-
-        if (hasOption) {
-          int optionValue = command[2];
-          programs[programIndex]->setOption(optionValue);
-        }
-        
-        programs[programIndex]->menuLevel = this->level + 1;
       }
     }
 
