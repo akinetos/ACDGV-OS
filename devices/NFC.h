@@ -48,7 +48,7 @@ class NFCDevice: public Device {
     }
 
     void init() {
-        //this->device.begin();
+        this->device.begin();
     }
 
     void tick() {

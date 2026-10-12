@@ -26,7 +26,7 @@ int lastDeviceIndex = -1;
 
 int znajdzCzujnik(String nazwa) {
   int indeks = -1;
-  for (int i=0; i<=lastDeviceIndex; i++)
+  for (int i = 0; i <= lastDeviceIndex; i++)
     if (devices[i]->name == nazwa)
       indeks = i;
   return indeks;
@@ -68,7 +68,7 @@ void execute(JsonArray & command) {
     boolean hasOption = command.size() == 3;
     
     int programIndex = -1;
-    for (int i=0; i<lastProgramIndex; i++)
+    for (int i=0; i<=lastProgramIndex; i++)
       if (programs[i]->name == programName)
         programIndex = i;
 
