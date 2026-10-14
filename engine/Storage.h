@@ -1,3 +1,5 @@
+#include <FS.h>
+
 DynamicJsonBuffer jsonBuffer;
 
 class Storage {

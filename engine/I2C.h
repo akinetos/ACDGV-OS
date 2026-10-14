@@ -1,3 +1,5 @@
+#include <Wire.h>
+
 class I2C {
   public:
     int port = -1;

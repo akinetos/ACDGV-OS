@@ -1,12 +1,11 @@
 #include "./engine/Pixel.h";
 String action = "";
 
-#include <Wire.h>
+#include <ArduinoJson.h>
+
 #include "./engine/I2C.h";
 I2C i2c = I2C();
 
-#include <FS.h>
-#include <ArduinoJson.h>
 #include "./engine/Storage.h";
 Storage storage = Storage();
 
