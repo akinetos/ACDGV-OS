@@ -190,7 +190,8 @@ class Menu {
 
       JsonArray & command = element[2];
       if (command.size()) {
-        execute(command);
+        int programIndex = executor.execute(command);
+        programs[programIndex]->menuLevel = this->level + 1;
       }
     }
 
@@ -203,7 +204,8 @@ class Menu {
           this->populate(element[1]);
           JsonArray & command = element[2];
           if (command.size()) {
-            execute(command);
+            int programIndex = executor.execute(command);
+            programs[programIndex]->menuLevel = this->level + 1;
           }
         } else {
           this->populateOptions();
