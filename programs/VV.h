@@ -29,10 +29,12 @@ class VV:public Program {
 
     int deviceIndexGamepad = -1;
     int deviceIndexAccelerometer = -1;
+    int deviceIndexNfc = -1;
 
     void init() {
       this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
       this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+      this->deviceIndexNfc = znajdzCzujnik("nfc");
 
       this->cRe = 0.22;
       this->cIm = 0.52;
@@ -119,21 +121,21 @@ class VV:public Program {
 
         channels[0].ports[0].screen.needsRefresh = true;
 
-        if (this->option == 2) {
-          devices[deviceIndexNfc]->writeString("action", "nfc read");
+        if (this->deviceIndexNfc > -1 && this->option == 2) {
+          devices[this->deviceIndexNfc]->writeString("action", "nfc read");
           this->option = 0;
         }
 
-        if (deviceIndexNfc > -1 && this->option == 3) {
+        if (this->deviceIndexNfc > -1 && this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          devices[deviceIndexNfc]->writeString("content", content);
-          devices[deviceIndexNfc]->writeString("action", "nfc write");
+          devices[this->deviceIndexNfc]->writeString("content", content);
+          devices[this->deviceIndexNfc]->writeString("action", "nfc write");
           this->option = 0;
         }
         
-        if (deviceIndexNfc > -1 && devices[deviceIndexNfc]->readString("message") != "") {
-          this->nfcTag = devices[deviceIndexNfc]->readString("message");
-          devices[deviceIndexNfc]->writeString("message", "");
+        if (this->deviceIndexNfc > -1 && devices[this->deviceIndexNfc]->readString("message") != "") {
+          this->nfcTag = devices[this->deviceIndexNfc]->readString("message");
+          devices[this->deviceIndexNfc]->writeString("message", "");
           JsonArray & point = this->load(this->nfcTag);
           String re = point[0];
           String im = point[1];
@@ -145,10 +147,10 @@ class VV:public Program {
           char button = devices[deviceIndexKeypad]->buttonPressed;
           if (button != '*' && button != '#') {
             int index = button - 48;
-            if (index == 1 && deviceIndexNfc > -1) {
+            if (index == 1 && this->deviceIndexNfc > -1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-              devices[deviceIndexNfc]->writeString("content", content);
-              devices[deviceIndexNfc]->writeString("action", "nfc write");
+              devices[this->deviceIndexNfc]->writeString("content", content);
+              devices[this->deviceIndexNfc]->writeString("action", "nfc write");
             }
           }
         }

@@ -1,4 +1,4 @@
-#include <ArduinoJson.h>
+#include "ArduinoJson.h"
 
 #include "./engine/I2C.h";
 I2C i2c = I2C();
@@ -15,7 +15,6 @@ Storage storage = Storage();
 #include "./devices/Memory.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
-int deviceIndexNfc = -1;
 int deviceIndexKeypad = -1;
 int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
@@ -88,9 +87,6 @@ void setup() {
   }
 
   menu.init();
-  
-  String command = "[run,logo]";
-  executor.execute(command);
 }
 
 void loop() {

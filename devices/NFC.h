@@ -88,5 +88,7 @@ class NFCDevice: public Device {
         }
     }
 
-    NFCDevice() {}
+    NFCDevice() {
+        this->name = "nfc";
+    }
 };

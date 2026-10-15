@@ -105,8 +105,7 @@ class Kontrolery:public Program {
       Wire.beginTransmission(36);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
-        deviceIndexNfc = lastDeviceIndex;
-        devices[deviceIndexNfc] = new NFCDevice();
+        devices[lastDeviceIndex] = new NFCDevice();
       }
 
       Wire.beginTransmission(75);
