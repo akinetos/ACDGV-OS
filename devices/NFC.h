@@ -5,6 +5,7 @@ PN532_I2C pn532_i2c(Wire);
 
 class NFCDevice: public Device {
   public:
+    String action = "";
     String content = "www.acdgv.dev";
     String message = "";
     bool reading = false;
@@ -52,18 +53,22 @@ class NFCDevice: public Device {
     }
 
     void tick() {
-        if (action == "nfc read" && !this->reading) {
-            action = "";
+        if (this->action == "nfc read" && !this->reading) {
+            this->action = "";
             this->read();
         }
 
-        if (action == "nfc write" && !this->reading) {
-            action = "";
+        if (this->action == "nfc write" && !this->reading) {
+            this->action = "";
             this->write();
         }
     }
 
     void writeString(String field, String value) {
+        if (field == "action") {
+            this->action = value;
+        }
+        
         if (field == "content") {
             this->content = value;
         }

@@ -1,3 +1,4 @@
+#include "./Pixel.h";
 #include "./OLED.h";
 #include "./Port.h";
 

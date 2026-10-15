@@ -1,6 +1,3 @@
-#include "./engine/Pixel.h";
-String action = "";
-
 #include <ArduinoJson.h>
 
 #include "./engine/I2C.h";

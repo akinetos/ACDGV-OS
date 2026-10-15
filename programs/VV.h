@@ -120,14 +120,14 @@ class VV:public Program {
         channels[0].ports[0].screen.needsRefresh = true;
 
         if (this->option == 2) {
-          action = "nfc read";
+          devices[deviceIndexNfc]->writeString("action", "nfc read");
           this->option = 0;
         }
 
         if (deviceIndexNfc > -1 && this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
           devices[deviceIndexNfc]->writeString("content", content);
-          action = "nfc write";
+          devices[deviceIndexNfc]->writeString("action", "nfc write");
           this->option = 0;
         }
         
@@ -148,7 +148,7 @@ class VV:public Program {
             if (index == 1 && deviceIndexNfc > -1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
               devices[deviceIndexNfc]->writeString("content", content);
-              action = "nfc write";
+              devices[deviceIndexNfc]->writeString("action", "nfc write");
             }
           }
         }
