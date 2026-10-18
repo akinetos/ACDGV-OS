@@ -1,18 +1,18 @@
 #include "ArduinoJson.h"
 
-#include "./silnik/I2C.h";
+#include "./silnik/i2c.h";
 I2C i2c = I2C();
 
-#include "./silnik/Storage.h";
+#include "./silnik/pliki.h";
 Storage storage = Storage();
 
-#include "./silnik/Device.h";
-#include "./czujniki/AM.h";
-#include "./czujniki/Gamepad.h";
-#include "./czujniki/Keypad.h";
-#include "./czujniki/NFC.h";
-#include "./czujniki/DistanceSensor.h";
-#include "./czujniki/Memory.h";
+#include "./silnik/czujnik.h";
+#include "./czujniki/nachylenie.h";
+#include "./czujniki/dzojstik.h";
+#include "./czujniki/klawiatura-numeryczna.h";
+#include "./czujniki/nfc.h";
+#include "./czujniki/odleglosc.h";
+#include "./czujniki/pamiec.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
 int lastDeviceIndex = -1;
@@ -25,35 +25,35 @@ int znajdzCzujnik(String nazwa) {
   return indeks;
 }
 
-#include "./silnik/Channel.h";
+#include "./silnik/kanal.h";
 int channelsCount;
 Channel * channels;
 
-#include "./silnik/Surface.h";
+#include "./silnik/przestrzen.h";
 int surfacesCount;
 Surface * surfaces;
 
-#include "./silnik/Transition.h";
+#include "./silnik/przejscie.h";
 Transition transition = Transition();
 
-#include "./silnik/Program.h";
-#include "./programy/Batterfly.h";
-#include "./programy/Gravity.h";
-#include "./programy/VV.h";
-#include "./programy/Logo.h";
-#include "./programy/Kontrolery.h";
-#include "./programy/Skaner3d.h";
-#include "./programy/Battery.h";
-#include "./programy/Contacts.h";
+#include "./silnik/program.h";
+#include "./programy/ptak.h";
+#include "./programy/grawitacja.h";
+#include "./programy/ww.h";
+#include "./programy/logo.h";
+#include "./programy/kontrolery.h";
+#include "./programy/odleglosciomierz.h";
+#include "./programy/bateria.h";
+#include "./programy/kontakty.h";
 const int maxProgramsCount = 8;
 Program * programs[maxProgramsCount];
 int activeProgram = -1;
 int lastProgramIndex = -1;
 
-#include "./silnik/Executor.h"
+#include "./silnik/wykonawca.h"
 Executor executor;
 
-#include "./silnik/Menu.h";
+#include "./silnik/menu.h";
 Menu menu;
 
 void setup() {
