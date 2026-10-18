@@ -15,6 +15,7 @@ class Menu {
     String version = "8";
 
     int deviceIndexGamepad = -1;
+    int deviceIndexKeypad = -1;
 
     String getSegmentsPath() {
       String output = "";
@@ -72,6 +73,7 @@ class Menu {
 
     void init() {
       this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
+      this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
 
       Surface * surface = & surfaces[0];
       JsonArray & file = storage.load("/config/menu.json");
@@ -235,7 +237,7 @@ class Menu {
       Surface * surface = & surfaces[0];
       JsonArray & element = this->getElement();
       int index;
-      char button = devices[deviceIndexKeypad]->buttonPressed;
+      char button = devices[this->deviceIndexKeypad]->buttonPressed;
 
       if (button != '*' && button != '#') {
         int index = button - 48;
@@ -273,7 +275,7 @@ class Menu {
           this->reactToGamepadAction();
         }
 
-        if (deviceIndexKeypad > -1 && devices[deviceIndexKeypad]->shortPress) {
+        if (this->deviceIndexKeypad > -1 && devices[this->deviceIndexKeypad]->shortPress) {
           this->reactToKeypadAction();
         }
       }

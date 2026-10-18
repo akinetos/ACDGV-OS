@@ -30,11 +30,13 @@ class VV:public Program {
     int deviceIndexGamepad = -1;
     int deviceIndexAccelerometer = -1;
     int deviceIndexNfc = -1;
+    int deviceIndexKeypad = -1;
 
     void init() {
       this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
       this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
       this->deviceIndexNfc = znajdzCzujnik("nfc");
+      this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
 
       this->cRe = 0.22;
       this->cIm = 0.52;
@@ -143,8 +145,8 @@ class VV:public Program {
           this->cIm = im.toFloat();
         }
 
-        if (deviceIndexKeypad > -1 && devices[deviceIndexKeypad]->shortPress) {
-          char button = devices[deviceIndexKeypad]->buttonPressed;
+        if (this->deviceIndexKeypad > -1 && devices[this->deviceIndexKeypad]->shortPress) {
+          char button = devices[this->deviceIndexKeypad]->buttonPressed;
           if (button != '*' && button != '#') {
             int index = button - 48;
             if (index == 1 && this->deviceIndexNfc > -1) {

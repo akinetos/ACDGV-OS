@@ -111,15 +111,13 @@ class Kontrolery:public Program {
       Wire.beginTransmission(75);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
-        deviceIndexKeypad = lastDeviceIndex;
-        devices[deviceIndexKeypad] = new Keypad();
+        devices[lastDeviceIndex] = new Keypad();
       }
 
       Wire.beginTransmission(80);
       if (Wire.endTransmission() == 0) {
         lastDeviceIndex++;
-        deviceIndexMemory = lastDeviceIndex;
-        devices[deviceIndexMemory] = new Memory();
+        devices[lastDeviceIndex] = new Memory();
       }
     }
 

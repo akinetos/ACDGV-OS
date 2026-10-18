@@ -30,5 +30,7 @@ class Keypad: public Device {
       return button != NULL;
     }
 
-  Keypad() {}
+  Keypad() {
+    this->name = "klawiatura-numeryczna";
+  }
 };

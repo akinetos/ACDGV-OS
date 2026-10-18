@@ -15,8 +15,6 @@ Storage storage = Storage();
 #include "./devices/Memory.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
-int deviceIndexKeypad = -1;
-int deviceIndexMemory = -1;
 int lastDeviceIndex = -1;
 
 int znajdzCzujnik(String nazwa) {
