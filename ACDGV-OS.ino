@@ -1,18 +1,18 @@
 #include "ArduinoJson.h"
 
-#include "./engine/I2C.h";
+#include "./silnik/I2C.h";
 I2C i2c = I2C();
 
-#include "./engine/Storage.h";
+#include "./silnik/Storage.h";
 Storage storage = Storage();
 
-#include "./engine/Device.h";
-#include "./devices/AM.h";
-#include "./devices/Gamepad.h";
-#include "./devices/Keypad.h";
-#include "./devices/NFC.h";
-#include "./devices/DistanceSensor.h";
-#include "./devices/Memory.h";
+#include "./silnik/Device.h";
+#include "./czujniki/AM.h";
+#include "./czujniki/Gamepad.h";
+#include "./czujniki/Keypad.h";
+#include "./czujniki/NFC.h";
+#include "./czujniki/DistanceSensor.h";
+#include "./czujniki/Memory.h";
 const int maxDevicesCount = 8;
 Device * devices[maxDevicesCount];
 int lastDeviceIndex = -1;
@@ -25,35 +25,35 @@ int znajdzCzujnik(String nazwa) {
   return indeks;
 }
 
-#include "./engine/Channel.h";
+#include "./silnik/Channel.h";
 int channelsCount;
 Channel * channels;
 
-#include "./engine/Surface.h";
+#include "./silnik/Surface.h";
 int surfacesCount;
 Surface * surfaces;
 
-#include "./engine/Transition.h";
+#include "./silnik/Transition.h";
 Transition transition = Transition();
 
-#include "./engine/Program.h";
-#include "./programs/Batterfly.h";
-#include "./programs/Gravity.h";
-#include "./programs/VV.h";
-#include "./programs/Logo.h";
-#include "./programs/Kontrolery.h";
-#include "./programs/Skaner3d.h";
-#include "./programs/Battery.h";
-#include "./programs/Contacts.h";
+#include "./silnik/Program.h";
+#include "./programy/Batterfly.h";
+#include "./programy/Gravity.h";
+#include "./programy/VV.h";
+#include "./programy/Logo.h";
+#include "./programy/Kontrolery.h";
+#include "./programy/Skaner3d.h";
+#include "./programy/Battery.h";
+#include "./programy/Contacts.h";
 const int maxProgramsCount = 8;
 Program * programs[maxProgramsCount];
 int activeProgram = -1;
 int lastProgramIndex = -1;
 
-#include "./engine/Executor.h"
+#include "./silnik/Executor.h"
 Executor executor;
 
-#include "./engine/Menu.h";
+#include "./silnik/Menu.h";
 Menu menu;
 
 void setup() {
