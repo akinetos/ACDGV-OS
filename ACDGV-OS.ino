@@ -78,11 +78,8 @@ void setup() {
 
   surfacesCount = config.size();
   surfaces = new Surface[surfacesCount];
-  for (int i = 0; i < surfacesCount; i++) {
-    Surface * surface = new Surface();
-    surface->init(config[i]);
-    surfaces[i] = * surface;
-  }
+  for (int i = 0; i < surfacesCount; i++)
+    surfaces[i].init(config[i]);
 
   menu.init();
 }
