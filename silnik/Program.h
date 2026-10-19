@@ -1,6 +1,6 @@
-class Program {
+class program {
   public:
-    Program() {}
+    program() {}
     boolean initialised = false;
     boolean active = false;
     int activatedTimestamp = 0;

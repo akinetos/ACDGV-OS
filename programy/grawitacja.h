@@ -1,4 +1,4 @@
-class Gravity:public Program {
+class Gravity:public program {
     public:
       int x = 64;
       int y = 128;

@@ -5,7 +5,7 @@ class item {
   item() {}
 };
 
-class Kontrolery:public Program {
+class Kontrolery:public program {
   public:
     String foundDevices[10];
     int foundAddresses[10];

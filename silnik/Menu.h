@@ -91,8 +91,8 @@ class Menu {
       this->segments[0] = optionName;
       
       for (int i=0; i<=lastProgramIndex; i++) {
-        if (programs[i]->active) {
-          programs[i]->init();
+        if (programy[i]->active) {
+          programy[i]->init();
         }
       }
 
@@ -107,7 +107,7 @@ class Menu {
 
     void closeProgram() {
       if (activeProgram != -1) {
-        programs[activeProgram]->active = false;
+        programy[activeProgram]->active = false;
       }
       activeProgram = -1;
       transition.init(1);
@@ -120,7 +120,7 @@ class Menu {
       this->changed = true;
       
       if (activeProgram != -1) {
-        if (this->level < programs[activeProgram]->menuLevel) {
+        if (this->level < programy[activeProgram]->menuLevel) {
           this->closeProgram();
         }
       }
@@ -149,7 +149,7 @@ class Menu {
                 this->address[i-1] = NULL;
                 this->changed = true;
               }
-              if (this->level < programs[activeProgram]->menuLevel) {
+              if (this->level < programy[activeProgram]->menuLevel) {
                 this->closeProgram();
               }
             }
@@ -193,7 +193,7 @@ class Menu {
       JsonArray & command = element[2];
       if (command.size()) {
         int programIndex = executor.execute(command);
-        programs[programIndex]->menuLevel = this->level + 1;
+        programy[programIndex]->menuLevel = this->level + 1;
       }
     }
 
@@ -207,7 +207,7 @@ class Menu {
           JsonArray & command = element[2];
           if (command.size()) {
             int programIndex = executor.execute(command);
-            programs[programIndex]->menuLevel = this->level + 1;
+            programy[programIndex]->menuLevel = this->level + 1;
           }
         } else {
           this->populateOptions();

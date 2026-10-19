@@ -10,48 +10,48 @@ class Executor {
                 boolean hasOption = command.size() == 3;
                 
                 for (int i=0; i<=lastProgramIndex; i++)
-                    if (programs[i]->name == programName)
+                    if (programy[i]->name == programName)
                         programIndex = i;
 
                 if (programIndex == -1) {
                     lastProgramIndex++;
                     if (programName == "batterfly") {
-                        programs[lastProgramIndex] = new Batterfly();
+                        programy[lastProgramIndex] = new Batterfly();
                     }
                     if (programName == "vv") {
-                        programs[lastProgramIndex] = new VV();
+                        programy[lastProgramIndex] = new VV();
                     }
                     if (programName == "logo") {
-                        programs[lastProgramIndex] = new Logo();
+                        programy[lastProgramIndex] = new Logo();
                     }
                     if (programName == "skaner-3d") {
-                        programs[lastProgramIndex] = new Skaner3d();
+                        programy[lastProgramIndex] = new Skaner3d();
                     }
                     if (programName == "contacts") {
-                        programs[lastProgramIndex] = new Contacts();
+                        programy[lastProgramIndex] = new Contacts();
                     }
                     if (programName == "Kontrolery") {
-                        programs[lastProgramIndex] = new Kontrolery();
+                        programy[lastProgramIndex] = new Kontrolery();
                     }
                     if (programName == "gravity") {
-                        programs[lastProgramIndex] = new Gravity();
+                        programy[lastProgramIndex] = new Gravity();
                     }
                     if (programName == "battery") {
-                        programs[lastProgramIndex] = new Battery();
+                        programy[lastProgramIndex] = new Battery();
                     }
                     programIndex = lastProgramIndex;
                 }
 
-                if (!programs[programIndex]->active) {
-                    if (!programs[programIndex]->initialised)
-                        programs[programIndex]->init();
-                    programs[programIndex]->activate();
+                if (!programy[programIndex]->active) {
+                    if (!programy[programIndex]->initialised)
+                        programy[programIndex]->init();
+                    programy[programIndex]->activate();
                     activeProgram = programIndex;
                 }
 
                 if (hasOption) {
                     int optionValue = command[2];
-                    programs[programIndex]->setOption(optionValue);
+                    programy[programIndex]->setOption(optionValue);
                 }
 
                 output = programIndex;

@@ -1,6 +1,6 @@
 const int pointsCount = 1000;
 
-class VV:public Program {
+class VV:public program {
   public:
     float cRe;
     float cIm;

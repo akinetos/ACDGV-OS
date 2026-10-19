@@ -1,4 +1,4 @@
-class Battery:public Program {
+class Battery:public program {
     public:
         void tick() {}
         

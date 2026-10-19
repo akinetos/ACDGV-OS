@@ -1,4 +1,4 @@
-class Heart:public Program {
+class Heart:public program {
     public:
         int surfaceIndex = -1;
 

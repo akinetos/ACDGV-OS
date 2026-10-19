@@ -46,7 +46,7 @@ Transition transition = Transition();
 #include "./programy/bateria.h";
 #include "./programy/kontakty.h";
 const int maxProgramsCount = 8;
-Program * programs[maxProgramsCount];
+program * programy[maxProgramsCount];
 int activeProgram = -1;
 int lastProgramIndex = -1;
 
@@ -98,13 +98,13 @@ void loop() {
   transition.tick();
 
   for (int i = 0; i <= lastProgramIndex; i++)
-    programs[i]->tick();
+    programy[i]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
     przestrzenie[i].clear();
 
   for (int i = 0; i <= lastProgramIndex; i++)
-    programs[i]->draw();
+    programy[i]->draw();
 
   menu.draw();
   transition.draw();

@@ -1,4 +1,4 @@
-class Skaner3d:public Program {
+class Skaner3d:public program {
   	public:
 		double distances[8];
 

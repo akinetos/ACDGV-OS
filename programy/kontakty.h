@@ -140,7 +140,7 @@ const unsigned char* images[2] = {
 };
 
 
-class Contacts:public Program {
+class Contacts:public program {
   public:
 	int offsetY = 0;
 

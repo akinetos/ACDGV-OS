@@ -166,7 +166,7 @@ const unsigned char* logo_ACDGV_32x32[5] = {
 };
 
 
-class Logo:public Program {
+class Logo:public program {
   public:
     String text = "ACDGV";
 	int offsetY = 0;

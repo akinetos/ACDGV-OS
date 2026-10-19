@@ -45,7 +45,7 @@ const int PESTKI_COUNT = 10;
 
 int endedAt = 0;
 
-class Batterfly:public Program {
+class Batterfly:public program {
     public:
         int wingsSpread = 10;
         int vectorX = 0;
