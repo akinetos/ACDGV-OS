@@ -10,7 +10,7 @@ class Skaner3d:public Program {
 			if (this->active) {
 				for (int i=0; i<8; i++) {
 					Port * port = & channels[0].ports[i];
-					double distance = port->devices[0]->readNumber("distance");
+					double distance = port->czujniki[0]->readNumber("distance");
 					if (distance != 20 && distance != this->distances[i]) {
 						this->distances[i] = distance;
 						port->screen.needsRefresh = true;

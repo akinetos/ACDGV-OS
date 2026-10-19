@@ -1,6 +1,6 @@
 #include <Adafruit_seesaw.h>
 
-class Gamepad: public Device {
+class Gamepad: public czujnik {
   public:
     Adafruit_seesaw device;
     int buttonApressedTime = 0;

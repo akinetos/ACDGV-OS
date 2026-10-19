@@ -55,7 +55,7 @@ class Surface {
       this->channel = channel;
 
       if (this->deviceIndexAccelerometer > -1)
-        this->handleOrientationChange(devices[this->deviceIndexAccelerometer]->orientation);
+        this->handleOrientationChange(czujniki[this->deviceIndexAccelerometer]->orientation);
       else
         this->handleOrientationChange("up");
 
@@ -119,14 +119,14 @@ class Surface {
     void tick() {
       if (this->deviceIndexGamepad > -1)
         if (this->facingUp && this->showPointer)
-          this->updatePointer(devices[this->deviceIndexGamepad]->readNumber("x"), devices[this->deviceIndexGamepad]->readNumber("y"));
+          this->updatePointer(czujniki[this->deviceIndexGamepad]->readNumber("x"), czujniki[this->deviceIndexGamepad]->readNumber("y"));
 
       if (this->deviceIndexAccelerometer > -1)
-        if (devices[this->deviceIndexAccelerometer]->orientationChanged)
-          this->handleOrientationChange(devices[this->deviceIndexAccelerometer]->orientation);
+        if (czujniki[this->deviceIndexAccelerometer]->orientationChanged)
+          this->handleOrientationChange(czujniki[this->deviceIndexAccelerometer]->orientation);
 
       if (this->deviceIndexGamepad > -1)
-        if (devices[this->deviceIndexGamepad]->shortPress || devices[this->deviceIndexGamepad]->longPress)
+        if (czujniki[this->deviceIndexGamepad]->shortPress || czujniki[this->deviceIndexGamepad]->longPress)
           this->animatePointerTime = millis();
     }
 

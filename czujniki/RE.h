@@ -1,6 +1,6 @@
 #include <DFRobot_VisualRotaryEncoder.h>
 
-class RE: public Device {
+class RE: public czujnik {
   public:
     uint16_t value = 0;
     int position = 0;

@@ -1,7 +1,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 
-class OLED: public Device {
+class OLED: public czujnik {
   public:
     Adafruit_SH1106G sh1106 = Adafruit_SH1106G(128, 64, &Wire, -1);
     Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 64, &Wire, -1);

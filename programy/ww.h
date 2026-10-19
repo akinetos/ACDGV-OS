@@ -64,15 +64,15 @@ class VV:public Program {
       this->points[0] = 0;
       this->points[1] = 0;
 
-      this->offsetRe = devices[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
-      this->offsetIm = devices[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
+      this->offsetRe = czujniki[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
+      this->offsetIm = czujniki[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (devices[this->deviceIndexGamepad]->readNumber("x") < -0.01 || devices[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
-          xOffset -= devices[this->deviceIndexGamepad]->readNumber("x") * 10;
+        if (czujniki[this->deviceIndexGamepad]->readNumber("x") < -0.01 || czujniki[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
+          xOffset -= czujniki[this->deviceIndexGamepad]->readNumber("x") * 10;
         }
-        if (devices[this->deviceIndexGamepad]->readNumber("y") < -0.01 || devices[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
-          yOffset -= devices[this->deviceIndexGamepad]->readNumber("y") * 10;
+        if (czujniki[this->deviceIndexGamepad]->readNumber("y") < -0.01 || czujniki[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
+          yOffset -= czujniki[this->deviceIndexGamepad]->readNumber("y") * 10;
         }
       }
 
@@ -109,7 +109,7 @@ class VV:public Program {
 
     void tick() {
       if (this->active) {
-        if (devices[this->deviceIndexGamepad]->longPress) {
+        if (czujniki[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
           Surface * surface = & surfaces[0];
           if (this->move) {
@@ -124,20 +124,20 @@ class VV:public Program {
         channels[0].ports[0].screen.needsRefresh = true;
 
         if (this->deviceIndexNfc > -1 && this->option == 2) {
-          devices[this->deviceIndexNfc]->writeString("action", "nfc read");
+          czujniki[this->deviceIndexNfc]->writeString("action", "nfc read");
           this->option = 0;
         }
 
         if (this->deviceIndexNfc > -1 && this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          devices[this->deviceIndexNfc]->writeString("content", content);
-          devices[this->deviceIndexNfc]->writeString("action", "nfc write");
+          czujniki[this->deviceIndexNfc]->writeString("content", content);
+          czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
           this->option = 0;
         }
         
-        if (this->deviceIndexNfc > -1 && devices[this->deviceIndexNfc]->readString("message") != "") {
-          this->nfcTag = devices[this->deviceIndexNfc]->readString("message");
-          devices[this->deviceIndexNfc]->writeString("message", "");
+        if (this->deviceIndexNfc > -1 && czujniki[this->deviceIndexNfc]->readString("message") != "") {
+          this->nfcTag = czujniki[this->deviceIndexNfc]->readString("message");
+          czujniki[this->deviceIndexNfc]->writeString("message", "");
           JsonArray & point = this->load(this->nfcTag);
           String re = point[0];
           String im = point[1];
@@ -145,14 +145,14 @@ class VV:public Program {
           this->cIm = im.toFloat();
         }
 
-        if (this->deviceIndexKeypad > -1 && devices[this->deviceIndexKeypad]->shortPress) {
-          char button = devices[this->deviceIndexKeypad]->buttonPressed;
+        if (this->deviceIndexKeypad > -1 && czujniki[this->deviceIndexKeypad]->shortPress) {
+          char button = czujniki[this->deviceIndexKeypad]->buttonPressed;
           if (button != '*' && button != '#') {
             int index = button - 48;
             if (index == 1 && this->deviceIndexNfc > -1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-              devices[this->deviceIndexNfc]->writeString("content", content);
-              devices[this->deviceIndexNfc]->writeString("action", "nfc write");
+              czujniki[this->deviceIndexNfc]->writeString("content", content);
+              czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
             }
           }
         }

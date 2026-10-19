@@ -1,6 +1,6 @@
 #include <DFRobot_GR10_30.h>
 
-class GD: public Device {
+class GD: public czujnik {
   public:
     DFRobot_GR10_30 device = DFRobot_GR10_30(0x73, &Wire);
     boolean changed = false;

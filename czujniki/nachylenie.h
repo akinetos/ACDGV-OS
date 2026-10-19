@@ -1,4 +1,4 @@
-class AM: public Device {
+class AM: public czujnik {
   public:
     double previousX;
     double previousY;

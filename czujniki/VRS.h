@@ -2,7 +2,7 @@
 //https://wiki.dfrobot.com/sen0539-en#target_0
 //https://wiki.dfrobot.com/sen0539-en/docs/21331
 
-class VRS: public Device {
+class VRS: public czujnik {
   public :
     DFRobot_DF2301Q_I2C device = DFRobot_DF2301Q_I2C();
     boolean changed = false;

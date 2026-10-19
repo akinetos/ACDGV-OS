@@ -1,4 +1,4 @@
-class Device {
+class czujnik {
   public:
     int address;
     boolean connected;
@@ -6,7 +6,7 @@ class Device {
     char buttonPressed = NULL;
     String name;
 
-    Device();
+    czujnik();
     
     void virtual init(void);
 
@@ -27,10 +27,10 @@ class Device {
     boolean longPress = false;
 };
 
-Device::Device() {}
+czujnik::czujnik() {}
 
-void Device::init() {}
-void Device::tick() {}
-double Device::readNumber(String) {}
-String Device::readString(String) {}
-void Device::writeString(String, String) {}
+void czujnik::init() {}
+void czujnik::tick() {}
+double czujnik::readNumber(String) {}
+String czujnik::readString(String) {}
+void czujnik::writeString(String, String) {}

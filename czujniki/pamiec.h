@@ -1,6 +1,6 @@
 #include <Adafruit_EEPROM_I2C.h>
 
-class Memory: public Device {
+class Memory: public czujnik {
   public:
     Adafruit_EEPROM_I2C device;
     double number = 0;

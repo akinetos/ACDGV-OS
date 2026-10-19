@@ -3,7 +3,7 @@
 
 PN532_I2C pn532_i2c(Wire);
 
-class NFCDevice: public Device {
+class NFCDevice: public czujnik {
   public:
     String action = "";
     String content = "www.acdgv.dev";

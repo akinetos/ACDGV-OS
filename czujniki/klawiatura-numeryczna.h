@@ -1,6 +1,6 @@
 #include <SparkFun_Qwiic_Keypad_Arduino_Library.h>
 
-class Keypad: public Device {
+class Keypad: public czujnik {
   public:
     KEYPAD device;
     int buttonPressedTime = 0;

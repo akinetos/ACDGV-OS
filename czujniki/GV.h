@@ -1,6 +1,6 @@
 #include <DFRobot_MAX17043.h>
 
-class GV: public Device {
+class GV: public czujnik {
   public:
     DFRobot_MAX17043 device;
     double percentage = 0;

@@ -25,8 +25,8 @@ class Gravity:public Program {
           int tiltY = 0;
 
           if (this->deviceIndexAccelerometer > -1) {
-            tiltX -= (int)(devices[this->deviceIndexAccelerometer]->readNumber("x") * speed);
-            tiltY += (int)(devices[this->deviceIndexAccelerometer]->readNumber("y") * speed);
+            tiltX -= (int)(czujniki[this->deviceIndexAccelerometer]->readNumber("x") * speed);
+            tiltY += (int)(czujniki[this->deviceIndexAccelerometer]->readNumber("y") * speed);
           }
           
           /*

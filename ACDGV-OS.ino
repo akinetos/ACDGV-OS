@@ -14,13 +14,13 @@ Storage storage = Storage();
 #include "./czujniki/odleglosc.h";
 #include "./czujniki/pamiec.h";
 const int maxDevicesCount = 8;
-Device * devices[maxDevicesCount];
+czujnik * czujniki[maxDevicesCount];
 int lastDeviceIndex = -1;
 
 int znajdzCzujnik(String nazwa) {
   int indeks = -1;
   for (int i = 0; i <= lastDeviceIndex; i++)
-    if (devices[i]->name == nazwa)
+    if (czujniki[i]->name == nazwa)
       indeks = i;
   return indeks;
 }
@@ -74,7 +74,7 @@ void setup() {
   kontrolery->skanuj();
   
   for (int i = 0; i <= lastDeviceIndex; i++)
-    devices[i]->init();
+    czujniki[i]->init();
 
   surfacesCount = config.size();
   surfaces = new Surface[surfacesCount];
@@ -86,7 +86,7 @@ void setup() {
 
 void loop() {
   for (int i = 0; i <= lastDeviceIndex; i++)
-    devices[i]->tick();
+    czujniki[i]->tick();
 
   for (int i = 0; i < channelsCount; i++)
     channels[i].tick();

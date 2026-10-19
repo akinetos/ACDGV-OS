@@ -1,4 +1,4 @@
-class DistanceSensor: public Device {
+class DistanceSensor: public czujnik {
   public:
     int distance = 0;
     int previousDistance = 0;
