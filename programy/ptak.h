@@ -67,8 +67,8 @@ class Batterfly:public Program {
             int y = 0;
 
             if (surfacesCount > 1) {
-                Surface * s2x1 = & surfaces[0];
-                Surface * s8x1 = & surfaces[1];
+                przestrzen * s2x1 = & przestrzenie[0];
+                przestrzen * s8x1 = & przestrzenie[1];
 
                 if (s2x1->facingUp && s2x1->pointerPort == 1) {
                     channel = s2x1->channel;
@@ -84,7 +84,7 @@ class Batterfly:public Program {
                     y = s8x1->getRelativeY();
                 }
             } else {
-                Surface * s8x1 = & surfaces[0];
+                przestrzen * s8x1 = & przestrzenie[0];
                 channel = s8x1->channel;
                 port = s8x1->pointerPort;
                 x = s8x1->getRelativeX();
@@ -148,7 +148,7 @@ class Batterfly:public Program {
         }
 
         void detectColisions() {
-            Surface * surface = & surfaces[this->surfaceIndex];
+            przestrzen * surface = & przestrzenie[this->surfaceIndex];
             int port = surface->pointerPort;
             int x = surface->getRelativeX();
             int y = surface->getRelativeY();
@@ -173,7 +173,7 @@ class Batterfly:public Program {
             double diffX = czujniki[this->deviceIndexAccelerometer]->readNumber("x") - czujniki[this->deviceIndexAccelerometer]->readNumber("previousX");
             double diffY = czujniki[this->deviceIndexAccelerometer]->readNumber("y") - czujniki[this->deviceIndexAccelerometer]->readNumber("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
-                Surface * surface = & surfaces[this->surfaceIndex];
+                przestrzen * surface = & przestrzenie[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     Star & star = this->stars[s];
                     star.x = star.originalX + czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
@@ -184,7 +184,7 @@ class Batterfly:public Program {
         }
 
         void drawStars() {
-            Surface * surface = & surfaces[this->surfaceIndex];
+            przestrzen * surface = & przestrzenie[this->surfaceIndex];
             for (int s=0; s<STARS_COUNT; s++) {
                 Star & star = this->stars[s];
                 if (star.active) {
@@ -261,14 +261,14 @@ class Batterfly:public Program {
         }
 
         void updateBatterfly() {
-            Surface * surface = & surfaces[this->surfaceIndex];
+            przestrzen * surface = & przestrzenie[this->surfaceIndex];
             this->vectorX = czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
             this->vectorY = czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
             channels[surface->channel].ports[surface->pointerPort].screen.needsRefresh = true;
         }
 
         void updatePointer() {
-            Surface * surface = & surfaces[this->surfaceIndex];
+            przestrzen * surface = & przestrzenie[this->surfaceIndex];
             if (surface->pointerPortChanged()) {
                 channels[surface->channel].ports[surface->pointerPreviousPort].screen.needsRefresh = true;
             }
@@ -279,7 +279,7 @@ class Batterfly:public Program {
         }
 
         void updatePestki() {
-            Surface * surface = & surfaces[this->surfaceIndex];
+            przestrzen * surface = & przestrzenie[this->surfaceIndex];
             
             int index = -1;
             if (
@@ -317,8 +317,8 @@ class Batterfly:public Program {
 
         void drawPestki() {
             if (surfacesCount > 1) {
-                Surface * s2x1 = & surfaces[0];
-                Surface * s8x1 = & surfaces[1];
+                przestrzen * s2x1 = & przestrzenie[0];
+                przestrzen * s8x1 = & przestrzenie[1];
 
                 if (s2x1->facingUp) {
                     for (int i=0; i<PESTKI_COUNT; i++) {
@@ -342,7 +342,7 @@ class Batterfly:public Program {
                     }
                 }
             } else {
-                Surface * s8x1 = & surfaces[0];
+                przestrzen * s8x1 = & przestrzenie[0];
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp > 0) {
                         int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
@@ -370,7 +370,7 @@ class Batterfly:public Program {
 
         void draw() {
             if (this->active) {
-                Surface * surface = & surfaces[this->surfaceIndex];
+                przestrzen * surface = & przestrzenie[this->surfaceIndex];
                 if (this->over) {
                     this->drawProgress();
                     int time = (endedAt - this->activatedTimestamp) / 1000;

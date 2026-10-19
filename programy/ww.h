@@ -56,7 +56,7 @@ class VV:public Program {
     }
 
     void compute() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
 
       float newZre = 0;
       float newZim = 0;
@@ -111,7 +111,7 @@ class VV:public Program {
       if (this->active) {
         if (czujniki[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
-          Surface * surface = & surfaces[0];
+          przestrzen * surface = & przestrzenie[0];
           if (this->move) {
             surface->showPointer = false;
           } else {
@@ -164,13 +164,13 @@ class VV:public Program {
     }
 
     boolean isWithinRange(int i) {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       return points[i*2] >=0 && points[i*2] < surface->width && points[i*2+1] >= 0 && points[i*2+1] < surface->height;
     }
 
     void draw() {
       if (this->active) {
-        Surface * surface = & surfaces[0];
+        przestrzen * surface = & przestrzenie[0];
 
         if (surface->facingUp) {
           if (this->option == 0) {

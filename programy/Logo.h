@@ -208,7 +208,7 @@ class Logo:public Program {
 		*/
 	  
 		if (this->active) {
-			Surface * s8x1 = & surfaces[0];
+			przestrzen * s8x1 = & przestrzenie[0];
 			if (s8x1->facingUp) {
 				/*
 				int xStep = 8;

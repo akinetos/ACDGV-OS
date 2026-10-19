@@ -31,7 +31,7 @@ Channel * channels;
 
 #include "./silnik/przestrzen.h";
 int surfacesCount;
-Surface * surfaces;
+przestrzen * przestrzenie;
 
 #include "./silnik/przejscie.h";
 Transition transition = Transition();
@@ -77,9 +77,9 @@ void setup() {
     czujniki[i]->init();
 
   surfacesCount = config.size();
-  surfaces = new Surface[surfacesCount];
+  przestrzenie = new przestrzen[surfacesCount];
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].init(config[i]);
+    przestrzenie[i].init(config[i]);
 
   menu.init();
 }
@@ -92,7 +92,7 @@ void loop() {
     channels[i].tick();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].tick();
+    przestrzenie[i].tick();
 
   menu.tick();
   transition.tick();
@@ -101,7 +101,7 @@ void loop() {
     programs[i]->tick();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].clear();
+    przestrzenie[i].clear();
 
   for (int i = 0; i <= lastProgramIndex; i++)
     programs[i]->draw();
@@ -110,5 +110,5 @@ void loop() {
   transition.draw();
 
   for (int i = 0; i < surfacesCount; i++)
-    surfaces[i].draw();
+    przestrzenie[i].draw();
 }

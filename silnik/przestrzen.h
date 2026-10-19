@@ -1,4 +1,4 @@
-class Surface {
+class przestrzen {
   public:
     int channel;
     
@@ -139,7 +139,7 @@ class Surface {
       this->screensDisabled = state == "off";
     }
 
-  Surface() {}
+  przestrzen() {}
 
   int drawRectangle(int x, int y) {
     int height = 32;

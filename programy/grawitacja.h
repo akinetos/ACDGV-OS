@@ -87,7 +87,7 @@ class Gravity:public Program {
 
       void draw() {
         if (this->active) {
-          Surface * surface = & surfaces[0];
+          przestrzen * surface = & przestrzenie[0];
           if (this->port != this->previousPort) {
             if (this->previousPort != -1)
               channels[surface->channel].ports[this->previousPort].screen.clear();

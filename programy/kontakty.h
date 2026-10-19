@@ -151,7 +151,7 @@ class Contacts:public Program {
 
     void draw() {
 		if (this->active) {
-			Surface * surface = & surfaces[0];
+			przestrzen * surface = & przestrzenie[0];
 			for (int port=1; port<3; port++) {
 				surface->drawBitmap(images[port-1], port, this->offsetY);
 			}

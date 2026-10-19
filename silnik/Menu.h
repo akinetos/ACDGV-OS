@@ -44,7 +44,7 @@ class Menu {
     }
 
     void updateOptions() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       int x = surface->getRelativeX();
       int y = surface->getRelativeY();
 
@@ -62,7 +62,7 @@ class Menu {
     }
 
     void updatePointer() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       if (surface->pointerPositionX > 120 && channels[surface->channel].ports[surface->pointerPort].screen.scrollbarHovered) {
         surface->pointerPositionY = surface->pointerPreviousPositionY;
         if (surface->pointerPortChanged()) {
@@ -75,7 +75,7 @@ class Menu {
       this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
       this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
 
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       JsonArray & file = storage.load("/config/menu.json");
       String optionName = file[0];
 
@@ -156,7 +156,7 @@ class Menu {
           }
 
           if (this->changed) {
-            Surface * surface = & surfaces[0];
+            przestrzen * surface = & przestrzenie[0];
             this->addressPath = this->getAddressPath();
             this->segmentsPath = this->getSegmentsPath();
           }
@@ -183,7 +183,7 @@ class Menu {
       this->segments[this->level] = optionName;
 
       if (this->version == "8") {
-        Surface * surface = & surfaces[0];
+        przestrzen * surface = & przestrzenie[0];
         this->populate(element[1]);
       } else {
         OLED & screen = channels[0].ports[1].screen;
@@ -198,7 +198,7 @@ class Menu {
     }
 
     void reactToGamepadAction() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       JsonArray & element = this->getElement();
 
       if (surface->pointerPort == 0 && this->show && this->changed) {
@@ -234,7 +234,7 @@ class Menu {
     }
 
     void reactToKeypadAction() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       JsonArray & element = this->getElement();
       int index;
       char button = czujniki[this->deviceIndexKeypad]->buttonPressed;
@@ -257,14 +257,14 @@ class Menu {
     }
 
     boolean mainMenuHovered() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       boolean hovered = surface->pointerPort == 0 
         && (this->show || channels[0].ports[0].screen.closeButtonHovered);
       return hovered;
     }
 
     void tick() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
 
       if (surface->facingUp) {
         this->updatePointer();
@@ -282,7 +282,7 @@ class Menu {
     }
 
     void draw() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
 
       if (this->show) {
         if (surface->pointerPort > 0) {
@@ -301,7 +301,7 @@ class Menu {
     }
 
     void drawPath(int port) {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       OLED & screen = channels[0].ports[port].screen;
       int cursorX = -1;
       int cursorY = -1;
@@ -314,7 +314,7 @@ class Menu {
     }
 
     void drawOptions() {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
           OLED & screen = channels[0].ports[port].screen;
@@ -337,7 +337,7 @@ class Menu {
     }
 
     void populate(JsonArray & list) {
-      Surface * surface = & surfaces[0];
+      przestrzen * surface = & przestrzenie[0];
       if (list.size() > 0) {
         this->optionsCount = list.size();
         for (int i = 0; i < this->optionsCount; i++) {
