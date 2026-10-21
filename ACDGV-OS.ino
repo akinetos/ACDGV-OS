@@ -1,27 +1,20 @@
 #include "ArduinoJson.h"
 #include "./silnik/katalog.h";
 
+#include "./silnik/czujnik.h";
+const int maxDevicesCount = 8;
+czujnik * czujniki[maxDevicesCount];
+int lastDeviceIndex = -1;
+
 #include "./silnik/magistrala.h";
 magistrala i2c = magistrala();
 
-#include "./silnik/czujnik.h";
 #include "./czujniki/nachylenie.h";
 #include "./czujniki/dzojstik.h";
 #include "./czujniki/klawiatura-numeryczna.h";
 #include "./czujniki/nfc.h";
 #include "./czujniki/odleglosc.h";
 #include "./czujniki/pamiec.h";
-const int maxDevicesCount = 8;
-czujnik * czujniki[maxDevicesCount];
-int lastDeviceIndex = -1;
-
-int znajdzCzujnik(String nazwa) {
-  int indeks = -1;
-  for (int i = 0; i <= lastDeviceIndex; i++)
-    if (czujniki[i]->name == nazwa)
-      indeks = i;
-  return indeks;
-}
 
 #include "./silnik/kanal.h";
 int channelsCount;

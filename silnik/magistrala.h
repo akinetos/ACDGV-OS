@@ -48,5 +48,13 @@ class magistrala {
       }
     }
 
+    int znajdzCzujnik(String nazwa) {
+      int indeks = -1;
+      for (int i = 0; i <= lastDeviceIndex; i++)
+        if (czujniki[i]->name == nazwa)
+          indeks = i;
+      return indeks;
+    }
+
   magistrala() {}
 };

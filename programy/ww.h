@@ -33,10 +33,10 @@ class VV:public program {
     int deviceIndexKeypad = -1;
 
     void init() {
-      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
-      this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
-      this->deviceIndexNfc = znajdzCzujnik("nfc");
-      this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
+      this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
+      this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
+      this->deviceIndexNfc = i2c.znajdzCzujnik("nfc");
+      this->deviceIndexKeypad = i2c.znajdzCzujnik("klawiatura-numeryczna");
 
       this->cRe = 0.22;
       this->cIm = 0.52;

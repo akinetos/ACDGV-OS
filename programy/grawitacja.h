@@ -76,7 +76,7 @@ class Gravity:public program {
       }
 
       void init() {
-        this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+        this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
         
         if (this->version == "3") 
           this->maxY = 95;

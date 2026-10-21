@@ -72,8 +72,8 @@ class Menu {
     }
 
     void init() {
-      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
-      this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
+      this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
+      this->deviceIndexKeypad = i2c.znajdzCzujnik("klawiatura-numeryczna");
 
       przestrzen * surface = & przestrzenie[0];
       JsonArray & file = katalog::load("/config/menu.json");

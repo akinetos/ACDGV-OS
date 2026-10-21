@@ -355,8 +355,8 @@ class Batterfly:public program {
         }
 
         void init() {
-            this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
-            this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+            this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
+            this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
 
             this->surfaceIndex = 0;
             for (int i=0; i<STARS_COUNT; i++) {

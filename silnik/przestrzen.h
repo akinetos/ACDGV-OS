@@ -39,8 +39,8 @@ class przestrzen {
     }
 
     void init(JsonObject & config) {
-      this->deviceIndexGamepad = znajdzCzujnik("dzojstik");
-      this->deviceIndexAccelerometer = znajdzCzujnik("czujnik-nachylenia");
+      this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
+      this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
 
       int width = config["width"];
       int height = config["height"];
