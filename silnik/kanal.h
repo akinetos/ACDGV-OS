@@ -2,7 +2,7 @@
 #include "./OLED.h";
 #include "./Port.h";
 
-class Channel {
+class kanal {
   public:
     int number;
     Port ports[8];
@@ -55,5 +55,5 @@ class Channel {
       }
     }
 
-  Channel() {}
+  kanal() {}
 };

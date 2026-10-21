@@ -57,7 +57,7 @@ class Transition {
           }
         }
         for (int i=0; i<8; i++) {
-          channels[0].ports[i].screen.needsRefresh = true;
+          kanaly[0].ports[i].screen.needsRefresh = true;
         }
       }
     }

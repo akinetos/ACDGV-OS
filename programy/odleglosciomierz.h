@@ -9,7 +9,7 @@ class Skaner3d:public program {
 		void tick() {
 			if (this->active) {
 				for (int i=0; i<8; i++) {
-					Port * port = & channels[0].ports[i];
+					Port * port = & kanaly[0].ports[i];
 					double distance = port->czujniki[0]->readNumber("distance");
 					if (distance != 20 && distance != this->distances[i]) {
 						this->distances[i] = distance;
@@ -22,15 +22,15 @@ class Skaner3d:public program {
 		void draw() {
 			if (this->active) {
 				for (int port=0; port<8; port++) {
-					if (channels[0].ports[port].screen.needsRefresh) {
+					if (kanaly[0].ports[port].screen.needsRefresh) {
 						double distance = this->distances[port];
 						if (distance < 20) distance = 20;
 						if (distance > 128) distance = 128;
 						for (int x=0; x<distance; x+=2) {
-							channels[0].ports[port].screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
+							kanaly[0].ports[port].screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
 						}
 						for (int x=distance-5; x<distance; x++) {
-							channels[0].ports[port].screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
+							kanaly[0].ports[port].screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
 						}
 					}
 				}

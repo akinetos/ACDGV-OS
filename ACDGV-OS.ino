@@ -1,9 +1,8 @@
 #include "ArduinoJson.h"
+#include "./silnik/katalog.h";
 
 #include "./silnik/magistrala.h";
 magistrala i2c = magistrala();
-
-#include "./silnik/katalog.h";
 
 #include "./silnik/czujnik.h";
 #include "./czujniki/nachylenie.h";
@@ -26,7 +25,7 @@ int znajdzCzujnik(String nazwa) {
 
 #include "./silnik/kanal.h";
 int channelsCount;
-Channel * channels;
+kanal * kanaly;
 
 #include "./silnik/przestrzen.h";
 int surfacesCount;
@@ -64,10 +63,10 @@ void setup() {
   const String path = "/config/surfaces/8.json";
   JsonArray & config = katalog::load(path);
 
-  channelsCount = Channel::count(config);
-  channels = new Channel[channelsCount];
+  channelsCount = kanal::count(config);
+  kanaly = new kanal[channelsCount];
   for (int i = 0; i < channelsCount; i++)
-    channels[i].init(i);
+    kanaly[i].init(i);
 
   Kontrolery * kontrolery = new Kontrolery();
   kontrolery->skanuj();
@@ -88,7 +87,7 @@ void loop() {
     czujniki[i]->tick();
 
   for (int i = 0; i < channelsCount; i++)
-    channels[i].tick();
+    kanaly[i].tick();
 
   for (int i = 0; i < surfacesCount; i++)
     przestrzenie[i].tick();
