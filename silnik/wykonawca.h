@@ -1,4 +1,4 @@
-class Executor {
+class wykonawca {
     public:
         int execute(JsonArray & command) {
             int output = 0;
@@ -66,5 +66,5 @@ class Executor {
             return this->execute(command);
         }
 
-        Executor() {}
+        wykonawca() {}
 };

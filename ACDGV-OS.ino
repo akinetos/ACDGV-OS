@@ -32,7 +32,7 @@ int surfacesCount;
 przestrzen * przestrzenie;
 
 #include "./silnik/przejscie.h";
-Transition transition = Transition();
+przejscie transition = przejscie();
 
 #include "./silnik/program.h";
 #include "./programy/ptak.h";
@@ -49,7 +49,7 @@ int activeProgram = -1;
 int lastProgramIndex = -1;
 
 #include "./silnik/wykonawca.h"
-Executor executor;
+wykonawca executor;
 
 #include "./silnik/menu.h";
 Menu menu;

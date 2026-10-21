@@ -1,4 +1,4 @@
-class Transition {
+class przejscie {
   public:
     boolean active = false;
     Pixel pixels[500];
@@ -81,5 +81,5 @@ class Transition {
       }
     }
 
-  Transition() {}
+  przejscie() {}
 };
