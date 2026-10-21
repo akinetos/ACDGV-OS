@@ -1,6 +1,6 @@
 #include <Wire.h>
 
-class I2C {
+class magistrala {
   public:
     int port = -1;
     int channel = -1;
@@ -48,5 +48,5 @@ class I2C {
       }
     }
 
-  I2C() {}
+  magistrala() {}
 };

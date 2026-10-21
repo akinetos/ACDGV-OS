@@ -30,7 +30,7 @@ class Kontrolery:public program {
       this->list[1].address[0] = 60;
       
       this->knownDevicesCount = 2;
-      JsonArray & sensors = storage.load("/config/sensors.json");
+      JsonArray & sensors = katalog::load("/config/sensors.json");
       int sensorsCount = sensors.size();
       for (int d=0; d<sensorsCount; d++) {
         int index = this->knownDevicesCount;

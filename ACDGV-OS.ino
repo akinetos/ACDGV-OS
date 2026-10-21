@@ -1,10 +1,9 @@
 #include "ArduinoJson.h"
 
-#include "./silnik/i2c.h";
-I2C i2c = I2C();
+#include "./silnik/magistrala.h";
+magistrala i2c = magistrala();
 
-#include "./silnik/pliki.h";
-Storage storage = Storage();
+#include "./silnik/katalog.h";
 
 #include "./silnik/czujnik.h";
 #include "./czujniki/nachylenie.h";
@@ -61,9 +60,9 @@ void setup() {
   
   i2c.init();
   
-  storage.init();
+  katalog::init();
   const String path = "/config/surfaces/8.json";
-  JsonArray & config = storage.load(path);
+  JsonArray & config = katalog::load(path);
 
   channelsCount = Channel::count(config);
   channels = new Channel[channelsCount];

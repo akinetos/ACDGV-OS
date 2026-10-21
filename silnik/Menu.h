@@ -76,7 +76,7 @@ class Menu {
       this->deviceIndexKeypad = znajdzCzujnik("klawiatura-numeryczna");
 
       przestrzen * surface = & przestrzenie[0];
-      JsonArray & file = storage.load("/config/menu.json");
+      JsonArray & file = katalog::load("/config/menu.json");
       String optionName = file[0];
 
       if (this->version == "8") {
@@ -165,7 +165,7 @@ class Menu {
     }
 
     JsonArray & getElement() {
-      JsonArray & file = storage.load("/config/menu.json");
+      JsonArray & file = katalog::load("/config/menu.json");
       JsonArray * node = &file;
       for (int i=0; i<this->level; i++) {
         JsonArray & children = (*node)[1];
