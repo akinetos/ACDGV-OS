@@ -1,12 +1,14 @@
 class Pixel {
   public:
-    int x;
-    int y;
+    uint8_t x;
+    uint8_t y;
+    boolean widoczny;
     
   Pixel() {}
 
-  Pixel(int x, int y) {
+  Pixel(uint8_t x, uint8_t y) {
     this->x = x;
     this->y = y;
+    this->widoczny = true;
   }
 };

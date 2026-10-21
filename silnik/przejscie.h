@@ -1,7 +1,7 @@
 class przejscie {
   public:
     boolean active = false;
-    Pixel pixels[500];
+    Pixel pixels[4000];
     int counter = 0;
     int p = 0;
     int type = 0;
@@ -11,10 +11,10 @@ class przejscie {
       this->counter = 0;
       this->p = 0;
       if (this->type == 1) {
-        for (int y=32; y<256; y+=5) {
-          for (int x=0; x<128; x+=5) {
+        for (short y=32; y<256; y+=2) {
+          for (short x=0; x<128; x+=2) {
             boolean white = przestrzenie[0].getPixel(x,y);
-            if (white && p<500) {
+            if (white && p<4000) {
               this->pixels[p] = Pixel(x,y);
               p++;
             }
@@ -27,7 +27,7 @@ class przejscie {
         for (int y=minY; y<maxY; y+=2) {
           for (int x=0; x<128; x+=2) {
             boolean white = przestrzenie[0].getPixel(x,y);
-            if (white && p<500) {
+            if (white && p<4000) {
               this->pixels[p] = Pixel(x,y);
               p++;
             }
@@ -45,7 +45,7 @@ class przejscie {
             if (this->pixels[i].y + weight < 256) {
               this->pixels[i].y += weight;
             } else {
-              this->pixels[i].y = 256;
+              this->pixels[i].widoczny = false;
             }
           }
           if (this->type == 2) {
@@ -69,6 +69,7 @@ class przejscie {
             && this->pixels[i].x < 128
             && this->pixels[i].y > 32
             && this->pixels[i].y < 256
+            && this->pixels[i].widoczny
           ) {
             int port = przestrzenie[0].drawPoint(this->pixels[i].x, this->pixels[i].y);
           }
