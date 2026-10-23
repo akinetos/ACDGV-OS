@@ -400,6 +400,6 @@ class Batterfly:public program {
         }
     
     Batterfly() {
-        this->name = "batterfly";
+        this->name = "ptak";
     }
 };

@@ -216,6 +216,6 @@ class VV:public program {
     }
 
   VV() {
-    this->name = "vv";
+    this->name = "ww";
   }
 };

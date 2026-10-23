@@ -1,41 +1,41 @@
 ["menu",[[],
 	["gry",[[],
-		["motyl",[],["run","batterfly"]],
-		["grawitacja",[],["run","gravity"]]
+		["ptak",[],["uruchom","ptak"]],
+		["grawitacja",[],["uruchom","grawitacja"]]
 	]],
 	["programy",[[],
-		["logo",[],["run","logo"]],
-		["Kontrolery",[],["run","Kontrolery"]],
-		["battery",[],["run","battery"]],
+		["logo",[],["uruchom","logo"]],
+		["Kontrolery",[],["uruchom","kontrolery"]],
+		["battery",[],["uruchom","bateria"]],
 		["kontakty",[[],
-			["Amelia",[],["run","contacts",1]],
-			["Igor",[],["run","contacts",2]],
-			["Feliks",[],["run","contacts",3]]
-		],["run","contacts"]],
+			["Amelia",[],["uruchom","kontakty",1]],
+			["Igor",[],["uruchom","kontakty",2]],
+			["Feliks",[],["uruchom","kontakty",3]]
+		],["uruchom","kontakty"]],
 		["VV",[[],
 			["parametry",[[],
-				["odczytaj",[],["run","vv",2]],
-				["zapisz",[],["run","vv",3]]
+				["odczytaj",[],["uruchom","ww",2]],
+				["zapisz",[],["uruchom","ww",3]]
 			]],
 			["wyglad",[[],
-				["punkty",[],["run","vv",0]],
-				["linie",[],["run","vv",1]]
+				["punkty",[],["uruchom","ww",0]],
+				["linie",[],["uruchom","ww",1]]
 			]],
 			["animacje",[[],
-				["animacja 1",[],["run","vv",4]],
-				["animacja 2",[],["run","vv",5]]
+				["animacja 1",[],["uruchom","ww",4]],
+				["animacja 2",[],["uruchom","ww",5]]
 			]],
 			["gamepad",[[],
-				["wartosc",[],["run","vv",6]],
-				["przesuniecie",[],["run","vv",7]]
+				["wartosc",[],["uruchom","ww",6]],
+				["przesuniecie",[],["uruchom","ww",7]]
 			]]
-		],["run","vv"]],
-		["skaner-3d",[],["run","skaner-3d"]]
+		],["uruchom","ww"]],
+		["skaner-3d",[],["uruchom","skaner-3d"]]
 	]],
 	["ustawienia",[[],
-		["tlo",[],["run","settings",1]],
-		["rozmiar",[],["run","settings",2]],
-		["jasnosc",[],["run","settings",3]]
+		["tlo",[],["uruchom","ustawienia",1]],
+		["rozmiar",[],["uruchom","ustawienia",2]],
+		["jasnosc",[],["uruchom","ustawienia",3]]
 	]],
 	["dzieci",[[],
 		["Amelia"],

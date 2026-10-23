@@ -42,7 +42,7 @@ int activeProgram = -1;
 int lastProgramIndex = -1;
 
 #include "./silnik/wykonawca.h"
-wykonawca executor;
+wykonawca agent;
 
 #include "./silnik/menu.h";
 Menu menu;
@@ -73,6 +73,9 @@ void setup() {
     przestrzenie[i].init(config[i]);
 
   menu.init();
+
+  //String komenda = "[uruchom,logo]";
+  //agent.wykonaj(komenda);
 }
 
 void loop() {

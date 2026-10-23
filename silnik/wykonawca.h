@@ -1,13 +1,13 @@
 class wykonawca {
     public:
-        int execute(JsonArray & command) {
+        int wykonaj(JsonArray & komenda) {
             int output = 0;
-            String commandType = command[0];
+            String commandType = komenda[0];
 
-            if (commandType == "run") {
+            if (commandType == "uruchom") {
                 int programIndex = -1;
-                String programName = command[1];
-                boolean hasOption = command.size() == 3;
+                String programName = komenda[1];
+                boolean hasOption = komenda.size() == 3;
                 
                 for (int i=0; i<=lastProgramIndex; i++)
                     if (programy[i]->name == programName)
@@ -15,10 +15,10 @@ class wykonawca {
 
                 if (programIndex == -1) {
                     lastProgramIndex++;
-                    if (programName == "batterfly") {
+                    if (programName == "ptak") {
                         programy[lastProgramIndex] = new Batterfly();
                     }
-                    if (programName == "vv") {
+                    if (programName == "ww") {
                         programy[lastProgramIndex] = new VV();
                     }
                     if (programName == "logo") {
@@ -27,16 +27,16 @@ class wykonawca {
                     if (programName == "skaner-3d") {
                         programy[lastProgramIndex] = new Skaner3d();
                     }
-                    if (programName == "contacts") {
+                    if (programName == "kontakty") {
                         programy[lastProgramIndex] = new Contacts();
                     }
-                    if (programName == "Kontrolery") {
+                    if (programName == "kontrolery") {
                         programy[lastProgramIndex] = new Kontrolery();
                     }
-                    if (programName == "gravity") {
+                    if (programName == "grawitacja") {
                         programy[lastProgramIndex] = new Gravity();
                     }
-                    if (programName == "battery") {
+                    if (programName == "bateria") {
                         programy[lastProgramIndex] = new Battery();
                     }
                     programIndex = lastProgramIndex;
@@ -50,7 +50,7 @@ class wykonawca {
                 }
 
                 if (hasOption) {
-                    int optionValue = command[2];
+                    int optionValue = komenda[2];
                     programy[programIndex]->setOption(optionValue);
                 }
 
@@ -60,10 +60,10 @@ class wykonawca {
             return output;
         }
 
-        int execute(String commandString) {
+        int wykonaj(String komenda) {
             DynamicJsonBuffer dynamicJsonBuffer;
-            JsonArray & command = dynamicJsonBuffer.parseArray(commandString);
-            return this->execute(command);
+            JsonArray & json = dynamicJsonBuffer.parseArray(komenda);
+            return this->wykonaj(json);
         }
 
         wykonawca() {}

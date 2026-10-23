@@ -98,6 +98,6 @@ class Gravity:public program {
       }
 
     Gravity() {
-      this->name = "gravity";
+      this->name = "grawitacja";
     }
 };

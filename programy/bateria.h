@@ -19,6 +19,6 @@ class Battery:public program {
         }
     
     Battery() {
-        this->name = "battery";
+        this->name = "bateria";
     }
 };

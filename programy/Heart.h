@@ -27,6 +27,6 @@ class Heart:public program {
         }
     
     Heart() {
-        this->name = "heart";
+        this->name = "serce";
     }
 };

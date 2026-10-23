@@ -164,6 +164,6 @@ class Contacts:public program {
     }
 
   Contacts() {
-	this->name = "contacts";
+	this->name = "kontakty";
   }
 };

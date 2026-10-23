@@ -122,6 +122,6 @@ class Kontrolery:public program {
     }
 
   Kontrolery() {
-    this->name = "Kontrolery";
+    this->name = "kontrolery";
   }
 };
