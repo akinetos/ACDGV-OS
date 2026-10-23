@@ -66,7 +66,7 @@ class Batterfly:public program {
             int x = 0;
             int y = 0;
 
-            if (surfacesCount > 1) {
+            if (liczbaPrzestrzeni > 1) {
                 przestrzen * s2x1 = & przestrzenie[0];
                 przestrzen * s8x1 = & przestrzenie[1];
 
@@ -316,7 +316,7 @@ class Batterfly:public program {
         }
 
         void drawPestki() {
-            if (surfacesCount > 1) {
+            if (liczbaPrzestrzeni > 1) {
                 przestrzen * s2x1 = & przestrzenie[0];
                 przestrzen * s8x1 = & przestrzenie[1];
 

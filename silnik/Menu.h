@@ -90,7 +90,7 @@ class Menu {
       }
       this->segments[0] = optionName;
       
-      for (int i=0; i<=lastProgramIndex; i++) {
+      for (int i=0; i<=indeksOstatniegoProgramu; i++) {
         if (programy[i]->active) {
           programy[i]->init();
         }
@@ -106,10 +106,10 @@ class Menu {
     }
 
     void closeProgram() {
-      if (activeProgram != -1) {
-        programy[activeProgram]->active = false;
+      if (aktywnyProgram != -1) {
+        programy[aktywnyProgram]->active = false;
       }
-      activeProgram = -1;
+      aktywnyProgram = -1;
       transition.init(1);
     }
 
@@ -119,8 +119,8 @@ class Menu {
       this->level--;
       this->changed = true;
       
-      if (activeProgram != -1) {
-        if (this->level < programy[activeProgram]->menuLevel) {
+      if (aktywnyProgram != -1) {
+        if (this->level < programy[aktywnyProgram]->menuLevel) {
           this->closeProgram();
         }
       }
@@ -149,7 +149,7 @@ class Menu {
                 this->address[i-1] = NULL;
                 this->changed = true;
               }
-              if (this->level < programy[activeProgram]->menuLevel) {
+              if (this->level < programy[aktywnyProgram]->menuLevel) {
                 this->closeProgram();
               }
             }

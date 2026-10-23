@@ -2,9 +2,9 @@
 #include "./silnik/katalog.h";
 
 #include "./silnik/czujnik.h";
-const int maxDevicesCount = 8;
-czujnik * czujniki[maxDevicesCount];
-int lastDeviceIndex = -1;
+const int maksymalnaLiczbaCzujnikow = 8;
+czujnik * czujniki[maksymalnaLiczbaCzujnikow];
+int indeksOstatniegoCzujnika = -1;
 
 #include "./silnik/magistrala.h";
 magistrala i2c = magistrala();
@@ -21,7 +21,7 @@ int channelsCount;
 kanal * kanaly;
 
 #include "./silnik/przestrzen.h";
-int surfacesCount;
+int liczbaPrzestrzeni;
 przestrzen * przestrzenie;
 
 #include "./silnik/przejscie.h";
@@ -36,10 +36,10 @@ przejscie transition = przejscie();
 #include "./programy/odleglosciomierz.h";
 #include "./programy/bateria.h";
 #include "./programy/kontakty.h";
-const int maxProgramsCount = 8;
-program * programy[maxProgramsCount];
-int activeProgram = -1;
-int lastProgramIndex = -1;
+const int maksymalnaLiczbaProgramow = 8;
+program * programy[maksymalnaLiczbaProgramow];
+int aktywnyProgram = -1;
+int indeksOstatniegoProgramu = -1;
 
 #include "./silnik/wykonawca.h"
 wykonawca agent;
@@ -64,45 +64,42 @@ void setup() {
   Kontrolery * kontrolery = new Kontrolery();
   kontrolery->skanuj();
   
-  for (int i = 0; i <= lastDeviceIndex; i++)
+  for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->init();
 
-  surfacesCount = config.size();
-  przestrzenie = new przestrzen[surfacesCount];
-  for (int i = 0; i < surfacesCount; i++)
+  liczbaPrzestrzeni = config.size();
+  przestrzenie = new przestrzen[liczbaPrzestrzeni];
+  for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].init(config[i]);
 
   menu.init();
-
-  //String komenda = "[uruchom,logo]";
-  //agent.wykonaj(komenda);
 }
 
 void loop() {
-  for (int i = 0; i <= lastDeviceIndex; i++)
+  for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->tick();
 
   for (int i = 0; i < channelsCount; i++)
     kanaly[i].tick();
 
-  for (int i = 0; i < surfacesCount; i++)
+  for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].tick();
 
   menu.tick();
   transition.tick();
 
-  for (int i = 0; i <= lastProgramIndex; i++)
+  for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->tick();
 
-  for (int i = 0; i < surfacesCount; i++)
+  for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].clear();
 
-  for (int i = 0; i <= lastProgramIndex; i++)
+  for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->draw();
 
   menu.draw();
   transition.draw();
 
-  for (int i = 0; i < surfacesCount; i++)
+  for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].draw();
 }

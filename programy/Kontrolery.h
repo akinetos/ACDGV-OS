@@ -92,32 +92,32 @@ class Kontrolery:public program {
     void skanuj() {
       Wire.beginTransmission(29);
       if (Wire.endTransmission() == 0) {
-        lastDeviceIndex++;
-        czujniki[lastDeviceIndex] = new AM(29);
+        indeksOstatniegoCzujnika++;
+        czujniki[indeksOstatniegoCzujnika] = new AM(29);
       }
 
       Wire.beginTransmission(81);
       if (Wire.endTransmission() == 0) {
-        lastDeviceIndex++;
-        czujniki[lastDeviceIndex] = new Gamepad(81);
+        indeksOstatniegoCzujnika++;
+        czujniki[indeksOstatniegoCzujnika] = new Gamepad(81);
       }
 
       Wire.beginTransmission(36);
       if (Wire.endTransmission() == 0) {
-        lastDeviceIndex++;
-        czujniki[lastDeviceIndex] = new NFCDevice();
+        indeksOstatniegoCzujnika++;
+        czujniki[indeksOstatniegoCzujnika] = new NFCDevice();
       }
 
       Wire.beginTransmission(75);
       if (Wire.endTransmission() == 0) {
-        lastDeviceIndex++;
-        czujniki[lastDeviceIndex] = new Keypad();
+        indeksOstatniegoCzujnika++;
+        czujniki[indeksOstatniegoCzujnika] = new Keypad();
       }
 
       Wire.beginTransmission(80);
       if (Wire.endTransmission() == 0) {
-        lastDeviceIndex++;
-        czujniki[lastDeviceIndex] = new Memory();
+        indeksOstatniegoCzujnika++;
+        czujniki[indeksOstatniegoCzujnika] = new Memory();
       }
     }
 

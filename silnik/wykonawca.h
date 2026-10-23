@@ -9,44 +9,44 @@ class wykonawca {
                 String programName = komenda[1];
                 boolean hasOption = komenda.size() == 3;
                 
-                for (int i=0; i<=lastProgramIndex; i++)
+                for (int i=0; i<=indeksOstatniegoProgramu; i++)
                     if (programy[i]->name == programName)
                         programIndex = i;
 
                 if (programIndex == -1) {
-                    lastProgramIndex++;
+                    indeksOstatniegoProgramu++;
                     if (programName == "ptak") {
-                        programy[lastProgramIndex] = new Batterfly();
+                        programy[indeksOstatniegoProgramu] = new Batterfly();
                     }
                     if (programName == "ww") {
-                        programy[lastProgramIndex] = new VV();
+                        programy[indeksOstatniegoProgramu] = new VV();
                     }
                     if (programName == "logo") {
-                        programy[lastProgramIndex] = new Logo();
+                        programy[indeksOstatniegoProgramu] = new Logo();
                     }
                     if (programName == "skaner-3d") {
-                        programy[lastProgramIndex] = new Skaner3d();
+                        programy[indeksOstatniegoProgramu] = new Skaner3d();
                     }
                     if (programName == "kontakty") {
-                        programy[lastProgramIndex] = new Contacts();
+                        programy[indeksOstatniegoProgramu] = new Contacts();
                     }
                     if (programName == "kontrolery") {
-                        programy[lastProgramIndex] = new Kontrolery();
+                        programy[indeksOstatniegoProgramu] = new Kontrolery();
                     }
                     if (programName == "grawitacja") {
-                        programy[lastProgramIndex] = new Gravity();
+                        programy[indeksOstatniegoProgramu] = new Gravity();
                     }
                     if (programName == "bateria") {
-                        programy[lastProgramIndex] = new Battery();
+                        programy[indeksOstatniegoProgramu] = new Battery();
                     }
-                    programIndex = lastProgramIndex;
+                    programIndex = indeksOstatniegoProgramu;
                 }
 
                 if (!programy[programIndex]->active) {
                     if (!programy[programIndex]->initialised)
                         programy[programIndex]->init();
                     programy[programIndex]->activate();
-                    activeProgram = programIndex;
+                    aktywnyProgram = programIndex;
                 }
 
                 if (hasOption) {
