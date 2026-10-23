@@ -7,7 +7,7 @@ czujnik * czujniki[maksymalnaLiczbaCzujnikow];
 int indeksOstatniegoCzujnika = -1;
 
 #include "./silnik/magistrala.h";
-magistrala i2c = magistrala();
+magistrala i2c;
 
 #include "./czujniki/nachylenie.h";
 #include "./czujniki/dzojstik.h";
@@ -17,7 +17,7 @@ magistrala i2c = magistrala();
 #include "./czujniki/pamiec.h";
 
 #include "./silnik/kanal.h";
-int channelsCount;
+int liczbaKanalow;
 kanal * kanaly;
 
 #include "./silnik/przestrzen.h";
@@ -25,7 +25,7 @@ int liczbaPrzestrzeni;
 przestrzen * przestrzenie;
 
 #include "./silnik/przejscie.h";
-przejscie transition = przejscie();
+przejscie animacja;
 
 #include "./silnik/program.h";
 #include "./programy/ptak.h";
@@ -53,12 +53,12 @@ void setup() {
   i2c.init();
   
   katalog::init();
-  const String path = "/config/surfaces/8.json";
-  JsonArray & config = katalog::load(path);
+  const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
+  JsonArray & konfiguracjaPrzestrzeni = katalog::load(sciezkaKonfiguracjiPrzestrzeni);
 
-  channelsCount = kanal::count(config);
-  kanaly = new kanal[channelsCount];
-  for (int i = 0; i < channelsCount; i++)
+  liczbaKanalow = kanal::count(konfiguracjaPrzestrzeni);
+  kanaly = new kanal[liczbaKanalow];
+  for (int i = 0; i < liczbaKanalow; i++)
     kanaly[i].init(i);
 
   Kontrolery * kontrolery = new Kontrolery();
@@ -67,10 +67,10 @@ void setup() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->init();
 
-  liczbaPrzestrzeni = config.size();
+  liczbaPrzestrzeni = konfiguracjaPrzestrzeni.size();
   przestrzenie = new przestrzen[liczbaPrzestrzeni];
   for (int i = 0; i < liczbaPrzestrzeni; i++)
-    przestrzenie[i].init(config[i]);
+    przestrzenie[i].init(konfiguracjaPrzestrzeni[i]);
 
   menu.init();
 }
@@ -79,14 +79,14 @@ void loop() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->tick();
 
-  for (int i = 0; i < channelsCount; i++)
+  for (int i = 0; i < liczbaKanalow; i++)
     kanaly[i].tick();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].tick();
 
   menu.tick();
-  transition.tick();
+  animacja.tick();
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->tick();
@@ -98,7 +98,7 @@ void loop() {
     programy[i]->draw();
 
   menu.draw();
-  transition.draw();
+  animacja.draw();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].draw();

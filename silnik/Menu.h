@@ -110,7 +110,7 @@ class Menu {
         programy[aktywnyProgram]->active = false;
       }
       aktywnyProgram = -1;
-      transition.init(1);
+      animacja.init(1);
     }
 
     void close() {
@@ -224,7 +224,7 @@ class Menu {
         }
         
         if (element[1].size() > 0 && index < element[1].size()) {
-          transition.init(2);
+          animacja.init(2);
           this->selectOption(index);
         }
       }
