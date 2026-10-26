@@ -174,13 +174,13 @@ class Logo:public program {
 	int pause2s = 0;
 	int direction = -1;
 
-    void init() {
+    void inicjuj() {
 		this->initialised = true;
 	}
 
-	void tick() {}
+	void aktualizuj() {}
 	
-    void draw() {
+    void rysuj() {
 		/*
 		Surface * s2x1 = & surfaces[0];
 

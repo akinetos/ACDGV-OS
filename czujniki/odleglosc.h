@@ -3,9 +3,9 @@ class DistanceSensor: public czujnik {
     int distance = 0;
     int previousDistance = 0;
   
-    void init() {}
+    void inicjuj() {}
   
-    void tick() {
+    void aktualizuj() {
       // Start single measurement
       Wire.beginTransmission(this->address);
       Wire.write(0x00); // SYSRANGE_START register

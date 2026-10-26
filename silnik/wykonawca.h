@@ -44,7 +44,7 @@ class wykonawca {
 
                 if (!programy[programIndex]->active) {
                     if (!programy[programIndex]->initialised)
-                        programy[programIndex]->init();
+                        programy[programIndex]->inicjuj();
                     programy[programIndex]->activate();
                     aktywnyProgram = programIndex;
                 }

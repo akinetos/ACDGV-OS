@@ -1,8 +1,8 @@
 class Battery:public program {
     public:
-        void tick() {}
+        void aktualizuj() {}
         
-        void draw() {
+        void rysuj() {
             if (this->active) {
                 /*
                 if (gv.changed) {

@@ -144,12 +144,12 @@ class Contacts:public program {
   public:
 	int offsetY = 0;
 
-	void tick() {
+	void aktualizuj() {
 		kanaly[0].ports[1].screen.needsRefresh = true;
 		kanaly[0].ports[2].screen.needsRefresh = true;
 	}
 
-    void draw() {
+    void rysuj() {
 		if (this->active) {
 			przestrzen * surface = & przestrzenie[0];
 			for (int port=1; port<3; port++) {

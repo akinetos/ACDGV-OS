@@ -8,11 +8,11 @@ class program {
     String name = "";
     int menuLevel = -1;
 
-    void virtual init(void) {
+    void virtual inicjuj(void) {
       this->initialised = true;
     }
 
-    void virtual tick(void) {}
+    void virtual aktualizuj(void) {}
 
     void virtual setOption(int option) {
       this->option = option;
@@ -25,5 +25,5 @@ class program {
 
     void virtual update() {}
     
-    void virtual draw() {}
+    void virtual rysuj() {}
 };

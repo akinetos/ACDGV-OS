@@ -14,14 +14,14 @@ class AM: public czujnik {
     String previousOrientation = "";
     boolean orientationChanged = false;
 
-    void init() {
+    void inicjuj() {
       i2c.writeTo(this->address, 0x2D, 0);      
       i2c.writeTo(this->address, 0x2D, 16);
       i2c.writeTo(this->address, 0x2D, 8);
       this->connected = true;
     }
     
-    void tick() {
+    void aktualizuj() {
       if (this->connected) {
         this->changed = false;
         int regAddress = 0x32;

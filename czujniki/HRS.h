@@ -11,7 +11,7 @@ class HRS: public czujnik {
     int lastTick = 0;
     int connectionAttempts = 0;
 
-    void init() {
+    void inicjuj() {
       this->device = DFRobot_BloodOxygen_S_I2C(&Wire, this->address);
       this->connected = this->device.begin();
       this->connectionAttempts++;
@@ -20,7 +20,7 @@ class HRS: public czujnik {
       }
     }
     
-    void tick() {
+    void aktualizuj() {
       if (this->connected) {
         if (millis() - this->lastTick > 500) {
           this->device.getHeartbeatSPO2();
@@ -31,7 +31,7 @@ class HRS: public czujnik {
         }
       } else {
         if (this->connectionAttempts < 10) {
-          this->init();
+          this->inicjuj();
         }
       }
     }

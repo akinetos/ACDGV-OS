@@ -18,7 +18,7 @@ class Gravity:public program {
 
       int deviceIndexAccelerometer = -1;
 
-      void tick() {
+      void aktualizuj() {
         if (this->active) {
           int speed = (this->option + 1) * 10;
           int tiltX = 0;
@@ -75,7 +75,7 @@ class Gravity:public program {
         }
       }
 
-      void init() {
+      void inicjuj() {
         this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
         
         if (this->version == "3") 
@@ -85,7 +85,7 @@ class Gravity:public program {
         this->initialised = true;
       }
 
-      void draw() {
+      void rysuj() {
         if (this->active) {
           przestrzen * surface = & przestrzenie[0];
           if (this->port != this->previousPort) {

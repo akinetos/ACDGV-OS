@@ -2,12 +2,12 @@ class Heart:public program {
     public:
         int surfaceIndex = -1;
 
-        void init(int surfaceIndex) {
+        void inicjuj(int surfaceIndex) {
             this->surfaceIndex = surfaceIndex;
             this->initialised = true;
         }
 
-        void tick() {
+        void aktualizuj() {
             /*
             if (this->active) {
                 Surface * surface = & surfaces[this->surfaceIndex];

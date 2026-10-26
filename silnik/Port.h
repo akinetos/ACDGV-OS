@@ -6,10 +6,10 @@ class Port {
     czujnik * czujniki[2];
     OLED screen = OLED("ssd1306");
     
-    void init() {
+    void inicjuj() {
       i2c.activate(this->channel, this->number);
       this->czujniki[0] = new DistanceSensor(0x29);
-      this->czujniki[0]->init();
+      this->czujniki[0]->inicjuj();
       this->screen.init(128, 32, "ssd1306");
     }
 
@@ -22,9 +22,9 @@ class Port {
       }
     }
 
-    void tick() {
+    void aktualizuj() {
       i2c.activate(this->channel, this->number);
-      this->czujniki[0]->tick();
+      this->czujniki[0]->aktualizuj();
     }
     
   Port() {}

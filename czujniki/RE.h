@@ -10,12 +10,12 @@ class RE: public czujnik {
     boolean changed = false;
     DFRobot_VisualRotaryEncoder_I2C device = DFRobot_VisualRotaryEncoder_I2C(0x54, &Wire);
   
-    void init() {
+    void inicjuj() {
       this->device = DFRobot_VisualRotaryEncoder_I2C(this->address, &Wire);
       this->connected = NO_ERR == this->device.begin();
     }
   
-    void tick() {
+    void aktualizuj() {
       this->button = false;
       this->changed = false;
       if (this->connected) {

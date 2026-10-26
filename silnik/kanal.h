@@ -7,12 +7,12 @@ class kanal {
     int number;
     Port ports[8];
 
-    void init(int number) {
+    void inicjuj(int number) {
       this->number = number;
       for (int p=0; p<8; p++) {
         this->ports[p].number = p;
         this->ports[p].channel = this->number;
-        this->ports[p].init();
+        this->ports[p].inicjuj();
       }
       i2c.deactivate(this->number);
     }
@@ -49,9 +49,9 @@ class kanal {
       return countChannels;
     }
     
-    void tick() {
+    void aktualizuj() {
       for (int i=0; i<8; i++) {
-        this->ports[i].tick();
+        this->ports[i].aktualizuj();
       }
     }
 

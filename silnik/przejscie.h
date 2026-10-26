@@ -6,7 +6,7 @@ class przejscie {
     int p = 0;
     int type = 0;
 
-    void init(int type) {
+    void inicjuj(int type) {
       this->type = type;
       this->counter = 0;
       this->p = 0;
@@ -37,7 +37,7 @@ class przejscie {
       this->active = true;
     }
 
-    void tick() {
+    void aktualizuj() {
       if (this->active) {
         for (int i=0; i<p; i++) {
           int weight = this->counter * this->counter;
@@ -62,7 +62,7 @@ class przejscie {
       }
     }
 
-    void draw() {
+    void rysuj() {
       if (this->active) {
         for (int i=0; i<p; i++) {
           if (this->pixels[i].x > 0 

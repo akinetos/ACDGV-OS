@@ -4,7 +4,7 @@ DynamicJsonBuffer jsonBuffer;
 
 class katalog {
   public:
-    static void init() {
+    static void inicjuj() {
       SPIFFS.begin();
     }
 

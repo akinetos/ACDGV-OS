@@ -50,56 +50,56 @@ Menu menu;
 void setup() {
   Serial.begin(9600);
   
-  i2c.init();
+  i2c.inicjuj();
   
-  katalog::init();
+  katalog::inicjuj();
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::load(sciezkaKonfiguracjiPrzestrzeni);
 
   liczbaKanalow = kanal::count(konfiguracjaPrzestrzeni);
   kanaly = new kanal[liczbaKanalow];
   for (int i = 0; i < liczbaKanalow; i++)
-    kanaly[i].init(i);
+    kanaly[i].inicjuj(i);
 
   Kontrolery * kontrolery = new Kontrolery();
   kontrolery->skanuj();
   
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
-    czujniki[i]->init();
+    czujniki[i]->inicjuj();
 
   liczbaPrzestrzeni = konfiguracjaPrzestrzeni.size();
   przestrzenie = new przestrzen[liczbaPrzestrzeni];
   for (int i = 0; i < liczbaPrzestrzeni; i++)
-    przestrzenie[i].init(konfiguracjaPrzestrzeni[i]);
+    przestrzenie[i].inicjuj(konfiguracjaPrzestrzeni[i]);
 
-  menu.init();
+  menu.inicjuj();
 }
 
 void loop() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
-    czujniki[i]->tick();
+    czujniki[i]->aktualizuj();
 
   for (int i = 0; i < liczbaKanalow; i++)
-    kanaly[i].tick();
+    kanaly[i].aktualizuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
-    przestrzenie[i].tick();
+    przestrzenie[i].aktualizuj();
 
-  menu.tick();
-  animacja.tick();
+  menu.aktualizuj();
+  animacja.aktualizuj();
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
-    programy[i]->tick();
+    programy[i]->aktualizuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
-    przestrzenie[i].clear();
+    przestrzenie[i].czysc();
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
-    programy[i]->draw();
+    programy[i]->rysuj();
 
-  menu.draw();
-  animacja.draw();
+  menu.rysuj();
+  animacja.rysuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
-    przestrzenie[i].draw();
+    przestrzenie[i].rysuj();
 }

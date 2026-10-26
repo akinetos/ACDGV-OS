@@ -71,7 +71,7 @@ class Menu {
       }
     }
 
-    void init() {
+    void inicjuj() {
       this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
       this->deviceIndexKeypad = i2c.znajdzCzujnik("klawiatura-numeryczna");
 
@@ -92,7 +92,7 @@ class Menu {
       
       for (int i=0; i<=indeksOstatniegoProgramu; i++) {
         if (programy[i]->active) {
-          programy[i]->init();
+          programy[i]->inicjuj();
         }
       }
 
@@ -110,7 +110,7 @@ class Menu {
         programy[aktywnyProgram]->active = false;
       }
       aktywnyProgram = -1;
-      animacja.init(1);
+      animacja.inicjuj(1);
     }
 
     void close() {
@@ -224,7 +224,7 @@ class Menu {
         }
         
         if (element[1].size() > 0 && index < element[1].size()) {
-          animacja.init(2);
+          animacja.inicjuj(2);
           this->selectOption(index);
         }
       }
@@ -263,7 +263,7 @@ class Menu {
       return hovered;
     }
 
-    void tick() {
+    void aktualizuj() {
       przestrzen * surface = & przestrzenie[0];
 
       if (surface->facingUp) {
@@ -281,7 +281,7 @@ class Menu {
       }
     }
 
-    void draw() {
+    void rysuj() {
       przestrzen * surface = & przestrzenie[0];
 
       if (this->show) {

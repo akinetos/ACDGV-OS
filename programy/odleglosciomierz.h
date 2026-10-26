@@ -2,11 +2,11 @@ class Skaner3d:public program {
   	public:
 		double distances[8];
 
-		void init() {
+		void inicjuj() {
 			this->initialised = true;
 		}
 
-		void tick() {
+		void aktualizuj() {
 			if (this->active) {
 				for (int i=0; i<8; i++) {
 					Port * port = & kanaly[0].ports[i];
@@ -19,7 +19,7 @@ class Skaner3d:public program {
 			}
 		}
 		
-		void draw() {
+		void rysuj() {
 			if (this->active) {
 				for (int port=0; port<8; port++) {
 					if (kanaly[0].ports[port].screen.needsRefresh) {

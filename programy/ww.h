@@ -32,7 +32,7 @@ class VV:public program {
     int deviceIndexNfc = -1;
     int deviceIndexKeypad = -1;
 
-    void init() {
+    void inicjuj() {
       this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
       this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
       this->deviceIndexNfc = i2c.znajdzCzujnik("nfc");
@@ -107,7 +107,7 @@ class VV:public program {
       }
     }
 
-    void tick() {
+    void aktualizuj() {
       if (this->active) {
         if (czujniki[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
@@ -168,7 +168,7 @@ class VV:public program {
       return points[i*2] >=0 && points[i*2] < surface->width && points[i*2+1] >= 0 && points[i*2+1] < surface->height;
     }
 
-    void draw() {
+    void rysuj() {
       if (this->active) {
         przestrzen * surface = & przestrzenie[0];
 

@@ -38,7 +38,7 @@ class przestrzen {
       return this->pointerPositionY - (int)(this->pointerPort / this->screensPerRow) * this->screenHeight;
     }
 
-    void init(JsonObject & config) {
+    void inicjuj(JsonObject & config) {
       this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
       this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
 
@@ -63,7 +63,7 @@ class przestrzen {
         this->turnScreens("off");
 
       this->countScreens();
-      this->clear();
+      this->czysc();
     }
 
     void handleOrientationChange(String orientation) {
@@ -116,7 +116,7 @@ class przestrzen {
       return this->pointerPreviousPort != this->pointerPort;
     }
 
-    void tick() {
+    void aktualizuj() {
       if (this->deviceIndexGamepad > -1)
         if (this->facingUp && this->showPointer)
           this->updatePointer(czujniki[this->deviceIndexGamepad]->readNumber("x"), czujniki[this->deviceIndexGamepad]->readNumber("y"));
@@ -170,7 +170,7 @@ class przestrzen {
     return port;
   }
 
-  void clear() {
+  void czysc() {
     for (int i=0; i<8; i++) {
       OLED & screen = kanaly[this->channel].ports[i].screen;
       if (screen.needsRefresh) {
@@ -230,7 +230,7 @@ class przestrzen {
     }
   }
 
-  void draw() {
+  void rysuj() {
     if (this->showPointer) {
       this->drawPointer();
     }

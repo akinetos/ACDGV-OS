@@ -10,7 +10,7 @@ class Gamepad: public czujnik {
     double x;
     double y;
   
-    void init() {
+    void inicjuj() {
       this->connected = this->device.begin(this->address);
       while (!this->connected && this->connectionAttempts < 10) {
         delay(100);
@@ -19,7 +19,7 @@ class Gamepad: public czujnik {
       }
     }
   
-    void tick() {
+    void aktualizuj() {
       if (this->connected) {
         this->time = millis();
         this->x = (512.0 - this->device.analogRead(14)) / 512.0 * -1;

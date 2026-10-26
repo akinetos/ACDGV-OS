@@ -6,7 +6,7 @@ class Memory: public czujnik {
     double number = 0;
     double number2 = 0;
   
-    void init() {
+    void inicjuj() {
       this->address = 80;
       int status = this->device.begin(this->address);
       this->connected = status == 1;
@@ -23,7 +23,7 @@ class Memory: public czujnik {
       }
     }
   
-    void tick() {
+    void aktualizuj() {
       if (this->connected) {
         if (this->number == 0) {
           uint8_t buffer[16];

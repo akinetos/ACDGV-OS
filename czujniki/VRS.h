@@ -8,7 +8,7 @@ class VRS: public czujnik {
     boolean changed = false;
     String command = "";
     
-    void init() {
+    void inicjuj() {
       /*
       this->device.begin();
       this->device.setVolume(4);
@@ -19,7 +19,7 @@ class VRS: public czujnik {
       */
     }
   
-    void tick() {
+    void aktualizuj() {
       /*
       uint8_t CMDID = this->device.getCMDID();
       switch (CMDID) {

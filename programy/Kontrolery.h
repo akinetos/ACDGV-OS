@@ -13,7 +13,7 @@ class Kontrolery:public program {
     int knownDevicesCount = 0;
     item list[10];
 
-    void init() {
+    void inicjuj() {
       if (this->knownDevicesCount == 0) {
         this->prepare();
       }
@@ -66,9 +66,9 @@ class Kontrolery:public program {
       }
     }
 
-    void tick() {}
+    void aktualizuj() {}
 
-    void draw() {
+    void rysuj() {
       if (this->active) {
         for (int i=0; i<this->count; i++) {
           OLED & screen = kanaly[0].ports[i+1].screen;

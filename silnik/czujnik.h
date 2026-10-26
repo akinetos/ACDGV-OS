@@ -8,9 +8,9 @@ class czujnik {
 
     czujnik();
     
-    void virtual init(void);
+    void virtual inicjuj(void);
 
-    void virtual tick(void);
+    void virtual aktualizuj(void);
 
     double virtual readNumber(String);
 
@@ -29,8 +29,8 @@ class czujnik {
 
 czujnik::czujnik() {}
 
-void czujnik::init() {}
-void czujnik::tick() {}
+void czujnik::inicjuj() {}
+void czujnik::aktualizuj() {}
 double czujnik::readNumber(String) {}
 String czujnik::readString(String) {}
 void czujnik::writeString(String, String) {}

@@ -11,11 +11,11 @@ class GV: public czujnik {
     int interval = 1000;
     int lastUpdated = millis();
 
-    void init() {
+    void inicjuj() {
       this->connected = this->device.begin() == 0;
     }
     
-    void tick() {
+    void aktualizuj() {
       this->changed = false;
       if (this->connected) {
         if (millis() - this->lastUpdated > this->interval) {
@@ -35,7 +35,7 @@ class GV: public czujnik {
           this->lastUpdated = millis();
         }
       } else {
-        this->init();
+        this->inicjuj();
       }
     }
 

@@ -5,7 +5,7 @@ class magistrala {
     int port = -1;
     int channel = -1;
 
-    void init() {
+    void inicjuj() {
       Wire.begin();
       Wire.setClock(400000);
     }

@@ -354,7 +354,7 @@ class Batterfly:public program {
             }
         }
 
-        void init() {
+        void inicjuj() {
             this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
             this->deviceIndexAccelerometer = i2c.znajdzCzujnik("czujnik-nachylenia");
 
@@ -368,7 +368,7 @@ class Batterfly:public program {
             this->initialised = true;
         }
 
-        void draw() {
+        void rysuj() {
             if (this->active) {
                 przestrzen * surface = & przestrzenie[this->surfaceIndex];
                 if (this->over) {
@@ -381,7 +381,7 @@ class Batterfly:public program {
                     this->updatePointer();
                     this->updateBatterfly();
                     this->updatePestki();
-                    surface->clear();
+                    surface->czysc();
                     this->drawStars();
                     this->drawBatterfly();
                     this->drawPestki();
@@ -391,7 +391,7 @@ class Batterfly:public program {
             }
         }
 
-        void tick() {
+        void aktualizuj() {
             if (this->active) {
                 if (this->scoresChanged) {
                     kanaly[0].ports[1].screen.needsRefresh = true;

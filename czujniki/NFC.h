@@ -48,11 +48,11 @@ class NFCDevice: public czujnik {
         this->writting = false;
     }
 
-    void init() {
+    void inicjuj() {
         this->device.begin();
     }
 
-    void tick() {
+    void aktualizuj() {
         if (this->action == "nfc read" && !this->reading) {
             this->action = "";
             this->read();

@@ -6,12 +6,12 @@ class GD: public czujnik {
     boolean changed = false;
     String gesture = "";
     
-    void init() {
+    void inicjuj() {
       this->device.begin();
       this->device.enGestures(GESTURE_UP|GESTURE_DOWN|GESTURE_LEFT|GESTURE_RIGHT|GESTURE_CLOCKWISE_C|GESTURE_COUNTERCLOCKWISE_C);
     }
   
-    void tick() {
+    void aktualizuj() {
         this->changed = false;
       if (this->device.getDataReady()) {
         uint16_t gestures = this->device.getGesturesState();

@@ -5,12 +5,12 @@ class Keypad: public czujnik {
     KEYPAD device;
     int buttonPressedTime = 0;
   
-    void init() {
+    void inicjuj() {
       int status = this->device.begin();
       this->connected = status == 1;
     }
   
-    void tick() {
+    void aktualizuj() {
       if (this->connected) {
         this->device.updateFIFO();
 
