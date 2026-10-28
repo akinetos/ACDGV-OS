@@ -5,7 +5,7 @@ class item {
   item() {}
 };
 
-class Kontrolery:public program {
+class kontrolery:public program {
   public:
     String foundDevices[10];
     int foundAddresses[10];
@@ -30,7 +30,7 @@ class Kontrolery:public program {
       this->list[1].address[0] = 60;
       
       this->knownDevicesCount = 2;
-      JsonArray & sensors = katalog::load("/config/sensors.json");
+      JsonArray & sensors = katalog::load("/config/czujniki.json");
       int sensorsCount = sensors.size();
       for (int d=0; d<sensorsCount; d++) {
         int index = this->knownDevicesCount;
@@ -121,7 +121,7 @@ class Kontrolery:public program {
       }
     }
 
-  Kontrolery() {
+  kontrolery() {
     this->name = "kontrolery";
   }
 };

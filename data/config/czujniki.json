@@ -4,19 +4,19 @@
 		"address": [81]
 	},
 	{
-		"name": "klawiatura",
+		"name": "klawiatura-numeryczna",
 		"address": [75]
 	},
 	{
-		"name": "akcelerometr",
+		"name": "czujnik-nachylenia",
 		"address": [29, 83]
 	},
 	{
-		"name": "czujnik gestow",
+		"name": "czujnik-gestow",
 		"address": [115]
 	},
 	{
-		"name": "NFC",
+		"name": "nfc",
 		"address": [36]
 	},
 	{
@@ -24,11 +24,11 @@
 		"address": [100]
 	},
 	{
-		"name": "czujnik odleglosci",
+		"name": "czujnik-odleglosci",
 		"address": [41]
 	},
 	{
-		"name": "pamiec 4 KB",
+		"name": "pamiec",
 		"address": [80]
 	}
 ]

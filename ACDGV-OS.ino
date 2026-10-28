@@ -56,8 +56,8 @@ void setup() {
   for (int i = 0; i < liczbaKanalow; i++)
     kanaly[i].inicjuj(i);
 
-  Kontrolery * kontrolery = new Kontrolery();
-  kontrolery->skanuj();
+  kontrolery * wykrywaczCzujnikow = new kontrolery();
+  wykrywaczCzujnikow->skanuj();
   
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->inicjuj();

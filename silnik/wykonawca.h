@@ -40,7 +40,7 @@ class wykonawca {
                         programy[indeksOstatniegoProgramu] = new Contacts();
                     }
                     if (programName == "kontrolery") {
-                        programy[indeksOstatniegoProgramu] = new Kontrolery();
+                        programy[indeksOstatniegoProgramu] = new kontrolery();
                     }
                     if (programName == "grawitacja") {
                         programy[indeksOstatniegoProgramu] = new Gravity();
