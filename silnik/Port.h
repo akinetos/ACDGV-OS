@@ -1,4 +1,11 @@
-class Port {
+#include "../czujniki/nachylenie.h";
+#include "../czujniki/dzojstik.h";
+#include "../czujniki/klawiatura-numeryczna.h";
+#include "../czujniki/nfc.h";
+#include "../czujniki/odleglosc.h";
+#include "../czujniki/pamiec.h";
+
+class port {
   public:
     int channel;
     int number;
@@ -27,5 +34,5 @@ class Port {
       this->czujniki[0]->aktualizuj();
     }
     
-  Port() {}
+  port() {}
 };

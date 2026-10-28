@@ -71,7 +71,7 @@ class kontrolery:public program {
     void rysuj() {
       if (this->active) {
         for (int i=0; i<this->count; i++) {
-          OLED & screen = kanaly[0].ports[i+1].screen;
+          OLED & screen = kanaly[0].porty[i+1].screen;
           const int amount = 3;
           screen.hasOptions = amount > 0;
           screen.optionsCount = amount;

@@ -78,7 +78,7 @@ class VV:public program {
 
       for (int port=0; port<8; port++) {
         if (this->screensUpdated[port]) {
-          kanaly[0].ports[port].screen.needsRefresh = true;
+          kanaly[0].porty[port].screen.needsRefresh = true;
         }
       }
 
@@ -93,7 +93,7 @@ class VV:public program {
         int port = (int)(this->points[i*2+1] / 32);
         if (port >=0) {
           if ((this->version == "3" && port < 3) || (this->version == "8" && port < 8)) {
-            kanaly[0].ports[port].screen.needsRefresh = true;
+            kanaly[0].porty[port].screen.needsRefresh = true;
             this->screensUpdated[port] = true;
           }
         }
@@ -121,7 +121,7 @@ class VV:public program {
 
         this->compute();
 
-        kanaly[0].ports[0].screen.needsRefresh = true;
+        kanaly[0].porty[0].screen.needsRefresh = true;
 
         if (this->deviceIndexNfc > -1 && this->option == 2) {
           czujniki[this->deviceIndexNfc]->writeString("action", "nfc read");
@@ -158,7 +158,7 @@ class VV:public program {
         }
 
         if (this->nfcTag != "") {
-          kanaly[0].ports[7].screen.needsRefresh = true;
+          kanaly[0].porty[7].screen.needsRefresh = true;
         }
       }
     }
@@ -181,7 +181,7 @@ class VV:public program {
             }
 
             if (this->nfcTag != "") {
-              OLED & screen = kanaly[0].ports[7].screen;
+              OLED & screen = kanaly[0].porty[7].screen;
               screen.printText(this->nfcTag);
             }
           }
@@ -206,7 +206,7 @@ class VV:public program {
     }
 
     void drawProgress() {
-      OLED & screen = kanaly[0].ports[0].screen;
+      OLED & screen = kanaly[0].porty[0].screen;
       screen.ssd1306.setCursor(50, 0);
       screen.ssd1306.print(String(this->cRe) + "," + String(this->cIm));
       screen.ssd1306.setCursor(50, 9);

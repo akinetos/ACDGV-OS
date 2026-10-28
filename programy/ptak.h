@@ -92,7 +92,7 @@ class Batterfly:public program {
             }
 
             if (channel != -1 && port > 0) {
-                OLED & screen = kanaly[channel].ports[port].screen;
+                OLED & screen = kanaly[channel].porty[port].screen;
                 if (screen.type == "ssd1306") {
                     if (this->option == 0) {
                         for (int i=1; i<=this->wingsSpread; i++) {
@@ -152,7 +152,7 @@ class Batterfly:public program {
             int port = surface->pointerPort;
             int x = surface->getRelativeX();
             int y = surface->getRelativeY();
-            OLED & screen = kanaly[surface->channel].ports[port].screen;
+            OLED & screen = kanaly[surface->channel].porty[port].screen;
             if (screen.isWhite(x, y)) {
                 screen.blink();
                 this->handleCollision(port, x, y);
@@ -161,7 +161,7 @@ class Batterfly:public program {
                 port = this->pestki[i].port;
                 x = this->pestki[i].x;
                 y = this->pestki[i].y - (this->pestki[i].port * 32);
-                OLED & screenPestka = kanaly[surface->channel].ports[port].screen;
+                OLED & screenPestka = kanaly[surface->channel].porty[port].screen;
                 if (screenPestka.isWhite(x, y)) {
                     screenPestka.blink();
                     this->handleCollision(port, x, y);
@@ -178,7 +178,7 @@ class Batterfly:public program {
                     Star & star = this->stars[s];
                     star.x = star.originalX + czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
                     star.y = star.originalY + czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
-                    kanaly[surface->channel].ports[star.port].screen.needsRefresh = true;
+                    kanaly[surface->channel].porty[star.port].screen.needsRefresh = true;
                 }
             }
         }
@@ -188,7 +188,7 @@ class Batterfly:public program {
             for (int s=0; s<STARS_COUNT; s++) {
                 Star & star = this->stars[s];
                 if (star.active) {
-                    OLED & screen = kanaly[surface->channel].ports[star.port].screen;
+                    OLED & screen = kanaly[surface->channel].porty[star.port].screen;
                     screen.ssd1306.fillCircle(star.x, star.y, star.r-1, SSD1306_WHITE);
                     screen.ssd1306.drawCircle(star.x, star.y, star.r, SSD1306_BLACK);
                 }
@@ -203,13 +203,13 @@ class Batterfly:public program {
                 for (int i=0; i<20; i++) {
                     text += character;
                 }
-                kanaly[0].ports[port].screen.printText(text);
+                kanaly[0].porty[port].screen.printText(text);
             }
-            kanaly[0].ports[7].screen.printText(message2);
+            kanaly[0].porty[7].screen.printText(message2);
         }
 
         void drawProgress() {
-            OLED & screen = kanaly[0].ports[0].screen;
+            OLED & screen = kanaly[0].porty[0].screen;
             screen.ssd1306.setCursor(64, 4);
             screen.ssd1306.setTextColor(SSD1306_WHITE);
             screen.ssd1306.setTextWrap(false);
@@ -264,13 +264,13 @@ class Batterfly:public program {
             przestrzen * surface = & przestrzenie[this->surfaceIndex];
             this->vectorX = czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
             this->vectorY = czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
-            kanaly[surface->channel].ports[surface->pointerPort].screen.needsRefresh = true;
+            kanaly[surface->channel].porty[surface->pointerPort].screen.needsRefresh = true;
         }
 
         void updatePointer() {
             przestrzen * surface = & przestrzenie[this->surfaceIndex];
             if (surface->pointerPortChanged()) {
-                kanaly[surface->channel].ports[surface->pointerPreviousPort].screen.needsRefresh = true;
+                kanaly[surface->channel].porty[surface->pointerPreviousPort].screen.needsRefresh = true;
             }
             if (surface->pointerPositionY < 0) {
                 surface->pointerPositionY = 0;
@@ -298,7 +298,7 @@ class Batterfly:public program {
                     this->pestki[index].vectorY = this->vectorY * surface->orientationY;
                     this->pestki[index].x = surface->pointerPositionX;
                     this->pestki[index].y = surface->pointerPositionY;
-                    kanaly[surface->channel].ports[this->pestki[index].port].screen.needsRefresh = true;
+                    kanaly[surface->channel].porty[this->pestki[index].port].screen.needsRefresh = true;
                 }
             }
 
@@ -310,7 +310,7 @@ class Batterfly:public program {
                     if (!(this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4)) {
                         this->pestki[i].timestamp = 0;
                     }
-                    kanaly[surface->channel].ports[this->pestki[i].port].screen.needsRefresh = true;
+                    kanaly[surface->channel].porty[this->pestki[i].port].screen.needsRefresh = true;
                 }
             }
         }
@@ -394,7 +394,7 @@ class Batterfly:public program {
         void aktualizuj() {
             if (this->active) {
                 if (this->scoresChanged) {
-                    kanaly[0].ports[1].screen.needsRefresh = true;
+                    kanaly[0].porty[1].screen.needsRefresh = true;
                 }
             }
         }

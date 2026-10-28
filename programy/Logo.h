@@ -225,8 +225,8 @@ class Logo:public program {
 				*/
 
 				for (int i=0; i<5; i++) {
-					kanaly[s8x1->channel].ports[i+1].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
-					kanaly[s8x1->channel].ports[i+1].screen.needsRefresh = true;
+					kanaly[s8x1->channel].porty[i+1].screen.ssd1306.drawBitmap(32,0,logo_ACDGV_64x32[i],64,32,SSD1306_WHITE);
+					kanaly[s8x1->channel].porty[i+1].screen.needsRefresh = true;
 				}
 			}
 		}

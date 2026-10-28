@@ -1,18 +1,18 @@
 #include "./Pixel.h";
 #include "./OLED.h";
-#include "./Port.h";
+#include "./port.h";
 
 class kanal {
   public:
     int number;
-    Port ports[8];
+    port porty[8];
 
     void inicjuj(int number) {
       this->number = number;
       for (int p=0; p<8; p++) {
-        this->ports[p].number = p;
-        this->ports[p].channel = this->number;
-        this->ports[p].inicjuj();
+        this->porty[p].number = p;
+        this->porty[p].channel = this->number;
+        this->porty[p].inicjuj();
       }
       i2c.deactivate(this->number);
     }
@@ -51,7 +51,7 @@ class kanal {
     
     void aktualizuj() {
       for (int i=0; i<8; i++) {
-        this->ports[i].aktualizuj();
+        this->porty[i].aktualizuj();
       }
     }
 

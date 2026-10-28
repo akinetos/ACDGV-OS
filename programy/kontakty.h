@@ -145,8 +145,8 @@ class Contacts:public program {
 	int offsetY = 0;
 
 	void aktualizuj() {
-		kanaly[0].ports[1].screen.needsRefresh = true;
-		kanaly[0].ports[2].screen.needsRefresh = true;
+		kanaly[0].porty[1].screen.needsRefresh = true;
+		kanaly[0].porty[2].screen.needsRefresh = true;
 	}
 
     void rysuj() {

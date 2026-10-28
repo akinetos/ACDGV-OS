@@ -40,7 +40,7 @@ class FallTransition {
           this->pixels[i].y += weight;
         }
         for (int i=0; i<8; i++) {
-          kanaly[0].ports[i].screen.needsRefresh = true;
+          kanaly[0].porty[i].screen.needsRefresh = true;
         }
       }
     }

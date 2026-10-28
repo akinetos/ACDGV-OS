@@ -10,13 +10,6 @@ int indeksOstatniegoCzujnika = -1;
 #include "./silnik/magistrala.h";
 magistrala i2c;
 
-#include "./czujniki/nachylenie.h";
-#include "./czujniki/dzojstik.h";
-#include "./czujniki/klawiatura-numeryczna.h";
-#include "./czujniki/nfc.h";
-#include "./czujniki/odleglosc.h";
-#include "./czujniki/pamiec.h";
-
 #include "./silnik/kanal.h";
 int liczbaKanalow;
 kanal * kanaly;
@@ -39,7 +32,6 @@ wykonawca agent;
 
 #include "./silnik/interfejs.h";
 interfejs menu;
-
 
 void setup() {
   Serial.begin(9600);
@@ -69,7 +61,6 @@ void setup() {
 
   menu.inicjuj();
 }
-
 
 void loop() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)

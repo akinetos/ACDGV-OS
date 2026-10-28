@@ -49,11 +49,11 @@ class interfejs {
       int y = surface->getRelativeY();
 
       if (surface->pointerPortChanged()) {
-        OLED & previousScreen = kanaly[surface->channel].ports[surface->pointerPreviousPort].screen;
+        OLED & previousScreen = kanaly[surface->channel].porty[surface->pointerPreviousPort].screen;
         previousScreen.resetLineHovered();
       }
 
-      OLED & screen = kanaly[surface->channel].ports[surface->pointerPort].screen;
+      OLED & screen = kanaly[surface->channel].porty[surface->pointerPort].screen;
       screen.lineHovered = (int)((y - screen.offsetY) / 10);
 
       if (surface->pointerPort == 0) {
@@ -63,7 +63,7 @@ class interfejs {
 
     void updatePointer() {
       przestrzen * surface = & przestrzenie[0];
-      if (surface->pointerPositionX > 120 && kanaly[surface->channel].ports[surface->pointerPort].screen.scrollbarHovered) {
+      if (surface->pointerPositionX > 120 && kanaly[surface->channel].porty[surface->pointerPort].screen.scrollbarHovered) {
         surface->pointerPositionY = surface->pointerPreviousPositionY;
         if (surface->pointerPortChanged()) {
           surface->pointerPort = surface->pointerPreviousPort;
@@ -82,7 +82,7 @@ class interfejs {
       if (this->version == "8") {
         this->populate(file[1]);
       } else {
-        kanaly[0].ports[1].screen.populate(file[1]);
+        kanaly[0].porty[1].screen.populate(file[1]);
       }
 
       for (int i=this->level+1; i<8; i++) {
@@ -101,7 +101,7 @@ class interfejs {
     }
 
     void populateOptions() {
-      OLED & screen = kanaly[0].ports[1].screen;
+      OLED & screen = kanaly[0].porty[1].screen;
       screen.populate(this->getElement()[1]);
     }
 
@@ -127,7 +127,7 @@ class interfejs {
     }
     
     void update() {
-      OLED & screen = kanaly[0].ports[0].screen;
+      OLED & screen = kanaly[0].porty[0].screen;
 
       if (screen.textScroll != 0) {
         screen.needsRefresh = true;
@@ -186,7 +186,7 @@ class interfejs {
         przestrzen * surface = & przestrzenie[0];
         this->populate(element[1]);
       } else {
-        OLED & screen = kanaly[0].ports[1].screen;
+        OLED & screen = kanaly[0].porty[1].screen;
         screen.populate(element[1]);
       }
 
@@ -219,7 +219,7 @@ class interfejs {
         if (this->version == "8") {
           index = surface->pointerPort;
         } else {
-          OLED & screen = kanaly[0].ports[1].screen;
+          OLED & screen = kanaly[0].porty[1].screen;
           index = screen.lineHovered;
         }
         
@@ -259,7 +259,7 @@ class interfejs {
     boolean mainMenuHovered() {
       przestrzen * surface = & przestrzenie[0];
       boolean hovered = surface->pointerPort == 0 
-        && (this->show || kanaly[0].ports[0].screen.closeButtonHovered);
+        && (this->show || kanaly[0].porty[0].screen.closeButtonHovered);
       return hovered;
     }
 
@@ -286,7 +286,7 @@ class interfejs {
 
       if (this->show) {
         if (surface->pointerPort > 0) {
-          kanaly[0].ports[0].screen.printLargestText(segments[level]);
+          kanaly[0].porty[0].screen.printLargestText(segments[level]);
         } else {
           this->drawPath(0);
         }
@@ -295,14 +295,14 @@ class interfejs {
       }
 
       if (this->level > 0) {
-        OLED & screen = kanaly[0].ports[0].screen;
+        OLED & screen = kanaly[0].porty[0].screen;
         screen.drawCloseButton();
       }
     }
 
     void drawPath(int port) {
       przestrzen * surface = & przestrzenie[0];
-      OLED & screen = kanaly[0].ports[port].screen;
+      OLED & screen = kanaly[0].porty[port].screen;
       int cursorX = -1;
       int cursorY = -1;
       if (surface->pointerPort == 0) {
@@ -317,7 +317,7 @@ class interfejs {
       przestrzen * surface = & przestrzenie[0];
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
-          OLED & screen = kanaly[0].ports[port].screen;
+          OLED & screen = kanaly[0].porty[port].screen;
           int amount = 2;
           screen.hasOptions = amount > 0;
           screen.optionsCount = amount;
@@ -327,7 +327,7 @@ class interfejs {
           screen.printLines();
         }
       } else {
-        OLED & screen = kanaly[0].ports[1].screen;
+        OLED & screen = kanaly[0].porty[1].screen;
         if (screen.hasOptions) {
           screen.printBoxes();
           screen.printLines();
@@ -350,7 +350,7 @@ class interfejs {
 
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
-          OLED & screen = kanaly[0].ports[port].screen;
+          OLED & screen = kanaly[0].porty[port].screen;
           screen.lineSelected = -1;
           for (int i=0; i<=20; i++) {
             screen.lineScrollWidth[i] = 0;
