@@ -1,4 +1,4 @@
-class Menu {
+class interfejs {
   public:
     int address[8];
     String segments[8];
@@ -362,7 +362,7 @@ class Menu {
       surface->refreshScreens();
     }
 
-    Menu() {
+    interfejs() {
       for (int i=0; i<8; i++) {
         if (i==0) {
           this->address[i] = 0;

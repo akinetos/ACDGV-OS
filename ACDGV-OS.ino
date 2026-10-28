@@ -1,4 +1,5 @@
 #include "ArduinoJson.h"
+
 #include "./silnik/katalog.h";
 
 #include "./silnik/czujnik.h";
@@ -28,14 +29,6 @@ przestrzen * przestrzenie;
 przejscie animacja;
 
 #include "./silnik/program.h";
-#include "./programy/ptak.h";
-#include "./programy/grawitacja.h";
-#include "./programy/ww.h";
-#include "./programy/logo.h";
-#include "./programy/kontrolery.h";
-#include "./programy/odleglosciomierz.h";
-#include "./programy/bateria.h";
-#include "./programy/kontakty.h";
 const int maksymalnaLiczbaProgramow = 8;
 program * programy[maksymalnaLiczbaProgramow];
 int aktywnyProgram = -1;
@@ -44,8 +37,9 @@ int indeksOstatniegoProgramu = -1;
 #include "./silnik/wykonawca.h"
 wykonawca agent;
 
-#include "./silnik/menu.h";
-Menu menu;
+#include "./silnik/interfejs.h";
+interfejs menu;
+
 
 void setup() {
   Serial.begin(9600);
@@ -53,6 +47,7 @@ void setup() {
   i2c.inicjuj();
   
   katalog::inicjuj();
+  
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::load(sciezkaKonfiguracjiPrzestrzeni);
 
@@ -74,6 +69,7 @@ void setup() {
 
   menu.inicjuj();
 }
+
 
 void loop() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)

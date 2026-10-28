@@ -1,3 +1,12 @@
+#include "../programy/ptak.h";
+#include "../programy/grawitacja.h";
+#include "../programy/ww.h";
+#include "../programy/logo.h";
+#include "../programy/kontrolery.h";
+#include "../programy/odleglosciomierz.h";
+#include "../programy/bateria.h";
+#include "../programy/kontakty.h";
+
 class wykonawca {
     public:
         int wykonaj(JsonArray & komenda) {
