@@ -33,6 +33,7 @@ wykonawca agent;
 #include "./silnik/interfejs.h";
 interfejs menu;
 
+
 void setup() {
   Serial.begin(9600);
   
@@ -62,6 +63,7 @@ void setup() {
   menu.inicjuj();
 }
 
+
 void loop() {
   for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
     czujniki[i]->aktualizuj();
@@ -73,6 +75,7 @@ void loop() {
     przestrzenie[i].aktualizuj();
 
   menu.aktualizuj();
+
   animacja.aktualizuj();
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
@@ -85,6 +88,7 @@ void loop() {
     programy[i]->rysuj();
 
   menu.rysuj();
+
   animacja.rysuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
