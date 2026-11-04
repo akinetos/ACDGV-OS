@@ -1,3 +1,4 @@
+#include "./OLED.h";
 #include "../czujniki/odleglosc.h";
 
 class port {

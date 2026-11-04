@@ -1,4 +1,5 @@
 #include "ArduinoJson.h"
+#include "./silnik/Pixel.h";
 
 #include "./silnik/katalog.h";
 

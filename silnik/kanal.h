@@ -1,5 +1,3 @@
-#include "./Pixel.h";
-#include "./OLED.h";
 #include "./port.h";
 
 class kanal {
