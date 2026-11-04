@@ -4,6 +4,8 @@ class magistrala {
   public:
     int port = -1;
     int channel = -1;
+    czujnik * czujniki[8];
+    int indeksOstatniegoCzujnika = -1;
 
     void inicjuj() {
       Wire.begin();
@@ -51,9 +53,19 @@ class magistrala {
     int znajdzCzujnik(String nazwa) {
       int indeks = -1;
       for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
-        if (czujniki[i]->name == nazwa)
+        if (this->czujniki[i]->name == nazwa)
           indeks = i;
       return indeks;
+    }
+
+    void zainicjujCzujniki() {
+      for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
+        this->czujniki[i]->inicjuj();
+    }
+
+    void aktualizujCzujniki() {
+      for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
+        this->czujniki[i]->aktualizuj();
     }
 
   magistrala() {}

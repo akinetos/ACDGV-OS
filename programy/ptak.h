@@ -170,14 +170,14 @@ class Batterfly:public program {
         }
 
         void updateStars() {
-            double diffX = czujniki[this->deviceIndexAccelerometer]->readNumber("x") - czujniki[this->deviceIndexAccelerometer]->readNumber("previousX");
-            double diffY = czujniki[this->deviceIndexAccelerometer]->readNumber("y") - czujniki[this->deviceIndexAccelerometer]->readNumber("previousY");
+            double diffX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousX");
+            double diffY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 przestrzen * surface = & przestrzenie[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     Star & star = this->stars[s];
-                    star.x = star.originalX + czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
-                    star.y = star.originalY + czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
+                    star.x = star.originalX + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
+                    star.y = star.originalY + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
                     kanaly[surface->channel].porty[star.port].screen.needsRefresh = true;
                 }
             }
@@ -262,8 +262,8 @@ class Batterfly:public program {
 
         void updateBatterfly() {
             przestrzen * surface = & przestrzenie[this->surfaceIndex];
-            this->vectorX = czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
-            this->vectorY = czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
+            this->vectorX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
+            this->vectorY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
             kanaly[surface->channel].porty[surface->pointerPort].screen.needsRefresh = true;
         }
 
@@ -283,7 +283,7 @@ class Batterfly:public program {
             
             int index = -1;
             if (
-                czujniki[this->deviceIndexGamepad]->shortPress && 
+                i2c.czujniki[this->deviceIndexGamepad]->shortPress && 
                 surface->pointerPort > 0 && 
                 (millis() - this->activatedTimestamp) > 1000
             ) {

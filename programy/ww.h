@@ -64,15 +64,15 @@ class VV:public program {
       this->points[0] = 0;
       this->points[1] = 0;
 
-      this->offsetRe = czujniki[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
-      this->offsetIm = czujniki[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
+      this->offsetRe = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
+      this->offsetIm = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
 
       if (this->move) {
-        if (czujniki[this->deviceIndexGamepad]->readNumber("x") < -0.01 || czujniki[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
-          xOffset -= czujniki[this->deviceIndexGamepad]->readNumber("x") * 10;
+        if (i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
+          xOffset -= i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") * 10;
         }
-        if (czujniki[this->deviceIndexGamepad]->readNumber("y") < -0.01 || czujniki[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
-          yOffset -= czujniki[this->deviceIndexGamepad]->readNumber("y") * 10;
+        if (i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
+          yOffset -= i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") * 10;
         }
       }
 
@@ -109,7 +109,7 @@ class VV:public program {
 
     void aktualizuj() {
       if (this->active) {
-        if (czujniki[this->deviceIndexGamepad]->longPress) {
+        if (i2c.czujniki[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
           przestrzen * surface = & przestrzenie[0];
           if (this->move) {
@@ -124,20 +124,20 @@ class VV:public program {
         kanaly[0].porty[0].screen.needsRefresh = true;
 
         if (this->deviceIndexNfc > -1 && this->option == 2) {
-          czujniki[this->deviceIndexNfc]->writeString("action", "nfc read");
+          i2c.czujniki[this->deviceIndexNfc]->writeString("action", "nfc read");
           this->option = 0;
         }
 
         if (this->deviceIndexNfc > -1 && this->option == 3) {
           String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-          czujniki[this->deviceIndexNfc]->writeString("content", content);
-          czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
+          i2c.czujniki[this->deviceIndexNfc]->writeString("content", content);
+          i2c.czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
           this->option = 0;
         }
         
-        if (this->deviceIndexNfc > -1 && czujniki[this->deviceIndexNfc]->readString("message") != "") {
-          this->nfcTag = czujniki[this->deviceIndexNfc]->readString("message");
-          czujniki[this->deviceIndexNfc]->writeString("message", "");
+        if (this->deviceIndexNfc > -1 && i2c.czujniki[this->deviceIndexNfc]->readString("message") != "") {
+          this->nfcTag = i2c.czujniki[this->deviceIndexNfc]->readString("message");
+          i2c.czujniki[this->deviceIndexNfc]->writeString("message", "");
           JsonArray & point = this->load(this->nfcTag);
           String re = point[0];
           String im = point[1];
@@ -145,14 +145,14 @@ class VV:public program {
           this->cIm = im.toFloat();
         }
 
-        if (this->deviceIndexKeypad > -1 && czujniki[this->deviceIndexKeypad]->shortPress) {
-          char button = czujniki[this->deviceIndexKeypad]->buttonPressed;
+        if (this->deviceIndexKeypad > -1 && i2c.czujniki[this->deviceIndexKeypad]->shortPress) {
+          char button = i2c.czujniki[this->deviceIndexKeypad]->buttonPressed;
           if (button != '*' && button != '#') {
             int index = button - 48;
             if (index == 1 && this->deviceIndexNfc > -1) {
               String content = "[" + String(this->cRe + this->offsetRe) + "," + String(this->cIm + this->offsetIm) + "]";
-              czujniki[this->deviceIndexNfc]->writeString("content", content);
-              czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
+              i2c.czujniki[this->deviceIndexNfc]->writeString("content", content);
+              i2c.czujniki[this->deviceIndexNfc]->writeString("action", "nfc write");
             }
           }
         }

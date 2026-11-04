@@ -134,7 +134,7 @@ class interfejs {
       }
 
       if (this->deviceIndexGamepad > -1) {
-        if (czujniki[this->deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
+        if (i2c.czujniki[this->deviceIndexGamepad]->shortPress && this->mainMenuHovered()) {
           this->changed = false;
 
           if (screen.closeButtonHovered) {
@@ -237,7 +237,7 @@ class interfejs {
       przestrzen * surface = & przestrzenie[0];
       JsonArray & element = this->getElement();
       int index;
-      char button = czujniki[this->deviceIndexKeypad]->buttonPressed;
+      char button = i2c.czujniki[this->deviceIndexKeypad]->buttonPressed;
 
       if (button != '*' && button != '#') {
         int index = button - 48;
@@ -271,11 +271,11 @@ class interfejs {
         this->updateOptions();
         this->update();
 
-        if (this->deviceIndexGamepad > -1 && czujniki[this->deviceIndexGamepad]->shortPress) {
+        if (this->deviceIndexGamepad > -1 && i2c.czujniki[this->deviceIndexGamepad]->shortPress) {
           this->reactToGamepadAction();
         }
 
-        if (this->deviceIndexKeypad > -1 && czujniki[this->deviceIndexKeypad]->shortPress) {
+        if (this->deviceIndexKeypad > -1 && i2c.czujniki[this->deviceIndexKeypad]->shortPress) {
           this->reactToKeypadAction();
         }
       }

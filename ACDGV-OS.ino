@@ -3,9 +3,6 @@
 #include "./silnik/katalog.h";
 
 #include "./silnik/czujnik.h";
-const int maksymalnaLiczbaCzujnikow = 8;
-czujnik * czujniki[maksymalnaLiczbaCzujnikow];
-int indeksOstatniegoCzujnika = -1;
 
 #include "./silnik/magistrala.h";
 magistrala i2c;
@@ -52,8 +49,7 @@ void setup() {
   kontrolery * wykrywaczCzujnikow = new kontrolery();
   wykrywaczCzujnikow->skanuj();
   
-  for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
-    czujniki[i]->inicjuj();
+  i2c.zainicjujCzujniki();
 
   liczbaPrzestrzeni = konfiguracjaPrzestrzeni.size();
   przestrzenie = new przestrzen[liczbaPrzestrzeni];
@@ -65,8 +61,7 @@ void setup() {
 
 
 void loop() {
-  for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
-    czujniki[i]->aktualizuj();
+  i2c.aktualizujCzujniki();
 
   for (int i = 0; i < liczbaKanalow; i++)
     kanaly[i].aktualizuj();

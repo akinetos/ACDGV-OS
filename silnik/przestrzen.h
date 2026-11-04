@@ -55,7 +55,7 @@ class przestrzen {
       this->channel = channel;
 
       if (this->deviceIndexAccelerometer > -1)
-        this->handleOrientationChange(czujniki[this->deviceIndexAccelerometer]->orientation);
+        this->handleOrientationChange(i2c.czujniki[this->deviceIndexAccelerometer]->orientation);
       else
         this->handleOrientationChange("up");
 
@@ -119,14 +119,14 @@ class przestrzen {
     void aktualizuj() {
       if (this->deviceIndexGamepad > -1)
         if (this->facingUp && this->showPointer)
-          this->updatePointer(czujniki[this->deviceIndexGamepad]->readNumber("x"), czujniki[this->deviceIndexGamepad]->readNumber("y"));
+          this->updatePointer(i2c.czujniki[this->deviceIndexGamepad]->readNumber("x"), i2c.czujniki[this->deviceIndexGamepad]->readNumber("y"));
 
       if (this->deviceIndexAccelerometer > -1)
-        if (czujniki[this->deviceIndexAccelerometer]->orientationChanged)
-          this->handleOrientationChange(czujniki[this->deviceIndexAccelerometer]->orientation);
+        if (i2c.czujniki[this->deviceIndexAccelerometer]->orientationChanged)
+          this->handleOrientationChange(i2c.czujniki[this->deviceIndexAccelerometer]->orientation);
 
       if (this->deviceIndexGamepad > -1)
-        if (czujniki[this->deviceIndexGamepad]->shortPress || czujniki[this->deviceIndexGamepad]->longPress)
+        if (i2c.czujniki[this->deviceIndexGamepad]->shortPress || i2c.czujniki[this->deviceIndexGamepad]->longPress)
           this->animatePointerTime = millis();
     }
 
