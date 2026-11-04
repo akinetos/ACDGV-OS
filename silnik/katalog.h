@@ -8,13 +8,13 @@ class katalog {
       SPIFFS.begin();
     }
 
-    static JsonArray & load (String filePath) {
-      File file = SPIFFS.open(filePath, "r");
-      if (file) {
-        String source = file.readString();
+    static JsonArray & laduj (String sciezka) {
+      File plik = SPIFFS.open(sciezka, "r");
+      if (plik) {
+        String trescPliku = plik.readString();
         jsonBuffer.clear();
-        JsonArray & data = jsonBuffer.parseArray(source.c_str());
-        return data;
+        JsonArray & tablica = jsonBuffer.parseArray(trescPliku.c_str());
+        return tablica;
       }
     }
 };

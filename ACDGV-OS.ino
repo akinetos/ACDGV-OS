@@ -38,7 +38,7 @@ void setup() {
   katalog::inicjuj();
   
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
-  JsonArray & konfiguracjaPrzestrzeni = katalog::load(sciezkaKonfiguracjiPrzestrzeni);
+  JsonArray & konfiguracjaPrzestrzeni = katalog::laduj(sciezkaKonfiguracjiPrzestrzeni);
 
   i2c.inicjuj();
   i2c.inicjujKanaly(konfiguracjaPrzestrzeni);

@@ -76,7 +76,7 @@ class interfejs {
       this->deviceIndexKeypad = i2c.znajdzCzujnik("klawiatura-numeryczna");
 
       przestrzen * surface = & przestrzenie[0];
-      JsonArray & file = katalog::load("/config/menu.json");
+      JsonArray & file = katalog::laduj("/config/menu.json");
       String optionName = file[0];
 
       if (this->version == "8") {
@@ -165,7 +165,7 @@ class interfejs {
     }
 
     JsonArray & getElement() {
-      JsonArray & file = katalog::load("/config/menu.json");
+      JsonArray & file = katalog::laduj("/config/menu.json");
       JsonArray * node = &file;
       for (int i=0; i<this->level; i++) {
         JsonArray & children = (*node)[1];
