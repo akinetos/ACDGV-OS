@@ -2,8 +2,6 @@
 
 #include "./silnik/katalog.h";
 
-#include "./silnik/czujnik.h";
-
 #include "./silnik/magistrala.h";
 magistrala i2c;
 

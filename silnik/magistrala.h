@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include "./czujnik.h";
 
 class magistrala {
   public:
