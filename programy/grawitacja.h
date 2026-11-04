@@ -70,8 +70,8 @@ class Gravity:public program {
           }
 
           this->port = (int)(this->y / 32);
-          kanaly[0].porty[port].screen.needsRefresh = true;
-          kanaly[0].porty[7].screen.clear();
+          i2c.kanaly[0].porty[port].screen.needsRefresh = true;
+          i2c.kanaly[0].porty[7].screen.clear();
         }
       }
 
@@ -90,7 +90,7 @@ class Gravity:public program {
           przestrzen * surface = & przestrzenie[0];
           if (this->port != this->previousPort) {
             if (this->previousPort != -1)
-              kanaly[surface->channel].porty[this->previousPort].screen.clear();
+              i2c.kanaly[surface->channel].porty[this->previousPort].screen.clear();
             this->previousPort = this->port;
           }
           surface->drawCircle(this->x, this->y, 20);

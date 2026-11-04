@@ -109,7 +109,7 @@ class przestrzen {
         this->pointerPositionY = (this->height-1);
       }
       this->pointerPort = (int)(this->pointerPositionX / this->screenWidth) + (int)(this->pointerPositionY / this->screenHeight) * this->screensPerRow;
-      kanaly[channel].porty[pointerPort].screen.needsRefresh = true;
+      i2c.kanaly[channel].porty[pointerPort].screen.needsRefresh = true;
     }
 
     boolean pointerPortChanged() {
@@ -132,7 +132,7 @@ class przestrzen {
 
     void turnScreens(String state) {
       for (int p=0; p<8; p++) {
-        OLED & screen = kanaly[this->channel].porty[p].screen;
+        OLED & screen = i2c.kanaly[this->channel].porty[p].screen;
         screen.state = state;
         screen.needsRefresh = true;
       }
@@ -144,7 +144,7 @@ class przestrzen {
   int drawRectangle(int x, int y) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = kanaly[this->channel].porty[port].screen;
+    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
     screen.clear();
     screen.drawRectangle(x, y - port * height);
     return port;
@@ -153,7 +153,7 @@ class przestrzen {
   int drawPoint(int x, int y) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = kanaly[this->channel].porty[port].screen;
+    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
     screen.drawPoint(x, y - port * height);
     return port;
   }
@@ -161,7 +161,7 @@ class przestrzen {
   int drawCircle(int x, int y, int r) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = kanaly[this->channel].porty[port].screen;
+    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
     for (int i=2; i<r; i++) {
       screen.ssd1306.drawCircle(x, y - port * height, i, SSD1306_WHITE);
     }
@@ -172,7 +172,7 @@ class przestrzen {
 
   void czysc() {
     for (int i=0; i<8; i++) {
-      OLED & screen = kanaly[this->channel].porty[i].screen;
+      OLED & screen = i2c.kanaly[this->channel].porty[i].screen;
       if (screen.needsRefresh) {
         screen.clear();
       }
@@ -180,7 +180,7 @@ class przestrzen {
   }
 
   void drawPointer() {
-    OLED & screen = kanaly[this->channel].porty[this->pointerPort].screen;
+    OLED & screen = i2c.kanaly[this->channel].porty[this->pointerPort].screen;
     String mode = "circle";
     if (this->animatePointerTime + 1000 > millis()) {
       mode = "rect";
@@ -195,8 +195,8 @@ class przestrzen {
     int height = 32;
     int port1 = (int)(y1 / height);
     int port2 = (int)(y2 / height);
-    OLED & screen1 = kanaly[this->channel].porty[port1].screen;
-    OLED & screen2 = kanaly[this->channel].porty[port2].screen;
+    OLED & screen1 = i2c.kanaly[this->channel].porty[port1].screen;
+    OLED & screen2 = i2c.kanaly[this->channel].porty[port2].screen;
     if (port1 == port2) {
       screen2.drawLine(x1, y1 - port1 * height, x2, y2 - port1 * height);
     } else {
@@ -208,25 +208,30 @@ class przestrzen {
   void countScreens() {
     this->screensCount = 0;
     for (int p=0; p<8; p++) {
-      if (kanaly[channel].porty[p].screen.connected) {
+      if (i2c.kanaly[channel].porty[p].screen.connected) {
         this->screensCount++;
       }
     }
   }
 
   void drawText(int port, String text) {
-    kanaly[channel].porty[port].screen.printText(text);
+    i2c.kanaly[channel].porty[port].screen.printText(text);
   }
 
   void refreshScreens() {
     for (int i=0; i<8; i++) {
-      kanaly[channel].porty[i].screen.needsRefresh = true;
+      i2c.kanaly[channel].porty[i].screen.needsRefresh = true;
     }
   }
 
   void display() {
     for (int i=0; i<8; i++) {
-      kanaly[channel].porty[i].display();
+      if (i2c.kanaly[channel].porty[i].screen.connected) {
+        if (i2c.kanaly[channel].porty[i].screen.needsRefresh) {
+          i2c.activate(channel, i);
+          i2c.kanaly[channel].porty[i].screen.tick();
+        }
+      }
     }
   }
 
@@ -239,19 +244,19 @@ class przestrzen {
   }
 
   void drawBitmap(const unsigned char* image, int port, int offsetY) {
-    kanaly[channel].porty[port].screen.ssd1306.drawBitmap(
+    i2c.kanaly[channel].porty[port].screen.ssd1306.drawBitmap(
       0, offsetY,
       image,
       128, 64,
       SSD1306_WHITE
     );
-    kanaly[channel].porty[port].screen.needsRefresh = true;
+    i2c.kanaly[channel].porty[port].screen.needsRefresh = true;
   }
 
   boolean getPixel(int x, int y) {
     int height = 32;
     int port = (int)(y / height);
-    boolean white = kanaly[0].porty[port].screen.ssd1306.getPixel(x, y - port * height);
+    boolean white = i2c.kanaly[0].porty[port].screen.ssd1306.getPixel(x, y - port * height);
     return white;
   }
 };

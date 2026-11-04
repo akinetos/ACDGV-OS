@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include "./czujnik.h";
+#include "./kanal.h";
 
 class magistrala {
   public:
@@ -7,6 +8,8 @@ class magistrala {
     int channel = -1;
     czujnik * czujniki[8];
     int indeksOstatniegoCzujnika = -1;
+    int liczbaKanalow;
+    kanal * kanaly;
 
     void inicjuj() {
       Wire.begin();
@@ -67,6 +70,34 @@ class magistrala {
     void aktualizujCzujniki() {
       for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
         this->czujniki[i]->aktualizuj();
+    }
+
+    void inicjujKanaly(JsonArray & konfiguracjaPrzestrzeni) {
+      this->liczbaKanalow = kanal::count(konfiguracjaPrzestrzeni);
+      this->kanaly = new kanal[liczbaKanalow];
+      for (int k = 0; k < liczbaKanalow; k++) {
+        this->kanaly[k].number = k;
+        for (int p=0; p<8; p++) {
+          this->kanaly[k].porty[p].number = p;
+          this->kanaly[k].porty[p].channel = k;
+          this->activate(k, p);
+          this->kanaly[k].porty[p].inicjuj();
+        }
+        this->deactivate(k);
+      }
+    }
+
+    void aktualizujKanaly() {
+      for (int k = 0; k < liczbaKanalow; k++)
+        for (int p=0; p<8; p++) {
+          this->activate(k, p);
+          this->kanaly[k].porty[p].aktualizuj();
+        }
+    }
+
+    void aktualizuj() {
+      this->aktualizujCzujniki();
+      this->aktualizujKanaly();
     }
 
   magistrala() {}

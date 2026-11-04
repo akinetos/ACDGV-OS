@@ -7,16 +7,6 @@ class kanal {
     int number;
     port porty[8];
 
-    void inicjuj(int number) {
-      this->number = number;
-      for (int p=0; p<8; p++) {
-        this->porty[p].number = p;
-        this->porty[p].channel = this->number;
-        this->porty[p].inicjuj();
-      }
-      i2c.deactivate(this->number);
-    }
-
     static int count(JsonArray & configSurfaces) {
       int channelsUsed[8];
       for (int i=0; i<8; i++) {
@@ -47,12 +37,6 @@ class kanal {
         }
       }
       return countChannels;
-    }
-    
-    void aktualizuj() {
-      for (int i=0; i<8; i++) {
-        this->porty[i].aktualizuj();
-      }
     }
 
   kanal() {}

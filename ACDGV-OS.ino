@@ -5,9 +5,11 @@
 #include "./silnik/magistrala.h";
 magistrala i2c;
 
-#include "./silnik/kanal.h";
-int liczbaKanalow;
-kanal * kanaly;
+#include "./czujniki/nachylenie.h";
+#include "./czujniki/dzojstik.h";
+#include "./czujniki/klawiatura-numeryczna.h";
+#include "./czujniki/nfc.h";
+#include "./czujniki/pamiec.h";
 
 #include "./silnik/przestrzen.h";
 int liczbaPrzestrzeni;
@@ -31,18 +33,14 @@ interfejs menu;
 
 void setup() {
   Serial.begin(9600);
-  
-  i2c.inicjuj();
-  
+
   katalog::inicjuj();
   
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::load(sciezkaKonfiguracjiPrzestrzeni);
 
-  liczbaKanalow = kanal::count(konfiguracjaPrzestrzeni);
-  kanaly = new kanal[liczbaKanalow];
-  for (int i = 0; i < liczbaKanalow; i++)
-    kanaly[i].inicjuj(i);
+  i2c.inicjuj();
+  i2c.inicjujKanaly(konfiguracjaPrzestrzeni);
 
   kontrolery * wykrywaczCzujnikow = new kontrolery();
   wykrywaczCzujnikow->skanuj();
@@ -59,10 +57,7 @@ void setup() {
 
 
 void loop() {
-  i2c.aktualizujCzujniki();
-
-  for (int i = 0; i < liczbaKanalow; i++)
-    kanaly[i].aktualizuj();
+  i2c.aktualizuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].aktualizuj();
