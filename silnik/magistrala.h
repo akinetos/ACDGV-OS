@@ -73,7 +73,7 @@ class magistrala {
     }
 
     void inicjujKanaly(JsonArray & konfiguracjaPrzestrzeni) {
-      this->liczbaKanalow = kanal::count(konfiguracjaPrzestrzeni);
+      this->liczbaKanalow = this->count(konfiguracjaPrzestrzeni);
       this->kanaly = new kanal[liczbaKanalow];
       for (int k = 0; k < liczbaKanalow; k++) {
         this->kanaly[k].number = k;
@@ -98,6 +98,37 @@ class magistrala {
     void aktualizuj() {
       this->aktualizujCzujniki();
       this->aktualizujKanaly();
+    }
+
+    int count(JsonArray & przestrzenie) {
+      int channelsUsed[8];
+      for (int i=0; i<8; i++) {
+        channelsUsed[i] = -1;
+      }
+      for (int i=0; i<przestrzenie.size(); i++) {
+        int channel = przestrzenie[i]["channel"];
+        boolean found = false;
+        for (int j=0; j<8; j++) {
+          if (channelsUsed[j] == channel) {
+            found = true;
+          }
+        }
+        if (!found) {
+          int index = 0;
+          for (int j=0; j<8; j++) {
+            if (channelsUsed[j] >= 0) {
+              index++;
+            }
+          }
+          channelsUsed[index] = channel;
+        }
+      }
+      int liczbaKanalow = 0;
+      for (int i=0; i<8; i++) {
+        if (channelsUsed[i] >= 0)
+          liczbaKanalow++;
+      }
+      return liczbaKanalow;
     }
 
   magistrala() {}
