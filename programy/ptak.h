@@ -92,7 +92,7 @@ class Batterfly:public program {
             }
 
             if (channel != -1 && port > 0) {
-                OLED & screen = i2c.kanaly[channel].porty[port].screen;
+                ekran & screen = i2c.kanaly[channel].porty[port].screen;
                 if (screen.type == "ssd1306") {
                     if (this->option == 0) {
                         for (int i=1; i<=this->wingsSpread; i++) {
@@ -152,7 +152,7 @@ class Batterfly:public program {
             int port = surface->pointerPort;
             int x = surface->getRelativeX();
             int y = surface->getRelativeY();
-            OLED & screen = i2c.kanaly[surface->channel].porty[port].screen;
+            ekran & screen = i2c.kanaly[surface->channel].porty[port].screen;
             if (screen.isWhite(x, y)) {
                 screen.blink();
                 this->handleCollision(port, x, y);
@@ -161,7 +161,7 @@ class Batterfly:public program {
                 port = this->pestki[i].port;
                 x = this->pestki[i].x;
                 y = this->pestki[i].y - (this->pestki[i].port * 32);
-                OLED & screenPestka = i2c.kanaly[surface->channel].porty[port].screen;
+                ekran & screenPestka = i2c.kanaly[surface->channel].porty[port].screen;
                 if (screenPestka.isWhite(x, y)) {
                     screenPestka.blink();
                     this->handleCollision(port, x, y);
@@ -188,7 +188,7 @@ class Batterfly:public program {
             for (int s=0; s<STARS_COUNT; s++) {
                 Star & star = this->stars[s];
                 if (star.active) {
-                    OLED & screen = i2c.kanaly[surface->channel].porty[star.port].screen;
+                    ekran & screen = i2c.kanaly[surface->channel].porty[star.port].screen;
                     screen.ssd1306.fillCircle(star.x, star.y, star.r-1, SSD1306_WHITE);
                     screen.ssd1306.drawCircle(star.x, star.y, star.r, SSD1306_BLACK);
                 }
@@ -209,7 +209,7 @@ class Batterfly:public program {
         }
 
         void drawProgress() {
-            OLED & screen = i2c.kanaly[0].porty[0].screen;
+            ekran & screen = i2c.kanaly[0].porty[0].screen;
             screen.ssd1306.setCursor(64, 4);
             screen.ssd1306.setTextColor(SSD1306_WHITE);
             screen.ssd1306.setTextWrap(false);

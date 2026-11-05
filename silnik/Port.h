@@ -1,4 +1,4 @@
-#include "./OLED.h";
+#include "./ekran.h";
 
 class port {
   public:
@@ -6,7 +6,7 @@ class port {
     int number;
     boolean hasDevices;
     czujnik * czujniki[2];
-    OLED screen = OLED("ssd1306");
+    ekran screen = ekran("ssd1306");
     
     void inicjuj() {
       this->screen.init(128, 32, "ssd1306");

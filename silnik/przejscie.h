@@ -1,7 +1,7 @@
 class przejscie {
   public:
     boolean active = false;
-    Pixel pixels[4000];
+    piksel pixels[4000];
     int counter = 0;
     int p = 0;
     int type = 0;
@@ -15,7 +15,7 @@ class przejscie {
           for (short x=0; x<128; x+=2) {
             boolean white = przestrzenie[0].getPixel(x,y);
             if (white && p<4000) {
-              this->pixels[p] = Pixel(x,y);
+              this->pixels[p] = piksel(x,y);
               p++;
             }
           }
@@ -28,7 +28,7 @@ class przejscie {
           for (int x=0; x<128; x+=2) {
             boolean white = przestrzenie[0].getPixel(x,y);
             if (white && p<4000) {
-              this->pixels[p] = Pixel(x,y);
+              this->pixels[p] = piksel(x,y);
               p++;
             }
           }

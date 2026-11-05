@@ -49,11 +49,11 @@ class interfejs {
       int y = surface->getRelativeY();
 
       if (surface->pointerPortChanged()) {
-        OLED & previousScreen = i2c.kanaly[surface->channel].porty[surface->pointerPreviousPort].screen;
+        ekran & previousScreen = i2c.kanaly[surface->channel].porty[surface->pointerPreviousPort].screen;
         previousScreen.resetLineHovered();
       }
 
-      OLED & screen = i2c.kanaly[surface->channel].porty[surface->pointerPort].screen;
+      ekran & screen = i2c.kanaly[surface->channel].porty[surface->pointerPort].screen;
       screen.lineHovered = (int)((y - screen.offsetY) / 10);
 
       if (surface->pointerPort == 0) {
@@ -101,7 +101,7 @@ class interfejs {
     }
 
     void populateOptions() {
-      OLED & screen = i2c.kanaly[0].porty[1].screen;
+      ekran & screen = i2c.kanaly[0].porty[1].screen;
       screen.populate(this->getElement()[1]);
     }
 
@@ -127,7 +127,7 @@ class interfejs {
     }
     
     void update() {
-      OLED & screen = i2c.kanaly[0].porty[0].screen;
+      ekran & screen = i2c.kanaly[0].porty[0].screen;
 
       if (screen.textScroll != 0) {
         screen.needsRefresh = true;
@@ -186,7 +186,7 @@ class interfejs {
         przestrzen * surface = & przestrzenie[0];
         this->populate(element[1]);
       } else {
-        OLED & screen = i2c.kanaly[0].porty[1].screen;
+        ekran & screen = i2c.kanaly[0].porty[1].screen;
         screen.populate(element[1]);
       }
 
@@ -219,7 +219,7 @@ class interfejs {
         if (this->version == "8") {
           index = surface->pointerPort;
         } else {
-          OLED & screen = i2c.kanaly[0].porty[1].screen;
+          ekran & screen = i2c.kanaly[0].porty[1].screen;
           index = screen.lineHovered;
         }
         
@@ -295,14 +295,14 @@ class interfejs {
       }
 
       if (this->level > 0) {
-        OLED & screen = i2c.kanaly[0].porty[0].screen;
+        ekran & screen = i2c.kanaly[0].porty[0].screen;
         screen.drawCloseButton();
       }
     }
 
     void drawPath(int port) {
       przestrzen * surface = & przestrzenie[0];
-      OLED & screen = i2c.kanaly[0].porty[port].screen;
+      ekran & screen = i2c.kanaly[0].porty[port].screen;
       int cursorX = -1;
       int cursorY = -1;
       if (surface->pointerPort == 0) {
@@ -317,7 +317,7 @@ class interfejs {
       przestrzen * surface = & przestrzenie[0];
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
-          OLED & screen = i2c.kanaly[0].porty[port].screen;
+          ekran & screen = i2c.kanaly[0].porty[port].screen;
           int amount = 2;
           screen.hasOptions = amount > 0;
           screen.optionsCount = amount;
@@ -327,7 +327,7 @@ class interfejs {
           screen.printLines();
         }
       } else {
-        OLED & screen = i2c.kanaly[0].porty[1].screen;
+        ekran & screen = i2c.kanaly[0].porty[1].screen;
         if (screen.hasOptions) {
           screen.printBoxes();
           screen.printLines();
@@ -350,7 +350,7 @@ class interfejs {
 
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
-          OLED & screen = i2c.kanaly[0].porty[port].screen;
+          ekran & screen = i2c.kanaly[0].porty[port].screen;
           screen.lineSelected = -1;
           for (int i=0; i<=20; i++) {
             screen.lineScrollWidth[i] = 0;

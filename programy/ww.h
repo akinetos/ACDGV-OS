@@ -181,7 +181,7 @@ class VV:public program {
             }
 
             if (this->nfcTag != "") {
-              OLED & screen = i2c.kanaly[0].porty[7].screen;
+              ekran & screen = i2c.kanaly[0].porty[7].screen;
               screen.printText(this->nfcTag);
             }
           }
@@ -206,7 +206,7 @@ class VV:public program {
     }
 
     void drawProgress() {
-      OLED & screen = i2c.kanaly[0].porty[0].screen;
+      ekran & screen = i2c.kanaly[0].porty[0].screen;
       screen.ssd1306.setCursor(50, 0);
       screen.ssd1306.print(String(this->cRe) + "," + String(this->cIm));
       screen.ssd1306.setCursor(50, 9);

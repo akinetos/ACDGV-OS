@@ -132,7 +132,7 @@ class przestrzen {
 
     void turnScreens(String state) {
       for (int p=0; p<8; p++) {
-        OLED & screen = i2c.kanaly[this->channel].porty[p].screen;
+        ekran & screen = i2c.kanaly[this->channel].porty[p].screen;
         screen.state = state;
         screen.needsRefresh = true;
       }
@@ -144,7 +144,7 @@ class przestrzen {
   int drawRectangle(int x, int y) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
+    ekran & screen = i2c.kanaly[this->channel].porty[port].screen;
     screen.clear();
     screen.drawRectangle(x, y - port * height);
     return port;
@@ -153,7 +153,7 @@ class przestrzen {
   int drawPoint(int x, int y) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
+    ekran & screen = i2c.kanaly[this->channel].porty[port].screen;
     screen.drawPoint(x, y - port * height);
     return port;
   }
@@ -161,7 +161,7 @@ class przestrzen {
   int drawCircle(int x, int y, int r) {
     int height = 32;
     int port = (int)(y / height);
-    OLED & screen = i2c.kanaly[this->channel].porty[port].screen;
+    ekran & screen = i2c.kanaly[this->channel].porty[port].screen;
     for (int i=2; i<r; i++) {
       screen.ssd1306.drawCircle(x, y - port * height, i, SSD1306_WHITE);
     }
@@ -172,7 +172,7 @@ class przestrzen {
 
   void czysc() {
     for (int i=0; i<8; i++) {
-      OLED & screen = i2c.kanaly[this->channel].porty[i].screen;
+      ekran & screen = i2c.kanaly[this->channel].porty[i].screen;
       if (screen.needsRefresh) {
         screen.clear();
       }
@@ -180,7 +180,7 @@ class przestrzen {
   }
 
   void drawPointer() {
-    OLED & screen = i2c.kanaly[this->channel].porty[this->pointerPort].screen;
+    ekran & screen = i2c.kanaly[this->channel].porty[this->pointerPort].screen;
     String mode = "circle";
     if (this->animatePointerTime + 1000 > millis()) {
       mode = "rect";
@@ -195,8 +195,8 @@ class przestrzen {
     int height = 32;
     int port1 = (int)(y1 / height);
     int port2 = (int)(y2 / height);
-    OLED & screen1 = i2c.kanaly[this->channel].porty[port1].screen;
-    OLED & screen2 = i2c.kanaly[this->channel].porty[port2].screen;
+    ekran & screen1 = i2c.kanaly[this->channel].porty[port1].screen;
+    ekran & screen2 = i2c.kanaly[this->channel].porty[port2].screen;
     if (port1 == port2) {
       screen2.drawLine(x1, y1 - port1 * height, x2, y2 - port1 * height);
     } else {

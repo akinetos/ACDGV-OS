@@ -1,7 +1,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 
-class OLED: public czujnik {
+class ekran: public czujnik {
   public:
     Adafruit_SH1106G sh1106 = Adafruit_SH1106G(128, 64, &Wire, -1);
     Adafruit_SSD1306 ssd1306 = Adafruit_SSD1306(128, 64, &Wire, -1);
@@ -573,7 +573,7 @@ class OLED: public czujnik {
       this->needsRefresh = true;
     }
     
-  OLED(String type) { //sh1106 or ssd1306
+  ekran(String type) { //sh1106 or ssd1306
     this->type = type;
     for (int l=0; l<this->optionsCount; l++) {
       this->lines[l] = "";
