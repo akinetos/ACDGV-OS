@@ -62,7 +62,7 @@ class magistrala {
       return indeks;
     }
 
-    void zainicjujCzujniki() {
+    void inicjujCzujniki() {
       for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
         this->czujniki[i]->inicjuj();
     }

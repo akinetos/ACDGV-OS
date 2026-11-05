@@ -11,6 +11,7 @@ magistrala i2c;
 #include "./czujniki/klawiatura-numeryczna.h";
 #include "./czujniki/nfc.h";
 #include "./czujniki/pamiec.h";
+#include "./czujniki/odleglosc.h";
 
 #include "./silnik/przestrzen.h";
 int liczbaPrzestrzeni;
@@ -43,10 +44,9 @@ void setup() {
   i2c.inicjuj();
   i2c.inicjujKanaly(konfiguracjaPrzestrzeni);
 
-  kontrolery * wykrywaczCzujnikow = new kontrolery();
-  wykrywaczCzujnikow->skanuj();
+  agent.skanuj();
   
-  i2c.zainicjujCzujniki();
+  i2c.inicjujCzujniki();
 
   liczbaPrzestrzeni = konfiguracjaPrzestrzeni.size();
   przestrzenie = new przestrzen[liczbaPrzestrzeni];

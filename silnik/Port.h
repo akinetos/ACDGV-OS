@@ -1,5 +1,4 @@
 #include "./OLED.h";
-#include "../czujniki/odleglosc.h";
 
 class port {
   public:
@@ -10,8 +9,6 @@ class port {
     OLED screen = OLED("ssd1306");
     
     void inicjuj() {
-      this->czujniki[0] = new DistanceSensor(0x29);
-      this->czujniki[0]->inicjuj();
       this->screen.init(128, 32, "ssd1306");
     }
 

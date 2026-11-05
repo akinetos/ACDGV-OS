@@ -89,38 +89,6 @@ class kontrolery:public program {
       }
     }
 
-    void skanuj() {
-      Wire.beginTransmission(29);
-      if (Wire.endTransmission() == 0) {
-        i2c.indeksOstatniegoCzujnika++;
-        i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new AM(29);
-      }
-
-      Wire.beginTransmission(81);
-      if (Wire.endTransmission() == 0) {
-        i2c.indeksOstatniegoCzujnika++;
-        i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Gamepad(81);
-      }
-
-      Wire.beginTransmission(36);
-      if (Wire.endTransmission() == 0) {
-        i2c.indeksOstatniegoCzujnika++;
-        i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new NFCDevice();
-      }
-
-      Wire.beginTransmission(75);
-      if (Wire.endTransmission() == 0) {
-        i2c.indeksOstatniegoCzujnika++;
-        i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Keypad();
-      }
-
-      Wire.beginTransmission(80);
-      if (Wire.endTransmission() == 0) {
-        i2c.indeksOstatniegoCzujnika++;
-        i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Memory();
-      }
-    }
-
   kontrolery() {
     this->name = "kontrolery";
   }

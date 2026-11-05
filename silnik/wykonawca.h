@@ -75,5 +75,42 @@ class wykonawca {
             return this->wykonaj(json);
         }
 
+        void skanuj() {
+            Wire.beginTransmission(29);
+            if (Wire.endTransmission() == 0) {
+                i2c.indeksOstatniegoCzujnika++;
+                i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new AM(29);
+            }
+
+            Wire.beginTransmission(81);
+            if (Wire.endTransmission() == 0) {
+                i2c.indeksOstatniegoCzujnika++;
+                i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Gamepad(81);
+            }
+
+            Wire.beginTransmission(36);
+            if (Wire.endTransmission() == 0) {
+                i2c.indeksOstatniegoCzujnika++;
+                i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new NFCDevice();
+            }
+
+            Wire.beginTransmission(75);
+            if (Wire.endTransmission() == 0) {
+                i2c.indeksOstatniegoCzujnika++;
+                i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Keypad();
+            }
+
+            Wire.beginTransmission(80);
+            if (Wire.endTransmission() == 0) {
+                i2c.indeksOstatniegoCzujnika++;
+                i2c.czujniki[i2c.indeksOstatniegoCzujnika] = new Memory();
+            }
+
+            for (int p=0; p<8; p++) {
+                i2c.kanaly[0].porty[p].czujniki[0] = new DistanceSensor(0x29);
+                i2c.kanaly[0].porty[p].czujniki[0]->inicjuj();
+            }
+        }
+
         wykonawca() {}
 };
