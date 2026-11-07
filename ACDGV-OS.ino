@@ -6,13 +6,6 @@
 #include "silnik/magistrala.h";
 magistrala i2c;
 
-#include "czujniki/nachylenie.h";
-#include "czujniki/dzojstik.h";
-#include "czujniki/klawiatura-numeryczna.h";
-#include "czujniki/nfc.h";
-#include "czujniki/pamiec.h";
-#include "czujniki/odleglosc.h";
-
 #include "silnik/przestrzen.h";
 int liczbaPrzestrzeni;
 przestrzen * przestrzenie;
@@ -25,16 +18,8 @@ const int maksymalnaLiczbaProgramow = 8;
 program * programy[maksymalnaLiczbaProgramow];
 int aktywnyProgram = -1;
 int indeksOstatniegoProgramu = -1;
-#include "programy/ptak.h";
-#include "programy/grawitacja.h";
-#include "programy/ww.h";
-#include "programy/logo.h";
-#include "programy/kontrolery.h";
-#include "programy/odleglosciomierz.h";
-#include "programy/bateria.h";
-#include "programy/kontakty.h";
 
-#include "silnik/wykonawca.h"
+#include "wykonawca.h"
 wykonawca agent;
 
 #include "silnik/interfejs.h";
