@@ -16,73 +16,60 @@
 
 class wykonawca {
     public:
-        int wykonaj(JsonArray & komenda) {
-            int output = 0;
-            String commandType = komenda[0];
+        int uruchomProgram(JsonArray & komenda) {
+            int programIndex = -1;
+            String programName = komenda[1];
+            boolean hasOption = komenda.size() == 3;
+            
+            for (int i=0; i<=indeksOstatniegoProgramu; i++)
+                if (programy[i]->name == programName)
+                    programIndex = i;
 
-            if (commandType == "uruchom") {
-                int programIndex = -1;
-                String programName = komenda[1];
-                boolean hasOption = komenda.size() == 3;
-                
-                for (int i=0; i<=indeksOstatniegoProgramu; i++)
-                    if (programy[i]->name == programName)
-                        programIndex = i;
-
-                if (programIndex == -1) {
-                    indeksOstatniegoProgramu++;
-                    if (programName == "ptak") {
-                        programy[indeksOstatniegoProgramu] = new ptak();
-                    }
-                    if (programName == "ww") {
-                        programy[indeksOstatniegoProgramu] = new VV();
-                    }
-                    if (programName == "logo") {
-                        programy[indeksOstatniegoProgramu] = new Logo();
-                    }
-                    if (programName == "skaner-3d") {
-                        programy[indeksOstatniegoProgramu] = new Skaner3d();
-                    }
-                    if (programName == "kontakty") {
-                        programy[indeksOstatniegoProgramu] = new Contacts();
-                    }
-                    if (programName == "kontrolery") {
-                        programy[indeksOstatniegoProgramu] = new kontrolery();
-                    }
-                    if (programName == "grawitacja") {
-                        programy[indeksOstatniegoProgramu] = new Gravity();
-                    }
-                    if (programName == "bateria") {
-                        programy[indeksOstatniegoProgramu] = new Battery();
-                    }
-                    programIndex = indeksOstatniegoProgramu;
+            if (programIndex == -1) {
+                indeksOstatniegoProgramu++;
+                if (programName == "ptak") {
+                    programy[indeksOstatniegoProgramu] = new ptak();
                 }
-
-                if (!programy[programIndex]->active) {
-                    if (!programy[programIndex]->initialised)
-                        programy[programIndex]->inicjuj();
-                    programy[programIndex]->activate();
-                    aktywnyProgram = programIndex;
+                if (programName == "ww") {
+                    programy[indeksOstatniegoProgramu] = new VV();
                 }
-
-                if (hasOption) {
-                    int optionValue = komenda[2];
-                    programy[programIndex]->setOption(optionValue);
+                if (programName == "logo") {
+                    programy[indeksOstatniegoProgramu] = new Logo();
                 }
-
-                output = programIndex;
+                if (programName == "skaner-3d") {
+                    programy[indeksOstatniegoProgramu] = new Skaner3d();
+                }
+                if (programName == "kontakty") {
+                    programy[indeksOstatniegoProgramu] = new Contacts();
+                }
+                if (programName == "kontrolery") {
+                    programy[indeksOstatniegoProgramu] = new kontrolery();
+                }
+                if (programName == "grawitacja") {
+                    programy[indeksOstatniegoProgramu] = new Gravity();
+                }
+                if (programName == "bateria") {
+                    programy[indeksOstatniegoProgramu] = new Battery();
+                }
+                programIndex = indeksOstatniegoProgramu;
             }
 
-            return output;
+            if (!programy[programIndex]->active) {
+                if (!programy[programIndex]->initialised)
+                    programy[programIndex]->inicjuj();
+                programy[programIndex]->activate();
+                aktywnyProgram = programIndex;
+            }
+
+            if (hasOption) {
+                int optionValue = komenda[2];
+                programy[programIndex]->setOption(optionValue);
+            }
+
+            return programIndex;
         }
 
-        int wykonaj(String komenda) {
-            DynamicJsonBuffer dynamicJsonBuffer;
-            JsonArray & json = dynamicJsonBuffer.parseArray(komenda);
-            return this->wykonaj(json);
-        }
-
-        void skanuj() {
+        void inicjujCzujniki() {
             Wire.beginTransmission(29);
             if (Wire.endTransmission() == 0) {
                 i2c.indeksOstatniegoCzujnika++;
@@ -117,6 +104,23 @@ class wykonawca {
                 i2c.kanaly[0].porty[p].czujniki[0] = new DistanceSensor(0x29);
                 i2c.kanaly[0].porty[p].czujniki[0]->inicjuj();
             }
+
+            i2c.inicjujCzujniki();
+        }
+
+        int wykonaj(JsonArray & komenda) {
+            int output = 0;
+            String commandType = komenda[0];
+            if (commandType == "uruchom") {
+                output = this->uruchomProgram(komenda);
+            }
+            return output;
+        }
+
+        int wykonaj(String komenda) {
+            DynamicJsonBuffer dynamicJsonBuffer;
+            JsonArray & json = dynamicJsonBuffer.parseArray(komenda);
+            return this->wykonaj(json);
         }
 
         wykonawca() {}

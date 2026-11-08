@@ -19,7 +19,7 @@ program * programy[maksymalnaLiczbaProgramow];
 int aktywnyProgram = -1;
 int indeksOstatniegoProgramu = -1;
 
-#include "wykonawca.h"
+#include "wykonawca.h";
 wykonawca agent;
 
 #include "silnik/interfejs.h";
@@ -37,9 +37,7 @@ void setup() {
   i2c.inicjuj();
   i2c.inicjujKanaly(konfiguracjaPrzestrzeni);
 
-  agent.skanuj();
-  
-  i2c.inicjujCzujniki();
+  agent.inicjujCzujniki();
 
   liczbaPrzestrzeni = konfiguracjaPrzestrzeni.size();
   przestrzenie = new przestrzen[liczbaPrzestrzeni];
