@@ -1,9 +1,9 @@
-#include "czujniki/nachylenie.h";
-#include "czujniki/dzojstik.h";
-#include "czujniki/klawiatura-numeryczna.h";
-#include "czujniki/nfc.h";
-#include "czujniki/pamiec.h";
-#include "czujniki/odleglosc.h";
+#include "czujniki/nachylenie.cpp";
+#include "czujniki/dzojstik.cpp";
+#include "czujniki/klawiatura-numeryczna.cpp";
+#include "czujniki/nfc.cpp";
+#include "czujniki/pamiec.cpp";
+#include "czujniki/odleglosc.cpp";
 
 #include "programy/ptak.h";
 #include "programy/grawitacja.h";
