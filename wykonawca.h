@@ -69,6 +69,14 @@ class wykonawca {
             return programIndex;
         }
 
+        void zamknijProgram() {
+            if (aktywnyProgram != -1) {
+                programy[aktywnyProgram]->active = false;
+            }
+            aktywnyProgram = -1;
+            animacja.inicjuj(1);
+        }
+
         void inicjujCzujniki() {
             Wire.beginTransmission(29);
             if (Wire.endTransmission() == 0) {

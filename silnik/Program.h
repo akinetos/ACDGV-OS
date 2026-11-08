@@ -6,7 +6,7 @@ class program {
     int activatedTimestamp = 0;
     int option = 0;
     String name = "";
-    int menuLevel = -1;
+    int warstwaMenu = -1;
 
     void virtual inicjuj(void) {
       this->initialised = true;

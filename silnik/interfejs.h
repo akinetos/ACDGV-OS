@@ -10,7 +10,7 @@ class interfejs {
 
     boolean show = true;
     boolean changed = false;
-    int level = 0;
+    int aktywnaWarstwa = 0;
 
     String version = "8";
 
@@ -85,7 +85,7 @@ class interfejs {
         i2c.kanaly[0].porty[1].screen.populate(file[1]);
       }
 
-      for (int i=this->level+1; i<8; i++) {
+      for (int i=this->aktywnaWarstwa+1; i<8; i++) {
         this->segments[i] = "";
       }
       this->segments[0] = optionName;
@@ -100,28 +100,15 @@ class interfejs {
       this->segmentsPath = this->getSegmentsPath();
     }
 
-    void populateOptions() {
-      ekran & screen = i2c.kanaly[0].porty[1].screen;
-      screen.populate(this->getElement()[1]);
-    }
-
-    void closeProgram() {
-      if (aktywnyProgram != -1) {
-        programy[aktywnyProgram]->active = false;
-      }
-      aktywnyProgram = -1;
-      animacja.inicjuj(1);
-    }
-
     void close() {
-      this->segments[this->level] = "";
-      this->address[this->level-1] = NULL;
-      this->level--;
+      this->segments[this->aktywnaWarstwa] = "";
+      this->address[this->aktywnaWarstwa-1] = NULL;
+      this->aktywnaWarstwa--;
       this->changed = true;
       
       if (aktywnyProgram != -1) {
-        if (this->level < programy[aktywnyProgram]->menuLevel) {
-          this->closeProgram();
+        if (this->aktywnaWarstwa < programy[aktywnyProgram]->warstwaMenu) {
+          agent.zamknijProgram();
         }
       }
     }
@@ -138,19 +125,19 @@ class interfejs {
           this->changed = false;
 
           if (screen.closeButtonHovered) {
-            if (this->level > 0) {
+            if (this->aktywnaWarstwa > 0) {
               this->close();
             }
           } else {
             if (screen.pathSegmentHovered > -1) {
-              this->level = screen.pathSegmentHovered;
-              for (int i=this->level+1; i < 8; i++) {
+              this->aktywnaWarstwa = screen.pathSegmentHovered;
+              for (int i=this->aktywnaWarstwa+1; i < 8; i++) {
                 this->segments[i] = "";
                 this->address[i-1] = NULL;
                 this->changed = true;
               }
-              if (this->level < programy[aktywnyProgram]->menuLevel) {
-                this->closeProgram();
+              if (this->aktywnaWarstwa < programy[aktywnyProgram]->warstwaMenu) {
+                agent.zamknijProgram();
               }
             }
           }
@@ -167,7 +154,7 @@ class interfejs {
     JsonArray & getElement() {
       JsonArray & file = katalog::laduj("/config/menu.json");
       JsonArray * node = &file;
-      for (int i=0; i<this->level; i++) {
+      for (int i=0; i<this->aktywnaWarstwa; i++) {
         JsonArray & children = (*node)[1];
         JsonArray & next = children[address[i]];
         node = &next;
@@ -176,11 +163,11 @@ class interfejs {
     }
 
     void selectOption(int index) {
-      this->level++;
-      this->address[this->level-1] = index;
+      this->aktywnaWarstwa++;
+      this->address[this->aktywnaWarstwa-1] = index;
       JsonArray & element = this->getElement();
       String optionName = element[0];
-      this->segments[this->level] = optionName;
+      this->segments[this->aktywnaWarstwa] = optionName;
 
       if (this->version == "8") {
         przestrzen * surface = & przestrzenie[0];
@@ -193,7 +180,7 @@ class interfejs {
       JsonArray & command = element[2];
       if (command.size()) {
         int programIndex = agent.wykonaj(command);
-        programy[programIndex]->menuLevel = this->level + 1;
+        programy[programIndex]->warstwaMenu = this->aktywnaWarstwa + 1;
       }
     }
 
@@ -204,13 +191,13 @@ class interfejs {
       if (surface->pointerPort == 0 && this->show && this->changed) {
         if (this->version == "8") {
           this->populate(element[1]);
-          JsonArray & command = element[2];
-          if (command.size()) {
-            int programIndex = agent.wykonaj(command);
-            programy[programIndex]->menuLevel = this->level + 1;
+          JsonArray & komenda = element[2];
+          if (komenda.size()) {
+            int indeksProgramu = agent.wykonaj(komenda);
+            programy[indeksProgramu]->warstwaMenu = this->aktywnaWarstwa + 1;
           }
         } else {
-          this->populateOptions();
+          i2c.kanaly[0].porty[1].screen.populate(element[1]);
         }
       }
 
@@ -247,7 +234,7 @@ class interfejs {
       }
 
       if (button == '*') {
-        if (this->level > 0) {
+        if (this->aktywnaWarstwa > 0) {
           this->close();
         }
       }
@@ -286,7 +273,7 @@ class interfejs {
 
       if (this->show) {
         if (surface->pointerPort > 0) {
-          i2c.kanaly[0].porty[0].screen.printLargestText(segments[level]);
+          i2c.kanaly[0].porty[0].screen.printLargestText(segments[aktywnaWarstwa]);
         } else {
           this->drawPath(0);
         }
@@ -294,7 +281,7 @@ class interfejs {
         this->drawOptions();
       }
 
-      if (this->level > 0) {
+      if (this->aktywnaWarstwa > 0) {
         ekran & screen = i2c.kanaly[0].porty[0].screen;
         screen.drawCloseButton();
       }
