@@ -1,51 +1,12 @@
-class Star {
-    public:
-        int port;
-        int x;
-        int y;
-        int originalX;
-        int originalY;
-        int r = 7;
-        boolean active;
-    
-    Star() {
-        this->x = random(8,120);
-        this->y = random(2,30);
-        this->r = random(6,12);
-        this->port = random(1,8);
-        this->originalX = this->x;
-        this->originalY = this->y;
-        this->active = true;
-    }
-};
-
-class Pestka {
-    public:
-        int timestamp;
-        int port;
-        int previousPort;
-        int x;
-        int y;
-        int vectorX;
-        int vectorY;
-    
-    Pestka() {}
-
-    Pestka(int timestamp, int port, int x, int y) {
-        this->timestamp = timestamp;
-        this->port = port;
-        this->previousPort = -1;
-        this->x = x;
-        this->y = y;
-    }
-};
+#include "owoc.cpp";
+#include "pestka.cpp";
 
 const int STARS_COUNT = 124;
 const int PESTKI_COUNT = 10;
 
 int endedAt = 0;
 
-class Batterfly:public program {
+class ptak: public program {
     public:
         int wingsSpread = 10;
         int vectorX = 0;
@@ -54,8 +15,8 @@ class Batterfly:public program {
         int scores = 0;
         boolean scoresChanged = false;
         boolean over = false;
-        Star stars[STARS_COUNT];
-        Pestka pestki[PESTKI_COUNT];
+        owoc stars[STARS_COUNT];
+        pestka pestki[PESTKI_COUNT];
         
         int deviceIndexGamepad = -1;
         int deviceIndexAccelerometer = -1;
@@ -126,7 +87,7 @@ class Batterfly:public program {
         void handleCollision(int port, int x, int y) {
             boolean found = false;
             for (int s=0; !found && s<STARS_COUNT; s++) {
-                Star & star = this->stars[s];
+                owoc & star = this->stars[s];
                 if (star.active && star.port == port) {
                     int distanceX = star.x - x;
                     int distanceY = star.y - y;
@@ -175,7 +136,7 @@ class Batterfly:public program {
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 przestrzen * surface = & przestrzenie[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
-                    Star & star = this->stars[s];
+                    owoc & star = this->stars[s];
                     star.x = star.originalX + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
                     star.y = star.originalY + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
                     i2c.kanaly[surface->channel].porty[star.port].screen.needsRefresh = true;
@@ -186,7 +147,7 @@ class Batterfly:public program {
         void drawStars() {
             przestrzen * surface = & przestrzenie[this->surfaceIndex];
             for (int s=0; s<STARS_COUNT; s++) {
-                Star & star = this->stars[s];
+                owoc & star = this->stars[s];
                 if (star.active) {
                     ekran & screen = i2c.kanaly[surface->channel].porty[star.port].screen;
                     screen.ssd1306.fillCircle(star.x, star.y, star.r-1, SSD1306_WHITE);
@@ -360,10 +321,10 @@ class Batterfly:public program {
 
             this->surfaceIndex = 0;
             for (int i=0; i<STARS_COUNT; i++) {
-                this->stars[i] = Star();
+                this->stars[i] = owoc();
             }
             for (int i=0; i<PESTKI_COUNT; i++) {
-                this->pestki[i] = Pestka();
+                this->pestki[i] = pestka();
             }
             this->initialised = true;
         }
@@ -399,7 +360,7 @@ class Batterfly:public program {
             }
         }
     
-    Batterfly() {
+    ptak() {
         this->name = "ptak";
     }
 };

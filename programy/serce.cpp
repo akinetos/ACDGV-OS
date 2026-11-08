@@ -1,4 +1,4 @@
-class Heart:public program {
+class serce: public program {
     public:
         int surfaceIndex = -1;
 
@@ -26,7 +26,7 @@ class Heart:public program {
             */
         }
     
-    Heart() {
+    serce() {
         this->name = "serce";
     }
 };

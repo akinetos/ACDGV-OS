@@ -5,14 +5,14 @@
 #include "czujniki/pamiec.cpp";
 #include "czujniki/odleglosc.cpp";
 
-#include "programy/ptak.h";
-#include "programy/grawitacja.h";
-#include "programy/ww.h";
-#include "programy/logo.h";
-#include "programy/kontrolery.h";
-#include "programy/odleglosciomierz.h";
-#include "programy/bateria.h";
-#include "programy/kontakty.h";
+#include "programy/ptak/program.cpp";
+#include "programy/grawitacja.cpp";
+#include "programy/ww.cpp";
+#include "programy/logo.cpp";
+#include "programy/kontrolery.cpp";
+#include "programy/odleglosciomierz.cpp";
+#include "programy/bateria.cpp";
+#include "programy/kontakty.cpp";
 
 class wykonawca {
     public:
@@ -32,7 +32,7 @@ class wykonawca {
                 if (programIndex == -1) {
                     indeksOstatniegoProgramu++;
                     if (programName == "ptak") {
-                        programy[indeksOstatniegoProgramu] = new Batterfly();
+                        programy[indeksOstatniegoProgramu] = new ptak();
                     }
                     if (programName == "ww") {
                         programy[indeksOstatniegoProgramu] = new VV();
