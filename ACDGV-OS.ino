@@ -1,4 +1,4 @@
-#include "ArduinoJson.h"
+#include "ArduinoJson.h";
 #include "silnik/piksel.h";
 
 #include "silnik/katalog.h";
@@ -25,7 +25,6 @@ wykonawca agent;
 #include "silnik/interfejs.h";
 interfejs menu;
 
-
 void setup() {
   Serial.begin(9600);
 
@@ -34,8 +33,7 @@ void setup() {
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::laduj(sciezkaKonfiguracjiPrzestrzeni);
 
-  i2c.inicjuj();
-  i2c.inicjujKanaly(konfiguracjaPrzestrzeni);
+  i2c.inicjuj(konfiguracjaPrzestrzeni);
 
   agent.inicjujCzujniki();
 
@@ -46,7 +44,6 @@ void setup() {
 
   menu.inicjuj();
 }
-
 
 void loop() {
   i2c.aktualizuj();

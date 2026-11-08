@@ -11,9 +11,21 @@ class magistrala {
     int liczbaKanalow;
     kanal * kanaly;
 
-    void inicjuj() {
+    void inicjuj(JsonArray & konfiguracjaPrzestrzeni) {
       Wire.begin();
       Wire.setClock(400000);
+      this->liczbaKanalow = this->count(konfiguracjaPrzestrzeni);
+      this->kanaly = new kanal[liczbaKanalow];
+      for (int k = 0; k < liczbaKanalow; k++) {
+        this->kanaly[k].number = k;
+        for (int p=0; p<8; p++) {
+          this->kanaly[k].porty[p].number = p;
+          this->kanaly[k].porty[p].channel = k;
+          this->activate(k, p);
+          this->kanaly[k].porty[p].inicjuj();
+        }
+        this->deactivate(k);
+      }
     }
 
     void deactivate(int channel) {
@@ -70,21 +82,6 @@ class magistrala {
     void aktualizujCzujniki() {
       for (int i = 0; i <= indeksOstatniegoCzujnika; i++)
         this->czujniki[i]->aktualizuj();
-    }
-
-    void inicjujKanaly(JsonArray & konfiguracjaPrzestrzeni) {
-      this->liczbaKanalow = this->count(konfiguracjaPrzestrzeni);
-      this->kanaly = new kanal[liczbaKanalow];
-      for (int k = 0; k < liczbaKanalow; k++) {
-        this->kanaly[k].number = k;
-        for (int p=0; p<8; p++) {
-          this->kanaly[k].porty[p].number = p;
-          this->kanaly[k].porty[p].channel = k;
-          this->activate(k, p);
-          this->kanaly[k].porty[p].inicjuj();
-        }
-        this->deactivate(k);
-      }
     }
 
     void aktualizujKanaly() {
