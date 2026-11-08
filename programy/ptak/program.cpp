@@ -28,28 +28,28 @@ class ptak: public program {
             int y = 0;
 
             if (liczbaPrzestrzeni > 1) {
-                przestrzen * s2x1 = & przestrzenie[0];
-                przestrzen * s8x1 = & przestrzenie[1];
+                przestrzen & s2x1 = przestrzenie[0];
+                przestrzen & s8x1 = przestrzenie[1];
 
-                if (s2x1->facingUp && s2x1->pointerPort == 1) {
-                    channel = s2x1->channel;
-                    port = s2x1->pointerPort;
-                    x = s2x1->getRelativeX();
-                    y = s2x1->getRelativeY();
+                if (s2x1.facingUp && s2x1.pointerPort == 1) {
+                    channel = s2x1.channel;
+                    port = s2x1.pointerPort;
+                    x = s2x1.getRelativeX();
+                    y = s2x1.getRelativeY();
                 }
 
-                if (s8x1->facingUp) {
-                    channel = s8x1->channel;
-                    port = s8x1->pointerPort;
-                    x = s8x1->getRelativeX();
-                    y = s8x1->getRelativeY();
+                if (s8x1.facingUp) {
+                    channel = s8x1.channel;
+                    port = s8x1.pointerPort;
+                    x = s8x1.getRelativeX();
+                    y = s8x1.getRelativeY();
                 }
             } else {
-                przestrzen * s8x1 = & przestrzenie[0];
-                channel = s8x1->channel;
-                port = s8x1->pointerPort;
-                x = s8x1->getRelativeX();
-                y = s8x1->getRelativeY();
+                przestrzen & s8x1 = przestrzenie[0];
+                channel = s8x1.channel;
+                port = s8x1.pointerPort;
+                x = s8x1.getRelativeX();
+                y = s8x1.getRelativeY();
             }
 
             if (channel != -1 && port > 0) {
@@ -109,11 +109,11 @@ class ptak: public program {
         }
 
         void detectColisions() {
-            przestrzen * surface = & przestrzenie[this->surfaceIndex];
-            int port = surface->pointerPort;
-            int x = surface->getRelativeX();
-            int y = surface->getRelativeY();
-            ekran & screen = i2c.kanaly[surface->channel].porty[port].screen;
+            przestrzen & surface = przestrzenie[this->surfaceIndex];
+            int port = surface.pointerPort;
+            int x = surface.getRelativeX();
+            int y = surface.getRelativeY();
+            ekran & screen = i2c.kanaly[surface.channel].porty[port].screen;
             if (screen.isWhite(x, y)) {
                 screen.blink();
                 this->handleCollision(port, x, y);
@@ -122,7 +122,7 @@ class ptak: public program {
                 port = this->pestki[i].port;
                 x = this->pestki[i].x;
                 y = this->pestki[i].y - (this->pestki[i].port * 32);
-                ekran & screenPestka = i2c.kanaly[surface->channel].porty[port].screen;
+                ekran & screenPestka = i2c.kanaly[surface.channel].porty[port].screen;
                 if (screenPestka.isWhite(x, y)) {
                     screenPestka.blink();
                     this->handleCollision(port, x, y);
@@ -134,22 +134,22 @@ class ptak: public program {
             double diffX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousX");
             double diffY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
-                przestrzen * surface = & przestrzenie[this->surfaceIndex];
+                przestrzen & surface = przestrzenie[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     owoc & star = this->stars[s];
                     star.x = star.originalX + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
                     star.y = star.originalY + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
-                    i2c.kanaly[surface->channel].porty[star.port].screen.needsRefresh = true;
+                    i2c.kanaly[surface.channel].porty[star.port].screen.needsRefresh = true;
                 }
             }
         }
 
         void drawStars() {
-            przestrzen * surface = & przestrzenie[this->surfaceIndex];
+            przestrzen & surface = przestrzenie[this->surfaceIndex];
             for (int s=0; s<STARS_COUNT; s++) {
                 owoc & star = this->stars[s];
                 if (star.active) {
-                    ekran & screen = i2c.kanaly[surface->channel].porty[star.port].screen;
+                    ekran & screen = i2c.kanaly[surface.channel].porty[star.port].screen;
                     screen.ssd1306.fillCircle(star.x, star.y, star.r-1, SSD1306_WHITE);
                     screen.ssd1306.drawCircle(star.x, star.y, star.r, SSD1306_BLACK);
                 }
@@ -222,30 +222,30 @@ class ptak: public program {
         }
 
         void updateBatterfly() {
-            przestrzen * surface = & przestrzenie[this->surfaceIndex];
+            przestrzen & surface = przestrzenie[this->surfaceIndex];
             this->vectorX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
             this->vectorY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
-            i2c.kanaly[surface->channel].porty[surface->pointerPort].screen.needsRefresh = true;
+            i2c.kanaly[surface.channel].porty[surface.pointerPort].screen.needsRefresh = true;
         }
 
         void updatePointer() {
-            przestrzen * surface = & przestrzenie[this->surfaceIndex];
-            if (surface->pointerPortChanged()) {
-                i2c.kanaly[surface->channel].porty[surface->pointerPreviousPort].screen.needsRefresh = true;
+            przestrzen & surface = przestrzenie[this->surfaceIndex];
+            if (surface.pointerPortChanged()) {
+                i2c.kanaly[surface.channel].porty[surface.pointerPreviousPort].screen.needsRefresh = true;
             }
-            if (surface->pointerPositionY < 0) {
-                surface->pointerPositionY = 0;
-                surface->pointerPort = 0;
+            if (surface.pointerPositionY < 0) {
+                surface.pointerPositionY = 0;
+                surface.pointerPort = 0;
             }
         }
 
         void updatePestki() {
-            przestrzen * surface = & przestrzenie[this->surfaceIndex];
+            przestrzen & surface = przestrzenie[this->surfaceIndex];
             
             int index = -1;
             if (
                 i2c.czujniki[this->deviceIndexGamepad]->shortPress && 
-                surface->pointerPort > 0 && 
+                surface.pointerPort > 0 && 
                 (millis() - this->activatedTimestamp) > 1000
             ) {
                 for (int i=0; i<PESTKI_COUNT; i++) {
@@ -255,11 +255,11 @@ class ptak: public program {
                 }
                 if (index > -1) {
                     this->pestki[index].timestamp = millis();
-                    this->pestki[index].vectorX = this->vectorX * surface->orientationX;
-                    this->pestki[index].vectorY = this->vectorY * surface->orientationY;
-                    this->pestki[index].x = surface->pointerPositionX;
-                    this->pestki[index].y = surface->pointerPositionY;
-                    i2c.kanaly[surface->channel].porty[this->pestki[index].port].screen.needsRefresh = true;
+                    this->pestki[index].vectorX = this->vectorX * surface.orientationX;
+                    this->pestki[index].vectorY = this->vectorY * surface.orientationY;
+                    this->pestki[index].x = surface.pointerPositionX;
+                    this->pestki[index].y = surface.pointerPositionY;
+                    i2c.kanaly[surface.channel].porty[this->pestki[index].port].screen.needsRefresh = true;
                 }
             }
 
@@ -271,44 +271,44 @@ class ptak: public program {
                     if (!(this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4)) {
                         this->pestki[i].timestamp = 0;
                     }
-                    i2c.kanaly[surface->channel].porty[this->pestki[i].port].screen.needsRefresh = true;
+                    i2c.kanaly[surface.channel].porty[this->pestki[i].port].screen.needsRefresh = true;
                 }
             }
         }
 
         void drawPestki() {
             if (liczbaPrzestrzeni > 1) {
-                przestrzen * s2x1 = & przestrzenie[0];
-                przestrzen * s8x1 = & przestrzenie[1];
+                przestrzen & s2x1 = przestrzenie[0];
+                przestrzen & s8x1 = przestrzenie[1];
 
-                if (s2x1->facingUp) {
+                if (s2x1.facingUp) {
                     for (int i=0; i<PESTKI_COUNT; i++) {
                         if (this->pestki[i].timestamp > 0) {
                             int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                             if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 64 && t <= 4) {
-                                this->pestki[i].port = s2x1->drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                                this->pestki[i].port = s2x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                             }
                         }    
                     }
                 }
                 
-                if (s8x1->facingUp) {
+                if (s8x1.facingUp) {
                     for (int i=0; i<PESTKI_COUNT; i++) {
                         if (this->pestki[i].timestamp > 0) {
                             int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                             if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
-                                this->pestki[i].port = s8x1->drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                                this->pestki[i].port = s8x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                             }
                         }    
                     }
                 }
             } else {
-                przestrzen * s8x1 = & przestrzenie[0];
+                przestrzen & s8x1 = przestrzenie[0];
                 for (int i=0; i<PESTKI_COUNT; i++) {
                     if (this->pestki[i].timestamp > 0) {
                         int t = (int)((millis() - this->pestki[i].timestamp) / 1000);
                         if (this->pestki[i].x >= 0 && this->pestki[i].x < 128 && this->pestki[i].y >= 0 && this->pestki[i].y < 256 && t <= 4) {
-                            this->pestki[i].port = s8x1->drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
+                            this->pestki[i].port = s8x1.drawCircle(this->pestki[i].x, this->pestki[i].y, (4 - t) + 2);
                         }
                     }    
                 }
@@ -331,7 +331,7 @@ class ptak: public program {
 
         void rysuj() {
             if (this->active) {
-                przestrzen * surface = & przestrzenie[this->surfaceIndex];
+                przestrzen & surface = przestrzenie[this->surfaceIndex];
                 if (this->over) {
                     this->drawProgress();
                     int time = (endedAt - this->activatedTimestamp) / 1000;
@@ -342,7 +342,7 @@ class ptak: public program {
                     this->updatePointer();
                     this->updateBatterfly();
                     this->updatePestki();
-                    surface->czysc();
+                    surface.czysc();
                     this->drawStars();
                     this->drawBatterfly();
                     this->drawPestki();

@@ -151,9 +151,9 @@ class Contacts:public program {
 
     void rysuj() {
 		if (this->active) {
-			przestrzen * surface = & przestrzenie[0];
+			przestrzen & surface = przestrzenie[0];
 			for (int port=1; port<3; port++) {
-				surface->drawBitmap(images[port-1], port, this->offsetY);
+				surface.drawBitmap(images[port-1], port, this->offsetY);
 			}
 
 			this->offsetY--;

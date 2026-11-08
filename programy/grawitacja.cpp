@@ -87,13 +87,13 @@ class Gravity:public program {
 
       void rysuj() {
         if (this->active) {
-          przestrzen * surface = & przestrzenie[0];
+          przestrzen & surface = przestrzenie[0];
           if (this->port != this->previousPort) {
             if (this->previousPort != -1)
-              i2c.kanaly[surface->channel].porty[this->previousPort].screen.clear();
+              i2c.kanaly[surface.channel].porty[this->previousPort].screen.clear();
             this->previousPort = this->port;
           }
-          surface->drawCircle(this->x, this->y, 20);
+          surface.drawCircle(this->x, this->y, 20);
         }
       }
 

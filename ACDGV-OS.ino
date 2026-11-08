@@ -22,7 +22,7 @@ int indeksOstatniegoProgramu = -1;
 #include "wykonawca.h";
 wykonawca agent;
 
-#include "silnik/interfejs.h";
+#include "interfejs.h";
 interfejs menu;
 
 void setup() {

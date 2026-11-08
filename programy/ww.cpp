@@ -56,7 +56,7 @@ class VV:public program {
     }
 
     void compute() {
-      przestrzen * surface = & przestrzenie[0];
+      przestrzen & surface = przestrzenie[0];
 
       float newZre = 0;
       float newZim = 0;
@@ -87,8 +87,8 @@ class VV:public program {
       }
       
       for (int i=1; i<(pointsCount-1) && ((newZre*newZre + newZim*newZim) < 4); i++) {
-        this->points[i*2] = surface->width / 2 + (int)(newZre * this->scale) + xOffset;
-        this->points[i*2+1] = surface->height / 2 + (int)(newZim * this->scale) + yOffset;
+        this->points[i*2] = surface.width / 2 + (int)(newZre * this->scale) + xOffset;
+        this->points[i*2+1] = surface.height / 2 + (int)(newZim * this->scale) + yOffset;
 
         int port = (int)(this->points[i*2+1] / 32);
         if (port >=0) {
@@ -111,11 +111,11 @@ class VV:public program {
       if (this->active) {
         if (i2c.czujniki[this->deviceIndexGamepad]->longPress) {
           this->move = !this->move;
-          przestrzen * surface = & przestrzenie[0];
+          przestrzen & surface = przestrzenie[0];
           if (this->move) {
-            surface->showPointer = false;
+            surface.showPointer = false;
           } else {
-            surface->showPointer = true;
+            surface.showPointer = true;
           }
         }
 
@@ -164,19 +164,19 @@ class VV:public program {
     }
 
     boolean isWithinRange(int i) {
-      przestrzen * surface = & przestrzenie[0];
-      return points[i*2] >=0 && points[i*2] < surface->width && points[i*2+1] >= 0 && points[i*2+1] < surface->height;
+      przestrzen & surface = przestrzenie[0];
+      return points[i*2] >=0 && points[i*2] < surface.width && points[i*2+1] >= 0 && points[i*2+1] < surface.height;
     }
 
     void rysuj() {
       if (this->active) {
-        przestrzen * surface = & przestrzenie[0];
+        przestrzen & surface = przestrzenie[0];
 
-        if (surface->facingUp) {
+        if (surface.facingUp) {
           if (this->option == 0) {
             for (int i=0; i<this->computedPoints; i++) {
               if (this->isWithinRange(i)) {
-                surface->drawPoint(points[i*2], points[i*2+1]);
+                surface.drawPoint(points[i*2], points[i*2+1]);
               }
             }
 
@@ -189,7 +189,7 @@ class VV:public program {
           if (this->option == 1) {
             for (int i=0; i<this->computedPoints; i++) {
               if (this->isWithinRange(i) && this->isWithinRange(i+1)) {
-                surface->drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
+                surface.drawLine(points[i*2], points[i*2+1], points[(i+1)*2], points[(i+1)*2+1]);
               }
             }
           }

@@ -44,29 +44,29 @@ class interfejs {
     }
 
     void updateOptions() {
-      przestrzen * surface = & przestrzenie[0];
-      int x = surface->getRelativeX();
-      int y = surface->getRelativeY();
+      przestrzen & surface = przestrzenie[0];
+      int x = surface.getRelativeX();
+      int y = surface.getRelativeY();
 
-      if (surface->pointerPortChanged()) {
-        ekran & previousScreen = i2c.kanaly[surface->channel].porty[surface->pointerPreviousPort].screen;
+      if (surface.pointerPortChanged()) {
+        ekran & previousScreen = i2c.kanaly[surface.channel].porty[surface.pointerPreviousPort].screen;
         previousScreen.resetLineHovered();
       }
 
-      ekran & screen = i2c.kanaly[surface->channel].porty[surface->pointerPort].screen;
+      ekran & screen = i2c.kanaly[surface.channel].porty[surface.pointerPort].screen;
       screen.lineHovered = (int)((y - screen.offsetY) / 10);
 
-      if (surface->pointerPort == 0) {
+      if (surface.pointerPort == 0) {
         screen.closeButtonHovered = x > 118 && y < 16;
       }
     }
 
     void updatePointer() {
-      przestrzen * surface = & przestrzenie[0];
-      if (surface->pointerPositionX > 120 && i2c.kanaly[surface->channel].porty[surface->pointerPort].screen.scrollbarHovered) {
-        surface->pointerPositionY = surface->pointerPreviousPositionY;
-        if (surface->pointerPortChanged()) {
-          surface->pointerPort = surface->pointerPreviousPort;
+      przestrzen & surface = przestrzenie[0];
+      if (surface.pointerPositionX > 120 && i2c.kanaly[surface.channel].porty[surface.pointerPort].screen.scrollbarHovered) {
+        surface.pointerPositionY = surface.pointerPreviousPositionY;
+        if (surface.pointerPortChanged()) {
+          surface.pointerPort = surface.pointerPreviousPort;
         }
       }
     }
@@ -75,7 +75,6 @@ class interfejs {
       this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
       this->deviceIndexKeypad = i2c.znajdzCzujnik("klawiatura-numeryczna");
 
-      przestrzen * surface = & przestrzenie[0];
       JsonArray & file = katalog::laduj("/config/menu.json");
       String optionName = file[0];
 
@@ -143,7 +142,6 @@ class interfejs {
           }
 
           if (this->changed) {
-            przestrzen * surface = & przestrzenie[0];
             this->addressPath = this->getAddressPath();
             this->segmentsPath = this->getSegmentsPath();
           }
@@ -170,7 +168,6 @@ class interfejs {
       this->segments[this->aktywnaWarstwa] = optionName;
 
       if (this->version == "8") {
-        przestrzen * surface = & przestrzenie[0];
         this->populate(element[1]);
       } else {
         ekran & screen = i2c.kanaly[0].porty[1].screen;
@@ -185,10 +182,10 @@ class interfejs {
     }
 
     void reactToGamepadAction() {
-      przestrzen * surface = & przestrzenie[0];
+      przestrzen & surface = przestrzenie[0];
       JsonArray & element = this->getElement();
 
-      if (surface->pointerPort == 0 && this->show && this->changed) {
+      if (surface.pointerPort == 0 && this->show && this->changed) {
         if (this->version == "8") {
           this->populate(element[1]);
           JsonArray & komenda = element[2];
@@ -201,10 +198,10 @@ class interfejs {
         }
       }
 
-      if (surface->pointerPort > 0) {
+      if (surface.pointerPort > 0) {
         int index;
         if (this->version == "8") {
-          index = surface->pointerPort;
+          index = surface.pointerPort;
         } else {
           ekran & screen = i2c.kanaly[0].porty[1].screen;
           index = screen.lineHovered;
@@ -221,7 +218,6 @@ class interfejs {
     }
 
     void reactToKeypadAction() {
-      przestrzen * surface = & przestrzenie[0];
       JsonArray & element = this->getElement();
       int index;
       char button = i2c.czujniki[this->deviceIndexKeypad]->buttonPressed;
@@ -244,16 +240,16 @@ class interfejs {
     }
 
     boolean mainMenuHovered() {
-      przestrzen * surface = & przestrzenie[0];
-      boolean hovered = surface->pointerPort == 0 
+      przestrzen & surface = przestrzenie[0];
+      boolean hovered = surface.pointerPort == 0 
         && (this->show || i2c.kanaly[0].porty[0].screen.closeButtonHovered);
       return hovered;
     }
 
     void aktualizuj() {
-      przestrzen * surface = & przestrzenie[0];
+      przestrzen & surface = przestrzenie[0];
 
-      if (surface->facingUp) {
+      if (surface.facingUp) {
         this->updatePointer();
         this->updateOptions();
         this->update();
@@ -269,39 +265,32 @@ class interfejs {
     }
 
     void rysuj() {
-      przestrzen * surface = & przestrzenie[0];
+      przestrzen & surface = przestrzenie[0];
+      ekran & screen = i2c.kanaly[0].porty[0].screen;
 
       if (this->show) {
-        if (surface->pointerPort > 0) {
-          i2c.kanaly[0].porty[0].screen.printLargestText(segments[aktywnaWarstwa]);
+        if (surface.pointerPort > 0) {
+          screen.printLargestText(segments[aktywnaWarstwa]);
         } else {
-          this->drawPath(0);
+          int cursorX = -1;
+          int cursorY = -1;
+          if (surface.pointerPort == 0) {
+            cursorX = surface.getRelativeX();
+            cursorY = surface.getRelativeY() - int(surface.getRelativeY() / screen.height);
+          }
+          screen.drawMenuAddress(addressPath);
+          screen.drawMenuPath(segmentsPath, cursorX, cursorY);
         }
         
         this->drawOptions();
       }
 
       if (this->aktywnaWarstwa > 0) {
-        ekran & screen = i2c.kanaly[0].porty[0].screen;
         screen.drawCloseButton();
       }
     }
 
-    void drawPath(int port) {
-      przestrzen * surface = & przestrzenie[0];
-      ekran & screen = i2c.kanaly[0].porty[port].screen;
-      int cursorX = -1;
-      int cursorY = -1;
-      if (surface->pointerPort == 0) {
-        cursorX = surface->getRelativeX();
-        cursorY = surface->getRelativeY() - int(surface->getRelativeY() / screen.height);
-      }
-      screen.drawMenuAddress(addressPath);
-      screen.drawMenuPath(segmentsPath, cursorX, cursorY);
-    }
-
     void drawOptions() {
-      przestrzen * surface = & przestrzenie[0];
       if (this->version == "8") {
         for (int port = 1; port < this->optionsCount; port++) {
           ekran & screen = i2c.kanaly[0].porty[port].screen;
@@ -324,7 +313,7 @@ class interfejs {
     }
 
     void populate(JsonArray & list) {
-      przestrzen * surface = & przestrzenie[0];
+      przestrzen & surface = przestrzenie[0];
       if (list.size() > 0) {
         this->optionsCount = list.size();
         for (int i = 0; i < this->optionsCount; i++) {
@@ -346,16 +335,12 @@ class interfejs {
         }
       }
 
-      surface->refreshScreens();
+      surface.refreshScreens();
     }
 
     interfejs() {
       for (int i=0; i<8; i++) {
-        if (i==0) {
-          this->address[i] = 0;
-        } else {
-          this->address[i] = NULL;
-        }
+        this->address[i] = i == 0 ? 0 : NULL;
       }
     }
 };
