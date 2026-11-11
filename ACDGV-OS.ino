@@ -15,8 +15,8 @@ const unsigned long nuta = 500;
 unsigned long poprzedniCzas = 0;
 int indeksNuty = 0;
 
-void zagrajNute() {
-  tone(GLOSNIK_1, oktawa4[indeksNuty]);
+void zagrajNute(int i) {
+  tone(GLOSNIK_1, oktawa4[i]);
   poprzedniCzas = millis();
 }
 
@@ -77,8 +77,8 @@ void setup() {
 
 void loop() {
   if (millis() - poprzedniCzas >= nuta) {
-    nastepnaNuta();
-    zagrajNute();
+    //nastepnaNuta();
+    //zagrajNute(indeksNuty);
   }
 
   i2c.aktualizuj();
