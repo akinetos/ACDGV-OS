@@ -11,17 +11,20 @@ unsigned int oktawa4[] = {
   523  // C4
 };
 
-// stałe czasowe w milisekundach
-const unsigned long nuta = 400;
-const unsigned long przerwaMiedzyNutami = 50;
-const unsigned long przerwaMiedzySkalami = 2000;
-
-// kontrola aktualnego stanu
-unsigned long aktualnyCzas = 0;
+const unsigned long nuta = 500;
 unsigned long poprzedniCzas = 0;
 int indeksNuty = 0;
-bool graNute = false;
-bool czekaNaPowtorzenieSkali = false;
+
+void zagrajNute() {
+  tone(GLOSNIK_1, oktawa4[indeksNuty]);
+  poprzedniCzas = millis();
+}
+
+void nastepnaNuta() {
+  indeksNuty++;
+  if (indeksNuty >= 8)
+    indeksNuty = 0;
+}
 
 #include "ArduinoJson.h";
 #include "silnik/piksel.h";
@@ -73,32 +76,9 @@ void setup() {
 }
 
 void loop() {
-  aktualnyCzas = millis();
-  if (czekaNaPowtorzenieSkali) {
-    if (aktualnyCzas - poprzedniCzas >= przerwaMiedzySkalami) {
-      czekaNaPowtorzenieSkali = false;
-      indeksNuty = 0;
-      tone(GLOSNIK_1, oktawa4[indeksNuty]);
-      graNute = true;
-      poprzedniCzas = aktualnyCzas;
-    }
-  } else if (graNute) {
-    if (aktualnyCzas - poprzedniCzas >= nuta) {
-      noTone(GLOSNIK_1);
-      graNute = false;
-      poprzedniCzas = aktualnyCzas;
-    }
-  } else {
-    if (aktualnyCzas - poprzedniCzas >= przerwaMiedzyNutami) {
-      indeksNuty++;
-      if (indeksNuty >= 8) {
-        czekaNaPowtorzenieSkali = true;
-      } else {
-        tone(GLOSNIK_1, oktawa4[indeksNuty]);
-        graNute = true;
-      }
-      poprzedniCzas = aktualnyCzas;
-    }
+  if (millis() - poprzedniCzas >= nuta) {
+    nastepnaNuta();
+    zagrajNute();
   }
 
   i2c.aktualizuj();
