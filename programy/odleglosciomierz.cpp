@@ -15,7 +15,7 @@ class Skaner3d:public program {
 						this->distances[i] = distance;
 						p->screen.needsRefresh = true;
 						if (distance < 100)
-							zagrajNute(i);
+							glosnik1.zagrajNute(i);
 					}
 				}
 			}

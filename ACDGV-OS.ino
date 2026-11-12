@@ -1,30 +1,5 @@
-#define GLOSNIK_1 14
-
-unsigned int oktawa4[] = {
-  262, // C4
-  294, // D4
-  330, // E4
-  349, // F4
-  392, // G4
-  440, // A4
-  494, // B4
-  523  // C4
-};
-
-const unsigned long nuta = 500;
-unsigned long poprzedniCzas = 0;
-int indeksNuty = 0;
-
-void zagrajNute(int i) {
-  tone(GLOSNIK_1, oktawa4[i]);
-  poprzedniCzas = millis();
-}
-
-void nastepnaNuta() {
-  indeksNuty++;
-  if (indeksNuty >= 8)
-    indeksNuty = 0;
-}
+#include "silnik/dzwiek.h";
+dzwiek glosnik1;
 
 #include "ArduinoJson.h";
 #include "silnik/piksel.h";
@@ -56,7 +31,7 @@ interfejs menu;
 void setup() {
   Serial.begin(9600);
 
-  pinMode(GLOSNIK_1, OUTPUT);
+  glosnik1.inicjuj();
 
   katalog::inicjuj();
   
@@ -76,10 +51,7 @@ void setup() {
 }
 
 void loop() {
-  if (millis() - poprzedniCzas >= nuta) {
-    //nastepnaNuta();
-    //zagrajNute(indeksNuty);
-  }
+  //glosnik1.aktualizuj();
 
   i2c.aktualizuj();
 
