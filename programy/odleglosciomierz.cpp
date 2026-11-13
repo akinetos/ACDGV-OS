@@ -8,15 +8,21 @@ class Skaner3d:public program {
 
 		void aktualizuj() {
 			if (this->active) {
+				int aktywnyPort = -1;
 				for (int i=0; i<8; i++) {
 					port * p = & i2c.kanaly[0].porty[i];
 					double distance = p->czujniki[0]->readNumber("distance");
 					if (distance != 20 && distance != this->distances[i]) {
 						this->distances[i] = distance;
 						p->screen.needsRefresh = true;
-						if (distance < 100)
-							glosnik1.zagrajNute(i);
+						if (distance < 100) {
+							aktywnyPort = i;
+							glosnik1.zagrajNute(aktywnyPort);
+						}
 					}
+				}
+				if (aktywnyPort == -1 && (millis() - glosnik1.poprzedniCzas) > 100) {
+					glosnik1.wycisz();
 				}
 			}
 		}

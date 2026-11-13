@@ -28,6 +28,10 @@ class dzwiek {
             this->zagrajNute(indeksNuty);
         }
     }
+
+    void wycisz() {
+        noTone(GLOSNIK_1);
+    }
     
     dzwiek() {
         this->oktawa4[0] = 262; // C4
