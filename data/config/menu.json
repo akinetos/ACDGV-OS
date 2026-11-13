@@ -33,9 +33,14 @@
 		["skaner-3d",[],["uruchom","skaner-3d"]]
 	]],
 	["ustawienia",[[],
-		["tlo",[],["uruchom","ustawienia",1]],
-		["rozmiar",[],["uruchom","ustawienia",2]],
-		["jasnosc",[],["uruchom","ustawienia",3]]
+		["kontroler",[[],
+			["kablowy",[],["wykonaj","[kontroler,kablowy]"]],
+			["zintegrowany",[],["wykonaj","[kontroler,zintegrowany]"]]
+		]],
+		["dzwiek",[[],
+			["mono",[],["wykonaj","[dzwiek,mono]"]],
+			["stereo",[],["wykonaj","[dzwiek,stereo]"]]
+		]]
 	]],
 	["dzieci",[[],
 		["Amelia"],

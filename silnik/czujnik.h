@@ -5,6 +5,7 @@ class czujnik {
     boolean changed;
     char buttonPressed = NULL;
     String name;
+    int orientationX = 1;
 
     czujnik();
     

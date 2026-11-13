@@ -16,6 +16,7 @@
 
 class wykonawca {
     public:
+        int deviceIndexGamepad = -1;
         int uruchomProgram(JsonArray & komenda) {
             int programIndex = -1;
             String programName = komenda[1];
@@ -67,6 +68,23 @@ class wykonawca {
             }
 
             return programIndex;
+        }
+
+        int ustawieniaKontrolera(JsonArray & komenda) {
+            this->deviceIndexGamepad = i2c.znajdzCzujnik("dzojstik");
+            String wybrany = komenda[1];
+            if (wybrany == "kablowy") {
+                i2c.czujniki[this->deviceIndexGamepad]->orientationX = -1;
+            }
+            if (wybrany == "zintegrowany") {
+                i2c.czujniki[this->deviceIndexGamepad]->orientationX = 1;
+            }
+            Serial.println("wybrany: " + wybrany);
+        }
+
+        int ustawieniaDzwieku(JsonArray & komenda) {
+            String rodzaj = komenda[1];
+            Serial.println("dzwiek: " + rodzaj);
         }
 
         void zamknijProgram() {
@@ -121,6 +139,12 @@ class wykonawca {
             String commandType = komenda[0];
             if (commandType == "uruchom") {
                 output = this->uruchomProgram(komenda);
+            }
+            if (commandType == "kontroler") {
+                output = this->ustawieniaKontrolera(komenda);
+            }
+            if (commandType == "dzwiek") {
+                output = this->ustawieniaDzwieku(komenda);
             }
             return output;
         }

@@ -6,6 +6,7 @@ class Gamepad: public czujnik {
     int buttonApressedTime = 0;
     int time = 0;
     int connectionAttempts = 0;
+    int orientacjaX = 1;
 
     double x;
     double y;
@@ -22,7 +23,7 @@ class Gamepad: public czujnik {
     void aktualizuj() {
       if (this->connected) {
         this->time = millis();
-        this->x = (512.0 - this->device.analogRead(14)) / 512.0 * -1;
+        this->x = (512.0 - this->device.analogRead(14)) / 512.0 * this->orientacjaX;
         this->y = (512.0 - this->device.analogRead(15)) / 512.0;
 
         if (this->device.analogRead(5) == 0) {

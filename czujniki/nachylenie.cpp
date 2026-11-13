@@ -42,7 +42,7 @@ class AM: public czujnik {
         this->previousY = this->y;
         this->previousZ = this->z;
         
-        this->x = ((x / 255.0) + this->previousX) / 2;
+        this->x = ((x / 255.0) + this->previousX) / -2;
         this->y = ((y / 255.0) + this->previousY) / 2;
         this->z = z;
   
