@@ -131,14 +131,14 @@ class ptak: public program {
         }
 
         void updateStars() {
-            double diffX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousX");
-            double diffY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") - i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("previousY");
+            double diffX = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("x") - i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("previousX");
+            double diffY = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("y") - i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("previousY");
             if (sqrt(diffX * diffX) > 0.01 || sqrt(diffY * diffY) > 0.01) {
                 przestrzen & surface = przestrzenie[this->surfaceIndex];
                 for (int s=0; s<STARS_COUNT; s++) {
                     owoc & star = this->stars[s];
-                    star.x = star.originalX + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 100;
-                    star.y = star.originalY + i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 100;
+                    star.x = star.originalX + i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("x") * 100;
+                    star.y = star.originalY + i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("y") * 100;
                     i2c.kanaly[surface.channel].porty[star.port].screen.needsRefresh = true;
                 }
             }
@@ -223,8 +223,8 @@ class ptak: public program {
 
         void updateBatterfly() {
             przestrzen & surface = przestrzenie[this->surfaceIndex];
-            this->vectorX = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") * 10;
-            this->vectorY = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") * 10;
+            this->vectorX = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("x") * 10;
+            this->vectorY = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("y") * 10;
             i2c.kanaly[surface.channel].porty[surface.pointerPort].screen.needsRefresh = true;
         }
 

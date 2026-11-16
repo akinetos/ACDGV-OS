@@ -57,7 +57,7 @@ class AM: public czujnik {
       }
     }
 
-    double readNumber(String field) {
+    double czytajLiczbe(String field) {
       if (field == "x") return this->x;
       if (field == "y") return this->y;
       if (field == "previousX") return this->previousX;

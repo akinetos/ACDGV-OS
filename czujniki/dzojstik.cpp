@@ -56,7 +56,7 @@ class Gamepad: public czujnik {
     this->name = "dzojstik";
   }
 
-  double readNumber(String field) {
+  double czytajLiczbe(String field) {
       if (field == "x") return this->x;
       if (field == "y") return this->y;
     }

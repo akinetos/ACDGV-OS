@@ -13,7 +13,7 @@ class czujnik {
 
     void virtual aktualizuj(void);
 
-    double virtual readNumber(String);
+    double virtual czytajLiczbe(String);
 
     String virtual readString(String);
 
@@ -32,6 +32,6 @@ czujnik::czujnik() {}
 
 void czujnik::inicjuj() {}
 void czujnik::aktualizuj() {}
-double czujnik::readNumber(String) {}
+double czujnik::czytajLiczbe(String) {}
 String czujnik::readString(String) {}
 void czujnik::writeString(String, String) {}

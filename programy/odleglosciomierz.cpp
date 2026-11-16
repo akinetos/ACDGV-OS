@@ -11,7 +11,7 @@ class Skaner3d:public program {
 				int aktywnyPort = -1;
 				for (int i=0; i<8; i++) {
 					port & konkretnyPort = i2c.kanaly[0].porty[i];
-					double distance = konkretnyPort.czujniki[0]->readNumber("distance");
+					double distance = konkretnyPort.czujniki[0]->czytajLiczbe("distance");
 					if (distance != 20 && distance != this->distances[i]) {
 						this->distances[i] = distance;
 						konkretnyPort.screen.needsRefresh = true;

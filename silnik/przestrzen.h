@@ -119,7 +119,7 @@ class przestrzen {
     void aktualizuj() {
       if (this->deviceIndexGamepad > -1)
         if (this->facingUp && this->showPointer)
-          this->updatePointer(i2c.czujniki[this->deviceIndexGamepad]->readNumber("x"), i2c.czujniki[this->deviceIndexGamepad]->readNumber("y"));
+          this->updatePointer(i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("x"), i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("y"));
 
       if (this->deviceIndexAccelerometer > -1)
         if (i2c.czujniki[this->deviceIndexAccelerometer]->orientationChanged)

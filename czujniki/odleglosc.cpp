@@ -25,7 +25,7 @@ class DistanceSensor: public czujnik {
       }
     }
 
-    double readNumber(String parameter) {
+    double czytajLiczbe(String parameter) {
       double output = 0;
       if (parameter == "distance") {
         output = (double)this->distance;

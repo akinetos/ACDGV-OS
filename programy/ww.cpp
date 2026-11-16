@@ -64,15 +64,15 @@ class VV:public program {
       this->points[0] = 0;
       this->points[1] = 0;
 
-      this->offsetRe = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("x") / this->precision;
-      this->offsetIm = i2c.czujniki[this->deviceIndexAccelerometer]->readNumber("y") / this->precision;
+      this->offsetRe = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("x") / this->precision;
+      this->offsetIm = i2c.czujniki[this->deviceIndexAccelerometer]->czytajLiczbe("y") / this->precision;
 
       if (this->move) {
-        if (i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") > 0.01) {
-          xOffset -= i2c.czujniki[this->deviceIndexGamepad]->readNumber("x") * 10;
+        if (i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("x") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("x") > 0.01) {
+          xOffset -= i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("x") * 10;
         }
-        if (i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") > 0.01) {
-          yOffset -= i2c.czujniki[this->deviceIndexGamepad]->readNumber("y") * 10;
+        if (i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("y") < -0.01 || i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("y") > 0.01) {
+          yOffset -= i2c.czujniki[this->deviceIndexGamepad]->czytajLiczbe("y") * 10;
         }
       }
 
