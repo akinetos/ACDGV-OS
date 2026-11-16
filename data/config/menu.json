@@ -5,14 +5,14 @@
 	]],
 	["programy",[[],
 		["logo",[],["uruchom","logo"]],
-		["Kontrolery",[],["uruchom","kontrolery"]],
+		["kontrolery",[],["uruchom","kontrolery"]],
 		["battery",[],["uruchom","bateria"]],
 		["kontakty",[[],
 			["Amelia",[],["uruchom","kontakty",1]],
 			["Igor",[],["uruchom","kontakty",2]],
 			["Feliks",[],["uruchom","kontakty",3]]
 		],["uruchom","kontakty"]],
-		["VV",[[],
+		["ww",[[],
 			["parametry",[[],
 				["odczytaj",[],["uruchom","ww",2]],
 				["zapisz",[],["uruchom","ww",3]]
