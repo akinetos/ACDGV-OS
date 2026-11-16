@@ -10,7 +10,7 @@
 #include "programy/ww.cpp";
 #include "programy/logo.cpp";
 #include "programy/kontrolery.cpp";
-#include "programy/odleglosciomierz.cpp";
+#include "programy/instrument.cpp";
 #include "programy/bateria.cpp";
 #include "programy/kontakty.cpp";
 
@@ -37,8 +37,8 @@ class wykonawca {
                 if (programName == "logo") {
                     programy[indeksOstatniegoProgramu] = new Logo();
                 }
-                if (programName == "skaner-3d") {
-                    programy[indeksOstatniegoProgramu] = new Skaner3d();
+                if (programName == "instrument") {
+                    programy[indeksOstatniegoProgramu] = new instrument();
                 }
                 if (programName == "kontakty") {
                     programy[indeksOstatniegoProgramu] = new Contacts();

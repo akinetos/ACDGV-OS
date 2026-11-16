@@ -1,6 +1,6 @@
-class Skaner3d:public program {
+class instrument: public program {
   	public:
-		double distances[8];
+		double odleglosci[8];
 
 		void inicjuj() {
 			this->initialised = true;
@@ -9,21 +9,22 @@ class Skaner3d:public program {
 		void aktualizuj() {
 			if (this->active) {
 				int aktywnyPort = -1;
+
 				for (int i=0; i<8; i++) {
 					port & konkretnyPort = i2c.kanaly[0].porty[i];
-					double distance = konkretnyPort.czujniki[0]->czytajLiczbe("distance");
-					if (distance != 20 && distance != this->distances[i]) {
-						this->distances[i] = distance;
+					double odleglosc = konkretnyPort.czujniki[0]->czytajLiczbe("odleglosc");
+					if (odleglosc != 20 && odleglosc != this->odleglosci[i]) {
+						this->odleglosci[i] = odleglosc;
 						konkretnyPort.screen.needsRefresh = true;
-						if (distance < 100) {
+						if (odleglosc < 100) {
 							aktywnyPort = i;
 							glosnik1.zagrajNute(aktywnyPort);
 						}
 					}
 				}
-				if (aktywnyPort == -1 && (millis() - glosnik1.poprzedniCzas) > 100) {
+
+				if (aktywnyPort == -1 && (millis() - glosnik1.poprzedniCzas) > 100)
 					glosnik1.wycisz();
-				}
 			}
 		}
 		
@@ -32,20 +33,20 @@ class Skaner3d:public program {
 				for (int i=0; i<8; i++) {
 					port & konkretnyPort = i2c.kanaly[0].porty[i];
 					if (konkretnyPort.screen.needsRefresh) {
-						double distance = this->distances[i];
-						if (distance < 20) distance = 20;
-						if (distance > 128) distance = 128;
-						for (int x=0; x<distance; x+=2)
+						double odleglosc = this->odleglosci[i];
+						if (odleglosc < 20) odleglosc = 20;
+						if (odleglosc > 128) odleglosc = 128;
+						for (int x=0; x<odleglosc; x+=2)
 							konkretnyPort.screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
-						for (int x=distance-5; x<distance; x++)
+						for (int x=odleglosc-5; x<odleglosc; x++)
 							konkretnyPort.screen.ssd1306.drawLine(x, 0, x, 31, SSD1306_WHITE);
-						konkretnyPort.screen.printText((String)distance);
+						konkretnyPort.screen.printText((String)odleglosc);
 					}
 				}
 			}
 		}
 
-		Skaner3d() {
-			this->name = "skaner-3d";
+		instrument() {
+			this->name = "instrument";
 		}
 };

@@ -1,6 +1,6 @@
 class DistanceSensor: public czujnik {
   public:
-    int distance = 0;
+    int odleglosc = 0;
     int previousDistance = 0;
   
     void inicjuj() {}
@@ -21,14 +21,14 @@ class DistanceSensor: public czujnik {
       if (Wire.available() >= 2) {
         int highByte = Wire.read();
         int lowByte = Wire.read();
-        this->distance = (highByte << 8) | lowByte;
+        this->odleglosc = (highByte << 8) | lowByte;
       }
     }
 
     double czytajLiczbe(String parameter) {
       double output = 0;
-      if (parameter == "distance") {
-        output = (double)this->distance;
+      if (parameter == "odleglosc") {
+        output = (double)this->odleglosc;
       }
       return output;
     }
