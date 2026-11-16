@@ -1,4 +1,4 @@
-class przejscie {
+class animacja {
   public:
     boolean active = false;
     piksel pixels[4000];
@@ -82,5 +82,5 @@ class przejscie {
       }
     }
 
-  przejscie() {}
+  animacja() {}
 };

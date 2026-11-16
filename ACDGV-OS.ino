@@ -13,8 +13,8 @@ magistrala i2c;
 int liczbaPrzestrzeni;
 przestrzen * przestrzenie;
 
-#include "silnik/przejscie.h";
-przejscie animacja;
+#include "silnik/animacja.h";
+animacja animacja1;
 
 #include "silnik/program.h";
 const int maksymalnaLiczbaProgramow = 8;
@@ -60,7 +60,7 @@ void loop() {
 
   menu.aktualizuj();
 
-  animacja.aktualizuj();
+  animacja1.aktualizuj();
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->aktualizuj();
@@ -73,7 +73,7 @@ void loop() {
 
   menu.rysuj();
 
-  animacja.rysuj();
+  animacja1.rysuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].rysuj();

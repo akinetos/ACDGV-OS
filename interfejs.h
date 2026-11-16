@@ -208,7 +208,7 @@ class interfejs {
         }
         
         if (element[1].size() > 0 && index < element[1].size()) {
-          animacja.inicjuj(2);
+          animacja1.inicjuj(2);
           this->selectOption(index);
         }
       }

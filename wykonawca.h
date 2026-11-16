@@ -92,7 +92,7 @@ class wykonawca {
                 programy[aktywnyProgram]->active = false;
             }
             aktywnyProgram = -1;
-            animacja.inicjuj(1);
+            animacja1.inicjuj(1);
         }
 
         void inicjujCzujniki() {
