@@ -38,7 +38,7 @@ void setup() {
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::laduj(sciezkaKonfiguracjiPrzestrzeni);
 
-  i2c.inicjuj(konfiguracjaPrzestrzeni);
+  i2c.inicjuj(konfiguracjaPrzestrzeni); //przekaż liczbę kanałów
 
   agent.inicjujCzujniki();
 
@@ -51,8 +51,6 @@ void setup() {
 }
 
 void loop() {
-  //glosnik1.aktualizuj();
-
   i2c.aktualizuj();
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
@@ -77,4 +75,6 @@ void loop() {
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].rysuj();
+  
+  glosnik1.aktualizuj();
 }

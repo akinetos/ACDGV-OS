@@ -3,31 +3,16 @@
 class dzwiek {
     public:
         int oktawa4[8];
-        int nuta = 1000;
-        int poprzedniCzas = 0;
-        int indeksNuty = 0;
     
     void zagrajNute(int i) {
         tone(GLOSNIK_1, oktawa4[i]);
-        this->poprzedniCzas = millis();
-    }
-
-    void nastepnaNuta() {
-        this->indeksNuty++;
-        if (this->indeksNuty >= 8)
-            this->indeksNuty = 0;
     }
 
     void inicjuj() {
         pinMode(GLOSNIK_1, OUTPUT);
     }
 
-    void aktualizuj() {
-        if (millis() - this->poprzedniCzas >= this->nuta) {
-            this->nastepnaNuta();
-            this->zagrajNute(indeksNuty);
-        }
-    }
+    void aktualizuj() {}
 
     void wycisz() {
         noTone(GLOSNIK_1);

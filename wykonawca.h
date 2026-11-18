@@ -13,6 +13,7 @@
 #include "programy/instrument.cpp";
 #include "programy/bateria.cpp";
 #include "programy/kontakty.cpp";
+#include "programy/oktawa.cpp";
 
 class wykonawca {
     public:
@@ -51,6 +52,9 @@ class wykonawca {
                 }
                 if (programName == "bateria") {
                     programy[indeksOstatniegoProgramu] = new Battery();
+                }
+                if (programName == "oktawa") {
+                    programy[indeksOstatniegoProgramu] = new oktawa();
                 }
                 programIndex = indeksOstatniegoProgramu;
             }

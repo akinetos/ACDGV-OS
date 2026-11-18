@@ -23,7 +23,7 @@ class instrument: public program {
 					}
 				}
 
-				if (aktywnyPort == -1 && (millis() - glosnik1.poprzedniCzas) > 100)
+				if (aktywnyPort == -1)
 					glosnik1.wycisz();
 			}
 		}
