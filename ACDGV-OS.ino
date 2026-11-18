@@ -62,7 +62,7 @@ void loop() {
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->aktualizuj();
-
+  
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].czysc();
 
@@ -75,6 +75,4 @@ void loop() {
 
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].rysuj();
-  
-  glosnik1.aktualizuj();
 }

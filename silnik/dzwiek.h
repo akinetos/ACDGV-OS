@@ -12,8 +12,6 @@ class dzwiek {
         pinMode(GLOSNIK_1, OUTPUT);
     }
 
-    void aktualizuj() {}
-
     void wycisz() {
         noTone(GLOSNIK_1);
     }
