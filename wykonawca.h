@@ -94,6 +94,7 @@ class wykonawca {
         void zamknijProgram() {
             if (aktywnyProgram != -1) {
                 programy[aktywnyProgram]->active = false;
+                programy[aktywnyProgram]->zamknij();
             }
             aktywnyProgram = -1;
             animacja1.inicjuj(1);

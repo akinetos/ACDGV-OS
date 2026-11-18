@@ -18,6 +18,8 @@ class program {
       this->option = option;
     }
 
+    void virtual zamknij() {}
+
     void virtual activate() {
       this->active = true;
       this->activatedTimestamp = millis();

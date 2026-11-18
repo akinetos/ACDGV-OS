@@ -49,4 +49,8 @@ class instrument: public program {
 		instrument() {
 			this->name = "instrument";
 		}
+
+		void zamknij() {
+			glosnik1.wycisz();
+		}
 };

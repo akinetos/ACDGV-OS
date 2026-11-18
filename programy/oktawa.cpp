@@ -21,4 +21,8 @@ class oktawa: public program {
             }
         }
     }
+
+    void zamknij() {
+        glosnik1.wycisz();
+    }
 };
