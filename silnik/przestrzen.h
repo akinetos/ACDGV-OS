@@ -259,4 +259,35 @@ class przestrzen {
     boolean white = i2c.kanaly[0].porty[port].screen.ssd1306.getPixel(x, y - port * height);
     return white;
   }
+
+  static int policz(JsonArray & przestrzenie) {
+    int channelsUsed[8];
+    for (int i=0; i<8; i++) {
+      channelsUsed[i] = -1;
+    }
+    for (int i=0; i<przestrzenie.size(); i++) {
+      int channel = przestrzenie[i]["channel"];
+      boolean found = false;
+      for (int j=0; j<8; j++) {
+        if (channelsUsed[j] == channel) {
+          found = true;
+        }
+      }
+      if (!found) {
+        int index = 0;
+        for (int j=0; j<8; j++) {
+          if (channelsUsed[j] >= 0) {
+            index++;
+          }
+        }
+        channelsUsed[index] = channel;
+      }
+    }
+    int liczbaKanalow = 0;
+    for (int i=0; i<8; i++) {
+      if (channelsUsed[i] >= 0)
+        liczbaKanalow++;
+    }
+    return liczbaKanalow;
+  }
 };

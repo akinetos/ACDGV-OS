@@ -34,11 +34,12 @@ void setup() {
   glosnik1.inicjuj();
 
   katalog::inicjuj();
-  
+
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::laduj(sciezkaKonfiguracjiPrzestrzeni);
 
-  i2c.inicjuj(konfiguracjaPrzestrzeni); //przekaż liczbę kanałów
+  int liczbaKanalow = przestrzen::policz(konfiguracjaPrzestrzeni);
+  i2c.inicjuj(liczbaKanalow);
 
   agent.inicjujCzujniki();
 
@@ -62,7 +63,7 @@ void loop() {
 
   for (int i = 0; i <= indeksOstatniegoProgramu; i++)
     programy[i]->aktualizuj();
-  
+
   for (int i = 0; i < liczbaPrzestrzeni; i++)
     przestrzenie[i].czysc();
 
