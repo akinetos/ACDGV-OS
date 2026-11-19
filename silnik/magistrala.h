@@ -14,6 +14,7 @@ class magistrala {
     void inicjuj(int liczbaKanalow) {
       Wire.begin();
       Wire.setClock(400000);
+      this->liczbaKanalow = liczbaKanalow;
       this->kanaly = new kanal[liczbaKanalow];
       for (int k = 0; k < liczbaKanalow; k++) {
         this->kanaly[k].number = k;
