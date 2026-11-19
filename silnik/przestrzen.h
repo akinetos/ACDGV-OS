@@ -260,7 +260,7 @@ class przestrzen {
     return white;
   }
 
-  static int policz(JsonArray & przestrzenie) {
+  static int policzKanaly(JsonArray & przestrzenie) {
     int channelsUsed[8];
     for (int i=0; i<8; i++) {
       channelsUsed[i] = -1;

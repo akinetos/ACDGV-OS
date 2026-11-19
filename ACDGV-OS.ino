@@ -37,8 +37,8 @@ void setup() {
 
   const String sciezkaKonfiguracjiPrzestrzeni = "/config/surfaces/8.json";
   JsonArray & konfiguracjaPrzestrzeni = katalog::laduj(sciezkaKonfiguracjiPrzestrzeni);
-
-  int liczbaKanalow = przestrzen::policz(konfiguracjaPrzestrzeni);
+  const int liczbaKanalow = przestrzen::policzKanaly(konfiguracjaPrzestrzeni);
+  
   i2c.inicjuj(liczbaKanalow);
 
   agent.inicjujCzujniki();
